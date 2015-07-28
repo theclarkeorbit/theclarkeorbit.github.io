@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>The Clarke Orbit (nikola)</title><link>http://theclarkeorbit.com/</link><description></description><atom:link href="http://theclarkeorbit.com/categories/nikola.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Tue, 28 Jul 2015 13:36:51 GMT</lastBuildDate><generator>nikola</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Welcome to Nikola</title><link>http://theclarkeorbit.com/posts/welcome-to-nikola.html</link><description>&lt;div class="figure"&gt;
+&lt;a class="reference external image-reference" href="http://farm1.staticflickr.com/138/352972944_4f9d568680_z.jpg?zz=1"&gt;&lt;img alt="Nikola Tesla Corner by nicwest, on Flickr" class="thumbnail" src="http://farm1.staticflickr.com/138/352972944_4f9d568680.jpg"&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;If you can see this in a web browser, it means you have managed to install Nikola,
+and build a site using it. Congratulations!&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;You can read the manual &lt;a class="reference external" href="http://theclarkeorbit.com/stories/handbook.html"&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;You can learn more about Nikola at &lt;a class="reference external" href="http://getnikola.com"&gt;http://getnikola.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;You can see a demo photo gallery &lt;a class="reference external" href="http://theclarkeorbit.com/galleries/demo/index.html"&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Demo usage of listings &lt;a class="reference external" href="http://theclarkeorbit.com/stories/listings-demo.html"&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Demo of slideshows &lt;a class="reference external" href="http://theclarkeorbit.com/stories/slides-demo.html"&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Demo of Bootstrap &lt;a class="reference external" href="http://theclarkeorbit.com/stories/bootstrap-demo.html"&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Send feedback to &lt;a class="reference external" href="mailto:ralsina@netmanagers.com.ar"&gt;ralsina@netmanagers.com.ar&lt;/a&gt;!&lt;/p&gt;</description><category>nikola</category><category>python</category><category>demo</category><category>blog</category><guid>http://theclarkeorbit.com/posts/welcome-to-nikola.html</guid><pubDate>Fri, 30 Mar 2012 23:00:00 GMT</pubDate></item></channel></rss>
