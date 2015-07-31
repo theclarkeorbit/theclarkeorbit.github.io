@@ -17,9 +17,9 @@
 /***** Global *****/
 /* Body */
 body {
-    background: #eee8aa/*#F1F1D4*/;
+    background: #f5f5dc/*#eee8aa/*#F1F1D4*/;
     color: #663300;
-    font-size: 87.5%; /* Base font size: 14px */
+    font-size: 100.0%; /* Base font size: 14px */
     font-family: 'Helvetica', serif;
     line-height: 1.429;
     margin: 0;
@@ -178,7 +178,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	
 	/* Main Nav */
 	#banner nav {
-		background: #eee8aa;
+		background: #f5f5dc;
 		font-size: 1.143em;
 		height: 40px;
 		line-height: 30px;
@@ -204,7 +204,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner nav a:hover, #banner nav a:active,
 	#banner nav .active a:link, #banner nav .active a:visited {
-		background: #eee8aa;
+		background: #f5f5dc;
 		color: #8b0000;
 		text-shadow: none !important;
 	}
@@ -223,7 +223,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	Featured
 *****************/
 #featured {
-	background: #eee8aa;
+	background: #f5f5dc;
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px;
@@ -285,7 +285,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	padding: .3em .25em;
 }
 
-#extras a:hover, #extras a:active {color: #eee8aa;}
+#extras a:hover, #extras a:active {color: #f5f5dc;}
 
 	/* Blogroll */
 	#extras .blogroll {
@@ -339,7 +339,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	About
 *****************/
 #about {
-	background: #eee8aa;
+	background: #f5f5dc;
 	font-style: normal;
 	margin-bottom: 2em;
 	overflow: hidden;
@@ -401,7 +401,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	
 	/* About the Author */
 	#about-author {
-		background: #eee8aa;
+		background: #f5f5dc;
 		clear: both;
 		font-style: normal;
 		margin: 2em 0;
@@ -424,7 +424,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	/* Comments */
 	#comments-list {list-style: none; margin: 0 1em;}
 	#comments-list blockquote {
-		background: #eee8aa;
+		background: #f5f5dc;
 		clear: both;
 		font-style: normal;
 		margin: 0;
@@ -436,7 +436,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	}
 	#comments-list footer {color: #888; padding: .5em 1em 0 0; text-align: right;}
 	
-	#comments-list li:nth-child(2n) blockquote {background: #eee8aa;}
+	#comments-list li:nth-child(2n) blockquote {background: #f5f5dc;}
 	
 	/* Add a Comment */
 	#add-comment label {clear: left; float: left; text-align: left; width: 150px;}
