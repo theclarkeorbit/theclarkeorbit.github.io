@@ -288,12 +288,12 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 #extras a:hover, #extras a:active {color: #eee8aa;}
 
 	/* Blogroll */
-	#extras .links {
+	#extras .blogroll {
 		float: left;
 		width: 800px;
 	}
 	
-	#extras .links li {float: left; margin: 0 20px 0 0; width: 185px;}
+	#extras .blogroll li {float: left; margin: 0 20px 0 0; width: 185px;}
 	
 	/* Social 
 	#extras .social {
@@ -413,7 +413,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	}
 	
 	#about-author strong {
-		color: #006400;
+		color: #0064FF;
 		clear: both;
 		display: block;
 		font-size: 1.429em;
