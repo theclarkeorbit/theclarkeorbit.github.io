@@ -22,10 +22,10 @@ body {
     /*738276;*/
     color: #000305;*/
     font-size: 100%; /* Base font size: 14px */
-    font-family: 'Computer Modern', Computer Modern Roman, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Computer Modern', Computer Modern Roman;
     line-height: 1.6;
     margin: 30mm;
-    padding: 0;
+    padding: 20mm;
     text-align: justified;
 }
 
@@ -163,7 +163,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	/* Banner */
 	#banner h1 {font-size: 3.571em; line-height: 0;}
 	#banner h1 a:link, #banner h1 a:visited {
-		color: #000305;
+		color: #738276;
 		display: block;
 		font-weight: bold;
 		margin: 0 0 .6em .2em;
@@ -171,7 +171,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner h1 a:hover, #banner h1 a:active {
 		background: none;
-		color: #C74350;
+		color: #738276;
 		text-shadow: none;
 	}
 	
