@@ -21,7 +21,7 @@ body {
     background: #000305;
     /*738276;*/
     color: #000305;*/
-    font-size: 87.5%; /* Base font size: 14px */
+    font-size: 100%; /* Base font size: 14px */
     font-family: 'Computer Modern', Computer Modern Roman, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     line-height: 1.6;
     margin: 30mm;
@@ -105,7 +105,7 @@ dl {margin: 0 0 1.5em 0;}
 dt {font-weight: bold;}
 dd {margin-left: 1.5em;}
 
-pre{background-color:  rgb(238, 238, 238); padding: 10px; margin: 10px; overflow: auto;}
+pre{background-color:  #738276; padding: 10px; margin: 10px; overflow: auto;}
 
 /* Quotes */
 blockquote {
