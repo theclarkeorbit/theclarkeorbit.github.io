@@ -19,7 +19,8 @@
 body {
     /*background: #F5F4EF;*/
     background: #738276;
-    color: #000305;
+    color:#738276;
+    /*color: #000305;*/
     font-size: 87.5%; /* Base font size: 14px */
     font-family: 'COmputer Modern', Computer Modern Roman, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     line-height: 1.6;
