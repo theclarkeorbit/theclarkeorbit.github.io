@@ -18,9 +18,9 @@
 /* Body */
 body {
     /*background: #F5F4EF;*/
-    background: #738276;
-    color:#738276;
-    /*color: #000305;*/
+    background: #000305;
+    /*738276;*/
+    color: #000305;*/
     font-size: 87.5%; /* Base font size: 14px */
     font-family: 'Computer Modern', Computer Modern Roman, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     line-height: 1.6;
@@ -253,7 +253,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	Body
 *****************/
 #content {
-	background: #fff;
+	background: #738276;
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px 20px;
