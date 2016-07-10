@@ -17,14 +17,15 @@
 /***** Global *****/
 /* Body */
 body {
-    background: #F5F4EF;
+    /*background: #F5F4EF;*/
+    background: #738276;
     color: #000305;
     font-size: 87.5%; /* Base font size: 14px */
-    font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    line-height: 1.429;
-    margin: 0;
+    font-family: 'COmputer Modern', Computer Modern Roman, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 30mm;
     padding: 0;
-    text-align: left;
+    text-align: justified;
 }
 
 /* Headings */
