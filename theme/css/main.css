@@ -4,8 +4,8 @@
 	Description: Sample layout for HTML5 and CSS3 goodness.
 	Version: 1.0
 	License: MIT <http://opensource.org/licenses/MIT>
-	Licensed by: pDawG
-	Original author: pDawG
+	Licensed by: Smashing Media GmbH <http://www.smashingmagazine.com/>
+	Original author: Enrique Ramírez <http://enrique-ramirez.com/>
 */
 
 /* Imports */
@@ -17,16 +17,14 @@
 /***** Global *****/
 /* Body */
 body {
-    /*background: #F5F4EF;*/
-    background: #f2f2f2;
-    /*738276;*/
+    background: #F5F4EF;
     color: #000305;
-    font-size: 100%; /* Base font size: 14px */
-    font-family: 'Calibre', Calibre;
-    line-height: 1.6;
-    margin: 30mm;
-    padding: 20mm;
-    text-align: Justified;
+    font-size: 87.5%; /* Base font size: 14px */
+    font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    line-height: 1.429;
+    margin: 0;
+    padding: 0;
+    text-align: left;
 }
 
 /* Headings */
@@ -46,19 +44,19 @@ h1, h2, h3, h4, h5, h6 {
 
 h3, h4, h5, h6 { margin-top: .8em; }
 	
-hr { border: 2px solid #000305; }
+hr { border: 2px solid #EEEEEE; }
 
 /* Anchors */
 a {outline: 0;}
 a img {border: 0px; text-decoration: none;}
 a:link, a:visited {
-	color: #000000;
+	color: #C74350;
 	padding: 0 1px;
 	text-decoration: underline;
 }
 a:hover, a:active {
-	background-color: #f2f2f2;
-	color: #000305;
+	background-color: #C74350;
+	color: #fff;
 	text-decoration: none;
 	text-shadow: 1px 1px 1px #333;
 }
@@ -105,7 +103,7 @@ dl {margin: 0 0 1.5em 0;}
 dt {font-weight: bold;}
 dd {margin-left: 1.5em;}
 
-pre{background-color:  #f2f2f2; padding: 10px; margin: 10px; overflow: auto;}
+pre{background-color:  rgb(238, 238, 238); padding: 10px; margin: 10px; overflow: auto;}
 
 /* Quotes */
 blockquote {
@@ -171,7 +169,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner h1 a:hover, #banner h1 a:active {
 		background: none;
-		color: #000305;
+		color: #C74350;
 		text-shadow: none;
 	}
 	
@@ -179,7 +177,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	
 	/* Main Nav */
 	#banner nav {
-		background: #f2f2f2;
+		background: #000305;
 		font-size: 1.143em;
 		height: 40px;
 		line-height: 30px;
@@ -197,7 +195,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	#banner nav li {float: left; display: inline; margin: 0;}
 	
 	#banner nav a:link, #banner nav a:visited {
-		color: #000305;
+		color: #fff;
 		display: inline-block;
 		height: 30px;
 		padding: 5px 1.5em;
@@ -205,8 +203,8 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner nav a:hover, #banner nav a:active,
 	#banner nav .active a:link, #banner nav .active a:visited {
-		background: #fff;
-		color: #000305;
+		background: #C74451;
+		color: #fff;
 		text-shadow: none !important;
 	}
 	
@@ -224,7 +222,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	Featured
 *****************/
 #featured {
-	background: #f2f2f2;
+	background: #fff;
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px;
@@ -243,17 +241,17 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 }
 #featured figure img {display: block; float: right;}
 
-#featured h2 {color: #637cc6; font-size: 1.714em; margin-bottom: 0.333em;}
+#featured h2 {color: #C74451; font-size: 1.714em; margin-bottom: 0.333em;}
 #featured h3 {font-size: 1.429em; margin-bottom: .5em;}
 
-#featured h3 a:link, #featured h3 a:visited {color: #637cc6; text-decoration: none;}
-#featured h3 a:hover, #featured h3 a:active {color: #738276;}
+#featured h3 a:link, #featured h3 a:visited {color: #000305; text-decoration: none;}
+#featured h3 a:hover, #featured h3 a:active {color: #fff;}
 
 /*
 	Body
 *****************/
 #content {
-	background: #f2f2f2;
+	background: #fff;
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px 20px;
@@ -272,7 +270,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 #extras ul {list-style: none; margin: 0;}
 #extras li {border-bottom: 1px solid #fff;}
 #extras h2 {
-	color: #637cc6;
+	color: #C74350;
 	font-size: 1.429em;
 	margin-bottom: .25em;
 	padding: 0 3px;
@@ -281,12 +279,12 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 #extras a:link, #extras a:visited {
 	color: #444;
 	display: block;
-	border-bottom: 1px solid #637cc6;
+	border-bottom: 1px solid #F4E3E3;
 	text-decoration: none;
 	padding: .3em .25em;
 }
 
-#extras a:hover, #extras a:active {color: #000305;}
+#extras a:hover, #extras a:active {color: #fff;}
 
 	/* Blogroll */
 	#extras .blogroll {
@@ -337,7 +335,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	About
 *****************/
 #about {
-	background: #f2f2f2;
+	background: #fff;
 	font-style: normal;
 	margin-bottom: 2em;
 	overflow: hidden;
@@ -351,7 +349,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 }
 
 #about .primary {float: left; width: 165px;}
-#about .primary strong {color: #637cc6; display: block; font-size: 1.286em;}
+#about .primary strong {color: #C64350; display: block; font-size: 1.286em;}
 #about .photo {float: left; margin: 5px 20px;}
 
 #about .url:link, #about .url:visited {text-decoration: none;}
@@ -368,7 +366,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 .hentry {
 	display: block;
 	clear: both;
-	border-bottom: 1px solid #637cc6;
+	border-bottom: 1px solid #eee;
 	padding: 1.5em 0;
 }
 li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
@@ -399,7 +397,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	
 	/* About the Author */
 	#about-author {
-		background: #738276;
+		background: #f9f9f9;
 		clear: both;
 		font-style: normal;
 		margin: 2em 0;
@@ -411,7 +409,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	}
 	
 	#about-author strong {
-		color: #637cc6;
+		color: #C64350;
 		clear: both;
 		display: block;
 		font-size: 1.429em;
@@ -422,7 +420,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	/* Comments */
 	#comments-list {list-style: none; margin: 0 1em;}
 	#comments-list blockquote {
-		background: #738276;
+		background: #f8f8f8;
 		clear: both;
 		font-style: normal;
 		margin: 0;
