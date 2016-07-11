@@ -26,7 +26,7 @@ body {
     line-height: 1.6;
     margin: 30mm;
     padding: 20mm;
-    text-align: justified;
+    text-align: Justified;
 }
 
 /* Headings */
@@ -52,13 +52,13 @@ hr { border: 2px solid #000305; }
 a {outline: 0;}
 a img {border: 0px; text-decoration: none;}
 a:link, a:visited {
-	color: #000305;
+	color: #000000;
 	padding: 0 1px;
 	text-decoration: underline;
 }
 a:hover, a:active {
 	background-color: #f2f2f2;
-	color: #637cc6;
+	color: #000305;
 	text-decoration: none;
 	text-shadow: 1px 1px 1px #333;
 }
@@ -171,7 +171,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner h1 a:hover, #banner h1 a:active {
 		background: none;
-		color: #f2f2f2;
+		color: #000305;
 		text-shadow: none;
 	}
 	
