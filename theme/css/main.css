@@ -46,13 +46,13 @@ h1, h2, h3, h4, h5, h6 {
 
 h3, h4, h5, h6 { margin-top: .8em; }
 	
-hr { border: 2px solid #fff; }
+hr { border: 2px solid #000305; }
 
 /* Anchors */
 a {outline: 0;}
 a img {border: 0px; text-decoration: none;}
 a:link, a:visited {
-	color: #fff;
+	color: #000305;
 	padding: 0 1px;
 	text-decoration: underline;
 }
@@ -206,7 +206,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	#banner nav a:hover, #banner nav a:active,
 	#banner nav .active a:link, #banner nav .active a:visited {
 		background: #fff;
-		color: #fff;
+		color: #000305;
 		text-shadow: none !important;
 	}
 	
