@@ -4,8 +4,8 @@
 	Description: Sample layout for HTML5 and CSS3 goodness.
 	Version: 1.0
 	License: MIT <http://opensource.org/licenses/MIT>
-	Licensed by: Smashing Media GmbH <http://www.smashingmagazine.com/>
-	Original author: Enrique Ramírez <http://enrique-ramirez.com/>
+	Licensed by: pDawG
+	Original author: pDawG
 */
 
 /* Imports */
@@ -18,9 +18,9 @@
 /* Body */
 body {
     /*background: #F5F4EF;*/
-    background: #000305;
+    background: #f2f2f2;
     /*738276;*/
-    color: #f2f2f2;*/
+    color: #000305;
     font-size: 100%; /* Base font size: 14px */
     font-family: 'Computer Modern', Computer Modern Roman;
     line-height: 1.6;
@@ -57,7 +57,7 @@ a:link, a:visited {
 	text-decoration: underline;
 }
 a:hover, a:active {
-	background-color: #738276;
+	background-color: #f2f2f2;
 	color: #637cc6;
 	text-decoration: none;
 	text-shadow: 1px 1px 1px #333;
@@ -105,7 +105,7 @@ dl {margin: 0 0 1.5em 0;}
 dt {font-weight: bold;}
 dd {margin-left: 1.5em;}
 
-pre{background-color:  #738276; padding: 10px; margin: 10px; overflow: auto;}
+pre{background-color:  #f2f2f2; padding: 10px; margin: 10px; overflow: auto;}
 
 /* Quotes */
 blockquote {
@@ -163,7 +163,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	/* Banner */
 	#banner h1 {font-size: 3.571em; line-height: 0;}
 	#banner h1 a:link, #banner h1 a:visited {
-		color: #738276;
+		color: #000305;
 		display: block;
 		font-weight: bold;
 		margin: 0 0 .6em .2em;
@@ -171,7 +171,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner h1 a:hover, #banner h1 a:active {
 		background: none;
-		color: #738276;
+		color: #f2f2f2;
 		text-shadow: none;
 	}
 	
@@ -179,7 +179,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	
 	/* Main Nav */
 	#banner nav {
-		background: #000305;
+		background: #f2f2f2;
 		font-size: 1.143em;
 		height: 40px;
 		line-height: 30px;
@@ -197,7 +197,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	#banner nav li {float: left; display: inline; margin: 0;}
 	
 	#banner nav a:link, #banner nav a:visited {
-		color: #738276;
+		color: #000305;
 		display: inline-block;
 		height: 30px;
 		padding: 5px 1.5em;
@@ -205,7 +205,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner nav a:hover, #banner nav a:active,
 	#banner nav .active a:link, #banner nav .active a:visited {
-		background: #738276;
+		background: #fff;
 		color: #fff;
 		text-shadow: none !important;
 	}
@@ -224,7 +224,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	Featured
 *****************/
 #featured {
-	background: #738276;
+	background: #f2f2f2;
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px;
@@ -253,7 +253,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	Body
 *****************/
 #content {
-	background: #738276;
+	background: #f2f2f2;
 	margin-bottom: 2em;
 	overflow: hidden;
 	padding: 20px 20px;
@@ -286,7 +286,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	padding: .3em .25em;
 }
 
-#extras a:hover, #extras a:active {color: #738276;}
+#extras a:hover, #extras a:active {color: #000305;}
 
 	/* Blogroll */
 	#extras .blogroll {
@@ -337,7 +337,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	About
 *****************/
 #about {
-	background: #738276;
+	background: #f2f2f2;
 	font-style: normal;
 	margin-bottom: 2em;
 	overflow: hidden;
