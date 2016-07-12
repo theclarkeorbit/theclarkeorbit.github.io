@@ -47,9 +47,9 @@
 /* #Basic Styles
 ================================================== */
 	body {
-		background: #f2f2f2;
-		font-size: 14px;
-		line-height: 24px;
+		background: #fff;
+		font-size: 12px;
+		line-height: 22px;
 		color: #000305;
 		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
 		-webkit-text-size-adjust: 100%;
@@ -57,7 +57,7 @@
 	
 	#content-wrapper {
 		padding: 0 0 40px 0;
-		background-color: #f2f2f2;
+		background-color: #fff;
 	}
 
 	/* Boxed Layout Style */
