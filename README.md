@@ -1,2 +1,0 @@
-# words
-Personal webpages
