@@ -16,7 +16,7 @@ TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
-MD_EXTENSIONS = ['codehilite(css_class=highlight)','extra']
+#MD_EXTENSIONS = ['codehilite(css_class=highlight)','extra']
 TYPOGRIFY = True
 DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 PAGINATED_DIRECT_TEMPLATES = ['index']
@@ -47,7 +47,8 @@ AUTHOR_FEED_RSS = None
 DEFAULT_DATE='fs'
 #THEME = '/usr/lib/python2.7/dist-packages/pelican/themes/svbtle'
 #THEME = "pelican-mockingbird"
-THEME = "notmyidea"
+#THEME = "notmyidea"
+THEME = "Flex"
 MARKUP = 'md'
 #TYPOGRIFY = False
 
