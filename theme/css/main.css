@@ -204,7 +204,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 	}
 	#banner nav a:hover, #banner nav a:active,
 	#banner nav .active a:link, #banner nav .active a:visited {
-		background: #C74451;
+		background: #890613;
 		color: #fff;
 		text-shadow: none !important;
 	}
@@ -245,7 +245,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 #featured h2 {color: #C74451; font-size: 1.714em; margin-bottom: 0.333em;}
 #featured h3 {font-size: 1.429em; margin-bottom: .5em;}
 
-#featured h3 a:link, #featured h3 a:visited {color: #000305; text-decoration: none;}
+#featured h3 a:link, #featured h3 a:visited {color: #890613; text-decoration: none;}
 #featured h3 a:hover, #featured h3 a:active {color: #fff;}
 
 /*
@@ -280,7 +280,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 #extras a:link, #extras a:visited {
 	color: #444;
 	display: block;
-	border-bottom: 1px solid #F4E3E3;
+	border-bottom: 1px solid #890613;
 	text-decoration: none;
 	padding: .3em .25em;
 }
@@ -353,7 +353,7 @@ img.left, figure.left {float: left; margin: 0 2em 2em 0;}
 }
 
 #about .primary {float: left; width: 165px;}
-#about .primary strong {color: #C64350; display: block; font-size: 1.286em;}
+#about .primary strong {color: #890613; display: block; font-size: 1.286em;}
 #about .photo {float: left; margin: 5px 20px;}
 
 #about .url:link, #about .url:visited {text-decoration: none;}
@@ -401,7 +401,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 
 	/* About the Author */
 	#about-author {
-		background: #f9f9f9;
+		background: #890613;
 		clear: both;
 		font-style: normal;
 		margin: 2em 0;
@@ -413,7 +413,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	}
 
 	#about-author strong {
-		color: #C64350;
+		color: #890613;
 		clear: both;
 		display: block;
 		font-size: 1.429em;
@@ -424,7 +424,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	/* Comments */
 	#comments-list {list-style: none; margin: 0 1em;}
 	#comments-list blockquote {
-		background: #f8f8f8;
+		background: #890613;
 		clear: both;
 		font-style: normal;
 		margin: 0;
@@ -436,7 +436,7 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	}
 	#comments-list footer {color: #888; padding: .5em 1em 0 0; text-align: right;}
 
-	#comments-list li:nth-child(2n) blockquote {background: #F5f5f5;}
+	#comments-list li:nth-child(2n) blockquote {background: #890613;}
 
 	/* Add a Comment */
 	#add-comment label {clear: left; float: left; text-align: left; width: 150px;}
