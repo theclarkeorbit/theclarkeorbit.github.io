@@ -50,7 +50,7 @@ DEFAULT_DATE='fs'
 #THEME = "notmyidea"
 THEME = "Flex"
 MARKUP = 'md'
-#TYPOGRIFY = False
+TYPOGRIFY = True
 
 # Blogroll
 #LINKS = (('XKCD', 'http://xkcd.com/'),
@@ -65,7 +65,7 @@ MARKUP = 'md'
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
           ('twitter','https://twitter.com/thegymnosophist'),
           ('google','https://plus.google.com/+PrasannaBhogale'),
-          ('Github', 'https://github.com/pbhogale'))
+          ('github', 'https://github.com/pbhogale'))
 
 
 DEFAULT_PAGINATION = 10
