@@ -52,7 +52,7 @@ DEFAULT_DATE='fs'
 THEME = "crowsfoot"
 
 MARKUP = 'md'
-TYPOGRIFY = True
+TYPOGRIFY = False
 
 # Blogroll
 #LINKS = (('XKCD', 'http://xkcd.com/'),
