@@ -47,8 +47,10 @@ AUTHOR_FEED_RSS = None
 DEFAULT_DATE='fs'
 #THEME = '/usr/lib/python2.7/dist-packages/pelican/themes/svbtle'
 #THEME = "pelican-mockingbird"
-THEME = "notmyidea"
+#THEME = "notmyidea"
 #THEME = "Flex"
+THEME = "crowsfoot"
+
 MARKUP = 'md'
 TYPOGRIFY = True
 
