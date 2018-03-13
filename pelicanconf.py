@@ -47,8 +47,8 @@ AUTHOR_FEED_RSS = None
 DEFAULT_DATE='fs'
 #THEME = '/usr/lib/python2.7/dist-packages/pelican/themes/svbtle'
 #THEME = "pelican-mockingbird"
-#THEME = "notmyidea"
-THEME = "Flex"
+THEME = "notmyidea"
+#THEME = "Flex"
 MARKUP = 'md'
 #TYPOGRIFY = False
 
@@ -64,7 +64,8 @@ MARKUP = 'md'
 #          ('Another social link', '#'),)
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
           ('twitter','https://twitter.com/thegymnosophist'),
-          ('google','https://plus.google.com/+PrasannaBhogale'),)
+          ('google','https://plus.google.com/+PrasannaBhogale'),
+          ('Github', 'https://github.com/pbhogale'))
 
 
 DEFAULT_PAGINATION = 10
