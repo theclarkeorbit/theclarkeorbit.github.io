@@ -10,6 +10,8 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
+PLUGIN_PATHS = ['~/pelican-plugins']
+PLUGINS = ['render_math']
 SITEURL = 'theclarkeorbit.github.io'
 
 RELATIVE_URLS = True
