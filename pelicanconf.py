@@ -49,7 +49,7 @@ DEFAULT_DATE='fs'
 #THEME = "pelican-mockingbird"
 #THEME = "notmyidea"
 #THEME = "Flex"
-THEME = "pelican-blue"
+THEME = "pelican-fh5co-marble"
 
 MARKUP = 'md'
 #TYPOGRIFY = False
