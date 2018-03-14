@@ -125,7 +125,7 @@ our_model <- model(intercept_p, slope_p, sd_eps_p)
 our_model %>% plot()
 ```
 
-![center](model.png)
+![center](/figures/greta_playground/model.png)
 
 ### Inference
 
