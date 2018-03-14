@@ -31,15 +31,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="pras" />
-<meta name="description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical modelling is one class of models that aims to construct - given some observed data - the probability distribution from which the data …" />
+<meta name="description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data …" />
 <meta name="keywords" content="">
 <meta property="og:site_name" content="p. bhogale"/>
 <meta property="og:title" content="“greta playground”"/>
-<meta property="og:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical modelling is one class of models that aims to construct - given some observed data - the probability distribution from which the data …"/>
+<meta property="og:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-14 22:30:08.712570+01:00"/>
+<meta property="article:published_time" content="2018-03-14 22:01:10.392556+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -99,11 +99,11 @@
     <p>A first foray into probabilistic programming with&nbsp;Greta</p>
 <h2>Models and&nbsp;modelling</h2>
 <p>Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after <a href="https://en.wikipedia.org/wiki/Tycho_Brahe">Tycho Brahe</a> made detailed observations of planetary motion (<a href="http://www.pafko.com/tycho/observe.html">here</a> is data on mars), <a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion">Johannes Kepler posited laws</a> of planetary motion that <em>explained</em> how this data were generated. Effectively, <strong>modelling</strong> is the art of constructing data generators that help us understand and&nbsp;predict. </p>
-<p><strong>Statistical modelling</strong> is one class of models that aims to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :<br>
-- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$<br>
-- finding (<em>inferring</em>) the most suitable parameters $\theta$ given the observed&nbsp;data</p>
-<p>What parameters are &#8220;most suitable&#8221; is defined by the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a>.</p>
-<p>Since any but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic&nbsp;programming. </p>
+<p><strong>Statistical models</strong> are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :<br>
+- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$,<br>
+- finding (<em>inferring</em>) the distribution of parameters $\theta$ or, the most suitable parameters $\theta$ given the observed&nbsp;data</p>
+<p>What parameters are &#8220;most suitable&#8221; is quantified (in a particular sense of the word &#8220;suitable&#8221; will become clear in the following discussion) by the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a>.</p>
+<p>Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic&nbsp;programming. </p>
 <h2>Probabilistic&nbsp;programming</h2>
 <p>The probabilistic programming language (<span class="caps">PPL</span>) has two tasks&nbsp;:  </p>
 <ol>
@@ -166,50 +166,14 @@ slope_p <span class="o">&lt;-</span> uniform<span class="p">(</span><span class=
 
 <h3>Defining the&nbsp;model</h3>
 <div class="highlight"><pre><span></span>mean_y <span class="o">&lt;-</span> intercept_p<span class="o">+</span>slope_p<span class="o">*</span>x
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error: Installation of TensorFlow not found.
-## 
-## Python environments searched for &#39;tensorflow&#39; package:
-##  /home/prasanna/.virtualenvs/r-tensorflow/bin/python
-##  /home/prasanna/anaconda2/envs/r-tensorflow/bin/python2.7
-##  /home/prasanna/anaconda3/envs/r-tensorflow/bin/python3.6
-##  /usr/bin/python2.7
-##  /usr/bin/python3.5
-##  /home/prasanna/anaconda3/bin/python3.6
-##  /home/prasanna/anaconda2/bin/python2.7
-## 
-## You can install TensorFlow using the install_tensorflow() function.
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>distribution<span class="p">(</span>y<span class="p">)</span> <span class="o">&lt;-</span> normal<span class="p">(</span>mean_y<span class="p">,</span> sd_eps_p<span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in check_dims(mean, sd, target_dim = dim): object &#39;mean_y&#39; not found
+distribution<span class="p">(</span>y<span class="p">)</span> <span class="o">&lt;-</span> normal<span class="p">(</span>mean_y<span class="p">,</span> sd_eps_p<span class="p">)</span>
 </pre></div>
 
 
 <p>Here, we hypothesize that the target variable $y$ is linearly dependent on some independent variable $x$ with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the&nbsp;model. </p>
 <p>Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing $y$ starting from drawing from the prior distributions. We plot this computational graph&nbsp;below</p>
 <div class="highlight"><pre><span></span>our_model <span class="o">&lt;-</span> model<span class="p">(</span>intercept_p<span class="p">,</span> slope_p<span class="p">,</span> sd_eps_p<span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error: 
-## 
-##   greta requires TensorFlow version 1.0.0 or higher, but TensorFlow isn&#39;t installed.
-##   Use install_tensorflow() to install the latest version.
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>our_model <span class="o">%&gt;%</span> plot<span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in eval(lhs, parent, parent): object &#39;our_model&#39; not found
+our_model <span class="o">%&gt;%</span> plot<span class="p">()</span>
 </pre></div>
 
 
@@ -226,136 +190,58 @@ param_draws <span class="o">&lt;-</span> mcmc<span class="p">(</span>our_model<s
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## Error in mcmc(our_model, n_samples = num_samples, warmup = num_samples/10): object &#39;our_model&#39; not found
-</pre></div>
-
-
 <p>and plot the samples, and the parameter&nbsp;fits.</p>
 <div class="highlight"><pre><span></span>mcmc_dens<span class="p">(</span>param_draws<span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## Error in is.data.frame(x): object &#39;param_draws&#39; not found
-</pre></div>
-
-
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-7-1.png"></p>
 <div class="highlight"><pre><span></span>mcmc_intervals<span class="p">(</span>param_draws<span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## Error in is.data.frame(x): object &#39;param_draws&#39; not found
-</pre></div>
-
-
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-7-2.png"></p>
 <p>By inspection, it looks like the <a href="https://arxiv.org/abs/1701.02434"><span class="caps">HMC</span></a> has reached some reasonable values for our model&nbsp;parameters. </p>
 <h4>Most probable&nbsp;parameters</h4>
 <p>Explicitly, the mean estimates can be computed from the <code>param_draws</code> data structure, or via the <code>greta::opt</code> function.   </p>
 <div class="highlight"><pre><span></span>param_draws_df <span class="o">&lt;-</span> as_data_frame<span class="p">(</span>param_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in as_data_frame(param_draws[[1]]): object &#39;param_draws&#39; not found
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>param_estimates <span class="o">&lt;-</span> param_draws_df <span class="o">%&gt;%</span> 
+param_estimates <span class="o">&lt;-</span> param_draws_df <span class="o">%&gt;%</span> 
   summarise_all<span class="p">(</span><span class="kp">mean</span><span class="p">)</span>
+param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span class="p">()</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## Error in eval(lhs, parent, parent): object &#39;param_draws_df&#39; not found
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in eval(lhs, parent, parent): object &#39;param_estimates&#39; not found
+<div class="highlight"><pre><span></span>## # A tibble: 1 x 3
+##   intercept_p slope_p sd_eps_p
+##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1       -6.41    3.13     22.8
 </pre></div>
 
 
 <div class="highlight"><pre><span></span>opt_params <span class="o">&lt;-</span> opt<span class="p">(</span>our_model<span class="p">)</span>
+opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class="kp">print</span><span class="p">()</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## Error in opt(our_model): object &#39;our_model&#39; not found
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class="kp">print</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in eval(lhs, parent, parent): object &#39;opt_params&#39; not found
+<div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
+##   -8.371090    3.100076   22.351892
 </pre></div>
 
 
 <h3>Bayesian&nbsp;prediction</h3>
 <p>the <code>calculate()</code> function is available on the latest release of <code>greta</code> on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see section on Bayesian prediction earlier). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse&nbsp;it. </p>
 <div class="highlight"><pre><span></span>mean_y_plot <span class="o">&lt;-</span> intercept_p<span class="o">+</span>slope_p<span class="o">*</span>x
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error: Python module tensorflow was not found.
-## 
-## Detected Python configuration:
-## 
-## python:         /home/prasanna/.virtualenvs/r-tensorflow/bin/python
-## libpython:      /usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so
-## pythonhome:     /usr:/usr
-## virtualenv:     /home/prasanna/.virtualenvs/r-tensorflow/bin/activate_this.py
-## version:        2.7.13 (default, Nov 24 2017, 17:33:09)  [GCC 6.3.0 20170516]
-## numpy:          /home/prasanna/.virtualenvs/r-tensorflow/lib/python2.7/site-packages/numpy
-## numpy_version:  1.14.1
-## tensorflow:     /home/prasanna/.virtualenvs/r-tensorflow/lib/python2.7/site-packages/tensorflow
-## 
-## python versions found: 
-##  /home/prasanna/.virtualenvs/r-tensorflow/bin/python
-##  /home/prasanna/anaconda2/envs/r-tensorflow/bin/python
-##  /home/prasanna/anaconda3/envs/r-tensorflow/bin/python
-##  /usr/bin/python
-##  /usr/bin/python3
-##  /home/prasanna/anaconda3/bin/python
-##  /home/prasanna/anaconda2/bin/python
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>mean_y_plot_draws <span class="o">&lt;-</span> calculate<span class="p">(</span>mean_y_plot<span class="p">,</span> param_draws<span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in inherits(target, &quot;greta_array&quot;): object &#39;mean_y_plot&#39; not found
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>mean_y_est <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>mean_y_plot_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in colMeans(mean_y_plot_draws[[1]]): object &#39;mean_y_plot_draws&#39; not found
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>data_pred <span class="o">&lt;-</span> data <span class="o">%&gt;%</span> mutate<span class="p">(</span>y_fit <span class="o">=</span> mean_y_est<span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in mutate_impl(.data, dots): Binding not found: mean_y_est.
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">+</span>
+mean_y_plot_draws <span class="o">&lt;-</span> calculate<span class="p">(</span>mean_y_plot<span class="p">,</span> param_draws<span class="p">)</span>
+mean_y_est <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>mean_y_plot_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
+data_pred <span class="o">&lt;-</span> data <span class="o">%&gt;%</span> mutate<span class="p">(</span>y_fit <span class="o">=</span> mean_y_est<span class="p">)</span>
+ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">+</span>
     geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
     geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;red&#39;</span><span class="p">)</span> <span class="o">+</span>
     ggtitle<span class="p">(</span><span class="s">&quot;Fitted model&quot;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## Error in ggplot(data_pred): object &#39;data_pred&#39; not found
-</pre></div>
-
-
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-9-1.png"></p>
 <h2>Further&nbsp;exploration</h2>
 <ol>
 <li>The most mature <span class="caps">PPL</span> out there (with good R bindings) is Stan. There is a lot of material available, and it might be a good place to start to pick up some intuition. See <a href="http://mc-stan.org/users/documentation/">this page</a>.  </li>
