@@ -16,8 +16,8 @@ TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
-#MD_EXTENSIONS = ['codehilite(css_class=highlight)','extra']
-#TYPOGRIFY = True
+MD_EXTENSIONS = ['codehilite(css_class=highlight)','extra']
+TYPOGRIFY = True
 DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 PAGINATED_DIRECT_TEMPLATES = ['index']
 SUMMARY_MAX_LENGTH = 100
@@ -52,7 +52,7 @@ DEFAULT_DATE='fs'
 THEME = "alchemy"
 
 MARKUP = 'md'
-TYPOGRIFY = False
+#TYPOGRIFY = False
 
 # Blogroll
 #LINKS = (('XKCD', 'http://xkcd.com/'),
