@@ -61,7 +61,18 @@ Clearly then, along with the computational graph to define models, a PPL needs a
 
 A broad overview of Bayesian machine learning is available [here (PDF)](http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf) and [here](http://fastml.com/bayesian-machine-learning/)
 
-
+```{r, include=FALSE}
+rm(list=ls())
+#install.packages(c("webshot", "phantomjs", "DiagrammeRsvg"), repos = "https://cloud.r-project.org")
+library(devtools)
+devtools::install_github("greta-dev/greta")
+#devtools::install_github("rich-iannone/DiagrammeRsvg")
+library(greta)
+library(DiagrammeR)
+library(bayesplot)
+library(tidyverse)
+#library(DiagrammeRsvg)
+```
 
 Now, we illustrate some of these points using the simplest possible example, linear regression.
 
@@ -71,8 +82,7 @@ We will generate artificial data with known parameters, so that we can check if 
 
 ### Generating fake data to fit a model to
 
-
-```r
+```{r, warning=FALSE}
 length_of_data <- 100
 sd_eps <- pi^exp(1)
 intercept <- -5.0
@@ -86,16 +96,13 @@ ggplot(data, aes(x = x, y = y)) +
   ggtitle("Fake experimental data")
 ```
 
-![center](/figures/greta_playground/unnamed-chunk-2-1.png)
-
 Given this data, we want to write Greta code to infer the posterior distributions of the model parameters. 
 
 ### Defining clueless priors for model parameters
 
 These are the parameters of the model. In this case, they are simple but in principle they can be arbitrary tensors. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. 
 
-
-```r
+```{r}
 intercept_p <- uniform(-10, 10)
 sd_eps_p <- uniform(0, 50)
 slope_p <- uniform(0, 10)
@@ -104,8 +111,7 @@ slope_p <- uniform(0, 10)
 
 ### Defining the model
 
-
-```r
+```{r}
 mean_y <- intercept_p+slope_p*x
 distribution(y) <- normal(mean_y, sd_eps_p)
 ```
@@ -114,8 +120,7 @@ Here, we hypothesize that the target variable $y$ is linearly dependent on some 
 
 Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing $y$ starting from drawing from the prior distributions. We plot this computational graph below
 
-
-```r
+```{r}
 our_model <- model(intercept_p, slope_p, sd_eps_p)
 our_model %>% plot()
 ```
@@ -131,62 +136,37 @@ There are two distinct types of inference possible,
 
 #### Sampling from the posterior distribution of parameters with MCMC
 
-
-```r
+```{r}
 num_samples <- 1000
 param_draws <- mcmc(our_model, n_samples = num_samples, warmup = num_samples / 10)
 ```
 
 and plot the samples, and the parameter fits.
-
-```r
+```{r}
 mcmc_dens(param_draws)
-```
-
-![center](/figures/greta_playground/unnamed-chunk-7-1.png)
-
-```r
 mcmc_intervals(param_draws)
 ```
-
-![center](/figures/greta_playground/unnamed-chunk-7-2.png)
 
 By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has reached some reasonable values for our model parameters. 
 
 #### Most probable parameters
 
 Explicitly, the mean estimates can be computed from the `param_draws` data structure, or via the `greta::opt` function.   
-
-```r
+```{r}
 param_draws_df <- as_data_frame(param_draws[[1]])
 param_estimates <- param_draws_df %>% 
   summarise_all(mean)
 param_estimates %>% print()
-```
 
-```
-## # A tibble: 1 x 3
-##   intercept_p slope_p sd_eps_p
-##         <dbl>   <dbl>    <dbl>
-## 1       -6.10    3.27     21.6
-```
-
-```r
 opt_params <- opt(our_model)
 opt_params$par %>% print()
-```
-
-```
-## intercept_p     slope_p    sd_eps_p 
-##   -7.582923    3.319747   22.480015
 ```
 
 ### Bayesian prediction
 
 the `calculate()` function is available on the latest release of `greta` on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see section on Bayesian prediction earlier). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse it. 
 
-
-```r
+```{r}
 mean_y_plot <- intercept_p+slope_p*x
 mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
 mean_y_est <- colMeans(mean_y_plot_draws[[1]])
@@ -196,8 +176,6 @@ ggplot(data_pred) +
     geom_line(aes(x,y_fit), colour = 'red') +
     ggtitle("Fitted model")
 ```
-
-![center](/figures/greta_playground/unnamed-chunk-9-1.png)
 
 ## Further exploration
 

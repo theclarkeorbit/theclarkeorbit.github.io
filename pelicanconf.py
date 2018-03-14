@@ -16,7 +16,7 @@ PLUGINS = ['render_math']
 
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
-STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages']
+STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages', "_R"]
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
