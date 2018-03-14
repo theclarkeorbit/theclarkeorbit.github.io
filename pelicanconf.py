@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
-import render_math
+#import render_math
 
 LOAD_CONTENT_CACHE = False
 AUTHOR = u'pras'
@@ -11,8 +11,8 @@ SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'default'
-#PLUGIN_PATHS = ['~/pelican-plugins']
-#PLUGINS = ['render_math']
+PLUGIN_PATHS = ['/']
+PLUGINS = ['render_math']
 
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
