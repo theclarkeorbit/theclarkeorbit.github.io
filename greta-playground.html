@@ -39,7 +39,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-14 20:36:19+01:00"/>
+<meta property="article:published_time" content="2018-03-14 22:29:05.364570+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -136,118 +136,6 @@ which consists of the expectation value of the new data point over the whole dis
 <p>The integrals needed for inference ($P(D|H) = \int P(D,\theta|H)d\theta$ as well as prediction $P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta$ are over the parameter space which can be very high dimensional. This, Markov Chain Monte Carlo methods are used to approximate these integrals. <a href="https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/">This</a> is an excellent overview of modern Hamiltonian Monte Carlo methods while <a href="https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&amp;ref_source=link">this</a> provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly&nbsp;recommended. </p>
 <p>Clearly then, along with the computational graph to define models, a <span class="caps">PPL</span> needs a good <span class="caps">MCMC</span> algorithm (or another inference algorithm) to compute the high dimensional integrals needed to infer as well as perform a prediction on a general probabilistic&nbsp;model. </p>
 <p>A broad overview of Bayesian machine learning is available <a href="http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf">here (<span class="caps">PDF</span>)</a> and <a href="http://fastml.com/bayesian-machine-learning/">here</a></p>
-<p>Now, we illustrate some of these points using the simplest possible example, linear&nbsp;regression.</p>
-<h2>Basic linear&nbsp;regression.</h2>
-<p>We will generate artificial data with known parameters, so that we can check if Greta (the <span class="caps">PPL</span> we are using for this article) gets it right&nbsp;later. </p>
-<h3>Generating fake data to fit a model&nbsp;to</h3>
-<div class="highlight"><pre><span></span>length_of_data <span class="o">&lt;-</span> <span class="m">100</span>
-sd_eps <span class="o">&lt;-</span> <span class="kc">pi</span><span class="o">^</span><span class="kp">exp</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-intercept <span class="o">&lt;-</span> <span class="m">-5.0</span>
-slope <span class="o">&lt;-</span> <span class="kc">pi</span>
-x <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-10</span><span class="o">*</span><span class="kc">pi</span><span class="p">,</span> <span class="m">10</span><span class="o">*</span><span class="kc">pi</span><span class="p">,</span> length.out <span class="o">=</span> length_of_data<span class="p">)</span>
-y <span class="o">&lt;-</span> intercept <span class="o">+</span> slope<span class="o">*</span>x <span class="o">+</span> rnorm<span class="p">(</span>n <span class="o">=</span> length_of_data<span class="p">,</span> mean <span class="o">=</span> <span class="m">0</span><span class="p">,</span> sd <span class="o">=</span> sd_eps<span class="p">)</span>
-data <span class="o">&lt;-</span> <span class="kt">data_frame</span><span class="p">(</span>y <span class="o">=</span> y<span class="p">,</span> x <span class="o">=</span> x<span class="p">)</span>
-ggplot<span class="p">(</span>data<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> x<span class="p">,</span> y <span class="o">=</span> y<span class="p">))</span> <span class="o">+</span>
-  geom_point<span class="p">()</span> <span class="o">+</span>
-  geom_smooth<span class="p">(</span>method <span class="o">=</span> <span class="s">&#39;lm&#39;</span><span class="p">)</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Fake experimental data&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-2-1.png"></p>
-<p>Given this data, we want to write Greta code to infer the posterior distributions of the model&nbsp;parameters. </p>
-<h3>Defining clueless priors for model&nbsp;parameters</h3>
-<p>These are the parameters of the model. In this case, they are simple but in principle they can be arbitrary tensors. Since we really don&#8217;t know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform&nbsp;priors. </p>
-<div class="highlight"><pre><span></span>intercept_p <span class="o">&lt;-</span> uniform<span class="p">(</span><span class="m">-10</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
-sd_eps_p <span class="o">&lt;-</span> uniform<span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">50</span><span class="p">)</span>
-slope_p <span class="o">&lt;-</span> uniform<span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
-</pre></div>
-
-
-<h3>Defining the&nbsp;model</h3>
-<div class="highlight"><pre><span></span>mean_y <span class="o">&lt;-</span> intercept_p<span class="o">+</span>slope_p<span class="o">*</span>x
-distribution<span class="p">(</span>y<span class="p">)</span> <span class="o">&lt;-</span> normal<span class="p">(</span>mean_y<span class="p">,</span> sd_eps_p<span class="p">)</span>
-</pre></div>
-
-
-<p>Here, we hypothesize that the target variable $y$ is linearly dependent on some independent variable $x$ with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the&nbsp;model. </p>
-<p>Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing $y$ starting from drawing from the prior distributions. We plot this computational graph&nbsp;below</p>
-<div class="highlight"><pre><span></span>our_model <span class="o">&lt;-</span> model<span class="p">(</span>intercept_p<span class="p">,</span> slope_p<span class="p">,</span> sd_eps_p<span class="p">)</span>
-our_model <span class="o">%&gt;%</span> plot<span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="center" src="model.png"></p>
-<h3>Inference</h3>
-<p>There are two distinct types of inference&nbsp;possible, </p>
-<ol>
-<li><strong>Sampling from the full posterior distribution</strong> for the parameters given the data and the&nbsp;model. </li>
-<li>Maximizing likelihood to compute &#8220;most probable&#8221; parameters given the data and the&nbsp;model.</li>
-</ol>
-<h4>Sampling from the posterior distribution of parameters with <span class="caps">MCMC</span></h4>
-<div class="highlight"><pre><span></span>num_samples <span class="o">&lt;-</span> <span class="m">1000</span>
-param_draws <span class="o">&lt;-</span> mcmc<span class="p">(</span>our_model<span class="p">,</span> n_samples <span class="o">=</span> num_samples<span class="p">,</span> warmup <span class="o">=</span> num_samples <span class="o">/</span> <span class="m">10</span><span class="p">)</span>
-</pre></div>
-
-
-<p>and plot the samples, and the parameter&nbsp;fits.</p>
-<div class="highlight"><pre><span></span>mcmc_dens<span class="p">(</span>param_draws<span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-7-1.png"></p>
-<div class="highlight"><pre><span></span>mcmc_intervals<span class="p">(</span>param_draws<span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-7-2.png"></p>
-<p>By inspection, it looks like the <a href="https://arxiv.org/abs/1701.02434"><span class="caps">HMC</span></a> has reached some reasonable values for our model&nbsp;parameters. </p>
-<h4>Most probable&nbsp;parameters</h4>
-<p>Explicitly, the mean estimates can be computed from the <code>param_draws</code> data structure, or via the <code>greta::opt</code> function.   </p>
-<div class="highlight"><pre><span></span>param_draws_df <span class="o">&lt;-</span> as_data_frame<span class="p">(</span>param_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
-param_estimates <span class="o">&lt;-</span> param_draws_df <span class="o">%&gt;%</span> 
-  summarise_all<span class="p">(</span><span class="kp">mean</span><span class="p">)</span>
-param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## # A tibble: 1 x 3
-##   intercept_p slope_p sd_eps_p
-##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -6.13    3.26     19.5
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>opt_params <span class="o">&lt;-</span> opt<span class="p">(</span>our_model<span class="p">)</span>
-opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class="kp">print</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -6.660674    3.377178   21.199392
-</pre></div>
-
-
-<h3>Bayesian&nbsp;prediction</h3>
-<p>the <code>calculate()</code> function is available on the latest release of <code>greta</code> on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see section on Bayesian prediction earlier). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse&nbsp;it. </p>
-<div class="highlight"><pre><span></span>mean_y_plot <span class="o">&lt;-</span> intercept_p<span class="o">+</span>slope_p<span class="o">*</span>x
-mean_y_plot_draws <span class="o">&lt;-</span> calculate<span class="p">(</span>mean_y_plot<span class="p">,</span> param_draws<span class="p">)</span>
-mean_y_est <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>mean_y_plot_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
-data_pred <span class="o">&lt;-</span> data <span class="o">%&gt;%</span> mutate<span class="p">(</span>y_fit <span class="o">=</span> mean_y_est<span class="p">)</span>
-ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">+</span>
-    geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
-    geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;red&#39;</span><span class="p">)</span> <span class="o">+</span>
-    ggtitle<span class="p">(</span><span class="s">&quot;Fitted model&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-9-1.png"></p>
-<h2>Further&nbsp;exploration</h2>
-<ol>
-<li>The most mature <span class="caps">PPL</span> out there (with good R bindings) is Stan. There is a lot of material available, and it might be a good place to start to pick up some intuition. See <a href="http://mc-stan.org/users/documentation/">this page</a>.  </li>
-<li><a href="http://www.mit.edu/~9.520/spring10/Classes/class21_mcmc_2010.pdf">This</a> is a good intro to the role of <span class="caps">MCMC</span> in&nbsp;inference.  </li>
-<li>These video lectures on <a href="https://www.youtube.com/watch?v=oy7Ks3YfbDg">statistical rethinking</a> emphasizing Bayesian statistics also seem&nbsp;interesting.</li>
-</ol>
   </div>
   <div class="tag-cloud">
     <p>
