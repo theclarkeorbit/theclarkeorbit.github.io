@@ -32,7 +32,7 @@ ggplot(data, aes(x = x, y = y)) +
   ggtitle("Fake experimental data")
 ```
 
-![center](figures/greta_playground/unnamed-chunk-2-1.png)
+![center](/figures/greta_playground/unnamed-chunk-2-1.png)
 
 Given this data, we want to write Greta code to infer the model parameters. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. 
 
@@ -73,13 +73,13 @@ and plot the samples, and the parameter fits.
 mcmc_dens(param_draws)
 ```
 
-![center](figures/greta_playground/unnamed-chunk-6-1.png)
+![center](/figures/greta_playground/unnamed-chunk-6-1.png)
 
 ```r
 mcmc_intervals(param_draws)
 ```
 
-![center](figures/greta_playground/unnamed-chunk-6-2.png)
+![center](/figures/greta_playground/unnamed-chunk-6-2.png)
 
 By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has reached some reasonable values for our model parameters. 
 
@@ -96,7 +96,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -6.56    3.19     22.9
+## 1       -3.73    3.07     23.7
 ```
 
 ```r
@@ -106,7 +106,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -7.186813    3.330157   21.392551
+##   -4.871728    3.020079   24.257370
 ```
 
 ### Plotting against data
@@ -124,5 +124,5 @@ ggplot(data_pred) +
     ggtitle("Fitted model")
 ```
 
-![center](figures/greta_playground/unnamed-chunk-8-1.png)
+![center](/figures/greta_playground/unnamed-chunk-8-1.png)
 

@@ -10,7 +10,7 @@
 
 library(knitr)
 
-KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="") {
+KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="/") {
   opts_knit$set(base.url = base.url)
   fig.path <- paste0(figsfolder, sub(".Rmd$", "", basename(input)), "/")
   cache.path <- file.path(cachefolder, sub(".Rmd$", "", basename(input)), "/")
