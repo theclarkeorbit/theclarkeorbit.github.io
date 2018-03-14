@@ -11,13 +11,13 @@ A first foray into probabilistic programming with Greta
 
 Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after [Tycho Brahe](https://en.wikipedia.org/wiki/Tycho_Brahe) made detailed observations of planetary motion ([here](http://www.pafko.com/tycho/observe.html) is data on mars), [Johannes Kepler posited laws](https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion) of planetary motion that _explained_ how this data were generated. Effectively, **modelling** is the art of constructing data generators that help us understand and predict. 
 
-**Statistical modelling** is one class of models that aims to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :  
-- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$  
-- finding (_inferring_) the most suitable parameters $\theta$ given the observed data
+**Statistical models** are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :  
+- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$,  
+- finding (_inferring_) the distribution of parameters $\theta$ or, the most suitable parameters $\theta$ given the observed data
 
-What parameters are "most suitable" is defined by the [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function) that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called [maximum likelihood estimation](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
+What parameters are "most suitable" is quantified (in a particular sense of the word "suitable" will become clear in the following discussion) by the [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function) that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called [maximum likelihood estimation](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
 
-Since any but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic programming. 
+Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic programming. 
 
 ## Probabilistic programming
 
@@ -112,29 +112,7 @@ slope_p <- uniform(0, 10)
 
 ```r
 mean_y <- intercept_p+slope_p*x
-```
-
-```
-## Error: Installation of TensorFlow not found.
-## 
-## Python environments searched for 'tensorflow' package:
-##  /home/prasanna/.virtualenvs/r-tensorflow/bin/python
-##  /home/prasanna/anaconda2/envs/r-tensorflow/bin/python2.7
-##  /home/prasanna/anaconda3/envs/r-tensorflow/bin/python3.6
-##  /usr/bin/python2.7
-##  /usr/bin/python3.5
-##  /home/prasanna/anaconda3/bin/python3.6
-##  /home/prasanna/anaconda2/bin/python2.7
-## 
-## You can install TensorFlow using the install_tensorflow() function.
-```
-
-```r
 distribution(y) <- normal(mean_y, sd_eps_p)
-```
-
-```
-## Error in check_dims(mean, sd, target_dim = dim): object 'mean_y' not found
 ```
 
 Here, we hypothesize that the target variable $y$ is linearly dependent on some independent variable $x$ with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the model. 
@@ -144,21 +122,7 @@ Under the hood, Greta has constructed a computational graph that encapsulates al
 
 ```r
 our_model <- model(intercept_p, slope_p, sd_eps_p)
-```
-
-```
-## Error: 
-## 
-##   greta requires TensorFlow version 1.0.0 or higher, but TensorFlow isn't installed.
-##   Use install_tensorflow() to install the latest version.
-```
-
-```r
 our_model %>% plot()
-```
-
-```
-## Error in eval(lhs, parent, parent): object 'our_model' not found
 ```
 
 ![center](model.png)
@@ -178,27 +142,19 @@ num_samples <- 1000
 param_draws <- mcmc(our_model, n_samples = num_samples, warmup = num_samples / 10)
 ```
 
-```
-## Error in mcmc(our_model, n_samples = num_samples, warmup = num_samples/10): object 'our_model' not found
-```
-
 and plot the samples, and the parameter fits.
 
 ```r
 mcmc_dens(param_draws)
 ```
 
-```
-## Error in is.data.frame(x): object 'param_draws' not found
-```
+![center](/figures/greta_playground/unnamed-chunk-7-1.png)
 
 ```r
 mcmc_intervals(param_draws)
 ```
 
-```
-## Error in is.data.frame(x): object 'param_draws' not found
-```
+![center](/figures/greta_playground/unnamed-chunk-7-2.png)
 
 By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has reached some reasonable values for our model parameters. 
 
@@ -208,43 +164,26 @@ Explicitly, the mean estimates can be computed from the `param_draws` data struc
 
 ```r
 param_draws_df <- as_data_frame(param_draws[[1]])
-```
-
-```
-## Error in as_data_frame(param_draws[[1]]): object 'param_draws' not found
-```
-
-```r
 param_estimates <- param_draws_df %>% 
   summarise_all(mean)
-```
-
-```
-## Error in eval(lhs, parent, parent): object 'param_draws_df' not found
-```
-
-```r
 param_estimates %>% print()
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'param_estimates' not found
+## # A tibble: 1 x 3
+##   intercept_p slope_p sd_eps_p
+##         <dbl>   <dbl>    <dbl>
+## 1       -6.41    3.13     22.8
 ```
 
 ```r
 opt_params <- opt(our_model)
-```
-
-```
-## Error in opt(our_model): object 'our_model' not found
-```
-
-```r
 opt_params$par %>% print()
 ```
 
 ```
-## Error in eval(lhs, parent, parent): object 'opt_params' not found
+## intercept_p     slope_p    sd_eps_p 
+##   -8.371090    3.100076   22.351892
 ```
 
 ### Bayesian prediction
@@ -254,66 +193,16 @@ the `calculate()` function is available on the latest release of `greta` on gith
 
 ```r
 mean_y_plot <- intercept_p+slope_p*x
-```
-
-```
-## Error: Python module tensorflow was not found.
-## 
-## Detected Python configuration:
-## 
-## python:         /home/prasanna/.virtualenvs/r-tensorflow/bin/python
-## libpython:      /usr/lib/python2.7/config-x86_64-linux-gnu/libpython2.7.so
-## pythonhome:     /usr:/usr
-## virtualenv:     /home/prasanna/.virtualenvs/r-tensorflow/bin/activate_this.py
-## version:        2.7.13 (default, Nov 24 2017, 17:33:09)  [GCC 6.3.0 20170516]
-## numpy:          /home/prasanna/.virtualenvs/r-tensorflow/lib/python2.7/site-packages/numpy
-## numpy_version:  1.14.1
-## tensorflow:     /home/prasanna/.virtualenvs/r-tensorflow/lib/python2.7/site-packages/tensorflow
-## 
-## python versions found: 
-##  /home/prasanna/.virtualenvs/r-tensorflow/bin/python
-##  /home/prasanna/anaconda2/envs/r-tensorflow/bin/python
-##  /home/prasanna/anaconda3/envs/r-tensorflow/bin/python
-##  /usr/bin/python
-##  /usr/bin/python3
-##  /home/prasanna/anaconda3/bin/python
-##  /home/prasanna/anaconda2/bin/python
-```
-
-```r
 mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
-```
-
-```
-## Error in inherits(target, "greta_array"): object 'mean_y_plot' not found
-```
-
-```r
 mean_y_est <- colMeans(mean_y_plot_draws[[1]])
-```
-
-```
-## Error in colMeans(mean_y_plot_draws[[1]]): object 'mean_y_plot_draws' not found
-```
-
-```r
 data_pred <- data %>% mutate(y_fit = mean_y_est)
-```
-
-```
-## Error in mutate_impl(.data, dots): Binding not found: mean_y_est.
-```
-
-```r
 ggplot(data_pred) +
     geom_point(aes(x,y), colour = "blue") +
     geom_line(aes(x,y_fit), colour = 'red') +
     ggtitle("Fitted model")
 ```
 
-```
-## Error in ggplot(data_pred): object 'data_pred' not found
-```
+![center](/figures/greta_playground/unnamed-chunk-9-1.png)
 
 ## Further exploration
 

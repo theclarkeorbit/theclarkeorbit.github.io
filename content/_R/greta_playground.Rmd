@@ -11,13 +11,13 @@ A first foray into probabilistic programming with Greta
 
 Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after [Tycho Brahe](https://en.wikipedia.org/wiki/Tycho_Brahe) made detailed observations of planetary motion ([here](http://www.pafko.com/tycho/observe.html) is data on mars), [Johannes Kepler posited laws](https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion) of planetary motion that _explained_ how this data were generated. Effectively, **modelling** is the art of constructing data generators that help us understand and predict. 
 
-**Statistical modelling** is one class of models that aims to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :  
-- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$  
-- finding (_inferring_) the most suitable parameters $\theta$ given the observed data
+**Statistical models** are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :  
+- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$,  
+- finding (_inferring_) the distribution of parameters $\theta$ or, the most suitable parameters $\theta$ given the observed data
 
-What parameters are "most suitable" is defined by the [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function) that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called [maximum likelihood estimation](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
+What parameters are "most suitable" is quantified (in a particular sense of the word "suitable" will become clear in the following discussion) by the [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function) that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called [maximum likelihood estimation](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
 
-Since any but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic programming. 
+Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic programming. 
 
 ## Probabilistic programming
 
