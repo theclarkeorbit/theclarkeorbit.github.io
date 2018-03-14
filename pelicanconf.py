@@ -28,11 +28,7 @@ WITH_FUTURE_DATES = True
 SLUGIFY_SOURCE = 'title'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 MAIN_MENU = True
-MENUITEMS = (('Archives', '/archives.html'),
-             ('Categories', '/categories.html'),
-             ('Tags', '/tags.html'),
-             ('About me', '/pages/about.html'),
-             ('Blogs', '/pages/blog.html'),)
+MENUITEMS = (('Categories', '/categories.html'),)
 
 SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 
