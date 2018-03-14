@@ -1,194 +1,35 @@
-<!doctype html>
-<html lang="en" itemscope itemtype="http://schema.org/Person">
-<head>
-  <meta charset="utf-8">
-  <!-- Site Meta Data -->
-  <title>greta&nbsp;playground</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="pras">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>p. bhogale &middot; greta&nbsp;playground</title>
+        <link rel="shortcut icon" href="./favicon.ico" />
 
-  <link rel="shortcut icon" href="https://www.theclarkeorbit.com/images/favicon.png">
-
-  <!-- schema.org -->
-  <meta itemprop="name" content="p. bhogale">
-  <meta itemprop="image" content="">
-  <meta itemprop="description" content="">
-
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-  <!-- Style Meta Data -->
-  <link rel="stylesheet" href="./theme/css/style.css" type="text/css" />
-  <link rel="stylesheet" href="./theme/css/pygments.css" type="text/css" />
-
-  <!-- Feed Meta Data -->
-
-  <!-- Twitter Feed -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:site" content="">
-  <meta name="twitter:image" content="">
-
-<meta name="twitter:creator" content="">
-<meta name="twitter:url" content="./greta-playground.html">
-<meta name="twitter:title" content="p. bhogale ~ greta&nbsp;playground">
-<meta name="twitter:description" content="
-
-<style type="text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-</style>
+        <link rel="stylesheet" href="./theme/css/screen.css" type="text/css" />
+        <link rel="stylesheet" href="./theme/css/pygments.css" type="text/css" />
 
 
+    </head>
+    <body>
+<div id="header">
+            <ul id="nav">
+                <li><a href=".">Home</a></li>
+<li><a href="./archives.html">Archives</a></li>
+            </ul>
+            <div class="header_box">
+                <h1><a href=".">p. bhogale</a></h1>
+                <h2>Consulting scientist</h2>
+            </div>
+        </div>
+        <div id="wrapper">
+            <div id="content">
+                <h4 class="date">Mar 14, 2018</h4>
+                <div class="post">
+<h2 class="title">
+                        <a href="./greta-playground.html" rel="bookmark" title="Permanent Link to &quot;greta&nbsp;playground&quot;">greta&nbsp;playground</a>
+                    </h2>
 
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
-
-<!-- code folding -->
-
-
-
-
-
-
-<div class="fluid-row" id="header">
-
-
-
-<h1 class="title toc-ignore">greta&nbsp;playground</h1>
-
-</div>
-
-
-<p>This notebook contains one simple worked out example with the new - still in its infancy - <span class="caps">PPL</span> in R with a Tensorflow backend : <a href="https://greta-dev.github.io/greta/index.html" class="uri">https://greta-dev.github.io/greta/index.html</a></p>
-<p>For a more mature <span class="caps">PPL</span> in Python also with a tensorflow backend, see <a href="http://edwardlib.org/">Edward</a>.</p>
-<div id="basic-linear-regression." class="section level2">
-<h2>Basic linear&nbsp;regression.</h2>
-<p>We will generate artificial data with known parameters, so that we can check if Greta gets …</p></div></div>">
-
-<!-- Facebook Meta Data -->
-<meta property="og:title" content="p. bhogale ~ greta&nbsp;playground" />
-<meta property="og:description" content="
-
-<style type="text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-</style>
-
-
-
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
-
-<!-- code folding -->
-
-
-
-
-
-
-<div class="fluid-row" id="header">
-
-
-
-<h1 class="title toc-ignore">greta&nbsp;playground</h1>
-
-</div>
-
-
-<p>This notebook contains one simple worked out example with the new - still in its infancy - <span class="caps">PPL</span> in R with a Tensorflow backend : <a href="https://greta-dev.github.io/greta/index.html" class="uri">https://greta-dev.github.io/greta/index.html</a></p>
-<p>For a more mature <span class="caps">PPL</span> in Python also with a tensorflow backend, see <a href="http://edwardlib.org/">Edward</a>.</p>
-<div id="basic-linear-regression." class="section level2">
-<h2>Basic linear&nbsp;regression.</h2>
-<p>We will generate artificial data with known parameters, so that we can check if Greta gets …</p></div></div>" />
-<meta property="og:image" content="" />
-</head>
-
-<body>
-  <!-- Sidebar -->
-  <aside>
-    <!--<center><a href="."><img id="avatar" src=""></a></center>-->
-    <h1>p. bhogale</h1>
-    <br>
-
-
-    <nav class="nav">
-      <ul class="list-bare">
-      
-          <li><a class="nav__link" href="/archives.html">Archives</a></li>
-          <li><a class="nav__link" href="/categories.html">Categories</a></li>
-          <li><a class="nav__link" href="/tags.html">Tags</a></li>
-         
-         
-      </ul>
-    </nav>
-
-    <p class="social">
-        <a href="https://www.linkedin.com/in/pbhogale" target="_blank" ><img src="./theme/images/icons/linkedin.png"></a>
-        <a href="https://twitter.com/thegymnosophist" target="_blank" ><img src="./theme/images/icons/twitter.png"></a>
-        <a href="https://plus.google.com/+PrasannaBhogale" target="_blank" ><img src="./theme/images/icons/google.png"></a>
-        <a href="https://github.com/pbhogale" target="_blank" ><img src="./theme/images/icons/github.png"></a>
-    </p>
-
-    <!--
-    <h2>Categories</h2>
-    <ul class="navbar">
-      <li class="active"><a href="./category/blogs.html">blogs</a></li>
-    </ul> 
-    -->
-  </aside>
-
-  <!-- Content -->
-  <article>
-<section id="content">
-    <article>
-        <h2 class="post_title post_detail"><a href="./greta-playground.html" rel="bookmark" title="Permalink to greta&nbsp;playground">greta&nbsp;playground</a></h2>
-        <div class="entry-content blog-post">
-            
+                    
 
 <style type="text/css">
 .main-container {
@@ -336,41 +177,23 @@ $(document).ready(function () {
 </script>
 
 
-        </div>
-        <div class="post_list">
-            <span>By </span>
-            <a href="./author/pras.html">@pras</a>
-            <span> in </span>
-            <span class="post_category"><a href="./category/blogs.html" rel="bookmark" title="Permalink to blogs">[ blogs ]</a></span>
-            <span class="post_date">Wed 14 March 2018</span>
-            <div><span>Tags : </span>
+
+                    <div class="clear"></div>
+                    <div class="info">
+<a href="./greta-playground.html">posted at 12:46 2018</a>&nbsp;&middot;&nbsp;<a href="./category/blogs.html" rel="tag">blogs</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="clear"></div>
+                <div id="footer">
+                    <p>
+                    Mockingbird theme by <a href="http://nevanscott.com/">Nevan Scott</a>
+                    &middot;
+                    <a class="atom" href="https://www.theclarkeorbit.com/None">Feed</a>
+                </div>
             </div>
-
-            <div class="entry-social">
-                <span class="twitter"><a target="_blank" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=700');return false;" title="Twitter" href="https://twitter.com/share?url=./greta-playground.html&text=greta&nbsp;playground&via="><img src="./theme/images/icons/twitter-s.png"></a></span>
-
-                <span class="gplus"><a target="_blank" title="Google +" href="https://plus.google.com/share?url=./greta-playground.html&hl=fr" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="./theme/images/icons/google-s.png"></a></span>
-
-                <span class="facebook"><a target="_blank" title="Facebook" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=500,width=700');return false;" href="https://www.facebook.com/sharer.php?u=./greta-playground.html&t=greta&nbsp;playground"><img src="./theme/images/icons/facebook-s.png"></a></span>
-
-                <a  target="_blank" title="Linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=./greta-playground.html&title=greta&nbsp;playground" rel="nofollow" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=450,width=650');return false;"><img src="./theme/images/icons/linkedin-s.png"></a>
-
-                <span class="mail"><a href="mailto:?subject=greta&nbsp;playground&amp;body=Viens découvrir un article à propos de [greta&nbsp;playground] sur le site de pras. ./greta-playground.html" title="Share by Email" target="_blank"><img src="./theme/images/icons/mail-s.png"></a></span>
-            </div>
+            <div class="clear"></div>
         </div>
-    </article>
-</section>
-  </article>
-
-  <!-- Footer -->
-  <footer>
-    <p>
-      Blog powered by <a href="http://getpelican.com/">Pelican</a>, 
-      which takes great advantage of <a href="http://python.org">Python</a>.
-      Theme <a href="https://github.com/parbhat/pelican-blue">Pelican-Blue</a> by <a href="https://parbhatpuri.com/">@parbhat</a>.
-    </p>
-  </footer>
-
-
-</body>
+    </body>
 </html>
