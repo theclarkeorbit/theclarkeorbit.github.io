@@ -5,7 +5,7 @@ output:
     df_print: paged
 ---
 
-This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : https://greta-dev.github.io/greta/index.html
+This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : [Greta]( https://greta-dev.github.io/greta/index.html)
 
 For a more mature PPL in Python also with a tensorflow backend, see [Edward](http://edwardlib.org/).
 
@@ -96,7 +96,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1      -0.831    2.97     22.2
+## 1       -5.95    3.02     21.2
 ```
 
 ```r
@@ -106,7 +106,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -1.856992    3.073569   23.122213
+##   -5.106374    2.980471   19.102325
 ```
 
 ### Plotting against data

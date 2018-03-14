@@ -22,13 +22,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="" />
 
-    <!-- Chrome, Firefox OS and Opera -->
-    <meta name="theme-color" content="#333333">
-    <!-- Windows Phone -->
-    <meta name="msapplication-navbutton-color" content="#333333">
-    <!-- iOS Safari -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <meta name="author" content="pras" />
     <meta name="description" content="pras's home on the interwebz" />
@@ -86,7 +79,7 @@
     </p>
   </header>
   <div>
-      <p>This notebook contains one simple worked out example with the new - still in its infancy - <span class="caps">PPL</span> in R with a Tensorflow backend :&nbsp;https://greta-dev.github.io/greta/index.html</p>
+      <p>This notebook contains one simple worked out example with the new - still in its infancy - <span class="caps">PPL</span> in R with a Tensorflow backend : <a href="https://greta-dev.github.io/greta/index.html">Greta</a></p>
 <p>For a more mature <span class="caps">PPL</span> in Python also with a tensorflow backend, see <a href="http://edwardlib.org/">Edward</a>.</p>
 <h2>Basic linear&nbsp;regression.</h2>
 <p>We will generate artificial data with known parameters, so that we can check if Greta gets it right&nbsp;later. </p>
@@ -96,7 +89,8 @@ sd_eps <span class="o">&lt;-</span> <span class="kc">pi</span><span class="o">^<
 intercept <span class="o">&lt;-</span> <span class="m">-5.0</span>
 slope <span class="o">&lt;-</span> <span class="kc">pi</span>
 x <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-10</span><span class="o">*</span><span class="kc">pi</span><span class="p">,</span> <span class="m">10</span><span class="o">*</span><span class="kc">pi</span><span class="p">,</span> length.out <span class="o">=</span> length_of_data<span class="p">)</span>
-y <span class="o">&lt;-</span> intercept <span class="o">+</span> slope<span class="o">*</span>x <span class="o">+</span> rnorm<span class="p">(</span>n <span class="o">=</span> length_of_data …</pre></div>
+y <span class="o">&lt;-</span> intercept <span class="o">+</span> slope<span class="o">*</span>x <span class="o">+</span> rnorm<span class="p">(</span>n <span class="o">=</span> length_of_data<span class="p">,</span> mean <span class="o">=</span> <span class="m">0</span><span class="p">,</span> sd <span class="o">=</span> sd_eps<span class="p">)</span>
+data <span class="o">&lt;-</span> <span class="kt">data_frame …</span></pre></div>
       <br>
       <a class="btn" href="../greta-playground.html#greta-playground">    Continue reading
 </a>

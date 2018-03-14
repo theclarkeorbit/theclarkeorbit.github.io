@@ -22,24 +22,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="" />
 
-    <!-- Chrome, Firefox OS and Opera -->
-    <meta name="theme-color" content="#333333">
-    <!-- Windows Phone -->
-    <meta name="msapplication-navbutton-color" content="#333333">
-    <!-- iOS Safari -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="pras" />
-<meta name="description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : https://greta-dev.github.io/greta/index.html For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data <- 100 sd_eps <- pi^exp(1) intercept <- -5.0 slope <- pi x <- seq(-10*pi, 10*pi, length.out = length_of_data) y <- intercept + slope*x + rnorm(n = length_of_data …" />
+<meta name="description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : Greta For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data <- 100 sd_eps <- pi^exp(1) intercept <- -5.0 slope <- pi x <- seq(-10*pi, 10*pi, length.out = length_of_data) y <- intercept + slope*x + rnorm(n = length_of_data, mean = 0, sd = sd_eps) data <- data_frame …" />
 <meta name="keywords" content="">
 <meta property="og:site_name" content="p. bhogale"/>
 <meta property="og:title" content="“greta playground”"/>
-<meta property="og:description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : https://greta-dev.github.io/greta/index.html For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data <- 100 sd_eps <- pi^exp(1) intercept <- -5.0 slope <- pi x <- seq(-10*pi, 10*pi, length.out = length_of_data) y <- intercept + slope*x + rnorm(n = length_of_data …"/>
+<meta property="og:description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : Greta For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data <- 100 sd_eps <- pi^exp(1) intercept <- -5.0 slope <- pi x <- seq(-10*pi, 10*pi, length.out = length_of_data) y <- intercept + slope*x + rnorm(n = length_of_data, mean = 0, sd = sd_eps) data <- data_frame …"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-14 14:32:21.458189+01:00"/>
+<meta property="article:published_time" content="2018-03-14 14:35:01.571057+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -89,7 +82,7 @@
 
 
   <div>
-    <p>This notebook contains one simple worked out example with the new - still in its infancy - <span class="caps">PPL</span> in R with a Tensorflow backend :&nbsp;https://greta-dev.github.io/greta/index.html</p>
+    <p>This notebook contains one simple worked out example with the new - still in its infancy - <span class="caps">PPL</span> in R with a Tensorflow backend : <a href="https://greta-dev.github.io/greta/index.html">Greta</a></p>
 <p>For a more mature <span class="caps">PPL</span> in Python also with a tensorflow backend, see <a href="http://edwardlib.org/">Edward</a>.</p>
 <h2>Basic linear&nbsp;regression.</h2>
 <p>We will generate artificial data with known parameters, so that we can check if Greta gets it right&nbsp;later. </p>
@@ -157,7 +150,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1      -0.831    2.97     22.2
+## 1       -5.95    3.02     21.2
 </pre></div>
 
 
@@ -167,7 +160,7 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -1.856992    3.073569   23.122213
+##   -5.106374    2.980471   19.102325
 </pre></div>
 
 
