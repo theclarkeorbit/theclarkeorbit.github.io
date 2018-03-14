@@ -50,7 +50,7 @@ DEFAULT_DATE='fs'
 #THEME = "notmyidea"
 #THEME = "Flex"
 #THEME = "pelican-mockingbird"
-THEME = "bulrush"
+THEME = "elegant"
 
 MARKUP = 'md'
 #TYPOGRIFY = False
