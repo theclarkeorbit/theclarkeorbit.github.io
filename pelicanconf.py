@@ -10,6 +10,8 @@ SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'default'
+PLUGIN_PATHS = ['~/pelican-plugins']
+PLUGINS = ['render_math']
 
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
