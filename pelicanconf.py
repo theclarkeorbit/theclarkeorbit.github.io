@@ -10,7 +10,8 @@ SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'default'
-
+PLUGIN_PATHS = ['~/pelican-plugins']
+PLUGINS = ['render_math']
 
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
@@ -22,7 +23,7 @@ DISPLAY_CATEGORIES_ON_MENU = False
 USE_FOLDER_AS_CATEGORY = True
 #ROBOTS = 'index, follow'
 
-TYPOGRIFY = True
+# TYPOGRIFY = True
 #DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 #PAGINATED_DIRECT_TEMPLATES = ['index']
 SUMMARY_MAX_LENGTH = 100
