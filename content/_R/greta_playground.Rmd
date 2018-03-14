@@ -1,9 +1,11 @@
 ---
-title: "A first foray into probabilistic programming with Greta"
+title: "greta playground"
 output:
   html_document:
     df_print: paged
 ---
+A first foray into probabilistic programming with Greta
+
 
 ## Models and modelling
 

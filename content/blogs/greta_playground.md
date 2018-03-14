@@ -1,9 +1,11 @@
 ---
-title: "A first foray into probabilistic programming with Greta"
+title: "greta playground"
 output:
   html_document:
     df_print: paged
 ---
+A first foray into probabilistic programming with Greta
+
 
 ## Models and modelling
 
@@ -160,7 +162,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ─────────────────────────────────────────────────── tidyverse 1.2.1 ──
 ```
 
 ```
@@ -187,7 +189,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ───────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
@@ -301,7 +303,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -1.38    3.25     21.9
+## 1       -5.13    3.09     21.2
 ```
 
 ```r
@@ -311,7 +313,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -1.610284    3.310360   20.935305
+##   -7.130845    2.833067   23.949741
 ```
 
 ### Bayesian prediction
