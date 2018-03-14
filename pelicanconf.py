@@ -67,7 +67,7 @@ MARKUP = 'md'
 #          ('Another social link', '#'),)
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
           ('twitter','https://twitter.com/thegymnosophist'),
-          ('google','https://plus.google.com/+PrasannaBhogale'),
+          #('google','https://plus.google.com/+PrasannaBhogale'),
           ('github', 'https://github.com/pbhogale'))
 
 
@@ -76,3 +76,7 @@ DEFAULT_PAGINATION = 10
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
 USE_LESS = True
+LANDING_PAGE_ABOUT = [{
+	"title": "Data science, quantitative biology, consulting scientist.",
+	"details": ""
+	}]
