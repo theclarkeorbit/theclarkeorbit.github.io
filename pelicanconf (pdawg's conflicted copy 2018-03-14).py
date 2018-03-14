@@ -9,11 +9,10 @@ SITETITLE = u'prasanna bhogale'
 SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
-PYGMENTS_STYLE = 'default'
-
-SITEURL = 'https://theclarkeorbitgithub.io'
+PYGMENTS_STYLE = 'monokai'
+SITEURL = 'https://www.theclarkeorbit.com'
 PATH = 'content'
-STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages', '_R']
+STATIC_PATHS = ['images', 'pdfs']
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
@@ -28,7 +27,7 @@ SUMMARY_MAX_LENGTH = 100
 WITH_FUTURE_DATES = True
 SLUGIFY_SOURCE = 'title'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
-MAIN_MENU = True
+MAIN_MENU = False
 #MENUITEMS = (('Categories', '/categories.html'),)
 
 SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
@@ -52,9 +51,9 @@ DEFAULT_DATE='fs'
 #THEME = '/usr/lib/python2.7/dist-packages/pelican/themes/svbtle'
 #THEME = "pelican-mockingbird"
 #THEME = "notmyidea"
-THEME = "Flex"
+#THEME = "Flex"
 #THEME = "pelican-mockingbird"
-#THEME = "elegant"
+THEME = "elegant"
 
 #MARKUP = 'md'
 #TYPOGRIFY = False
@@ -71,7 +70,7 @@ THEME = "Flex"
 #          ('Another social link', '#'),)
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
           ('twitter','https://twitter.com/thegymnosophist'),
-          ('reddit','https://www.reddit.com/user/thegymnosophist'),
+          #('google','https://plus.google.com/+PrasannaBhogale'),
           ('github', 'https://github.com/pbhogale'))
 
 
