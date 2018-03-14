@@ -7,7 +7,7 @@
     <link rel="stylesheet/less" type="text/css" href="./theme/stylesheet/style.less">
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
 
-  <link rel="stylesheet" type="text/css" href="./theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/colorful.min.css">
   <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
 
 
@@ -22,6 +22,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="" />
 
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta name="author" content="pras" />
 <meta name="description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : Greta For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data <- 100 sd_eps <- pi^exp(1) intercept <- -5.0 slope <- pi x <- seq(-10*pi, 10*pi, length.out = length_of_data) y <- intercept + slope*x + rnorm(n = length_of_data, mean = 0, sd = sd_eps) data <- data_frame …" />
