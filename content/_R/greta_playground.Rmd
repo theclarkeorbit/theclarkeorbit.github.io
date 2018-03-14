@@ -35,7 +35,7 @@ y <- intercept + slope*x + rnorm(n = length_of_data, mean = 0, sd = sd_eps)
 data <- data_frame(y = y, x = x)
 ggplot(data, aes(x = x, y = y)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(method = 'lm') +
   ggtitle("Fake experimental data")
 ```
 
@@ -91,3 +91,14 @@ opt_params$par %>% print()
 ### Plotting against data
 
 the `calculate()` function is available on the latest release of `greta` on github.
+```{r}
+mean_y_plot <- intercept_p+slope_p*x
+mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
+mean_y_est <- colMeans(mean_y_plot_draws[[1]])
+data_pred <- data %>% mutate(y_fit = mean_y_est)
+ggplot(data_pred) +
+    geom_point(aes(x,y), colour = "blue") +
+    geom_smooth(aes(x,y), colour = 'blue', method = 'lm') +
+    geom_line(aes(x,y_fit), colour = 'red')
+```
+

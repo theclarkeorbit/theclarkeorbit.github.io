@@ -39,7 +39,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-14 12:30:42.364918+01:00"/>
+<meta property="article:published_time" content="2018-03-14 14:32:21.458189+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -103,16 +103,12 @@ y <span class="o">&lt;-</span> intercept <span class="o">+</span> slope<span cla
 data <span class="o">&lt;-</span> <span class="kt">data_frame</span><span class="p">(</span>y <span class="o">=</span> y<span class="p">,</span> x <span class="o">=</span> x<span class="p">)</span>
 ggplot<span class="p">(</span>data<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> x<span class="p">,</span> y <span class="o">=</span> y<span class="p">))</span> <span class="o">+</span>
   geom_point<span class="p">()</span> <span class="o">+</span>
-  geom_smooth<span class="p">()</span> <span class="o">+</span>
+  geom_smooth<span class="p">(</span>method <span class="o">=</span> <span class="s">&#39;lm&#39;</span><span class="p">)</span> <span class="o">+</span>
   ggtitle<span class="p">(</span><span class="s">&quot;Fake experimental data&quot;</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span></span>## `geom_smooth()` using method = &#39;loess&#39;
-</pre></div>
-
-
-<p><img alt="center" src="$(pwd">/figures/greta_playground/unnamed-chunk-2-1.png)</p>
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-2-1.png"></p>
 <p>Given this data, we want to write Greta code to infer the model parameters. Since we really don&#8217;t know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform&nbsp;priors. </p>
 <h3>Defining clueless priors for model&nbsp;parameters</h3>
 <div class="highlight"><pre><span></span>intercept_p <span class="o">&lt;-</span> uniform<span class="p">(</span><span class="m">-10</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
@@ -143,12 +139,12 @@ param_draws <span class="o">&lt;-</span> mcmc<span class="p">(</span>our_model<s
 </pre></div>
 
 
-<p><img alt="center" src="$(pwd">/figures/greta_playground/unnamed-chunk-6-1.png)</p>
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-6-1.png"></p>
 <div class="highlight"><pre><span></span>mcmc_intervals<span class="p">(</span>param_draws<span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="center" src="$(pwd">/figures/greta_playground/unnamed-chunk-6-2.png)</p>
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-6-2.png"></p>
 <p>By inspection, it looks like the <a href="https://arxiv.org/abs/1701.02434"><span class="caps">HMC</span></a> has reached some reasonable values for our model&nbsp;parameters. </p>
 <p>Explicitly, the mean estimates can be computed from the <code>param_draws</code> data structure, or via the <code>greta::opt</code> function.   </p>
 <div class="highlight"><pre><span></span>param_draws_df <span class="o">&lt;-</span> as_data_frame<span class="p">(</span>param_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
@@ -161,7 +157,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -2.32    3.23     22.2
+## 1      -0.831    2.97     22.2
 </pre></div>
 
 
@@ -171,12 +167,24 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##    2.503366    3.277133   20.958645
+##   -1.856992    3.073569   23.122213
 </pre></div>
 
 
 <h3>Plotting against&nbsp;data</h3>
 <p>the <code>calculate()</code> function is available on the latest release of <code>greta</code> on&nbsp;github.</p>
+<div class="highlight"><pre><span></span>mean_y_plot <span class="o">&lt;-</span> intercept_p<span class="o">+</span>slope_p<span class="o">*</span>x
+mean_y_plot_draws <span class="o">&lt;-</span> calculate<span class="p">(</span>mean_y_plot<span class="p">,</span> param_draws<span class="p">)</span>
+mean_y_est <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>mean_y_plot_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
+data_pred <span class="o">&lt;-</span> data <span class="o">%&gt;%</span> mutate<span class="p">(</span>y_fit <span class="o">=</span> mean_y_est<span class="p">)</span>
+ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">+</span>
+    geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
+    geom_smooth<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> method <span class="o">=</span> <span class="s">&#39;lm&#39;</span><span class="p">)</span> <span class="o">+</span>
+    geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;red&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="center" src="/figures/greta_playground/unnamed-chunk-8-1.png"></p>
   </div>
   <div class="tag-cloud">
     <p>

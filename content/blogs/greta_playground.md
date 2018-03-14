@@ -28,15 +28,11 @@ y <- intercept + slope*x + rnorm(n = length_of_data, mean = 0, sd = sd_eps)
 data <- data_frame(y = y, x = x)
 ggplot(data, aes(x = x, y = y)) +
   geom_point() +
-  geom_smooth() +
+  geom_smooth(method = 'lm') +
   ggtitle("Fake experimental data")
 ```
 
-```
-## `geom_smooth()` using method = 'loess'
-```
-
-![center]($(pwd)/figures/greta_playground/unnamed-chunk-2-1.png)
+![center](/figures/greta_playground/unnamed-chunk-2-1.png)
 
 Given this data, we want to write Greta code to infer the model parameters. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. 
 
@@ -77,13 +73,13 @@ and plot the samples, and the parameter fits.
 mcmc_dens(param_draws)
 ```
 
-![center]($(pwd)/figures/greta_playground/unnamed-chunk-6-1.png)
+![center](/figures/greta_playground/unnamed-chunk-6-1.png)
 
 ```r
 mcmc_intervals(param_draws)
 ```
 
-![center]($(pwd)/figures/greta_playground/unnamed-chunk-6-2.png)
+![center](/figures/greta_playground/unnamed-chunk-6-2.png)
 
 By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has reached some reasonable values for our model parameters. 
 
@@ -100,7 +96,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -2.32    3.23     22.2
+## 1      -0.831    2.97     22.2
 ```
 
 ```r
@@ -110,9 +106,23 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##    2.503366    3.277133   20.958645
+##   -1.856992    3.073569   23.122213
 ```
 
 ### Plotting against data
 
 the `calculate()` function is available on the latest release of `greta` on github.
+
+```r
+mean_y_plot <- intercept_p+slope_p*x
+mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
+mean_y_est <- colMeans(mean_y_plot_draws[[1]])
+data_pred <- data %>% mutate(y_fit = mean_y_est)
+ggplot(data_pred) +
+    geom_point(aes(x,y), colour = "blue") +
+    geom_smooth(aes(x,y), colour = 'blue', method = 'lm') +
+    geom_line(aes(x,y_fit), colour = 'red')
+```
+
+![center](/figures/greta_playground/unnamed-chunk-8-1.png)
+
