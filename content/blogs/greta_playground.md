@@ -112,7 +112,7 @@ distribution(y) <- normal(mean_y, sd_eps_p)
 
 Here, we hypothesize that the target variable $y$ is linearly dependent on some independent variable $x$ with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the model. 
 
-Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing $y$ starting from drawing from the prior distributions. We plot this computational graph below
+Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing the target $y$ starting from the prior distributions of our input variables. We plot this computational graph below :
 
 
 ```r
@@ -127,7 +127,7 @@ our_model %>% plot()
 There are two distinct types of inference possible, 
 
 1. **Sampling from the full posterior distribution** for the parameters given the data and the model. 
-2. Maximizing likelihood to compute "most probable" parameters given the data and the model.
+2. **Maximizing likelihood to compute "most probable" parameters** given the data and the model.
 
 #### Sampling from the posterior distribution of parameters with MCMC
 
@@ -137,7 +137,7 @@ num_samples <- 1000
 param_draws <- mcmc(our_model, n_samples = num_samples, warmup = num_samples / 10)
 ```
 
-and plot the samples, and the parameter fits.
+and plot the densities of samples drawn from the parameter posterior distributions, and the parameter fits.
 
 ```r
 mcmc_dens(param_draws)
@@ -168,7 +168,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -1.13    3.25     22.4
+## 1       -4.50    3.03     22.8
 ```
 
 ```r
@@ -178,12 +178,12 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   0.1079702   3.3557689  24.1643791
+##   -3.444417    3.114846   23.655182
 ```
 
 ### Bayesian prediction
 
-the `calculate()` function is available on the latest release of `greta` on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see section on Bayesian prediction earlier). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse it. 
+Bayesian prediction is implemented via the `calculate()` function available in the latest release of `greta` on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see section on Bayesian prediction earlier). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse it. 
 
 
 ```r
