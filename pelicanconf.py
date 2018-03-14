@@ -9,7 +9,7 @@ SITETITLE = u'prasanna bhogale'
 SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
-PYGMENTS_STYLE = 'colorful'
+PYGMENTS_STYLE = 'paraiso-dark'
 SITEURL = 'https://www.theclarkeorbit.com'
 PATH = 'content'
 STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages']
@@ -70,7 +70,7 @@ THEME = "Flex"
 #          ('Another social link', '#'),)
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
           ('twitter','https://twitter.com/thegymnosophist'),
-          #('google','https://plus.google.com/+PrasannaBhogale'),
+          ('reddit','https://www.reddit.com/user/thegymnosophist'),
           ('github', 'https://github.com/pbhogale'))
 
 

@@ -1,5 +1,5 @@
 Title: Tiger Hill
-Category: blog
+Category: blogs
 Date: 12 Nov 2015
 
 1.
