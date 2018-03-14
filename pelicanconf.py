@@ -11,9 +11,9 @@ SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'default'
 
-SITEURL = 'https://theclarkeorbitgithub.io'
+SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
-STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages', '_R']
+STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages']
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
