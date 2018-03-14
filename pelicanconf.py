@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'pras'
 SITENAME = u'p. bhogale'
 SITETITLE = u'prasanna bhogale'
-SITESUBTITLE ='quant fin. data sci. quant bio.' #Scientist for hire. \n
+SITESUBTITLE ='Consulting scientist'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'monokai'
@@ -17,7 +17,7 @@ DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
 #MD_EXTENSIONS = ['codehilite(css_class=highlight)','extra']
-TYPOGRIFY = True
+#TYPOGRIFY = True
 DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 PAGINATED_DIRECT_TEMPLATES = ['index']
 SUMMARY_MAX_LENGTH = 100
@@ -49,7 +49,7 @@ DEFAULT_DATE='fs'
 #THEME = "pelican-mockingbird"
 #THEME = "notmyidea"
 #THEME = "Flex"
-THEME = "hyde"
+THEME = "alchemy"
 
 MARKUP = 'md'
 TYPOGRIFY = False
