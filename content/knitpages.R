@@ -6,9 +6,11 @@
 # run ./knitpages.R to update all knitr files that need to be updated.
 # run this script from your base content directory
 
+# see https://www.r-bloggers.com/how-to-write-pelican-blog-posts-using-rmarkdown-knitr-2-0/
+
 library(knitr)
 
-KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="/") {
+KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="$(pwd)") {
   opts_knit$set(base.url = base.url)
   fig.path <- paste0(figsfolder, sub(".Rmd$", "", basename(input)), "/")
   cache.path <- file.path(cachefolder, sub(".Rmd$", "", basename(input)), "/")
@@ -34,4 +36,4 @@ knit_folder <- function(infolder, outfolder, figsfolder, cachefolder, force = F)
   }
 }
 
-knit_folder("_R", "blog", "figures/", "_caches")
+knit_folder("_R", "blogs", "figures/", "_caches")
