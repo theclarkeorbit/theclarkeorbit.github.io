@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 import math
 
-PLUGINS = ['math']
+PLUGINS = [math]
 LOAD_CONTENT_CACHE = False
 AUTHOR = u'pras'
 SITENAME = u'p. bhogale'
