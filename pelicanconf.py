@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = u'pras'
 SITENAME = u'p. bhogale'
 SITETITLE = u'prasanna bhogale'
-SITESUBTITLE ='Consulting scientist'# \n
+SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'monokai'
@@ -15,7 +15,9 @@ STATIC_PATHS = ['images', 'pdfs', 'articles', 'tuts','blogs']
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
-DISPLAY_CATEGORIES_ON_MENU = True
+DISPLAY_CATEGORIES_ON_MENU = False
+USE_FOLDER_AS_CATEGORY = False
+ROBOTS = 'index, follow'
 
 TYPOGRIFY = True
 DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
@@ -26,6 +28,8 @@ SLUGIFY_SOURCE = 'title'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 MAIN_MENU = True
 MENUITEMS = (('Archives', '/archives.html'),
+             ('Categories', '/categories.html'),
+             ('Tags', '/tags.html'),
              ('About me', '/pages/about.html'),
              ('Blogs', '/pages/blog.html'),)
 
@@ -33,10 +37,25 @@ SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458
 
 FAVICON = SITEURL + "/images/favicon.png"
 
+JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 #THEME_COLOR = 'red'
 #SIDEBAR_DISPLAY = ['about', 'categories']
 #SIDEBAR_ABOUT = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi quae hic dicta eius ad quam eligendi minima praesentium voluptatum? Quidem quaerat eaque libero velit impedit dicta, repudiandae sapiente. Deserunt, excepturi."
 #DISQUS_SITENAME = 'theclarkeorbit'
+
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.6,
+        'indexes': 0.6,
+        'pages': 0.5,
+    },
+    'changefreqs': {
+        'articles': 'monthly',
+        'indexes': 'daily',
+        'pages': 'monthly',
+    }
+}
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
