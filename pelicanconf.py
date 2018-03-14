@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+LOAD_CONTENT_CACHE = False
 AUTHOR = u'pras'
 SITENAME = u'p. bhogale'
 SITETITLE = u'prasanna bhogale'
