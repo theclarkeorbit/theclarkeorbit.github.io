@@ -16,7 +16,7 @@ TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
-MARKDOWN = ['codehilite(css_class=highlight)','extra']
+
 TYPOGRIFY = True
 DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 PAGINATED_DIRECT_TEMPLATES = ['index']
@@ -26,8 +26,8 @@ SLUGIFY_SOURCE = 'title'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 MAIN_MENU = True
 MENUITEMS = (('Archives', '/archives.html'),
-             ('Categories', '/categories.html'),
-             ('Tags', '/tags.html'),)
+             ('About me', '/pages/about.html'),
+             ('Blogs', '/pages/blog.html'),)
 
 SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 
