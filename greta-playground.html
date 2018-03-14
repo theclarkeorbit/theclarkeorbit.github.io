@@ -17,7 +17,7 @@
 <meta property="og:description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : https://greta-dev.github.io/greta/index.html For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data &lt;- 100 sd_eps &lt;- pi^exp(1) intercept &lt;- -5.0 slope &lt;- pi x &lt;- seq(-10*pi, 10*pi, length.out = length_of_data) y &lt;- intercept + slope*x + rnorm(n = length_of_data …" />
 <meta property="og:site_name" content="p. bhogale" />
 <meta property="og:article:author" content="pras" />
-<meta property="og:article:published_time" content="2018-03-14T12:23:32.964364+01:00" />
+<meta property="og:article:published_time" content="2018-03-14T12:30:42.364918+01:00" />
 <meta name="twitter:title" content="“greta playground” ">
 <meta name="twitter:description" content="This notebook contains one simple worked out example with the new - still in its infancy - PPL in R with a Tensorflow backend : https://greta-dev.github.io/greta/index.html For a more mature PPL in Python also with a tensorflow backend, see Edward. Basic linear regression. We will generate artificial data with known parameters, so that we can check if Greta gets it right later. Generating fake data to fit a model to length_of_data &lt;- 100 sd_eps &lt;- pi^exp(1) intercept &lt;- -5.0 slope &lt;- pi x &lt;- seq(-10*pi, 10*pi, length.out = length_of_data) y &lt;- intercept + slope*x + rnorm(n = length_of_data …">
 
@@ -91,7 +91,7 @@ ggplot<span class="p">(</span>data<span class="p">,</span> aes<span class="p">(<
 </pre></div>
 
 
-<p><img alt="center" src="$(pwd">figures/greta_playground/unnamed-chunk-2-1.png)</p>
+<p><img alt="center" src="$(pwd">/figures/greta_playground/unnamed-chunk-2-1.png)</p>
 <p>Given this data, we want to write Greta code to infer the model parameters. Since we really don&#8217;t know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform&nbsp;priors. </p>
 <h3>Defining clueless priors for model&nbsp;parameters</h3>
 <div class="highlight"><pre><span></span>intercept_p <span class="o">&lt;-</span> uniform<span class="p">(</span><span class="m">-10</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
@@ -122,12 +122,12 @@ param_draws <span class="o">&lt;-</span> mcmc<span class="p">(</span>our_model<s
 </pre></div>
 
 
-<p><img alt="center" src="$(pwd">figures/greta_playground/unnamed-chunk-6-1.png)</p>
+<p><img alt="center" src="$(pwd">/figures/greta_playground/unnamed-chunk-6-1.png)</p>
 <div class="highlight"><pre><span></span>mcmc_intervals<span class="p">(</span>param_draws<span class="p">)</span>
 </pre></div>
 
 
-<p><img alt="center" src="$(pwd">figures/greta_playground/unnamed-chunk-6-2.png)</p>
+<p><img alt="center" src="$(pwd">/figures/greta_playground/unnamed-chunk-6-2.png)</p>
 <p>By inspection, it looks like the <a href="https://arxiv.org/abs/1701.02434"><span class="caps">HMC</span></a> has reached some reasonable values for our model&nbsp;parameters. </p>
 <p>Explicitly, the mean estimates can be computed from the <code>param_draws</code> data structure, or via the <code>greta::opt</code> function.   </p>
 <div class="highlight"><pre><span></span>param_draws_df <span class="o">&lt;-</span> as_data_frame<span class="p">(</span>param_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
@@ -140,7 +140,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -8.42    3.17     24.9
+## 1       -2.32    3.23     22.2
 </pre></div>
 
 
@@ -150,11 +150,12 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -8.784918    3.241806   23.292290
+##    2.503366    3.277133   20.958645
 </pre></div>
 
 
 <h3>Plotting against&nbsp;data</h3>
+<p>the <code>calculate()</code> function is available on the latest release of <code>greta</code> on&nbsp;github.</p>
             
             
             <hr/>
@@ -162,7 +163,7 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
         <section>
         <div class="span2" style="float:right;font-size:0.9em;">
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2018-03-14T12:23:32.964364+01:00">Mar 14, 2018</time>
+            <time pubdate="pubdate" datetime="2018-03-14T12:30:42.364918+01:00">Mar 14, 2018</time>
             <h4>Category</h4>
             <a class="category-link" href="./categories.html#blogs-ref">blogs</a>
 <h4>Contact</h4>

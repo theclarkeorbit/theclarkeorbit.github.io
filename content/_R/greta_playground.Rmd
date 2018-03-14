@@ -90,3 +90,4 @@ opt_params$par %>% print()
 
 ### Plotting against data
 
+the `calculate()` function is available on the latest release of `greta` on github.

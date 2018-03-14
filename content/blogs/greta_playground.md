@@ -36,7 +36,7 @@ ggplot(data, aes(x = x, y = y)) +
 ## `geom_smooth()` using method = 'loess'
 ```
 
-![center]($(pwd)figures/greta_playground/unnamed-chunk-2-1.png)
+![center]($(pwd)/figures/greta_playground/unnamed-chunk-2-1.png)
 
 Given this data, we want to write Greta code to infer the model parameters. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. 
 
@@ -77,13 +77,13 @@ and plot the samples, and the parameter fits.
 mcmc_dens(param_draws)
 ```
 
-![center]($(pwd)figures/greta_playground/unnamed-chunk-6-1.png)
+![center]($(pwd)/figures/greta_playground/unnamed-chunk-6-1.png)
 
 ```r
 mcmc_intervals(param_draws)
 ```
 
-![center]($(pwd)figures/greta_playground/unnamed-chunk-6-2.png)
+![center]($(pwd)/figures/greta_playground/unnamed-chunk-6-2.png)
 
 By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has reached some reasonable values for our model parameters. 
 
@@ -100,7 +100,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -8.42    3.17     24.9
+## 1       -2.32    3.23     22.2
 ```
 
 ```r
@@ -110,8 +110,9 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -8.784918    3.241806   23.292290
+##    2.503366    3.277133   20.958645
 ```
 
 ### Plotting against data
 
+the `calculate()` function is available on the latest release of `greta` on github.
