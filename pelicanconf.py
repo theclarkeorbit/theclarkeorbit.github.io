@@ -76,4 +76,3 @@ DEFAULT_PAGINATION = 10
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
 USE_LESS = True
-LANDING_PAGE_ABOUT = {'title': 'Data science, quantitative biology, consulting scientist.','details': ''}
