@@ -67,136 +67,6 @@ Clearly then, along with the computational graph to define models, a PPL needs a
 A broad overview of Bayesian machine learning is available [here (PDF)](http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf) and [here](http://fastml.com/bayesian-machine-learning/)
 
 
-```r
-rm(list=ls())
-#install.packages(c("webshot", "phantomjs", "DiagrammeRsvg"), repos = "https://cloud.r-project.org")
-library(devtools)
-```
-
-```
-## Warning: package 'devtools' was built under R version 3.4.2
-```
-
-```r
-devtools::install_github("greta-dev/greta")
-```
-
-```
-## Warning in strptime(x, fmt, tz = "GMT"): unknown timezone 'zone/tz/2018c.
-## 1.0/zoneinfo/Europe/Berlin'
-```
-
-```
-## Skipping install of 'greta' from a github remote, the SHA1 (1d8c6f06) has not changed since last install.
-##   Use `force = TRUE` to force installation
-```
-
-```r
-#devtools::install_github("rich-iannone/DiagrammeRsvg")
-library(greta)
-```
-
-```
-## 
-## Attaching package: 'greta'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     binomial, poisson
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     %*%, backsolve, beta, colMeans, colSums, diag, forwardsolve,
-##     gamma, rowMeans, rowSums, sweep
-```
-
-```r
-library(DiagrammeR)
-```
-
-```
-## Warning: package 'DiagrammeR' was built under R version 3.4.3
-```
-
-```
-## 
-## Attaching package: 'DiagrammeR'
-```
-
-```
-## The following object is masked from 'package:devtools':
-## 
-##     add_path
-```
-
-```r
-library(bayesplot)
-```
-
-```
-## Warning: package 'bayesplot' was built under R version 3.4.3
-```
-
-```
-## This is bayesplot version 1.4.0
-```
-
-```
-## - Plotting theme set to bayesplot::theme_default()
-```
-
-```
-## - Online documentation at mc-stan.org/bayesplot
-```
-
-```r
-library(tidyverse)
-```
-
-```
-## Warning: package 'tidyverse' was built under R version 3.4.2
-```
-
-```
-## ── Attaching packages ─────────────────────────────────────────────────── tidyverse 1.2.1 ──
-```
-
-```
-## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.3.0
-```
-
-```
-## Warning: package 'tibble' was built under R version 3.4.3
-```
-
-```
-## Warning: package 'tidyr' was built under R version 3.4.3
-```
-
-```
-## Warning: package 'purrr' was built under R version 3.4.2
-```
-
-```
-## Warning: package 'dplyr' was built under R version 3.4.2
-```
-
-```
-## ── Conflicts ────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-```
-
-```r
-#library(DiagrammeRsvg)
-```
 
 Now, we illustrate some of these points using the simplest possible example, linear regression.
 
@@ -303,7 +173,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -5.13    3.09     21.2
+## 1       -6.13    3.26     19.5
 ```
 
 ```r
@@ -313,7 +183,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -7.130845    2.833067   23.949741
+##   -6.660674    3.377178   21.199392
 ```
 
 ### Bayesian prediction

@@ -66,7 +66,7 @@ Clearly then, along with the computational graph to define models, a PPL needs a
 
 A broad overview of Bayesian machine learning is available [here (PDF)](http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf) and [here](http://fastml.com/bayesian-machine-learning/)
 
-```{r, include=TRUE}
+```{r, include=FALSE}
 rm(list=ls())
 #install.packages(c("webshot", "phantomjs", "DiagrammeRsvg"), repos = "https://cloud.r-project.org")
 library(devtools)
