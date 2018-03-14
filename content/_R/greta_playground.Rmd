@@ -11,6 +11,8 @@ For a more mature PPL in Python also with a tensorflow backend, see [Edward](htt
 
 ```{r, include=FALSE}
 rm(list=ls())
+library(devtools)
+devtools::install_github("greta-dev/greta")
 library(greta)
 library(DiagrammeR)
 library(bayesplot)
@@ -88,4 +90,3 @@ opt_params$par %>% print()
 
 ### Plotting against data
 
-There does not seem to be any built in functionality to `predict` using the fitted parameters in greta as of now. 

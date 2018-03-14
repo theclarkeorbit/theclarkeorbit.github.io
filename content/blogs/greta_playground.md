@@ -100,7 +100,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -6.77    3.06     23.0
+## 1       -8.42    3.17     24.9
 ```
 
 ```r
@@ -110,9 +110,8 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -6.328408    3.139131   23.524752
+##   -8.784918    3.241806   23.292290
 ```
 
 ### Plotting against data
 
-There does not seem to be any built in functionality to `predict` using the fitted parameters in greta as of now. 
