@@ -15,16 +15,16 @@ Much of science - physical and social - is devoted to positing mechanisms that e
 - constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$,  
 - finding (_inferring_) the distribution of parameters $\theta$ or, the most suitable parameters $\theta$ given the observed data
 
-What parameters are "most suitable" is quantified (in a particular sense of the word "suitable" will become clear in the following discussion) by the [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function) that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called [maximum likelihood estimation](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
+What parameters are "most suitable" is indicated (in a particular sense of the word "suitable" will become clear in the following discussion) by the [likelihood function](https://en.wikipedia.org/wiki/Likelihood_function) that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called [maximum likelihood estimation](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation).
 
-Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically) it makes sense to construct general rules and syntax to easily define and quickly infer the parameters of statistical models. This is the field of probabilistic programming. 
+Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically and parameter distributions are even harder to compute) it makes sense to construct general rules and syntax to easily define statistical models and quickly infer their parameters. This is the field of probabilistic programming. 
 
 ## Probabilistic programming
 
 The probabilistic programming language (PPL) has two tasks :  
 
 1. be able to construct a useful class of statistical models  
-2. be able to infer the parameters of this class of models given some observed data.  
+2. be able to infer the parameters (and their distributions) of this class of models given some observed data.  
 
 As has been explained in this [excellent paper introducing the PPL Edward](https://www.reddit.com/r/deeplearning/comments/846wb6/the_paper_that_introduces_the_edward_ppl_by/) that is based on Python and [Tensorflow](https://www.tensorflow.org/), some PPLs restrict the class of models they allow in order to optimize the inference algorithm, while other emphasize expressiveness and sacrifice performance of the inference algorithms. Modern PPLs like [Edward](http://edwardlib.org/), [Pyro](https://eng.uber.com/pyro/), and the R based [Greta](https://greta-dev.github.io/greta/index.html) use the robust infrastructure (hardware and software) that was first developed in the context of deep learning and thus ensure scalability and performance while being expressive. 
 
@@ -42,7 +42,7 @@ Data and parameter tensors are inputs to the computational graph. In the context
 The algorithm that does this is called [back propagation](https://en.wikipedia.org/wiki/Backpropagation).
 Thus, the objective in deep learning or machine learning is to obtain the **best values** (in the sense of that they minimize error on the training set) of the parameters given some data.
 
-The objective of probabilistic modelling is subtly different. The aim here is to obtain the **distribution** (called **posterior distribution**) of parameters, given the data. If we denote the data by $D$, [Bayes theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem) connects (for a particular hypothesis about how the data were generated $H$), the likelihood of the data given some parameters $P(D|\theta,H)$, our prior expectations about how the parameters are distributed $P(\theta)$ and the posterior distribution of the parameters themselves $P(\theta|D,H)$ :
+The objective of probabilistic modelling is subtly different. The aim here is to obtain the **distribution** (called **posterior distribution**) of parameters, given the data. If we denote the data by $D$, [Bayes theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem) relates (for a particular hypothesis about how the data were generated $H$), the likelihood of the data given some parameters $P(D|\theta,H)$, our prior expectations about how the parameters are distributed $P(\theta)$ and the posterior distribution of the parameters themselves $P(\theta|D,H)$ :
 
 $$P(\theta|D,H) = \frac{P(D|\theta,H)P(\theta)}{P(D)}.$$
 
@@ -57,7 +57,7 @@ Prediction in this framework is also fundamentally different from typical machin
 $$P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta,$$
 which consists of the expectation value of the new data point over the whole distribution of parameters given the observed data (the posterior distribution calculated obtained from the solution to the inference problem), instead of a value calculated by plugging in the "learned parameter values" into the machine learning model. 
 
-The integrals needed for inference ($P(D|H) = \int P(D,\theta|H)d\theta$ as well as prediction $P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta$ are over the parameter space which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. [This](https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/) is an excellent overview of modern Hamiltonian Monte Carlo methods while [this](https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&ref_source=link) provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. 
+The integrals needed for inference ($P(D|H) = \int P(D,\theta|H)d\theta$ as well as prediction $P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta$ need to be evaluated over the entire parameter space of the model which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. [This](https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/) is an excellent overview of modern Hamiltonian Monte Carlo methods while [this](https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&ref_source=link) provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. 
 
 Clearly then, along with the computational graph to define models, a PPL needs a good MCMC algorithm (or another inference algorithm) to compute the high dimensional integrals needed to infer as well as perform a prediction on a general probabilistic model. 
 
@@ -102,7 +102,7 @@ Given this data, we want to write Greta code to infer the posterior distribution
 
 ### Defining clueless priors for model parameters
 
-These are the parameters of the model. In this case, they are simple but in principle they can be arbitrary tensors. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. 
+In this case, the parameters of our model are simple, but in principle, they can be arbitrary tensors. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. 
 
 ```{r}
 intercept_p <- uniform(-10, 10)
@@ -149,7 +149,7 @@ mcmc_dens(param_draws)
 mcmc_intervals(param_draws)
 ```
 
-By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has reached some reasonable values for our model parameters. 
+By inspection, it looks like the [HMC](https://arxiv.org/abs/1701.02434) has found reasonable values for our model parameters and their posterior distributions. 
 
 #### Most probable parameters
 
@@ -166,7 +166,7 @@ opt_params$par %>% print()
 
 ### Bayesian prediction
 
-Bayesian prediction is implemented via the `calculate()` function available in the latest release of `greta` on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see section on Bayesian prediction earlier). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse it. 
+Bayesian prediction is implemented via the `calculate()` function available in the latest release of `greta` on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see previous section). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse it. 
 
 ```{r}
 mean_y_plot <- intercept_p+slope_p*x
