@@ -32,22 +32,24 @@ As has been explained in this [excellent paper introducing the PPL Edward](https
 
 The fundamental data structure of this group of languages is the [tensor](https://en.wikipedia.org/wiki/Tensor) which is just a multidimensional array. Data, model parameters, samples from distributions are all stored in tensors. All the manipulations that go into the construction of the output tensor constitute the computational graph (see [this](http://colah.github.io/posts/2015-08-Backprop/) for an exceptionally clear exposition of the concept) associated with that tensor.  
 
-Data and parameter tensors are inputs to the computational graph. In the context of deep learning, "training" consists of the following steps :
+Data and parameter tensors are inputs to the computational graph. In the context of deep learning, "training" consists of the following steps :  
+
 1. Randomly initializing the parameter tensors  
 2. Computing the output  
 3. Measuring the error compared to the real/desired output  
 4. Tweaking the parameter tensors to reduce the error.  
-The algorithm that does this is called [back propagation](https://en.wikipedia.org/wiki/Backpropagation).
-Thus, the objective in deep learning or machine learning is to obtain the **best values** of the parameters given some data.
 
-The objective of probabilistic modelling is subtly different. The objective here is to obtain the **distribution** (called **posterior distribution**) of parameters given the data. If we denote the data by $D$, [Bayes theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem) connects (for a particular hypothesis about how the data were generated $H$), the likelihood of the data given some parameters $P(D|\theta,H)$, our prior expectations about how the parameters are distributed $P(\theta)$ and the posterior distribution of the parameters themselves $P(\theta|D,H)$ :
+The algorithm that does this is called [back propagation](https://en.wikipedia.org/wiki/Backpropagation).
+Thus, the objective in deep learning or machine learning is to obtain the **best values** (in the sense of that they minimize error on the training set) of the parameters given some data.
+
+The objective of probabilistic modelling is subtly different. The aim here is to obtain the **distribution** (called **posterior distribution**) of parameters, given the data. If we denote the data by $D$, [Bayes theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem) connects (for a particular hypothesis about how the data were generated $H$), the likelihood of the data given some parameters $P(D|\theta,H)$, our prior expectations about how the parameters are distributed $P(\theta)$ and the posterior distribution of the parameters themselves $P(\theta|D,H)$ :
 
 $$P(\theta|D,H) = \frac{P(D|\theta,H)P(\theta)}{P(D)}.$$
 
-The priors $P(\theta)$ do not depend on the data and encode "domain knowledge" while and the probability of the data set $P(D)$ is (typically) a high dimensional integral given by
+The priors $P(\theta)$ do not depend on the data and encode "domain knowledge" while the probability of the data set $P(D)$ over the whole parameter space is (typically) a high dimensional integral given by
 $$P(D|H) = \int P(D,\theta|H)d\theta.$$
 
-Intuitively, we want to compute the most likely parameters given the data, i.e. we want to maximize $P(\theta|D,H)$. While maximizing the likelihood can give us the estimates of the "most likely parameters" (in the limit of infinite data), computing the full distribution $P(\theta|D,H)$ involves the computation of the difficult integral for $P(D|H)$.
+Intuitively, we can see that the most likely parameters given the data, i.e. the parameters $\theta$ which maximize $P(\theta|D,H)$ ought to correspond to the sense of "best" or "most suitable" described above. From Bayes theorem, it is clear that the posterior distribution is directly proportional to the likelihood $P(\theta|D,H) \propto P(D|\theta,H)$. Thus, maximizing likelihood is one way to get estimates of the "most likely parameters" (in the limit of infinite data), but computing the full distribution $P(\theta|D,H)$ involves dealing with the difficult integral for $P(D|H)$.
 
 ### Bayesian prediction and MCMC
 
@@ -55,7 +57,7 @@ Prediction in this framework is also fundamentally different from typical machin
 $$P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta,$$
 which consists of the expectation value of the new data point over the whole distribution of parameters given the observed data (the posterior distribution calculated obtained from the solution to the inference problem), instead of a value calculated by plugging in the "learned parameter values" into the machine learning model. 
 
-The integrals needed for inference ($P(D|H) = \int P(D,\theta|H)d\theta$ as well as prediction $P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta$ are over the parameter space which can be very high dimensional. This, Markov Chain Monte Carlo methods are used to approximate these integrals. [This](https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/) is an excellent overview of modern Hamiltonian Monte Carlo methods while [this](https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&ref_source=link) provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. 
+The integrals needed for inference ($P(D|H) = \int P(D,\theta|H)d\theta$ as well as prediction $P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta$ are over the parameter space which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. [This](https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/) is an excellent overview of modern Hamiltonian Monte Carlo methods while [this](https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&ref_source=link) provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. 
 
 Clearly then, along with the computational graph to define models, a PPL needs a good MCMC algorithm (or another inference algorithm) to compute the high dimensional integrals needed to infer as well as perform a prediction on a general probabilistic model. 
 
@@ -168,7 +170,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -4.50    3.03     22.8
+## 1       -4.00    3.26     22.3
 ```
 
 ```r
@@ -178,7 +180,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -3.444417    3.114846   23.655182
+##   -1.922561    3.313149   22.771709
 ```
 
 ### Bayesian prediction

@@ -39,7 +39,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-14 23:37:17.384514+01:00"/>
+<meta property="article:published_time" content="2018-03-15 00:10:50.504499+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -88,7 +88,7 @@
   <header>
     <h1 id="greta-playground">"greta playground"</h1>
     <p>
-          Posted on Wed 14 March 2018 in <a href="./category/blogs.html">blogs</a>
+          Posted on Thu 15 March 2018 in <a href="./category/blogs.html">blogs</a>
 
 
     </p>
@@ -113,26 +113,28 @@
 <p>As has been explained in this <a href="https://www.reddit.com/r/deeplearning/comments/846wb6/the_paper_that_introduces_the_edward_ppl_by/">excellent paper introducing the PPL Edward</a> that is based on Python and <a href="https://www.tensorflow.org/">Tensorflow</a>, some PPLs restrict the class of models they allow in order to optimize the inference algorithm, while other emphasize expressiveness and sacrifice performance of the inference algorithms. Modern PPLs like <a href="http://edwardlib.org/">Edward</a>, <a href="https://eng.uber.com/pyro/">Pyro</a>, and the R based <a href="https://greta-dev.github.io/greta/index.html">Greta</a> use the robust infrastructure (hardware and software) that was first developed in the context of deep learning and thus ensure scalability and performance while being expressive. </p>
 <h3>The tensor and the computational graph</h3>
 <p>The fundamental data structure of this group of languages is the <a href="https://en.wikipedia.org/wiki/Tensor">tensor</a> which is just a multidimensional array. Data, model parameters, samples from distributions are all stored in tensors. All the manipulations that go into the construction of the output tensor constitute the computational graph (see <a href="http://colah.github.io/posts/2015-08-Backprop/">this</a> for an exceptionally clear exposition of the concept) associated with that tensor.  </p>
-<p>Data and parameter tensors are inputs to the computational graph. In the context of deep learning, "training" consists of the following steps :
-1. Randomly initializing the parameter tensors<br>
-2. Computing the output<br>
-3. Measuring the error compared to the real/desired output<br>
-4. Tweaking the parameter tensors to reduce the error.<br>
-The algorithm that does this is called <a href="https://en.wikipedia.org/wiki/Backpropagation">back propagation</a>.
-Thus, the objective in deep learning or machine learning is to obtain the <strong>best values</strong> of the parameters given some data.</p>
-<p>The objective of probabilistic modelling is subtly different. The objective here is to obtain the <strong>distribution</strong> (called <strong>posterior distribution</strong>) of parameters given the data. If we denote the data by <span class="math">\(D\)</span>, <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes theorem</a> connects (for a particular hypothesis about how the data were generated <span class="math">\(H\)</span>), the likelihood of the data given some parameters <span class="math">\(P(D|\theta,H)\)</span>, our prior expectations about how the parameters are distributed <span class="math">\(P(\theta)\)</span> and the posterior distribution of the parameters themselves <span class="math">\(P(\theta|D,H)\)</span> :</p>
+<p>Data and parameter tensors are inputs to the computational graph. In the context of deep learning, "training" consists of the following steps :  </p>
+<ol>
+<li>Randomly initializing the parameter tensors  </li>
+<li>Computing the output  </li>
+<li>Measuring the error compared to the real/desired output  </li>
+<li>Tweaking the parameter tensors to reduce the error.  </li>
+</ol>
+<p>The algorithm that does this is called <a href="https://en.wikipedia.org/wiki/Backpropagation">back propagation</a>.
+Thus, the objective in deep learning or machine learning is to obtain the <strong>best values</strong> (in the sense of that they minimize error on the training set) of the parameters given some data.</p>
+<p>The objective of probabilistic modelling is subtly different. The aim here is to obtain the <strong>distribution</strong> (called <strong>posterior distribution</strong>) of parameters, given the data. If we denote the data by <span class="math">\(D\)</span>, <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes theorem</a> connects (for a particular hypothesis about how the data were generated <span class="math">\(H\)</span>), the likelihood of the data given some parameters <span class="math">\(P(D|\theta,H)\)</span>, our prior expectations about how the parameters are distributed <span class="math">\(P(\theta)\)</span> and the posterior distribution of the parameters themselves <span class="math">\(P(\theta|D,H)\)</span> :</p>
 <div class="math">$$P(\theta|D,H) = \frac{P(D|\theta,H)P(\theta)}{P(D)}.$$</div>
-<p>The priors <span class="math">\(P(\theta)\)</span> do not depend on the data and encode "domain knowledge" while and the probability of the data set <span class="math">\(P(D)\)</span> is (typically) a high dimensional integral given by
+<p>The priors <span class="math">\(P(\theta)\)</span> do not depend on the data and encode "domain knowledge" while the probability of the data set <span class="math">\(P(D)\)</span> over the whole parameter space is (typically) a high dimensional integral given by
 </p>
 <div class="math">$$P(D|H) = \int P(D,\theta|H)d\theta.$$</div>
-<p>Intuitively, we want to compute the most likely parameters given the data, i.e. we want to maximize <span class="math">\(P(\theta|D,H)\)</span>. While maximizing the likelihood can give us the estimates of the "most likely parameters" (in the limit of infinite data), computing the full distribution <span class="math">\(P(\theta|D,H)\)</span> involves the computation of the difficult integral for <span class="math">\(P(D|H)\)</span>.</p>
+<p>Intuitively, we can see that the most likely parameters given the data, i.e. the parameters <span class="math">\(\theta\)</span> which maximize <span class="math">\(P(\theta|D,H)\)</span> ought to correspond to the sense of "best" or "most suitable" described above. From Bayes theorem, it is clear that the posterior distribution is directly proportional to the likelihood <span class="math">\(P(\theta|D,H) \propto P(D|\theta,H)\)</span>. Thus, maximizing likelihood is one way to get estimates of the "most likely parameters" (in the limit of infinite data), but computing the full distribution <span class="math">\(P(\theta|D,H)\)</span> involves dealing with the difficult integral for <span class="math">\(P(D|H)\)</span>.</p>
 <h3>Bayesian prediction and MCMC</h3>
 <p>Prediction in this framework is also fundamentally different from typical machine learning model. The probability of a new data point <span class="math">\(d\)</span>,
 </p>
 <div class="math">$$P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta,$$</div>
 <p>
 which consists of the expectation value of the new data point over the whole distribution of parameters given the observed data (the posterior distribution calculated obtained from the solution to the inference problem), instead of a value calculated by plugging in the "learned parameter values" into the machine learning model. </p>
-<p>The integrals needed for inference (<span class="math">\(P(D|H) = \int P(D,\theta|H)d\theta\)</span> as well as prediction <span class="math">\(P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta\)</span> are over the parameter space which can be very high dimensional. This, Markov Chain Monte Carlo methods are used to approximate these integrals. <a href="https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/">This</a> is an excellent overview of modern Hamiltonian Monte Carlo methods while <a href="https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&amp;ref_source=link">this</a> provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. </p>
+<p>The integrals needed for inference (<span class="math">\(P(D|H) = \int P(D,\theta|H)d\theta\)</span> as well as prediction <span class="math">\(P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta\)</span> are over the parameter space which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. <a href="https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/">This</a> is an excellent overview of modern Hamiltonian Monte Carlo methods while <a href="https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&amp;ref_source=link">this</a> provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. </p>
 <p>Clearly then, along with the computational graph to define models, a PPL needs a good MCMC algorithm (or another inference algorithm) to compute the high dimensional integrals needed to infer as well as perform a prediction on a general probabilistic model. </p>
 <p>A broad overview of Bayesian machine learning is available <a href="http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf">here (PDF)</a> and <a href="http://fastml.com/bayesian-machine-learning/">here</a></p>
 <p>Now, we illustrate some of these points using the simplest possible example, linear regression.</p>
@@ -213,7 +215,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -4.50    3.03     22.8
+## 1       -4.00    3.26     22.3
 </pre></div>
 
 
@@ -223,7 +225,7 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -3.444417    3.114846   23.655182
+##   -1.922561    3.313149   22.771709
 </pre></div>
 
 
