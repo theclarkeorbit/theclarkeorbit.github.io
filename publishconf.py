@@ -9,7 +9,7 @@ import os
 import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
-SITEURL = 'theclarkeorbit.github.io'
+SITEURL = 'https://theclarkeorbit.github.io/'
 
 RELATIVE_URLS = True
 
