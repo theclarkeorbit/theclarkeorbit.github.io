@@ -7,7 +7,7 @@
     <link rel="stylesheet/less" type="text/css" href="./theme/stylesheet/style.less">
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
 
-  <link rel="stylesheet" type="text/css" href="./theme/pygments/algol_nu.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/monokai.min.css">
   <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
 
 
@@ -39,7 +39,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-17 23:39:21.557328+01:00"/>
+<meta property="article:published_time" content="2018-03-17 23:57:28.977320+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -216,7 +216,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -4.88    2.99     23.9
+## 1       -4.83    3.11     21.3
 </pre></div>
 
 
@@ -226,7 +226,7 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -4.446754    3.036831   21.461777
+##   -5.573868    3.157313   23.098570
 </pre></div>
 
 
@@ -237,14 +237,10 @@ mean_y_plot_draws <span class="o">&lt;-</span> calculate<span class="p">(</span>
 mean_y_est <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>mean_y_plot_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
 data_pred <span class="o">&lt;-</span> data <span class="o">%&gt;%</span> mutate<span class="p">(</span>y_fit <span class="o">=</span> mean_y_est<span class="p">)</span>
 ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">+</span>
-  geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;simulated dependent variable&quot;</span><span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;estimated expectation value&#39;</span><span class="p">)</span> <span class="o">+</span>
+  geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">,</span>colour <span class="o">=</span> <span class="s">&quot;simulated dependent variable&quot;</span><span class="p">))</span> <span class="o">+</span>
+  geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">,</span> colour <span class="o">=</span> <span class="s">&quot;estimated expectation value&quot;</span><span class="p">))</span> <span class="o">+</span>
   ggtitle<span class="p">(</span><span class="s">&quot;Fitted model&quot;</span><span class="p">)</span> <span class="o">+</span>
   ggthemes<span class="o">::</span>theme_economist<span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Error in grDevices::col2rgb(colour, TRUE): invalid color name &#39;simulated dependent variable&#39;
 </pre></div>
 
 

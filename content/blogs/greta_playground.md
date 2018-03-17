@@ -171,7 +171,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -4.88    2.99     23.9
+## 1       -4.83    3.11     21.3
 ```
 
 ```r
@@ -181,7 +181,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -4.446754    3.036831   21.461777
+##   -5.573868    3.157313   23.098570
 ```
 
 ### Bayesian prediction
@@ -195,14 +195,10 @@ mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
 mean_y_est <- colMeans(mean_y_plot_draws[[1]])
 data_pred <- data %>% mutate(y_fit = mean_y_est)
 ggplot(data_pred) +
-  geom_point(aes(x,y), colour = "simulated dependent variable") +
-  geom_line(aes(x,y_fit), colour = 'estimated expectation value') +
+  geom_point(aes(x,y,colour = "simulated dependent variable")) +
+  geom_line(aes(x,y_fit, colour = "estimated expectation value")) +
   ggtitle("Fitted model") +
   ggthemes::theme_economist()
-```
-
-```
-## Error in grDevices::col2rgb(colour, TRUE): invalid color name 'simulated dependent variable'
 ```
 
 ![center](/figures/greta_playground/unnamed-chunk-9-1.png)

@@ -175,8 +175,8 @@ mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
 mean_y_est <- colMeans(mean_y_plot_draws[[1]])
 data_pred <- data %>% mutate(y_fit = mean_y_est)
 ggplot(data_pred) +
-  geom_point(aes(x,y), colour = "simulated dependent variable") +
-  geom_line(aes(x,y_fit), colour = 'estimated expectation value') +
+  geom_point(aes(x,y,colour = "simulated dependent variable")) +
+  geom_line(aes(x,y_fit, colour = "estimated expectation value")) +
   ggtitle("Fitted model") +
   ggthemes::theme_economist()
 ```

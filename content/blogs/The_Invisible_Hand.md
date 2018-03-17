@@ -29,36 +29,40 @@ While real markets resemble ideal, efficient markets in many ways (correlations 
 
 We will use the `Quandl` package (see the [website](https://www.quandl.com/tools/full-list) for details) to download recent oil prices and analyze them a little bit. This will serve as a short introduction to uni-variate time series analysis in R. See [this](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm) useful resource from the NIST for a simple overview of the theory. 
 
-```{r, include=FALSE, echo=FALSE}
-library(tidyverse)
-library(Quandl)
-library(vars)
-library(ggthemes)
-library(MASS)
-library(glue)
-library(forecast)
-library(prophet)
-Quandl.api_key("Sb7--XhjyXGWtxxc2XY2")
-```
 
-```{r}
-oil_prices <- Quandl("OPEC/ORB", type = "raw", transform = "normalize", collapse = "daily", force_irregular = TRUE, start_date="2001-01-01") %>% as_data_frame() %>% transmute(date = Date, price_of_oil = Value) %>% arrange(date)
+
+
+```r
+oil_prices <- Quandl("OPEC/ORB", type = "raw", 
+                     transform = "normalize", 
+                     collapse = "daily", 
+                     force_irregular = TRUE, 
+                     start_date="2001-01-01") %>% 
+  as_data_frame() %>% 
+  transmute(date = Date, price_of_oil = Value) %>% 
+  arrange(date)
 ```
 
 The `transform = "normalize"` option sets the first value in the time series to 100 and scales all the other values accordingly. Let us take a look at oil prices over the last 18 years, scaled to the price on the 1st of January 2001.
 
-```{r}
+
+```r
 ggplot(data = oil_prices) +
   geom_line(aes(x = date, y = price_of_oil)) +
   geom_vline(xintercept = as.Date("2008-07-11"), colour = "#7379d6") +
-  annotate(geom = "text", label = "Financial crash of 2008", x = as.Date("2006-6-11"), y = 480,
+  annotate(geom = "text", 
+           label = "Financial crash of 2008", 
+           x = as.Date("2006-6-11"), y = 480,
            colour = "#7379d6") +
   geom_vline(xintercept = as.Date("2014-10-11"), colour = "#7379d6") +
-  annotate(geom = "text", label = "Overproduction", x = as.Date("2016-4-11"), y = 480, 
+  annotate(geom = "text", label = "Overproduction", 
+           x = as.Date("2016-4-11"), y = 480, 
            colour = "#7379d6") +
   ggthemes::theme_economist() +
   ggtitle("Normalized oil prices since 2001-01-01")
 ```
+
+![center](/figures/The_Invisible_Hand/unnamed-chunk-3-1.png)
 
 In this data, there are two major crashes the first corresponding to the financial crisis of 2008 ([NYT comment on oil prices around this time](http://www.nytimes.com/2008/11/12/business/worldbusiness/12oil.html)) which led to lower demand, while the oil price crash of 2014-15 seems to be linked to over production as oil producers competed for market share despite production ramp-ups in North America with [fracking in the USA](https://www.forbes.com/sites/uhenergy/2017/09/05/how-american-fracking-ran-opecs-oil-recovery-off-the-rails/#11ee9db1ec26) and [oil sands in Canada](https://oilprice.com/Energy/Energy-General/What-Does-The-Future-Hold-For-Canadas-Oil-Sands.html). 
 
@@ -75,36 +79,51 @@ We can measure the influence of the past on the present value of a time series v
 The autocorrelation is just the normalized autocovariance function. Given observations $y_t$ for $t\in \{1..N\}$, the autocorrelation for lag $k$ is given by,
 $$\rho_y(k) = \frac{\gamma(t,t-k)}{\gamma(t,t)} = \frac{\sum_{t=1+k}^N (y_{t-k}-\mu_{t-k})(y_t-\mu_t)}{\sum_{t=1}^N (y_t-\mu_t)^2}$$
 and stationarity would imply $\mu_{t-k}=\mu_t \text{  }\forall (t,k)$. The ACF computes this number for various values of $k$. In practice, we use the (slightly more complicated) [partial autocorrelation function](https://en.wikipedia.org/wiki/Partial_autocorrelation_function) that computes the correlation of a time series with a lagged version of itself like the ACF, but also controls for the influence of all shorter lags. In other words, for a lag of say, 2 days, it computes how much the price day before yesterday is correlated with the price today (over the whole time series) over and above the correlation induced by the price yesterday (which is correlated to today's as well as day before yesterday's price). This gives a "decoupled" version of the influence of various time points in the past on the present.  
-```{r, warning=FALSE}
+
+```r
 oil_price_returns <- data_frame(date = oil_prices$date[2:nrow(oil_prices)], 
                                 returns = diff(oil_prices$price_of_oil), 
                                 log_returns = diff(log(oil_prices$price_of_oil)))
 
 ggplot(oil_price_returns) +
-  geom_line(aes(x = date, y = log_returns, colour = "logarithmic returns")) +
+  geom_line(aes(x = date, y = log_returns, 
+                colour = "logarithmic returns")) +
   ggtitle("Time series of logarithmic returns") +
   ggthemes::theme_economist() +
-  geom_vline(xintercept = as.Date("2008-07-11"), colour = "#7379d6") +
-  annotate(geom = "text", label = "Financial crash of 2008", x = as.Date("2006-6-11"), y = 0.15,
+  geom_vline(xintercept = as.Date("2008-07-11"), 
+             colour = "#7379d6") +
+  annotate(geom = "text", label = "Financial crash of 2008", 
+           x = as.Date("2006-6-11"), y = 0.15,
            colour = "#7379d6") +
   geom_vline(xintercept = as.Date("2014-10-11"), colour = "#7379d6") +
-  annotate(geom = "text", label = "Overproduction", x = as.Date("2016-4-11"), y = 0.15, 
+  annotate(geom = "text", label = "Overproduction", 
+           x = as.Date("2016-4-11"), y = 0.15, 
            colour = "#7379d6")
+```
 
-temp_acf_log_returns <- pacf(oil_price_returns$log_returns, lag.max = 8, plot = FALSE)
-acf_df <- data_frame(log_returns_acf = temp_acf_log_returns$acf[, ,1], lag = temp_acf_log_returns$lag[, ,1])
+![center](/figures/The_Invisible_Hand/unnamed-chunk-4-1.png)
+
+```r
+temp_acf_log_returns <- pacf(oil_price_returns$log_returns, 
+                             lag.max = 8, plot = FALSE)
+acf_df <- data_frame(log_returns_acf = temp_acf_log_returns$acf[, ,1], 
+                     lag = temp_acf_log_returns$lag[, ,1])
 ggplot(data = acf_df) +
   geom_point(aes(x = lag, y = log_returns_acf)) +
-  geom_segment(aes(x = lag, y = log_returns_acf, xend = lag, yend = 0)) +
+  geom_segment(aes(x = lag, y = log_returns_acf, 
+                   xend = lag, yend = 0)) +
   geom_hline(aes(yintercept = 0)) +
   ggtitle("Partial autocorrelation function for the logarithmic returns") +
   ggthemes::theme_economist()
 ```
+
+![center](/figures/The_Invisible_Hand/unnamed-chunk-4-2.png)
 In general then, the price of oil today is correlated with the price of oil yesterday, but, it would seem, has basically nothing to do with the price of oil the day before. 
 
 While this is true of the whole time series, we could also compute this for windows of 365 days each (short windows lead to noisy estimates of the ACF coefficients), to see if there are periods of high long-range (multiple day) correlations. 
 
-```{r, warning=FALSE}
+
+```r
 acf_noplot <- function(vector){
     return(pacf(vector, lag.max = 8, pl = FALSE))
 }
@@ -128,20 +147,37 @@ acf_values <- windowed_acf_df %>%
 
 acf_values %>% head()
 ```
+
+```
+## # A tibble: 6 x 2
+##   key      value
+##   <chr>    <dbl>
+## 1 V1     0.245  
+## 2 V2    -0.0536 
+## 3 V3     0.0213 
+## 4 V4     0.00316
+## 5 V5     0.0104 
+## 6 V6    -0.0128
+```
 We can see that while evaluating ACFs on smaller samples via a moving window and taking the mean is not _quite_ the same as taking the ACF on the whole series, the pattern is not different, i.e., the correlation is washed out after the second day.
 
 Now, we can plot the 2nd, 3rd and 4th terms of the ACF function to see if there are periods of higher and lower correlations in the oil prices.
 
-```{r}
+
+```r
 ggplot(windowed_acf_df) +
   geom_line(aes(x = date, y = V1, colour = "Lag 1")) +
   geom_line(aes(x = date, y = V2, colour = "Lag 2")) +
   geom_line(aes(x = date, y = V3, colour = "Lag 3")) +
-  geom_vline(xintercept = as.Date("2008-07-11"), colour = "#7379d6") +
-  annotate(geom = "text", label = "Financial crash of 2008", x = as.Date("2006-6-11"), y = 0.5,
+  geom_vline(xintercept = as.Date("2008-07-11"), 
+             colour = "#7379d6") +
+  annotate(geom = "text", label = "Financial crash of 2008", 
+           x = as.Date("2006-6-11"), y = 0.5,
            colour = "#7379d6") +
-  geom_vline(xintercept = as.Date("2014-10-11"), colour = "#7379d6") +
-  annotate(geom = "text", label = "Overproduction", x = as.Date("2016-4-11"), y = 0.5, 
+  geom_vline(xintercept = as.Date("2014-10-11"), 
+             colour = "#7379d6") +
+  annotate(geom = "text", label = "Overproduction", 
+           x = as.Date("2016-4-11"), y = 0.5, 
            colour = "#7379d6") +
   geom_line(aes(x = oil_prices$date[window_width:(nrow(oil_prices)-1)],
                 y = oil_prices$price_of_oil[window_width:(nrow(oil_prices)-1)]/1000,
@@ -150,6 +186,8 @@ ggplot(windowed_acf_df) +
   ggtitle("Evolution of correlations with different lags") +
   ylab("correlation")
 ```
+
+![center](/figures/The_Invisible_Hand/unnamed-chunk-6-1.png)
 It is clear by inspection that both crashes correspond to increasing correlation (of log-returns) across all three lag terms plotted. That is, while the oil price was crashing, autocorrelations (of log-returns) with lags of 1, 2, 3 days were all increasing. autocorrelations peaked when the oil price reached rock bottom and relaxed again as the price recovery started. 
 
 The time series of log-returns on oil prices is clearly not stationary (and nor are oil prices themselves, needless to say). So, what is a good way to forecast oil prices ?
@@ -166,7 +204,8 @@ To be able to forecast non-stationary processes, $ARMA(p,q)$ models have been ge
 
 So far, we have seen schemes add successive levels of complexity to model the value of a time series, but none of these attempt to model the changes over time of the noise terms. So far, these schemes have been assumed to be constant. The [autoregressive conditional heteroskedasticity](https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity) $ARCH(q)$ and it's cousin the generalized autoregressive conditional heteroskedasticity $GARCH(p,q)$ do model the evolution of the noise term over time. In particular, $ARCH(q)$ models assume an autoregression of order $q$, an $AR(q)$ model for the variance of the noise term, while $GARCH(p,q)$ models assume an $ARIMA(p,q)$ model for the variance of the noise term. Thus, one might use a $ARIMA(p,d,q)$ process to model the price of oil, and a $GARCH(r,s)$ process to model its [volatility](https://www.reuters.com/article/us-usa-stocks-weekahead/stock-volatility-back-with-a-bang-and-here-to-stay-idUSKCN1G02AP) (the variance of the noise term !). 
 Now, we will attempt to forecast oil prices using a $ARIMA(2,2,2)$ process. We will fit the process to data until 2018-01-01, and calculate the RMS error on log-returns data post 2015-01-01. 
-```{r, warning=FALSE}
+
+```r
 test_date <- "2017-05-01"
 train <- oil_prices$price_of_oil[oil_prices$date<=as.Date(test_date)]
 test <- oil_prices$price_of_oil[oil_prices$date>as.Date(test_date)]
@@ -183,13 +222,17 @@ ggplot(test_df) +
   geom_line(aes(x = date, y = arima_prediction, colour = "arima pred")) +
   geom_errorbar(aes(x = date, 
                     ymin = arima_prediction-arima_error, 
-                    ymax = arima_prediction+arima_error, colour = "arima pred"), alpha = 0.07) +
-  geom_line(aes(x = date, y = price_of_oil, colour = "price of oil")) +
+                    ymax = arima_prediction+arima_error, 
+                    colour = "arima pred"), alpha = 0.07) +
+  geom_line(aes(x = date, y = price_of_oil, 
+                colour = "price of oil")) +
   ggthemes::theme_economist() +
   xlim(as.Date("2015-08-01"), as.Date("2018-03-25")) +
   ylim(20,350) +
   ggtitle("Arima predictions")
 ```
+
+![center](/figures/The_Invisible_Hand/unnamed-chunk-7-1.png)
 
 Clearly, not a great forecast even during a period without extreme price movements. We will round off our little discussion of univariate financial time series with a small section on how returns are distributed.
 
@@ -201,19 +244,30 @@ With all the talk around random walks on wall street, and with Gaussian distribu
 However, these conditions are not always fulfilled. We have already seen that each step (the returns) in the random walk (of the price) is not always independent of the others (see the autocorrelations in the returns discussed above), and even worse, the returns may or may not have a distribution that is nice and has a finite variance. 
 
 Let us take a look at the distribution of scaled logarithmic returns of oil prices as compared to the normal (Gaussian) distribution via [quantile-quantile plots](http://data.library.virginia.edu/understanding-q-q-plots/).
-```{r, warning=FALSE}
+
+```r
 ggplot(oil_price_returns) +
     geom_qq(aes(sample = scale(log_returns), colour = "log-returns"), 
             distribution = stats::qnorm) +
     ggtitle("Quantile-quantile plot of log-returns against normal distribution") +
     ggthemes::theme_economist()
 ```
+
+![center](/figures/The_Invisible_Hand/unnamed-chunk-8-1.png)
 Clearly, both returns and logarithmic returns take large positive and negative values far more frequently than they would if they indeed followed a Gaussian distribution. This tells us that the distributions of returns (and log-returns) of oil prices have [fatter tails](http://nassimtaleb.org/tag/fat-tails/). 
 
 We can try to fit these to a distribution with a fatter tail, like the Cauchy distribution, and plot the densities on a semi-log plot so that we see the tails better.
-```{r, warning=FALSE}
+
+```r
 cauchy_fit <- fitdistr(scale(oil_price_returns$returns), densfun = "cauchy")
 glue("Location parameter is {cauchy_fit$estimate[1]} and the scale parameter is {cauchy_fit$estimate[2]}")
+```
+
+```
+## Location parameter is 0.0345920376641853 and the scale parameter is 0.497741411484468
+```
+
+```r
 ggplot(oil_price_returns) +
   geom_point(aes(x = scale(oil_price_returns$log_returns), 
                  colour = "log returns", y = ..density..), stat = "bin") +
@@ -229,6 +283,12 @@ ggplot(oil_price_returns) +
   ggthemes::theme_economist() +
   xlab("Scaled logarithmic returns")
 ```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![center](/figures/The_Invisible_Hand/unnamed-chunk-9-1.png)
 We see that the distribution of logarithmic returns has fatter tails than the Gaussian, but is not quite as fat tailed as the Cauchy distribution.
 
-The central limit theorem is only one of a class of limit theorems that in the space of probability distributions. When assumptions about independence and existence of second moments that lead to the CLT, we should examine other limit distributions that may lead to behavior that is qualitatively different from that of a pleasant Gaussian random walk. But, that is a story for a later blog post. 
+The central limit theorem is only one of a class of limit theorems that in the space of probability distributions. When assumptions about independence and existence of second moments that lead to the CLT, we should examine other limit distributions that may lead to behavior that is qualitatively different from that of a pleasant Gaussian random walk. But, that is a story for a later blog post :)
