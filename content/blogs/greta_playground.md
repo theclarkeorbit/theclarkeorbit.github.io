@@ -82,10 +82,11 @@ slope <- pi
 x <- seq(-10*pi, 10*pi, length.out = length_of_data)
 y <- intercept + slope*x + rnorm(n = length_of_data, mean = 0, sd = sd_eps)
 data <- data_frame(y = y, x = x)
-ggplot(data, aes(x = x, y = y)) +
+ggplot(data, aes(x = x, y = y, colour = "simulated dependent variable")) +
   geom_point() +
   geom_smooth(method = 'lm') +
-  ggtitle("Fake experimental data")
+  ggtitle("Fake experimental data") +
+  ggthemes::theme_economist()
 ```
 
 ![center](/figures/greta_playground/unnamed-chunk-2-1.png)
@@ -170,7 +171,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -3.18    3.12     25.5
+## 1       -4.88    2.99     23.9
 ```
 
 ```r
@@ -180,7 +181,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -1.728549    3.229664   24.880930
+##   -4.446754    3.036831   21.461777
 ```
 
 ### Bayesian prediction
@@ -194,9 +195,14 @@ mean_y_plot_draws <- calculate(mean_y_plot, param_draws)
 mean_y_est <- colMeans(mean_y_plot_draws[[1]])
 data_pred <- data %>% mutate(y_fit = mean_y_est)
 ggplot(data_pred) +
-    geom_point(aes(x,y), colour = "blue") +
-    geom_line(aes(x,y_fit), colour = 'red') +
-    ggtitle("Fitted model")
+  geom_point(aes(x,y), colour = "simulated dependent variable") +
+  geom_line(aes(x,y_fit), colour = 'estimated expectation value') +
+  ggtitle("Fitted model") +
+  ggthemes::theme_economist()
+```
+
+```
+## Error in grDevices::col2rgb(colour, TRUE): invalid color name 'simulated dependent variable'
 ```
 
 ![center](/figures/greta_playground/unnamed-chunk-9-1.png)

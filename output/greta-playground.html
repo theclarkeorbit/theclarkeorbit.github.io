@@ -39,7 +39,7 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./greta-playground.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-15 06:41:33.232055+01:00"/>
+<meta property="article:published_time" content="2018-03-17 23:39:21.557328+01:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/pras.html">
 <meta property="article:section" content="blogs"/>
@@ -88,7 +88,7 @@
   <header>
     <h1 id="greta-playground">"greta playground"</h1>
     <p>
-          Posted on Thu 15 March 2018 in <a href="./category/blogs.html">blogs</a>
+          Posted on Sat 17 March 2018 in <a href="./category/blogs.html">blogs</a>
 
 
     </p>
@@ -148,10 +148,11 @@ slope <span class="o">&lt;-</span> <span class="kc">pi</span>
 x <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-10</span><span class="o">*</span><span class="kc">pi</span><span class="p">,</span> <span class="m">10</span><span class="o">*</span><span class="kc">pi</span><span class="p">,</span> length.out <span class="o">=</span> length_of_data<span class="p">)</span>
 y <span class="o">&lt;-</span> intercept <span class="o">+</span> slope<span class="o">*</span>x <span class="o">+</span> rnorm<span class="p">(</span>n <span class="o">=</span> length_of_data<span class="p">,</span> mean <span class="o">=</span> <span class="m">0</span><span class="p">,</span> sd <span class="o">=</span> sd_eps<span class="p">)</span>
 data <span class="o">&lt;-</span> <span class="kt">data_frame</span><span class="p">(</span>y <span class="o">=</span> y<span class="p">,</span> x <span class="o">=</span> x<span class="p">)</span>
-ggplot<span class="p">(</span>data<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> x<span class="p">,</span> y <span class="o">=</span> y<span class="p">))</span> <span class="o">+</span>
+ggplot<span class="p">(</span>data<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> x<span class="p">,</span> y <span class="o">=</span> y<span class="p">,</span> colour <span class="o">=</span> <span class="s">&quot;simulated dependent variable&quot;</span><span class="p">))</span> <span class="o">+</span>
   geom_point<span class="p">()</span> <span class="o">+</span>
   geom_smooth<span class="p">(</span>method <span class="o">=</span> <span class="s">&#39;lm&#39;</span><span class="p">)</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Fake experimental data&quot;</span><span class="p">)</span>
+  ggtitle<span class="p">(</span><span class="s">&quot;Fake experimental data&quot;</span><span class="p">)</span> <span class="o">+</span>
+  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span>
 </pre></div>
 
 
@@ -215,7 +216,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -3.18    3.12     25.5
+## 1       -4.88    2.99     23.9
 </pre></div>
 
 
@@ -225,7 +226,7 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -1.728549    3.229664   24.880930
+##   -4.446754    3.036831   21.461777
 </pre></div>
 
 
@@ -236,9 +237,14 @@ mean_y_plot_draws <span class="o">&lt;-</span> calculate<span class="p">(</span>
 mean_y_est <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>mean_y_plot_draws<span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
 data_pred <span class="o">&lt;-</span> data <span class="o">%&gt;%</span> mutate<span class="p">(</span>y_fit <span class="o">=</span> mean_y_est<span class="p">)</span>
 ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">+</span>
-    geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span> <span class="o">+</span>
-    geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;red&#39;</span><span class="p">)</span> <span class="o">+</span>
-    ggtitle<span class="p">(</span><span class="s">&quot;Fitted model&quot;</span><span class="p">)</span>
+  geom_point<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;simulated dependent variable&quot;</span><span class="p">)</span> <span class="o">+</span>
+  geom_line<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span>y_fit<span class="p">),</span> colour <span class="o">=</span> <span class="s">&#39;estimated expectation value&#39;</span><span class="p">)</span> <span class="o">+</span>
+  ggtitle<span class="p">(</span><span class="s">&quot;Fitted model&quot;</span><span class="p">)</span> <span class="o">+</span>
+  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Error in grDevices::col2rgb(colour, TRUE): invalid color name &#39;simulated dependent variable&#39;
 </pre></div>
 
 
