@@ -1,5 +1,6 @@
 ---
 title: "The Invisible Hand"
+Date: 18 Mar 2018
 output:
   html_document:
     df_print: paged
