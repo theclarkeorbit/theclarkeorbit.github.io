@@ -1,6 +1,8 @@
 ---
 title: "The Invisible Hand"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 **Markets and financial time series data.**
@@ -254,4 +256,4 @@ ggplot(oil_price_returns) +
 ```
 We see that the distribution of logarithmic returns has fatter tails than the Gaussian, but is not quite as fat tailed as the Cauchy distribution.
 
-The central limit theorem is only one of a class of limit theorems, and the Gaussian is only one attractor of an infinite set of attractors in the space of probability distributions. When assumptions about independence and existence of second moments that lead to the CLT, we should examine other limit distributions that may lead to behavior that is qualitatively different from that of a pleasant Gaussian random walk. But, that is a story for a later blog post :)
+The central limit theorem is only one of a class of limit theorems, and the Gaussian is only one attractor of an infinite set of attractors in the space of probability distributions. When assumptions about independence and existence of second moments that lead to the CLT fail, we should examine other limit distributions that may lead to behavior that is qualitatively different from that of a pleasant Gaussian random walk. But, that is a story for a later blog post :)
