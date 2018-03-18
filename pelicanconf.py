@@ -10,7 +10,7 @@ SITETITLE = u'prasanna bhogale'
 SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 BROWSER_COLOR = '#333333'
-PYGMENTS_STYLE = 'default' #
+PYGMENTS_STYLE = 'monokai' #
 PLUGIN_PATHS = ['/']
 PLUGINS = ['render_math']
 
@@ -59,8 +59,9 @@ THEME = "Flex"
 #THEME = "pelican-mockingbird"
 #THEME = "elegant"
 
-#MARKUP = 'md'
+MARKUP = 'md'
 TYPOGRIFY = False
+MD_EXTENSIONS = ['codehilite(css_class=highlight)','extra']
 
 # Blogroll
 #LINKS = (('XKCD', 'http://xkcd.com/'),
