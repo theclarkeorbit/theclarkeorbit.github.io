@@ -22,7 +22,7 @@ DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = False
 USE_FOLDER_AS_CATEGORY = True
-#ROBOTS = 'index, follow'
+ROBOTS = 'index, follow'
 
 TYPOGRIFY = True
 #DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
