@@ -31,7 +31,7 @@ SUMMARY_MAX_LENGTH = 200
 WITH_FUTURE_DATES = True
 SLUGIFY_SOURCE = 'title'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
-MAIN_MENU = True
+MAIN_MENU = False
 #MENUITEMS = (('Categories', '/categories.html'),)
 
 SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
@@ -81,7 +81,7 @@ MARKDOWN = {
 #          ('Another social link', '#'),)
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
           ('twitter','https://twitter.com/thegymnosophist'),
-          ('reddit','https://www.reddit.com/user/thegymnosophist'),
+          #('reddit','https://www.reddit.com/user/thegymnosophist'),
           ('github', 'https://github.com/pbhogale'))
 
 
