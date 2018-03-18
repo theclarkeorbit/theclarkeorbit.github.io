@@ -171,7 +171,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -4.83    3.11     21.3
+## 1       -4.51    3.21     22.3
 ```
 
 ```r
@@ -181,7 +181,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -5.573868    3.157313   23.098570
+##   -7.568487    3.347771   22.192644
 ```
 
 ### Bayesian prediction
