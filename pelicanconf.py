@@ -55,9 +55,9 @@ DEFAULT_DATE='fs'
 #THEME = '/usr/lib/python2.7/dist-packages/pelican/themes/svbtle'
 #THEME = "pelican-mockingbird"
 #THEME = "notmyidea"
-THEME = "Flex"
+#THEME = "Flex"
 #THEME = "pelican-mockingbird"
-#THEME = "elegant"
+THEME = "elegant"
 
 MARKUP = 'md'
 MARKDOWN = {

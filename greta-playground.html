@@ -1,95 +1,83 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="pras" />
+        <meta name="copyright" content="pras" />
 
-    <link rel="stylesheet/less" type="text/css" href="./theme/stylesheet/style.less">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
-  <link rel="stylesheet" type="text/css" href="./theme/pygments/rrt.min.css">
-  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+<meta name="keywords" content=", blogs, " />
 
+<meta property="og:title" content="“greta playground” "/>
+<meta property="og:url" content="./greta-playground.html" />
+<meta property="og:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps : - constructing a hypothesis, or a model \(H\) parametrized by some parameters \(\theta\), - finding (inferring) the distribution of parameters \(\theta\) or, the most suitable parameters \(\theta\) given the observed data What parameters are “most suitable” is indicated (in a particular sense of the word “suitable” will become clear in the following discussion) by the likelihood function that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
+<meta property="og:site_name" content="p. bhogale" />
+<meta property="og:article:author" content="pras" />
+<meta property="og:article:published_time" content="2018-03-18T00:05:03.621317+01:00" />
+<meta name="twitter:title" content="“greta playground” ">
+<meta name="twitter:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps : - constructing a hypothesis, or a model \(H\) parametrized by some parameters \(\theta\), - finding (inferring) the distribution of parameters \(\theta\) or, the most suitable parameters \(\theta\) given the observed data What parameters are “most suitable” is indicated (in a particular sense of the word “suitable” will become clear in the following discussion) by the likelihood function that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width">
 
+        <title>“greta playground”  · p. bhogale
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-115756026-1', 'auto');
+    ga('send', 'pageview');
+</script>
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="./"><span class=site-name>p. bhogale</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href=".">Home</a></li>
+                            <li ><a href="./pages/about.html">about</a></li>
+                            <li ><a href="./categories.html">Categories</a></li>
+                            <li ><a href="./tags.html">Tags</a></li>
+                            <li ><a href="./archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+    <h1><a href="./greta-playground.html"> <span class="dquo">&#8220;</span>greta&nbsp;playground&#8221;  </a></h1>
+    </header>
+</div>
 
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
 
-    <link rel="shortcut icon" href="https://theclarkeorbit.github.io/images/favicon.png" type="image/x-icon">
-    <link rel="icon" href="https://theclarkeorbit.github.io/images/favicon.png" type="image/x-icon">
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="index, follow" />
-
-
-<meta name="author" content="pras" />
-<meta name="description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps : - constructing a hypothesis, or a model \(H\) parametrized by some parameters \(\theta\), - finding (inferring) the distribution of parameters \(\theta\) or, the most suitable parameters \(\theta\) given the observed data What parameters are “most suitable” is indicated (in a particular sense of the word “suitable” will become clear in the following discussion) by the likelihood function that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) { var align = "center", indent = "0em", linebreak = "false"; if (false) { align = (screen.width" />
-<meta name="keywords" content="">
-<meta property="og:site_name" content="p. bhogale"/>
-<meta property="og:title" content="“greta playground”"/>
-<meta property="og:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps : - constructing a hypothesis, or a model \(H\) parametrized by some parameters \(\theta\), - finding (inferring) the distribution of parameters \(\theta\) or, the most suitable parameters \(\theta\) given the observed data What parameters are “most suitable” is indicated (in a particular sense of the word “suitable” will become clear in the following discussion) by the likelihood function that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) { var align = "center", indent = "0em", linebreak = "false"; if (false) { align = (screen.width"/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./greta-playground.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-03-18 00:05:03.621317+01:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/pras.html">
-<meta property="article:section" content="blogs"/>
-<meta property="og:image" content="https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400">
-
-  <title>p. bhogale &ndash; “greta playground”</title>
-
-</head>
-<body>
-  <aside>
-    <div>
-      <a href=".">
-        <img src="https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400" alt="prasanna bhogale" title="prasanna bhogale">
-      </a>
-      <h1><a href=".">prasanna bhogale</a></h1>
-
-<p>Data Sci, Quant Fin, Quant Bio.</p>
-      <nav>
-        <ul class="list">
-          <li><a href="./pages/about.html#about">about</a></li>
-
-        </ul>
-      </nav>
-
-      <ul class="social">
-        <li><a class="sc-linkedin" href="https://www.linkedin.com/in/pbhogale" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-        <li><a class="sc-twitter" href="https://twitter.com/thegymnosophist" target="_blank"><i class="fa fa-twitter"></i></a></li>
-        <li><a class="sc-reddit" href="https://www.reddit.com/user/thegymnosophist" target="_blank"><i class="fa fa-reddit"></i></a></li>
-        <li><a class="sc-github" href="https://github.com/pbhogale" target="_blank"><i class="fa fa-github"></i></a></li>
-      </ul>
-    </div>
-
-
-  </aside>
-  <main>
-
-    <nav>
-      <a href=".">    Home
-</a>
-
-
-
-    </nav>
-
-<article class="single">
-  <header>
-    <h1 id="greta-playground"><span class="dquo">&#8220;</span>greta&nbsp;playground&#8221;</h1>
-    <p>
-          Posted on Sun 18 March 2018 in <a href="./category/blogs.html">blogs</a>
-
-
-    </p>
-  </header>
-
-
-  <div>
-    <p>A first foray into probabilistic programming with&nbsp;Greta</p>
+            
+            <p>A first foray into probabilistic programming with&nbsp;Greta</p>
 <h2>Models and&nbsp;modelling</h2>
 <p>Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after <a href="https://en.wikipedia.org/wiki/Tycho_Brahe">Tycho Brahe</a> made detailed observations of planetary motion (<a href="http://www.pafko.com/tycho/observe.html">here</a> is data on mars), <a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion">Johannes Kepler posited laws</a> of planetary motion that <em>explained</em> how this data were generated. Effectively, <strong>modelling</strong> is the art of constructing data generators that help us understand and&nbsp;predict. </p>
 <p><strong>Statistical models</strong> are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :<br>
@@ -299,46 +287,53 @@ ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-  </div>
-  <div class="tag-cloud">
-    <p>
-    </p>
-  </div>
-
-
-
-
+            
+            
+            <hr/>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2018-03-18T00:05:03.621317+01:00">Mar 18, 2018</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#blogs-ref">blogs</a>
+<h4>Contact</h4>
+    <a href="https://www.linkedin.com/in/pbhogale" title="My linkedin Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-linkedin sidebar-social-links"></i></a>
+    <a href="https://twitter.com/thegymnosophist" title="My twitter Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-twitter sidebar-social-links"></i></a>
+    <a href="https://www.reddit.com/user/thegymnosophist" title="My reddit Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-reddit sidebar-social-links"></i></a>
+    <a href="https://github.com/pbhogale" title="My github Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-github sidebar-social-links"></i></a>
+        </div>
+        </section>
+</div>
 </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+        <div id="push"></div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-subtitle"><span class="site-name">p. bhogale</span> - Data Sci, Quant Fin, Quant Bio.</li>
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
 
-    <footer>
-<p>&copy; pras </p>
-<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
-</p>    </footer>
-  </main>
-
-<!-- Google Analytics -->
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-115756026-1', 'auto');
-  ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
-
-
-
-<script type="application/ld+json">
-{
-  "@context" : "http://schema.org",
-  "@type" : "Blog",
-  "name": " p. bhogale ",
-  "url" : ".",
-  "image": "https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400",
-  "description": "pras's home on the interwebz"
-}
-</script>
-</body>
+    
+    </body>
+    <!-- Theme: Elegant built for Pelican
+    License : http://oncrashreboot.com/pelican-elegant -->
 </html>
