@@ -3,14 +3,14 @@
 from __future__ import unicode_literals
 #import render_math
 
-LOAD_CONTENT_CACHE = False
+#LOAD_CONTENT_CACHE = False
 AUTHOR = u'pras'
 SITENAME = u'p. bhogale'
 SITETITLE = u'prasanna bhogale'
 SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 #BROWSER_COLOR = '#333333'
-PYGMENTS_STYLE = 'monokai' #
+#PYGMENTS_STYLE = 'monokai' #
 PLUGIN_PATHS = ['/']
 PLUGINS = ['render_math']
 
@@ -28,7 +28,7 @@ USE_FOLDER_AS_CATEGORY = True
 #PAGINATED_DIRECT_TEMPLATES = ['index']
 #SUMMARY_MAX_LENGTH = 200
 #WITH_FUTURE_DATES = True
-SLUGIFY_SOURCE = 'title'
+#SLUGIFY_SOURCE = 'title'
 #MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 MAIN_MENU = True
 #MENUITEMS = (('About', '/About.html'),)
@@ -37,7 +37,7 @@ SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458
 
 FAVICON = SITEURL + "/images/favicon.png"
 
-JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
+#JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 #THEME_COLOR = 'blue'
 #SIDEBAR_DISPLAY = ['About']
 
