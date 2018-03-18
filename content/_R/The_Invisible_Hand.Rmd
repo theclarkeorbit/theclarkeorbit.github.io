@@ -9,7 +9,7 @@ output:
 
 ## Basic ideas about markets
 
-Inevitably, financial data and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible data.
+Inevitably, finance and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible data.
 
 **What is a market ?** A market is a system which enables _traders_ to exchange _commodities/assets_ at a mutually agreeable _price_. Every market has at its center a _market maker_ - an entity which matches traders who want to buy at a certain price with traders who want to sell at that price.
 
