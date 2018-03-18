@@ -9,7 +9,7 @@ SITENAME = u'p. bhogale'
 SITETITLE = u'prasanna bhogale'
 SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
-BROWSER_COLOR = '#333333'
+#BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'rrt' #
 PLUGIN_PATHS = ['/']
 PLUGINS = ['render_math']
@@ -24,7 +24,7 @@ DISPLAY_CATEGORIES_ON_MENU = False
 USE_FOLDER_AS_CATEGORY = True
 #ROBOTS = 'index, follow'
 
-TYPOGRIFY = False
+#TYPOGRIFY = False
 #DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 #PAGINATED_DIRECT_TEMPLATES = ['index']
 SUMMARY_MAX_LENGTH = 100
