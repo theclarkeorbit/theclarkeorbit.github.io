@@ -27,7 +27,7 @@ USE_FOLDER_AS_CATEGORY = True
 TYPOGRIFY = True
 #DIRECT_TEMPLATES = ['index', 'categories', 'authors', 'archives','tags']
 #PAGINATED_DIRECT_TEMPLATES = ['index']
-SUMMARY_MAX_LENGTH = 100
+SUMMARY_MAX_LENGTH = 200
 WITH_FUTURE_DATES = True
 SLUGIFY_SOURCE = 'title'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
@@ -40,7 +40,7 @@ FAVICON = SITEURL + "/images/favicon.png"
 
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 #THEME_COLOR = 'blue'
-#SIDEBAR_DISPLAY = ['about', 'categories']
+SIDEBAR_DISPLAY = ['about', 'categories']
 SIDEBAR_ABOUT = u"हज़ारों ख़्वाहिशें ऐसी के हर ख़्वाहिश पे दम निकले \n बहुत निकले मेरे अरमाँ लेकिन फिर भी कम निकले"
 #DISQUS_SITENAME = 'theclarkeorbit'
 

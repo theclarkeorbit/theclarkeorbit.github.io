@@ -89,7 +89,7 @@
 <h2>Basic ideas about&nbsp;markets</h2>
 <p>Inevitably, finance and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible&nbsp;data.</p>
 <p><strong>What is a market ?</strong> A market is a system which enables <em>traders</em> to exchange <em>commodities/assets</em> at a mutually agreeable <em>price</em>. Every market has at its center a <em>market maker</em> - an entity which matches traders who want to buy at a certain price with traders who want to sell at that&nbsp;price.</p>
-<p><strong>No Arbitrage.</strong> The word arbitrage refers …</p>
+<p><strong>No Arbitrage.</strong> The word arbitrage refers to a situation where the same asset has different prices in different locations. For instance, if Klingon Bat&#8217;Leths are available at <span class="caps">10USD</span> a piece in Berlin and at <span class="caps">15USD</span> a piece in Baghdad, and if the cost of transporting a Bat&#8217;Leth from Berlin to Baghdad is <span class="caps">1USD</span>, then money can be made by buying Bat&#8217;Leths in Berlin and selling them in Baghdad. In fact, people will buy Bat&#8217;Leths in Berlin and sell them in Baghdad until the price of Bat&#8217;Leths increases in Berlin and decreases in Baghdad and there is no more profit to be …</p>
       <br>
       <a class="btn" href="./the-invisible-hand.html#the-invisible-hand">    Continue reading
 </a>
@@ -110,7 +110,64 @@
       <p>A first foray into probabilistic programming with&nbsp;Greta</p>
 <h2>Models and&nbsp;modelling</h2>
 <p>Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after <a href="https://en.wikipedia.org/wiki/Tycho_Brahe">Tycho Brahe</a> made detailed observations of planetary motion (<a href="http://www.pafko.com/tycho/observe.html">here</a> is data on mars), <a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion">Johannes Kepler posited laws</a> of planetary motion that <em>explained</em> how this data were generated. Effectively, <strong>modelling</strong> is the art of constructing data generators that help us understand and&nbsp;predict. </p>
-<p><strong>Statistical models</strong> are one class of models that aim to construct - given some observed data - the probability distribution from which the data …</p>
+<p><strong>Statistical models</strong> are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :<br>
+- constructing a hypothesis, or a model <span class="math">\(H\)</span> parametrized by some parameters <span class="math">\(\theta\)</span>,<br>
+- finding (<em>inferring</em>) the distribution of parameters <span class="math">\(\theta\)</span> or, the most suitable parameters <span class="math">\(\theta\)</span> given the observed&nbsp;data</p>
+<p>What parameters are &#8220;most suitable&#8221; is indicated (in a particular sense of the word &#8220;suitable&#8221; will become clear in the following discussion) by the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …</p><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
       <br>
       <a class="btn" href="./greta-playground.html#greta-playground">    Continue reading
 </a>
@@ -130,7 +187,8 @@
   <div>
       <p>1.</p>
 <p><span class="dquo">&#8220;</span>I&#8217;ve checked&#8221;, the Principal said one morning at assembly &#8220;The hill behind the school does not seem to have a name. In the memory of those who died in Kashmir, we will call it Tiger Hill. So that we never&nbsp;forget.&#8221;</p>
-<p>It was the monsoon of 1999. I stood there in my first, never-shaved moustache and navy blue uniform, cold despite the blazer and the multitudes who stood silently around me. Princi - as we affectionately called him - spoke on for a while about duty, country, bravery, gratitude and other noble things, and my eyes were moist but I …</p>
+<p>It was the monsoon of 1999. I stood there in my first, never-shaved moustache and navy blue uniform, cold despite the blazer and the multitudes who stood silently around me. Princi - as we affectionately called him - spoke on for a while about duty, country, bravery, gratitude and other noble things, and my eyes were moist but I was not really listening. I had long since drifted off into one of my all too frequent day dreams, off in some foreign land unknown to science, exploring, fighting, upholding some nebulous idea of civilisation. Dancing behind my patriotic tears were visions of erudite men in khakis who could shoot straight and fight for the country (which country ?) when they were not writing poetry, observing birds or charming&nbsp;ladies.</p>
+<p>Our history textbooks were (of course) filled with accounts of India’s heroic fight for independence and the atrocities of the British. While I was suitably moved by the sacrifices of …</p>
       <br>
       <a class="btn" href="./tiger-hill.html#tiger-hill">    Continue reading
 </a>
