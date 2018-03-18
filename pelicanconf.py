@@ -59,8 +59,8 @@ THEME = "Flex"
 #THEME = "pelican-mockingbird"
 #THEME = "elegant"
 
-#MARKUP = 'md'
-#TYPOGRIFY = False
+MARKUP = 'md'
+TYPOGRIFY = False
 
 # Blogroll
 #LINKS = (('XKCD', 'http://xkcd.com/'),
