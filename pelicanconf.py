@@ -39,9 +39,9 @@ SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458
 FAVICON = SITEURL + "/images/favicon.png"
 
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
-THEME_COLOR = 'blue'
+#THEME_COLOR = 'blue'
 #SIDEBAR_DISPLAY = ['about', 'categories']
-SIDEBAR_ABOUT = "हज़ारों ख़्वाहिशें ऐसी के हर ख़्वाहिश पे दम निकले \n बहुत निकले मेरे अरमाँ लेकिन फिर भी कम निकले"
+SIDEBAR_ABOUT = u"हज़ारों ख़्वाहिशें ऐसी के हर ख़्वाहिश पे दम निकले \n बहुत निकले मेरे अरमाँ लेकिन फिर भी कम निकले"
 #DISQUS_SITENAME = 'theclarkeorbit'
 
 
