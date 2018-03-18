@@ -10,7 +10,7 @@ SITETITLE = u'prasanna bhogale'
 SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 #BROWSER_COLOR = '#333333'
-PYGMENTS_STYLE = 'lovelace' #
+PYGMENTS_STYLE = 'native' #
 PLUGIN_PATHS = ['/']
 PLUGINS = ['render_math']
 
