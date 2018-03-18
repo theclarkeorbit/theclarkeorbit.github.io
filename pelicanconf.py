@@ -40,7 +40,7 @@ FAVICON = SITEURL + "/images/favicon.png"
 
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 #THEME_COLOR = 'blue'
-SIDEBAR_DISPLAY = ['about', 'categories']
+SIDEBAR_DISPLAY = ['About']
 SIDEBAR_ABOUT = u"हज़ारों ख़्वाहिशें ऐसी के हर ख़्वाहिश पे दम निकले \n बहुत निकले मेरे अरमाँ लेकिन फिर भी कम निकले"
 #DISQUS_SITENAME = 'theclarkeorbit'
 
