@@ -21,17 +21,17 @@ TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 DISPLAY_PAGES_ON_MENU = True
 USE_FOLDER_AS_CATEGORY = True
-ROBOTS = 'index, follow'
+#ROBOTS = 'index, follow'
 
-TYPOGRIFY = True
-DIRECT_TEMPLATES = ['index', 'categories', 'archives','tags']
+#TYPOGRIFY = True
+#DIRECT_TEMPLATES = ['index', 'categories', 'archives','tags']
 #PAGINATED_DIRECT_TEMPLATES = ['index']
-SUMMARY_MAX_LENGTH = 200
-WITH_FUTURE_DATES = True
+#SUMMARY_MAX_LENGTH = 200
+#WITH_FUTURE_DATES = True
 SLUGIFY_SOURCE = 'title'
-MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
+#MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 MAIN_MENU = True
-MENUITEMS = (('About', '/About.html'),)
+#MENUITEMS = (('About', '/About.html'),)
 
 SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 
@@ -46,11 +46,7 @@ JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 
 
 # Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
-AUTHOR_FEED_ATOM = None
-AUTHOR_FEED_RSS = None
+
 DEFAULT_DATE='fs'
 #THEME = '/usr/lib/python2.7/dist-packages/pelican/themes/svbtle'
 #THEME = "pelican-mockingbird"
@@ -59,15 +55,6 @@ DEFAULT_DATE='fs'
 #THEME = "pelican-mockingbird"
 THEME = "elegant"
 
-MARKUP = 'md'
-MARKDOWN = {
-    'extension_configs': {
-        'markdown.extensions.codehilite': {'css_class': 'highlight'},
-        'markdown.extensions.extra': {},
-        'markdown.extensions.meta': {},
-    },
-    'output_format': 'html5',
-}
 
 # Blogroll
 #LINKS = (('XKCD', 'http://xkcd.com/'),

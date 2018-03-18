@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2018-03-18T00:00:00+01:00</updated><entry><title>"The Invisible Hand"</title><link href="https://theclarkeorbit.github.io/the-invisible-hand.html" rel="alternate"></link><published>2018-03-18T00:00:00+01:00</published><updated>2018-03-18T00:00:00+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2018-03-18:/the-invisible-hand.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Markets and financial time series data.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Basic ideas about markets&lt;/h2&gt;
+&lt;p&gt;Inevitably, finance and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible data.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What is a market ?&lt;/strong&gt; A market is a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Markets and financial time series data.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Basic ideas about markets&lt;/h2&gt;
+&lt;p&gt;Inevitably, finance and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible data.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What is a market ?&lt;/strong&gt; A market is a system which enables &lt;em&gt;traders&lt;/em&gt; to exchange &lt;em&gt;commodities/assets&lt;/em&gt; at a mutually agreeable &lt;em&gt;price&lt;/em&gt;. Every market has at its center a &lt;em&gt;market maker&lt;/em&gt; - an entity which matches traders who want to buy at a certain price with traders who want to sell at that price.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;No Arbitrage.&lt;/strong&gt; The word arbitrage refers to a situation where the same asset has different prices in different locations. For instance, if Klingon Bat'Leths are available at 10USD a piece in Berlin and at 15USD a piece in Baghdad, and if the cost of transporting a Bat'Leth from Berlin to Baghdad is 1USD, then money can be made by buying Bat'Leths in Berlin and selling them in Baghdad. In fact, people will buy Bat'Leths in Berlin and sell them in Baghdad until the price of Bat'Leths increases in Berlin and decreases in Baghdad and there is no more profit to be made. In an ideal market, arbitrage is instantaneously washed out by traders making money off it. The &lt;em&gt;no arbitrage condition&lt;/em&gt; implies that the market serves as a mechanism for price setting. Each commodity has a "rational" price decided in the market by balancing the forces of demand and supply.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The efficient market.&lt;/strong&gt; A market is said to be efficient if all the information about a particular asset is instantly assimilated by the market and is immediately reflected in the price of the asset. This assumption has significant implications for the time series of the price of an asset traded on the market. Since Bachelier in 1900, it has been argued that an efficient market should imply that prices move randomly but a formal proof was presented by &lt;a href="https://www.ifa.com/media/images/pdf%20files/samuelson-proof.pdf"&gt;Samuelson in 1965 (pdf)&lt;/a&gt;. The paper is readable to anyone with moderate exposure to probability theory and the principle result is that at the present time &lt;span class="math"&gt;\(t\)&lt;/span&gt;, given the historical time series of prices of a particular asset &lt;span class="math"&gt;\(\{y_t,y_{t-1}.......y_0\}\)&lt;/span&gt;, if the futures price of that asset to be delivered at time &lt;span class="math"&gt;\(T&amp;gt;t\)&lt;/span&gt; is &lt;span class="math"&gt;\(C(T,t)\)&lt;/span&gt;, then the expected price at the next time point &lt;span class="math"&gt;\(t+1\)&lt;/span&gt; is given by &lt;span class="math"&gt;\(E\left\{C(T,t+1)\right\}=C(T,t)\)&lt;/span&gt;. In other words, it is impossible to predict which way the price will move at the next time point based on the historical price data.&lt;/p&gt;
+&lt;p&gt;Before making this idea more intuitive, we will introduce market &lt;em&gt;returns&lt;/em&gt;. If the price of an asset today is &lt;span class="math"&gt;\(y_t\)&lt;/span&gt; and tomorrow it is &lt;span class="math"&gt;\(y_{t+1}\)&lt;/span&gt;, then the return an investor might have obtained by buying today and selling tomorrow is defined to be &lt;span class="math"&gt;\(\frac{y_{t+1}-y_t}{y_t}\)&lt;/span&gt;. It is more common in practice to use the logarithmic return defined by &lt;span class="math"&gt;\(ln\left(\frac{y_{t+1}}{y_t}\right)\)&lt;/span&gt;. It is useful to think of logarithmic returns being related to compound interest and normal returns being related to simple interest. If the price today was 100, and tomorrow is 110, then my return is 10% while my logarithmic return is 9.5%. The two methods of calculating return give approximately the same result but the logarithmic return is smaller since a lower rate of return is needed to obtain the same final capital with compound interest.&lt;/p&gt;
+&lt;p&gt;We can now restate the efficient market hypothesis as a statement about returns. In an efficient market, returns must be serially uncorrelated. Stated this way, it is much easier to see the link between the efficient market hypothesis and the randomness of prices. If, for a certain asset, it were possible to predict that the price would rise (positive return) or fall (negative return) based on the past, this would present a powerful arbitrage opportunity. If prices were predicted to rise in the future, intelligent investors (intelligent enough to see correlations in returns anyway) could make a lot of money by buying today and selling when the price rose. However, this buying activity would immediately cause the price (at which the asset can be bought) to rise, washing out the gains that the investors might have made.&lt;/p&gt;
+&lt;p&gt;It is worth stating that while the degree of randomness of returns on the price of a traded asset &lt;a href="https://www.sciencedirect.com/science/article/pii/037842669390087T"&gt;can be tested&lt;/a&gt;, tests for the efficient market hypothesis suffer from the so-called &lt;a href="http://finance.wharton.upenn.edu/~jwachter/fnce100/h11.pdf"&gt;joint hypothesis problem&lt;/a&gt;. How would we know if a market is inefficient ? We might look at all the information available, and find that the market behaves "abnormally" or "irrationally", given the available information. However, to evaluate what a normal/abnormal return is, we need a model that connects available information to the price of an asset (&lt;a href="https://hbr.org/1982/01/does-the-capital-asset-pricing-model-work"&gt;an asset pricing model&lt;/a&gt;). And therein lies the issue : even if we observe "abnormal returns", is the market inefficient or is our asset pricing model wrong ? We cannot possibly know. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Who does an "informed investor" buy from ?&lt;/strong&gt; There is a word for them. Noise Investors. They provide the liquidity in the market, buying and selling assets regardless of price, perhaps acting on information that is really noise, or driven by other factors like an urgent need for cash resulting in a sale regardless of price. Since demand from noise investors is - by definition - random and independent of the price of the asset, the random uncorrelated fluctuations in asset prices are caused by the actions of informed investors seeking maximum profit. Anyone familiar with information theory will immediately recognize what is going on here. Since the time series of the price or returns on an asset incorporates non redundant information at each time point, it looks like a completely random, uncorrelated sequence. A sequence that has very little information can be compressed and expressed as a concise computer program (see &lt;a href="https://en.wikipedia.org/wiki/Kolmogorov_complexity"&gt;algorithmic complexity&lt;/a&gt;) or compressed in other ways using correlations. The higher the information content the more random a sequence looks. From this point of view, it is clear that a sequence incorporating a lot of information is indistinguishable from a completely random sequence.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If the price can be predicted to go up based on history, it would have already gone up to a point where no more profit is expected from a price rise.&lt;/strong&gt; Once one has assumed that the market is efficient, this conclusion seems inescapable. As the old joke goes, two economists are walking along a road and one of them spots a 100\&lt;span class="math"&gt;\( bill on the street. The other economist tells him not to bother, since if there really were a 100\\)&lt;/span&gt; bill lying about, it would already have been picked up !&lt;/p&gt;
+&lt;p&gt;While real markets resemble ideal, efficient markets in many ways (correlations between returns are washed out in less than 2 minutes, arbitrage is hard to find and so on) markets are only efficient in proportion to the number of intelligent investors looking to profit from their inefficiencies. There is a clear tension here. The effort investors are prepared to make to sniff out inefficiencies is proportional to the degree of inefficiency that exists. So, every profit opportunity is washed out only if one is not participating in the washing out.&lt;/p&gt;
+&lt;h2&gt;A peek at financial data&lt;/h2&gt;
+&lt;p&gt;We will use the &lt;code&gt;Quandl&lt;/code&gt; package (see the &lt;a href="https://www.quandl.com/tools/full-list"&gt;website&lt;/a&gt; for details) to download recent oil prices and analyze them a little bit. This will serve as a short introduction to uni-variate time series analysis in R. See &lt;a href="https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm"&gt;this&lt;/a&gt; useful resource from the NIST for a simple overview of the theory. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;oil_prices &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; Quandl&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;OPEC/ORB&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; type &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;raw&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                     transform &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;normalize&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                     collapse &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;daily&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                     force_irregular &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                     start_date&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2001-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  as_data_frame&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  transmute&lt;span class="p"&gt;(&lt;/span&gt;date &lt;span class="o"&gt;=&lt;/span&gt; Date&lt;span class="p"&gt;,&lt;/span&gt; price_of_oil &lt;span class="o"&gt;=&lt;/span&gt; Value&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  arrange&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;transform = "normalize"&lt;/code&gt; option sets the first value in the time series to 100 and scales all the other values accordingly. Let us take a look at oil prices over the last 18 years, scaled to the price on the 1st of January 2001.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ggplot&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; oil_prices&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; price_of_oil&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_vline&lt;span class="p"&gt;(&lt;/span&gt;xintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2008-07-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  annotate&lt;span class="p"&gt;(&lt;/span&gt;geom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           label &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Financial crash of 2008&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2006-6-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;480&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+           colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_vline&lt;span class="p"&gt;(&lt;/span&gt;xintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2014-10-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  annotate&lt;span class="p"&gt;(&lt;/span&gt;geom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Overproduction&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2016-4-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;480&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Normalized oil prices since 2001-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-3-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;In this data, there are two major crashes the first corresponding to the financial crisis of 2008 (&lt;a href="http://www.nytimes.com/2008/11/12/business/worldbusiness/12oil.html"&gt;NYT comment on oil prices around this time&lt;/a&gt;) which led to lower demand, while the oil price crash of 2014-15 seems to be linked to over production as oil producers competed for market share despite production ramp-ups in North America with &lt;a href="https://www.forbes.com/sites/uhenergy/2017/09/05/how-american-fracking-ran-opecs-oil-recovery-off-the-rails/#11ee9db1ec26"&gt;fracking in the USA&lt;/a&gt; and &lt;a href="https://oilprice.com/Energy/Energy-General/What-Does-The-Future-Hold-For-Canadas-Oil-Sands.html"&gt;oil sands in Canada&lt;/a&gt;. &lt;/p&gt;
+&lt;h3&gt;Correlations in time&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Is this a random walk ?&lt;/strong&gt; &lt;a href="https://www.chicagobooth.edu/~/media/34F68FFD9CC04EF1A76901F6C61C0A76.PDF"&gt;The random walk hypothesis&lt;/a&gt; follows intuitively from the efficient market hypothesis. If today's price includes &lt;em&gt;all available information&lt;/em&gt; then it is the best available estimate of tomorrow's price, i.e., the price could go either way tomorrow, and successive returns are un-correlated. However, We see from the oil price chart above that there are long periods of positive and negative returns. At least at some times, over short-ish time scales, returns do seem to be correlated. &lt;/p&gt;
+&lt;p&gt;Another useful concept about any time series &lt;span class="math"&gt;\(\{y_t\}\)&lt;/span&gt; is &lt;strong&gt;stationarity&lt;/strong&gt;. A time series is said to be stationary if it's mean function &lt;span class="math"&gt;\(\mu_t = E[y_t]\)&lt;/span&gt; and it's autocovariance function &lt;span class="math"&gt;\(\gamma(t,t-k) = E[(y_t-\mu_t)(y_{t-k}-\mu_{t-k})]\)&lt;/span&gt; are both independent of time. In other words, a series is stationary if, over time, all its values are distributed around the same mean, and its relationship with its past does not evolve over time. A strongly stationary process has a joint probability distribution which does not change when shifted in time, i.e. ALL moments of the distribution are time independent. &lt;/p&gt;
+&lt;p&gt;In practice, most financial time series are not stationary, however, stationary series can often be derived from non stationary series. For instance, the differences, or returns on a time series could be stationary even if the series itself is not. Or, the series could be fit to a function that approximates its mean over time, and subtracting this fitted mean from the original series yields a stationary series. As we shall see in subsequent sections, the simplest models often assume that a series is stationary.&lt;/p&gt;
+&lt;p&gt;We can measure the influence of the past on the present value of a time series via its autocorrelation function. The &lt;a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35c.htm"&gt;autocorrelation&lt;/a&gt; of a signal is the correlation of a signal with a delayed copy of itself. The autocorrelation function (ACF) calculates the correlations with different lags, giving us some idea about how long it takes for information contained in today's price to be swamped by new information in the signal. &lt;/p&gt;
+&lt;p&gt;The autocorrelation is just the normalized autocovariance function. Given observations &lt;span class="math"&gt;\(y_t\)&lt;/span&gt; for &lt;span class="math"&gt;\(t\in \{1..N\}\)&lt;/span&gt;, the autocorrelation for lag &lt;span class="math"&gt;\(k\)&lt;/span&gt; is given by,
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\rho_y(k) = \frac{\gamma(t,t-k)}{\gamma(t,t)} = \frac{\sum_{t=1+k}^N (y_{t-k}-\mu_{t-k})(y_t-\mu_t)}{\sum_{t=1}^N (y_t-\mu_t)^2}$$&lt;/div&gt;
+&lt;p&gt;
+and stationarity would imply &lt;span class="math"&gt;\(\mu_{t-k}=\mu_t \text{  }\forall (t,k)\)&lt;/span&gt;. The ACF computes this number for various values of &lt;span class="math"&gt;\(k\)&lt;/span&gt;. In practice, we use the (slightly more complicated) &lt;a href="https://en.wikipedia.org/wiki/Partial_autocorrelation_function"&gt;partial autocorrelation function&lt;/a&gt; that computes the correlation of a time series with a lagged version of itself like the ACF, but also controls for the influence of all shorter lags. In other words, for a lag of say, 2 days, it computes how much the price day before yesterday is correlated with the price today (over the whole time series) over and above the correlation induced by the price yesterday (which is correlated to today's as well as day before yesterday's price). This gives a "decoupled" version of the influence of various time points in the past on the present.  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;oil_price_returns &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;data_frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;date &lt;span class="o"&gt;=&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_prices&lt;span class="p"&gt;)],&lt;/span&gt; 
+                                returns &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_prices&lt;span class="o"&gt;$&lt;/span&gt;price_of_oil&lt;span class="p"&gt;),&lt;/span&gt; 
+                                log_returns &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;diff&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_prices&lt;span class="o"&gt;$&lt;/span&gt;price_of_oil&lt;span class="p"&gt;)))&lt;/span&gt;
+
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; log_returns&lt;span class="p"&gt;,&lt;/span&gt; 
+                colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;logarithmic returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Time series of logarithmic returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_vline&lt;span class="p"&gt;(&lt;/span&gt;xintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2008-07-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+             colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  annotate&lt;span class="p"&gt;(&lt;/span&gt;geom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Financial crash of 2008&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2006-6-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+           colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_vline&lt;span class="p"&gt;(&lt;/span&gt;xintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2014-10-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  annotate&lt;span class="p"&gt;(&lt;/span&gt;geom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Overproduction&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2016-4-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-4-1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp_acf_log_returns &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; pacf&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;log_returns&lt;span class="p"&gt;,&lt;/span&gt; 
+                             lag.max &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; plot &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+acf_df &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;data_frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;log_returns_acf &lt;span class="o"&gt;=&lt;/span&gt; temp_acf_log_returns&lt;span class="o"&gt;$&lt;/span&gt;acf&lt;span class="p"&gt;[,&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; 
+                     lag &lt;span class="o"&gt;=&lt;/span&gt; temp_acf_log_returns&lt;span class="o"&gt;$&lt;/span&gt;lag&lt;span class="p"&gt;[,&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; acf_df&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lag&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; log_returns_acf&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_segment&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lag&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; log_returns_acf&lt;span class="p"&gt;,&lt;/span&gt; 
+                   xend &lt;span class="o"&gt;=&lt;/span&gt; lag&lt;span class="p"&gt;,&lt;/span&gt; yend &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_hline&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;yintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Partial autocorrelation function for the logarithmic returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-4-2.png"&gt;
+In general then, the price of oil today is correlated with the price of oil yesterday, but, it would seem, has basically nothing to do with the price of oil the day before. &lt;/p&gt;
+&lt;p&gt;While this is true of the whole time series, we could also compute this for windows of 365 days each (short windows lead to noisy estimates of the ACF coefficients), to see if there are periods of high long-range (multiple day) correlations. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;acf_noplot &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;pacf&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; lag.max &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; pl &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+window_width &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;365&lt;/span&gt;
+windowed_acf &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; rollapply&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;log_returns&lt;span class="p"&gt;,&lt;/span&gt; 
+                          width &lt;span class="o"&gt;=&lt;/span&gt; window_width&lt;span class="p"&gt;,&lt;/span&gt; 
+                          FUN &lt;span class="o"&gt;=&lt;/span&gt; acf_noplot&lt;span class="p"&gt;,&lt;/span&gt;
+                          align &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;left&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;unlist&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+windowed_acf_df &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; windowed_acf  &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  &lt;span class="kt"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kp"&gt;length&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;windowed_acf&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  &lt;span class="kp"&gt;t&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  as_data_frame&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  slice&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;window_width&lt;span class="m"&gt;+1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  mutate_all&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  mutate&lt;span class="p"&gt;(&lt;/span&gt;date &lt;span class="o"&gt;=&lt;/span&gt; oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;window_width&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="p"&gt;)])&lt;/span&gt;
+
+acf_values &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; windowed_acf_df &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  summarise_all&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  gather&lt;span class="p"&gt;()&lt;/span&gt;
+
+acf_values &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;head&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## # A tibble: 6 x 2
+##   key      value
+##   &amp;lt;chr&amp;gt;    &amp;lt;dbl&amp;gt;
+## 1 V1     0.245  
+## 2 V2    -0.0536 
+## 3 V3     0.0213 
+## 4 V4     0.00316
+## 5 V5     0.0104 
+## 6 V6    -0.0128
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can see that while evaluating ACFs on smaller samples via a moving window and taking the mean is not &lt;em&gt;quite&lt;/em&gt; the same as taking the ACF on the whole series, the pattern is not different, i.e., the correlation is washed out after the second day.&lt;/p&gt;
+&lt;p&gt;Now, we can plot the 2nd, 3rd and 4th terms of the ACF function to see if there are periods of higher and lower correlations in the oil prices.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ggplot&lt;span class="p"&gt;(&lt;/span&gt;windowed_acf_df&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; V1&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Lag 1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; V2&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Lag 2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; V3&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Lag 3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_vline&lt;span class="p"&gt;(&lt;/span&gt;xintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2008-07-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+             colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  annotate&lt;span class="p"&gt;(&lt;/span&gt;geom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Financial crash of 2008&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2006-6-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+           colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_vline&lt;span class="p"&gt;(&lt;/span&gt;xintercept &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2014-10-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+             colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  annotate&lt;span class="p"&gt;(&lt;/span&gt;geom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Overproduction&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2016-4-11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+           colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#7379d6&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;window_width&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_prices&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="m"&gt;-1&lt;/span&gt;&lt;span class="p"&gt;)],&lt;/span&gt;
+                y &lt;span class="o"&gt;=&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;price_of_oil&lt;span class="p"&gt;[&lt;/span&gt;window_width&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_prices&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="m"&gt;-1&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;rescaled oil price&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.55&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Evolution of correlations with different lags&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ylab&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;correlation&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-6-1.png"&gt;
+It is clear by inspection that both crashes correspond to increasing correlation (of log-returns) across all three lag terms plotted. That is, while the oil price was crashing, autocorrelations (of log-returns) with lags of 1, 2, 3 days were all increasing. autocorrelations peaked when the oil price reached rock bottom and relaxed again as the price recovery started. &lt;/p&gt;
+&lt;p&gt;The time series of log-returns on oil prices is clearly not stationary (and nor are oil prices themselves, needless to say). So, what is a good way to forecast oil prices ?&lt;/p&gt;
+&lt;h3&gt;&lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;, &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt;, &lt;span class="math"&gt;\(ARIMA(p,d,q)\)&lt;/span&gt;, &lt;span class="math"&gt;\(ARCH(q)\)&lt;/span&gt;, &lt;span class="math"&gt;\(GARCH(p,q)\)&lt;/span&gt; ...&lt;/h3&gt;
+&lt;p&gt;One possible simple model of a time series like ours is an &lt;a href="https://en.wikipedia.org/wiki/Autoregressive_model"&gt;autoregressive process&lt;/a&gt; of order &lt;span class="math"&gt;\(p\)&lt;/span&gt;. This just means that the current value of the time series depends on the value of the time series at &lt;span class="math"&gt;\(p\)&lt;/span&gt; previous time steps and a noise term. An &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt; process (this is what they are called..) take the form, 
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_{t} = c + \sum_{i = 1}^p \phi_i x_{t-i\Delta t} + \epsilon_t$$&lt;/div&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; is the uncorrelated, unbiased noise term. For oil price returns, the coefficients &lt;span class="math"&gt;\(\phi_i\)&lt;/span&gt; will probably not be significant (overall) for &lt;span class="math"&gt;\(i&amp;gt;1\)&lt;/span&gt;. However, we have already seen that the influence of the past changes with time, and there are periods when multiple day correlations might be vital to explaining the change in price. &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt; processes need not always be stationary. &lt;a href="https://en.wikipedia.org/wiki/Moving-average_model"&gt;Moving average models&lt;/a&gt; &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; on the other hand are always stationary and posit that the present value &lt;span class="math"&gt;\(y_t\)&lt;/span&gt; is the sum of some mean value, a white noise term, and a sum over &lt;span class="math"&gt;\(q\)&lt;/span&gt; past values of noise terms (the moving average referred to in the name).
+&lt;/p&gt;
+&lt;div class="math"&gt;$$y_t = \mu + \epsilon_t + \sum_{i=1}^q \epsilon_{t-i\Delta t}.$$&lt;/div&gt;
+&lt;p&gt;
+It does not take a genius to infer that &lt;a href="https://en.wikipedia.org/wiki/Autoregressive%E2%80%93moving-average_model"&gt;autoregressive moving average&lt;/a&gt; &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; models consist of &lt;span class="math"&gt;\(p\)&lt;/span&gt; auto regressive and &lt;span class="math"&gt;\(q\)&lt;/span&gt; moving average terms. They are weakly stationary (the first two moments are time invariant). &lt;/p&gt;
+&lt;p&gt;To be able to forecast non-stationary processes, &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; models have been generalized to &lt;a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average"&gt;autoregressive integrated moving average&lt;/a&gt; &lt;span class="math"&gt;\(ARIMA(p,d,q)\)&lt;/span&gt; models. Apart from the &lt;span class="math"&gt;\(p\)&lt;/span&gt; lagged values of itself and the sum over &lt;span class="math"&gt;\(q\)&lt;/span&gt; noise terms from the past the &lt;span class="math"&gt;\(ARIMA(p,d,q)\)&lt;/span&gt; also have the time series values differenced &lt;span class="math"&gt;\(d\)&lt;/span&gt; times. This differencing is the discrete version of a derivative, so 1st order differencing is &lt;span class="math"&gt;\(y_t' = y_t - y_{t-1}\)&lt;/span&gt; while second order differencing is &lt;span class="math"&gt;\(y_t'' = y'_t - y'_{t-1} = (y_t - y_{t-1}) - (y_{t-1} - y_{t-2})\)&lt;/span&gt; and so on. &lt;/p&gt;
+&lt;p&gt;So far, we have seen schemes add successive levels of complexity to model the value of a time series, but none of these attempt to model the changes over time of the noise terms. So far, these schemes have assumed the parameters of the noise term to be constants. The &lt;a href="https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity"&gt;autoregressive conditional heteroskedasticity&lt;/a&gt; &lt;span class="math"&gt;\(ARCH(q)\)&lt;/span&gt; and it's cousin the generalized autoregressive conditional heteroskedasticity &lt;span class="math"&gt;\(GARCH(p,q)\)&lt;/span&gt; do model the evolution of the noise term over time. In particular, &lt;span class="math"&gt;\(ARCH(q)\)&lt;/span&gt; models assume an autoregression of order &lt;span class="math"&gt;\(q\)&lt;/span&gt;, an &lt;span class="math"&gt;\(AR(q)\)&lt;/span&gt; model for the variance of the noise term, while &lt;span class="math"&gt;\(GARCH(p,q)\)&lt;/span&gt; models assume an &lt;span class="math"&gt;\(ARIMA(p,q)\)&lt;/span&gt; model for the variance of the noise term. Thus, one might use a &lt;span class="math"&gt;\(ARIMA(p,d,q)\)&lt;/span&gt; process to model the price of oil, and a &lt;span class="math"&gt;\(GARCH(r,s)\)&lt;/span&gt; process to model its &lt;a href="https://www.reuters.com/article/us-usa-stocks-weekahead/stock-volatility-back-with-a-bang-and-here-to-stay-idUSKCN1G02AP"&gt;volatility&lt;/a&gt; (the variance of the noise term !). 
+Now, we will attempt to forecast oil prices using a &lt;span class="math"&gt;\(ARIMA(2,2,2)\)&lt;/span&gt; process. We will fit the process to data until 2018-01-01, and calculate the RMS error on log-returns data post 2015-01-01. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;test_date &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;2017-05-01&amp;quot;&lt;/span&gt;
+train &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;price_of_oil&lt;span class="p"&gt;[&lt;/span&gt;oil_prices&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;test_date&lt;span class="p"&gt;)]&lt;/span&gt;
+test &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;price_of_oil&lt;span class="p"&gt;[&lt;/span&gt;oil_prices&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;test_date&lt;span class="p"&gt;)]&lt;/span&gt;
+
+arima_fit &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; arima&lt;span class="p"&gt;(&lt;/span&gt;train&lt;span class="p"&gt;,&lt;/span&gt; order &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; transform.pars &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                   seasonal&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kt"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;order&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; period&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;20&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+simulated_prices &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; predict&lt;span class="p"&gt;(&lt;/span&gt;arima_fit&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kp"&gt;length&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;test&lt;span class="p"&gt;))&lt;/span&gt;
+test_df &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;data_frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;date &lt;span class="o"&gt;=&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                      price_of_oil &lt;span class="o"&gt;=&lt;/span&gt; oil_prices&lt;span class="o"&gt;$&lt;/span&gt;price_of_oil&lt;span class="p"&gt;,&lt;/span&gt; 
+                      arima_prediction &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;train&lt;span class="p"&gt;,&lt;/span&gt;simulated_prices&lt;span class="o"&gt;$&lt;/span&gt;pred&lt;span class="p"&gt;),&lt;/span&gt; 
+                      arima_error &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;length.out &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;length&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;train&lt;span class="p"&gt;)),&lt;/span&gt;
+                                      simulated_prices&lt;span class="o"&gt;$&lt;/span&gt;se&lt;span class="p"&gt;))&lt;/span&gt;
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;test_df&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; arima_prediction&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;arima pred&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_errorbar&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                    ymin &lt;span class="o"&gt;=&lt;/span&gt; arima_prediction&lt;span class="o"&gt;-&lt;/span&gt;arima_error&lt;span class="p"&gt;,&lt;/span&gt; 
+                    ymax &lt;span class="o"&gt;=&lt;/span&gt; arima_prediction&lt;span class="o"&gt;+&lt;/span&gt;arima_error&lt;span class="p"&gt;,&lt;/span&gt; 
+                    colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;arima pred&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.07&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; price_of_oil&lt;span class="p"&gt;,&lt;/span&gt; 
+                colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;price of oil&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  xlim&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2015-08-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2018-03-25&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ylim&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;350&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Arima predictions&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-7-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Clearly, not a great forecast even during a period without extreme price movements. We will round off our little discussion of univariate financial time series with a small section on how returns are distributed.&lt;/p&gt;
+&lt;h3&gt;Distribution of returns&lt;/h3&gt;
+&lt;p&gt;With all the talk around random walks on wall street, and with Gaussian distributions being analytically tractable, people - including experts - have come to rely on too many distributions in finance being Gaussian, and they are not. There is a rather good reason for random walks leading to Gaussian distributions : the &lt;a href="https://www.khanacademy.org/math/ap-statistics/sampling-distribution-ap/sampling-distribution-mean/v/central-limit-theorem"&gt;central limit theorem&lt;/a&gt;. The basic idea is, for a large class of probability distributions (i.e. those whose variances are finite) if one adds a large number of independent random variables (eg. steps in a random walk... the position after a large number of steps is the sum of each step) one gets a number that has a Gaussian distribution.&lt;/p&gt;
+&lt;p&gt;However, these conditions are not always fulfilled. We have already seen that each step (the returns) in the random walk (of the price) is not always independent of the others (see the autocorrelations in the returns discussed above), and even worse, the returns may or may not have a distribution that is nice and has a finite variance. &lt;/p&gt;
+&lt;p&gt;Let us take a look at the distribution of scaled logarithmic returns of oil prices as compared to the normal (Gaussian) distribution via &lt;a href="http://data.library.virginia.edu/understanding-q-q-plots/"&gt;quantile-quantile plots&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ggplot&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+    geom_qq&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;sample &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;log_returns&lt;span class="p"&gt;),&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;log-returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+            distribution &lt;span class="o"&gt;=&lt;/span&gt; stats&lt;span class="o"&gt;::&lt;/span&gt;qnorm&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+    ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Quantile-quantile plot of log-returns against normal distribution&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+    ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-8-1.png"&gt;
+Clearly, both returns and logarithmic returns take large positive and negative values far more frequently than they would if they indeed followed a Gaussian distribution. This tells us that the distributions of returns (and log-returns) of oil prices have &lt;a href="http://nassimtaleb.org/tag/fat-tails/"&gt;fatter tails&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;We can try to fit these to a distribution with a fatter tail, like the Cauchy distribution, and plot the densities on a semi-log plot so that we see the tails better.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cauchy_fit &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; fitdistr&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;returns&lt;span class="p"&gt;),&lt;/span&gt; densfun &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;cauchy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+glue&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Location parameter is {cauchy_fit$estimate[1]} and the scale parameter is {cauchy_fit$estimate[2]}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Location parameter is 0.0345920376641853 and the scale parameter is 0.497741411484468
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ggplot&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;log_returns&lt;span class="p"&gt;),&lt;/span&gt; 
+                 colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;log returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;..&lt;/span&gt;density..&lt;span class="p"&gt;),&lt;/span&gt; stat &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;bin&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  stat_function&lt;span class="p"&gt;(&lt;/span&gt;fun &lt;span class="o"&gt;=&lt;/span&gt; dcauchy&lt;span class="p"&gt;,&lt;/span&gt; n &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1e2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; args &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;location &lt;span class="o"&gt;=&lt;/span&gt; cauchy_fit&lt;span class="o"&gt;$&lt;/span&gt;estimate&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                                                    scale &lt;span class="o"&gt;=&lt;/span&gt; cauchy_fit&lt;span class="o"&gt;$&lt;/span&gt;estimate&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+                size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;cauchy&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  stat_function&lt;span class="p"&gt;(&lt;/span&gt;fun &lt;span class="o"&gt;=&lt;/span&gt; dnorm&lt;span class="p"&gt;,&lt;/span&gt; n &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1e2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                args &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;mean &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;log_returns&lt;span class="p"&gt;)),&lt;/span&gt;
+                            sd &lt;span class="o"&gt;=&lt;/span&gt; sd&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;oil_price_returns&lt;span class="o"&gt;$&lt;/span&gt;log_returns&lt;span class="p"&gt;))),&lt;/span&gt;
+                size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gaussian&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; xlim &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  scale_y_log10&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Distribution of logarithmic returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  xlab&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Scaled logarithmic returns&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-9-1.png"&gt;
+We see that the distribution of logarithmic returns has fatter tails than the Gaussian, but is not quite as fat tailed as the Cauchy distribution.&lt;/p&gt;
+&lt;p&gt;The central limit theorem is only one of a class of limit theorems, and the Gaussian is only one attractor of an infinite set of attractors in the space of probability distributions. When assumptions about independence and existence of second moments that lead to the CLT fail, we should examine other limit distributions that may lead to behavior that is qualitatively different from that of a pleasant Gaussian random walk. But, that is a story for a later blog post :)&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>"greta playground"</title><link href="https://theclarkeorbit.github.io/greta-playground.html" rel="alternate"></link><published>2018-03-10T00:00:00+01:00</published><updated>2018-03-10T00:00:00+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2018-03-10:/greta-playground.html</id><summary type="html">&lt;p&gt;A first foray into probabilistic programming with Greta&lt;/p&gt;
+&lt;h2&gt;Models and modelling&lt;/h2&gt;
+&lt;p&gt;Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after &lt;a href="https://en.wikipedia.org/wiki/Tycho_Brahe"&gt;Tycho Brahe&lt;/a&gt; made detailed observations of planetary motion (&lt;a href="http://www.pafko.com/tycho/observe.html"&gt;here&lt;/a&gt; is data on mars), &lt;a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion"&gt;Johannes …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;A first foray into probabilistic programming with Greta&lt;/p&gt;
+&lt;h2&gt;Models and modelling&lt;/h2&gt;
+&lt;p&gt;Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after &lt;a href="https://en.wikipedia.org/wiki/Tycho_Brahe"&gt;Tycho Brahe&lt;/a&gt; made detailed observations of planetary motion (&lt;a href="http://www.pafko.com/tycho/observe.html"&gt;here&lt;/a&gt; is data on mars), &lt;a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion"&gt;Johannes Kepler posited laws&lt;/a&gt; of planetary motion that &lt;em&gt;explained&lt;/em&gt; how this data were generated. Effectively, &lt;strong&gt;modelling&lt;/strong&gt; is the art of constructing data generators that help us understand and predict. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Statistical models&lt;/strong&gt; are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :&lt;br&gt;
+- constructing a hypothesis, or a model &lt;span class="math"&gt;\(H\)&lt;/span&gt; parametrized by some parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;,&lt;br&gt;
+- finding (&lt;em&gt;inferring&lt;/em&gt;) the distribution of parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; or, the most suitable parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; given the observed data&lt;/p&gt;
+&lt;p&gt;What parameters are "most suitable" is indicated (in a particular sense of the word "suitable" will become clear in the following discussion) by the &lt;a href="https://en.wikipedia.org/wiki/Likelihood_function"&gt;likelihood function&lt;/a&gt; that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters &lt;span class="math"&gt;\(H_{\theta}\)&lt;/span&gt;. Understandably, we want to find parameters such that the observed data is the most likely, this is called &lt;a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation"&gt;maximum likelihood estimation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically and parameter distributions are even harder to compute) it makes sense to construct general rules and syntax to easily define statistical models and quickly infer their parameters. This is the field of probabilistic programming. &lt;/p&gt;
+&lt;h2&gt;Probabilistic programming&lt;/h2&gt;
+&lt;p&gt;The probabilistic programming language (PPL) has two tasks :  &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;be able to construct a useful class of statistical models  &lt;/li&gt;
+&lt;li&gt;be able to infer the parameters (and their distributions) of this class of models given some observed data.  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;As has been explained in this &lt;a href="https://www.reddit.com/r/deeplearning/comments/846wb6/the_paper_that_introduces_the_edward_ppl_by/"&gt;excellent paper introducing the PPL Edward&lt;/a&gt; that is based on Python and &lt;a href="https://www.tensorflow.org/"&gt;Tensorflow&lt;/a&gt;, some PPLs restrict the class of models they allow in order to optimize the inference algorithm, while other emphasize expressiveness and sacrifice performance of the inference algorithms. Modern PPLs like &lt;a href="http://edwardlib.org/"&gt;Edward&lt;/a&gt;, &lt;a href="https://eng.uber.com/pyro/"&gt;Pyro&lt;/a&gt;, and the R based &lt;a href="https://greta-dev.github.io/greta/index.html"&gt;Greta&lt;/a&gt; use the robust infrastructure (hardware and software) that was first developed in the context of deep learning and thus ensure scalability and performance while being expressive. &lt;/p&gt;
+&lt;h3&gt;The tensor and the computational graph&lt;/h3&gt;
+&lt;p&gt;The fundamental data structure of this group of languages is the &lt;a href="https://en.wikipedia.org/wiki/Tensor"&gt;tensor&lt;/a&gt; which is just a multidimensional array. Data, model parameters, samples from distributions are all stored in tensors. All the manipulations that go into the construction of the output tensor constitute the computational graph (see &lt;a href="http://colah.github.io/posts/2015-08-Backprop/"&gt;this&lt;/a&gt; for an exceptionally clear exposition of the concept) associated with that tensor.  &lt;/p&gt;
+&lt;p&gt;Data and parameter tensors are inputs to the computational graph. In the context of deep learning, "training" consists of the following steps :  &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Randomly initializing the parameter tensors  &lt;/li&gt;
+&lt;li&gt;Computing the output  &lt;/li&gt;
+&lt;li&gt;Measuring the error compared to the real/desired output  &lt;/li&gt;
+&lt;li&gt;Tweaking the parameter tensors to reduce the error.  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The algorithm that does this is called &lt;a href="https://en.wikipedia.org/wiki/Backpropagation"&gt;back propagation&lt;/a&gt;.
+Thus, the objective in deep learning or machine learning is to obtain the &lt;strong&gt;best values&lt;/strong&gt; (in the sense of that they minimize error on the training set) of the parameters given some data.&lt;/p&gt;
+&lt;p&gt;The objective of probabilistic modelling is subtly different. The aim here is to obtain the &lt;strong&gt;distribution&lt;/strong&gt; (called &lt;strong&gt;posterior distribution&lt;/strong&gt;) of parameters, given the data. If we denote the data by &lt;span class="math"&gt;\(D\)&lt;/span&gt;, &lt;a href="https://en.wikipedia.org/wiki/Bayes%27_theorem"&gt;Bayes theorem&lt;/a&gt; relates (for a particular hypothesis about how the data were generated &lt;span class="math"&gt;\(H\)&lt;/span&gt;), the likelihood of the data given some parameters &lt;span class="math"&gt;\(P(D|\theta,H)\)&lt;/span&gt;, our prior expectations about how the parameters are distributed &lt;span class="math"&gt;\(P(\theta)\)&lt;/span&gt; and the posterior distribution of the parameters themselves &lt;span class="math"&gt;\(P(\theta|D,H)\)&lt;/span&gt; :&lt;/p&gt;
+&lt;div class="math"&gt;$$P(\theta|D,H) = \frac{P(D|\theta,H)P(\theta)}{P(D)}.$$&lt;/div&gt;
+&lt;p&gt;The priors &lt;span class="math"&gt;\(P(\theta)\)&lt;/span&gt; do not depend on the data and encode "domain knowledge" while the probability of the data set &lt;span class="math"&gt;\(P(D)\)&lt;/span&gt; over the whole parameter space is (typically) a high dimensional integral given by
+&lt;/p&gt;
+&lt;div class="math"&gt;$$P(D|H) = \int P(D,\theta|H)d\theta.$$&lt;/div&gt;
+&lt;p&gt;Intuitively, we can see that the most likely parameters given the data, i.e. the parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; which maximize &lt;span class="math"&gt;\(P(\theta|D,H)\)&lt;/span&gt; ought to correspond to the sense of "best" or "most suitable" described above. From Bayes theorem, it is clear that the posterior distribution is directly proportional to the likelihood &lt;span class="math"&gt;\(P(\theta|D,H) \propto P(D|\theta,H)\)&lt;/span&gt;. Thus, maximizing likelihood is one way to get estimates of the "most likely parameters" (in the limit of infinite data), but computing the full distribution &lt;span class="math"&gt;\(P(\theta|D,H)\)&lt;/span&gt; involves dealing with the difficult integral for &lt;span class="math"&gt;\(P(D|H)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Bayesian prediction and MCMC&lt;/h3&gt;
+&lt;p&gt;Prediction in this framework is also fundamentally different from typical machine learning model. The probability of a new data point &lt;span class="math"&gt;\(d\)&lt;/span&gt;,
+&lt;/p&gt;
+&lt;div class="math"&gt;$$P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta,$$&lt;/div&gt;
+&lt;p&gt;
+which consists of the expectation value of the new data point over the whole distribution of parameters given the observed data (the posterior distribution calculated obtained from the solution to the inference problem), instead of a value calculated by plugging in the "learned parameter values" into the machine learning model. &lt;/p&gt;
+&lt;p&gt;The integrals needed for inference (&lt;span class="math"&gt;\(P(D|H) = \int P(D,\theta|H)d\theta\)&lt;/span&gt; as well as prediction &lt;span class="math"&gt;\(P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta\)&lt;/span&gt; need to be evaluated over the entire parameter space of the model which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. &lt;a href="https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/"&gt;This&lt;/a&gt; is an excellent overview of modern Hamiltonian Monte Carlo methods while &lt;a href="https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&amp;amp;ref_source=link"&gt;this&lt;/a&gt; provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. &lt;/p&gt;
+&lt;p&gt;Clearly then, along with the computational graph to define models, a PPL needs a good MCMC algorithm (or another inference algorithm) to compute the high dimensional integrals needed to infer as well as perform a prediction on a general probabilistic model. &lt;/p&gt;
+&lt;p&gt;A broad overview of Bayesian machine learning is available &lt;a href="http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf"&gt;here (PDF)&lt;/a&gt; and &lt;a href="http://fastml.com/bayesian-machine-learning/"&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now, we illustrate some of these points using the simplest possible example, linear regression.&lt;/p&gt;
+&lt;h2&gt;Basic linear regression.&lt;/h2&gt;
+&lt;p&gt;We will generate artificial data with known parameters, so that we can check if Greta (the PPL we are using for this article) gets it right later. &lt;/p&gt;
+&lt;h3&gt;Generating fake data to fit a model to&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;length_of_data &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;100&lt;/span&gt;
+sd_eps &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kc"&gt;pi&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="kp"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+intercept &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;-5.0&lt;/span&gt;
+slope &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kc"&gt;pi&lt;/span&gt;
+x &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-10&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kc"&gt;pi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="kc"&gt;pi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; length.out &lt;span class="o"&gt;=&lt;/span&gt; length_of_data&lt;span class="p"&gt;)&lt;/span&gt;
+y &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; intercept &lt;span class="o"&gt;+&lt;/span&gt; slope&lt;span class="o"&gt;*&lt;/span&gt;x &lt;span class="o"&gt;+&lt;/span&gt; rnorm&lt;span class="p"&gt;(&lt;/span&gt;n &lt;span class="o"&gt;=&lt;/span&gt; length_of_data&lt;span class="p"&gt;,&lt;/span&gt; mean &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; sd &lt;span class="o"&gt;=&lt;/span&gt; sd_eps&lt;span class="p"&gt;)&lt;/span&gt;
+data &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;data_frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;y &lt;span class="o"&gt;=&lt;/span&gt; y&lt;span class="p"&gt;,&lt;/span&gt; x &lt;span class="o"&gt;=&lt;/span&gt; x&lt;span class="p"&gt;)&lt;/span&gt;
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;data&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; x&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; y&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;simulated dependent variable&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_point&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_smooth&lt;span class="p"&gt;(&lt;/span&gt;method &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;lm&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Fake experimental data&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/greta_playground/unnamed-chunk-2-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Given this data, we want to write Greta code to infer the posterior distributions of the model parameters. &lt;/p&gt;
+&lt;h3&gt;Defining clueless priors for model parameters&lt;/h3&gt;
+&lt;p&gt;In this case, the parameters of our model are simple, but in principle, they can be arbitrary tensors. Since we really don't know anything about the prior distributions of our parameters, we look at the experimental data and take rough, uniform priors. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;intercept_p &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uniform&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;-10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+sd_eps_p &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uniform&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;50&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+slope_p &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uniform&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Defining the model&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mean_y &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; intercept_p&lt;span class="o"&gt;+&lt;/span&gt;slope_p&lt;span class="o"&gt;*&lt;/span&gt;x
+distribution&lt;span class="p"&gt;(&lt;/span&gt;y&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; normal&lt;span class="p"&gt;(&lt;/span&gt;mean_y&lt;span class="p"&gt;,&lt;/span&gt; sd_eps_p&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, we hypothesize that the target variable &lt;span class="math"&gt;\(y\)&lt;/span&gt; is linearly dependent on some independent variable &lt;span class="math"&gt;\(x\)&lt;/span&gt; with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the model. &lt;/p&gt;
+&lt;p&gt;Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing the target &lt;span class="math"&gt;\(y\)&lt;/span&gt; starting from the prior distributions of our input variables. We plot this computational graph below :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;our_model &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; model&lt;span class="p"&gt;(&lt;/span&gt;intercept_p&lt;span class="p"&gt;,&lt;/span&gt; slope_p&lt;span class="p"&gt;,&lt;/span&gt; sd_eps_p&lt;span class="p"&gt;)&lt;/span&gt;
+our_model &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; plot&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/greta_playground/model.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Inference&lt;/h3&gt;
+&lt;p&gt;There are two distinct types of inference possible, &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Sampling from the full posterior distribution&lt;/strong&gt; for the parameters given the data and the model. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Maximizing likelihood to compute "most probable" parameters&lt;/strong&gt; given the data and the model.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Sampling from the posterior distribution of parameters with MCMC&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;num_samples &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;1000&lt;/span&gt;
+param_draws &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; mcmc&lt;span class="p"&gt;(&lt;/span&gt;our_model&lt;span class="p"&gt;,&lt;/span&gt; n_samples &lt;span class="o"&gt;=&lt;/span&gt; num_samples&lt;span class="p"&gt;,&lt;/span&gt; warmup &lt;span class="o"&gt;=&lt;/span&gt; num_samples &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and plot the densities of samples drawn from the parameter posterior distributions, and the parameter fits.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mcmc_dens&lt;span class="p"&gt;(&lt;/span&gt;param_draws&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/greta_playground/unnamed-chunk-7-1.png"&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mcmc_intervals&lt;span class="p"&gt;(&lt;/span&gt;param_draws&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/greta_playground/unnamed-chunk-7-2.png"&gt;&lt;/p&gt;
+&lt;p&gt;By inspection, it looks like the &lt;a href="https://arxiv.org/abs/1701.02434"&gt;HMC&lt;/a&gt; has found reasonable values for our model parameters and their posterior distributions. &lt;/p&gt;
+&lt;h4&gt;Most probable parameters&lt;/h4&gt;
+&lt;p&gt;Explicitly, the mean estimates can be computed from the &lt;code&gt;param_draws&lt;/code&gt; data structure, or via the &lt;code&gt;greta::opt&lt;/code&gt; function.   &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;param_draws_df &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; as_data_frame&lt;span class="p"&gt;(&lt;/span&gt;param_draws&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
+param_estimates &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; param_draws_df &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  summarise_all&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+param_estimates &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;print&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## # A tibble: 1 x 3
+##   intercept_p slope_p sd_eps_p
+##         &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
+## 1       -1.96    3.23     24.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;opt_params &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; opt&lt;span class="p"&gt;(&lt;/span&gt;our_model&lt;span class="p"&gt;)&lt;/span&gt;
+opt_params&lt;span class="o"&gt;$&lt;/span&gt;par &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;print&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## intercept_p     slope_p    sd_eps_p 
+##   -4.274934    3.136769   26.435570
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Bayesian prediction&lt;/h3&gt;
+&lt;p&gt;Bayesian prediction is implemented via the &lt;code&gt;calculate()&lt;/code&gt; function available in the latest release of &lt;code&gt;greta&lt;/code&gt; on github. This generates a prediction on &lt;span class="math"&gt;\(y\)&lt;/span&gt; for each draw from the posterior distribution of the parameters (see previous section). Taking the expectation over this distribution of predictions gives us the mean value of the target variable &lt;span class="math"&gt;\(y\)&lt;/span&gt; but we have the whole distribution of &lt;span class="math"&gt;\(y\)&lt;/span&gt; available to us if we need to analyse it. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mean_y_plot &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; intercept_p&lt;span class="o"&gt;+&lt;/span&gt;slope_p&lt;span class="o"&gt;*&lt;/span&gt;x
+mean_y_plot_draws &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; calculate&lt;span class="p"&gt;(&lt;/span&gt;mean_y_plot&lt;span class="p"&gt;,&lt;/span&gt; param_draws&lt;span class="p"&gt;)&lt;/span&gt;
+mean_y_est &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;colMeans&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;mean_y_plot_draws&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
+data_pred &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; data &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; mutate&lt;span class="p"&gt;(&lt;/span&gt;y_fit &lt;span class="o"&gt;=&lt;/span&gt; mean_y_est&lt;span class="p"&gt;)&lt;/span&gt;
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;data_pred&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="p"&gt;,&lt;/span&gt;y&lt;span class="p"&gt;,&lt;/span&gt;colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;simulated dependent variable&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="p"&gt;,&lt;/span&gt;y_fit&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;estimated expectation value&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Fitted model&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggthemes&lt;span class="o"&gt;::&lt;/span&gt;theme_economist&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="center" src="/figures/greta_playground/unnamed-chunk-9-1.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Further exploration&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;The most mature PPL out there (with good R bindings) is Stan. There is a lot of material available, and it might be a good place to start to pick up some intuition. See &lt;a href="http://mc-stan.org/users/documentation/"&gt;this page&lt;/a&gt;.  &lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.mit.edu/~9.520/spring10/Classes/class21_mcmc_2010.pdf"&gt;This&lt;/a&gt; is a good intro to the role of MCMC in inference.  &lt;/li&gt;
+&lt;li&gt;These video lectures on &lt;a href="https://www.youtube.com/watch?v=oy7Ks3YfbDg"&gt;statistical rethinking&lt;/a&gt; emphasizing Bayesian statistics also seem interesting.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>Tiger Hill</title><link href="https://theclarkeorbit.github.io/tiger-hill.html" rel="alternate"></link><published>2015-11-12T00:00:00+01:00</published><updated>2015-11-12T00:00:00+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2015-11-12:/tiger-hill.html</id><summary type="html">&lt;p&gt;1.&lt;/p&gt;
+&lt;p&gt;"I've checked", the Principal said one morning at assembly "The hill behind the school does not seem to have a name. In the memory of those who died in Kashmir, we will call it Tiger Hill. So that we never forget."&lt;/p&gt;
+&lt;p&gt;It was the monsoon of 1999. I stood …&lt;/p&gt;</summary><content type="html">&lt;p&gt;1.&lt;/p&gt;
+&lt;p&gt;"I've checked", the Principal said one morning at assembly "The hill behind the school does not seem to have a name. In the memory of those who died in Kashmir, we will call it Tiger Hill. So that we never forget."&lt;/p&gt;
+&lt;p&gt;It was the monsoon of 1999. I stood there in my first, never-shaved moustache and navy blue uniform, cold despite the blazer and the multitudes who stood silently around me. Princi - as we affectionately called him - spoke on for a while about duty, country, bravery, gratitude and other noble things, and my eyes were moist but I was not really listening. I had long since drifted off into one of my all too frequent day dreams, off in some foreign land unknown to science, exploring, fighting, upholding some nebulous idea of civilisation. Dancing behind my patriotic tears were visions of erudite men in khakis who could shoot straight and fight for the country (which country ?) when they were not writing poetry, observing birds or charming ladies.&lt;/p&gt;
+&lt;p&gt;Our history textbooks were (of course) filled with accounts of India’s heroic fight for independence and the atrocities of the British. While I was suitably moved by the sacrifices of the freedom fighters and shocked by the brutality and unfairness of the colonial regime, (and I admit this to myself only now) my loyalties lay firmly with the empire builders. In fact, I positively loved the Empire. How do I know this ? Because in my daydreams I was never a revolutionary or even an Indian. I was always a scientist/explorer, implicitly European, privileged, male. I dreamt of being the strapping officer in Africa facing the maneating lions of Tsavo to get a railway built (never mind that Indian slave labourers were used and killed in large numbers ) or one of those promising young archaeologists Doyle liked to write about, bringing treasures from Egypt back “home” to London or even one of Jim Corbett's sportsmen friends trudging through the foothills tracking some maneater or the other, never mind that for all his love of India and Indians, Corbett moved to Kenya the moment India became independent. No doubt he thought the place would go to the dogs directly after the British left.&lt;/p&gt;
+&lt;p&gt;2.&lt;/p&gt;
+&lt;p&gt;In the years before Kargil, before our Principal baptised the hill, before my moustache and my long pants, the hill was my first haunt outside the city. One could cycle from my house past the dargah and the unguarded railway crossing and into the wide open countryside. Golden-brown in summer - the dry grass shimmering in the hot wind - emerald green come the monsoon. We would ride out on cycles too big for us, in the rain, past the rushing streams in their little canyons and the tiny crabs clambering over bare rock, riding out to the mist covered hills that dominated the horizon. We rarely got very far though, the mud that clogged up our wheels combined with the hunger that was ever gnawing at our young, rapidly growing bodies always ensured we were home well in time for the next meal.&lt;/p&gt;
+&lt;p&gt;Occasionally, we would make it all the way to school, and the hill. It is a peculiar type of hill commonly seen on the Deccan, with a one dimensional summit - long, thin and flat. This particular hill also tapered toward the back giving it the appearance of a Sphinx with its head lopped off. And if you stood where the head might have been, you could see the city in the far distance and the hills on the other side of it. Some with a masjid on top, some with temples, sometimes even a tree to liven up the flat, shaven countryside. And directly below you - at your feet - the school, with its fields and buildings arranged in a wide arc. The wind carried soft voices all the way to the top of the hill so that you heard them but could not understand what they were saying. Sheep and cows grazed on the hillside, a bell tinkled occasionally. It was beautiful, and I love it with a love I find impossible to articulate.&lt;/p&gt;
+&lt;p&gt;3.&lt;/p&gt;
+&lt;p&gt;In my early years Haggard and Doyle and Stevenson and Defoe invited me to find blanks on the map, rough seas and fierce natives, mysterious artefacts and legends of treasure, forgotten kingdoms and ruined cities. Then in 7th standard, a mathematically minded Vice Principal gifted me Arthur C. Clarke's 2001 : A Space Odyssey. I devoured it, and then devoured every other Clarke book I could find (an obsession that continues to this day) and the nature of my affliction changed forever. Clarke invited me to a world altogether more civilised than the one my daydreams had conjured, but no less marvelous. I now dreamt of exploration and adventure via international scientific bureaucracy - minor astronomers and common engineers on lonely space stations and planetary bases, a gentle, optimistic post-national future threatened only by the vastness and indifference of the universe. What could be more meaningful ? What could possibly compete ? Long before I had heard of Star Trek in my little town on the Deccan, I yearned for Starfleet.&lt;/p&gt;
+&lt;p&gt;I remember the exact moment - sometime in middle school - when I decided what kind of person I wanted to be. In 2010 : Odyssey Two, the narrator describes Dr. Chandra (the man behind the infamous sentient computer HAL who joined the Russian ship Leonov on its voyage to rescue the American ship Discovery) as having "an educated Indian accent". And as I read those words, I knew, I knew I wanted to be a dislocated scientist, far away, surrounded by foreigners, but (hopefully) with an "educated Indian accent". The idea had an unbearable attraction. Despite the golden grass shimmering in the summer sun and the emerald monsoon hills hiding in the mist, despite family and country and patriotism, I knew I had to leave. The yearning to be part of something greater was too strong, the need to explore, push mankind forward somehow, to belong elsewhere.&lt;/p&gt;
+&lt;p&gt;What happened then ? The last man landed on the moon over a decade before I was born, and it seems unlikely that humanity will go anywhere in the next 50 years. But, even our complacent age is not without its attractions. The efforts to understand biology and disease using math and physics might lay to rest some more of our oldest enemies, private companies are rushing into space and billions of people from formerly deprived nations now find a voice in the global cacophony. Despite this - and despite having participated in some of it - I remain discomfited. I do not belong, there is no greater Cause, there is no Starfleet.&lt;/p&gt;
+&lt;p&gt;4.&lt;/p&gt;
+&lt;p&gt;I remember passing through Kargil a few years after leaving my school and my hometown. Our car stopped, a short walk away from the base of the real, original Tiger Hill. Massive, menacing, unbelievably close to the national highway. I wondered how many Indian army men died there, storming the steep, steep slopes in the darkness in a hail of bullets to drive the insurgents from their entrenched positions. The Light Brigade could hardly have been more valiant. And Tiger Hill was only one of hundreds of such peaks that the Indian army stormed, young officers leading from the front, dying shortly after TV interviews. As one of them famously said, "Yeh dil maange more !".&lt;/p&gt;
+&lt;p&gt;I felt it keenly then, my Indian-ness. Here, a range of lofty and blood stained mountains that separates my country from another, very different one. There, the Siachen glacier and the Indira Col watershed. A drop of water on this side will flow into the Indus, onto the bustling Indian sub-continent. A drop of water on the other side flows into Central Asia to cities like Kashgar, Khokand, Bokhara, broad, empty plains cut by high mountains, verdant valleys and old old caravan routes and those ancient rivers, the Amu and Syr Darya. A very different country.&lt;/p&gt;
+&lt;p&gt;To settle down anywhere but India will be to become of that place and my love for my town and my country will not allow that. But my love remains uncomfortable with returning. It is essentially a love of absence and nostalgia, of tragedy and loneliness, of being far away, a love that wants to yearn to be home, but does not want to be at home.&lt;/p&gt;
+&lt;p&gt;And so I must keep moving, travelling, relocating, relearning. There is nothing else I have ever dreamt of doing, little else I wish to do. Until something fills the hole in my heart that my longing for India occupies, and finally allows me to go home.&lt;/p&gt;
+&lt;div id="disqus_thread"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt; /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */ var disqus_shortname = 'theclarkeorbit'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */ (function() { var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true; dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js'; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq); })();&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</content></entry></feed>
