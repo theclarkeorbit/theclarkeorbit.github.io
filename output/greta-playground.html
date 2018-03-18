@@ -17,7 +17,7 @@
 <meta property="og:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps : - constructing a hypothesis, or a model \(H\) parametrized by some parameters \(\theta\), - finding (inferring) the distribution of parameters \(\theta\) or, the most suitable parameters \(\theta\) given the observed data What parameters are “most suitable” is indicated (in a particular sense of the word “suitable” will become clear in the following discussion) by the likelihood function that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width" />
 <meta property="og:site_name" content="p. bhogale" />
 <meta property="og:article:author" content="pras" />
-<meta property="og:article:published_time" content="2018-03-18T00:05:03.621317+01:00" />
+<meta property="og:article:published_time" content="2018-03-10T00:00:00+01:00" />
 <meta name="twitter:title" content="“greta playground” ">
 <meta name="twitter:description" content="A first foray into probabilistic programming with Greta Models and modelling Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after Tycho Brahe made detailed observations of planetary motion (here is data on mars), Johannes Kepler posited laws of planetary motion that explained how this data were generated. Effectively, modelling is the art of constructing data generators that help us understand and predict. Statistical models are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps : - constructing a hypothesis, or a model \(H\) parametrized by some parameters \(\theta\), - finding (inferring) the distribution of parameters \(\theta\) or, the most suitable parameters \(\theta\) given the observed data What parameters are “most suitable” is indicated (in a particular sense of the word “suitable” will become clear in the following discussion) by the likelihood function that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular …if (!document.getElementById(&#39;mathjaxscript_pelican_#%@#$@#&#39;)) { var align = &#34;center&#34;, indent = &#34;0em&#34;, linebreak = &#34;false&#34;; if (false) { align = (screen.width">
 
@@ -197,7 +197,7 @@ param_estimates <span class="o">%&gt;%</span> <span class="kp">print</span><span
 <div class="highlight"><pre><span></span>## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-## 1       -4.51    3.21     22.3
+## 1       -1.96    3.23     24.0
 </pre></div>
 
 
@@ -207,7 +207,7 @@ opt_params<span class="o">$</span>par <span class="o">%&gt;%</span> <span class=
 
 
 <div class="highlight"><pre><span></span>## intercept_p     slope_p    sd_eps_p 
-##   -7.568487    3.347771   22.192644
+##   -4.274934    3.136769   26.435570
 </pre></div>
 
 
@@ -294,7 +294,7 @@ ggplot<span class="p">(</span>data_pred<span class="p">)</span> <span class="o">
         <section>
         <div class="span2" style="float:right;font-size:0.9em;">
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2018-03-18T00:05:03.621317+01:00">Mar 18, 2018</time>
+            <time pubdate="pubdate" datetime="2018-03-10T00:00:00+01:00">Mar 10, 2018</time>
             <h4>Category</h4>
             <a class="category-link" href="./categories.html#math_sci_tech-ref">math_sci_tech</a>
 <h4>Contact</h4>

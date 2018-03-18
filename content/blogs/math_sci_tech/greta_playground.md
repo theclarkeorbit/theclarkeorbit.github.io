@@ -1,5 +1,6 @@
 ---
 title: "greta playground"
+Date: 10 Mar 2018
 output:
   html_document:
     df_print: paged
@@ -171,7 +172,7 @@ param_estimates %>% print()
 ## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         <dbl>   <dbl>    <dbl>
-## 1       -4.51    3.21     22.3
+## 1       -1.96    3.23     24.0
 ```
 
 ```r
@@ -181,7 +182,7 @@ opt_params$par %>% print()
 
 ```
 ## intercept_p     slope_p    sd_eps_p 
-##   -7.568487    3.347771   22.192644
+##   -4.274934    3.136769   26.435570
 ```
 
 ### Bayesian prediction
