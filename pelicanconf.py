@@ -26,6 +26,9 @@ MAIN_MENU = True
 I18N_TEMPLATES_LANG = 'en'
 #MENUITEMS = (('About', '/About.html'),)
 
+
+THEME = 'pelican-bootstrap3'
+
 SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 
 FAVICON = SITEURL + "/images/favicon.png"
