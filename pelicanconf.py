@@ -33,7 +33,7 @@ SITELOGO = "/images/gravtar.jpg"# SITEURL +  u'https://en.gravatar.com/userimage
 DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
 BANNER_SUBTITLE = 'Data Sci, Quant Fin, Quant Bio.'
 FAVICON = "/images/favicon.png" # SITEURL + 
-BANNER = '/path/to/banner.jpg'
+BANNER = '/images/banner.jpg'
 
 # Feed generation is usually not desired when developing
 
