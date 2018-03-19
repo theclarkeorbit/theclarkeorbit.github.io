@@ -536,7 +536,7 @@ One way to get non linear boundaries is to include polynomial features and treat
 A better way to pick features is using **landmarks**. Certain points are identified in the space of features as being in some way specially significant to the problem at hand, and proximity (using some notion of distance or similarity) to these points is used to compute further features. For instance, given landmarks $l^{(1)},l^{(2)},l^{(3)}$ in the space of features, we can define one feature to be 
 
 $$
-f_1 = \exp\left(-\frac{\norm{x-l^{(1)}}^2}{2\sigma^2}\right)
+f_1 = \exp\left(-\frac{||{x-l^{(1)}}||^2}{2\sigma^2}\right)
 $$
 
 The specific similarity functions used are called **kernels**. In this case, we are using a *gaussian* kernel for $f_1$. It is clear that the Gaussian kernel falls away from the landmark at a rate determined by $\sigma$ and has a value of 1 at the landmark, and 0 infinitely far from the landmark. For classification problems, it is clear how choosing landmarks at estimated or intuitive or known centres of classes would be a good choice. 
