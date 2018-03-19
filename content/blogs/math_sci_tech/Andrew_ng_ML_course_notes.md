@@ -6,7 +6,7 @@ output:
     df_print: paged
 ---
 
-**These are notes I took while watching the lectures from [Andrew Ng's ML course](https://www.coursera.org/learn/machine-learning). There is no code, just some math and my take aways from the course. It should still serve as a useful first document to skim for someone just starting out with machine learning.** 
+These are notes I took while watching the lectures from [Andrew Ng's ML course](https://www.coursera.org/learn/machine-learning). There is no code, just some math and my take aways from the course. It should still serve as a useful first document to skim for someone just starting out with machine learning.
 
 
 
