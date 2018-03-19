@@ -10,10 +10,6 @@ output:
 
 
 
-\[
-    \newcommand{\abs}[1]{\lvert#1\rvert}
-    \newcommand{\norm}[1]{\lVert#1\rVert}
-\]
 
 
 ## What can ML do ?
