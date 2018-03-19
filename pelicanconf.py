@@ -29,8 +29,9 @@ I18N_TEMPLATES_LANG = 'en'
 
 THEME = 'pelican-bootstrap3'
 GITHUB_USER = 'pbhogale'
-SITELOGO = u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
-
+SITELOGO = SITEURL + "/images/gravtar.png"#u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
+DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
+BANNER_SUBTITLE = 'Data Sci, Quant Fin, Quant Bio.'
 FAVICON = SITEURL + "/images/favicon.png"
 
 # Feed generation is usually not desired when developing
