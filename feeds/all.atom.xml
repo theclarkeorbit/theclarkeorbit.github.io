@@ -426,7 +426,7 @@ param_estimates &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1       -7.24    3.22     21.2
+## 1       -6.12    3.12     22.8
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -436,7 +436,7 @@ opt_params&lt;span class="o"&gt;$&lt;/span&gt;par &lt;span class="o"&gt;%&amp;gt
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## intercept_p     slope_p    sd_eps_p 
-##   -8.367414    3.098064   19.139992
+##   -6.686146    3.187089   23.300232
 &lt;/pre&gt;&lt;/div&gt;
 
 
