@@ -34,6 +34,7 @@ DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
 BANNER_SUBTITLE = 'Data Sci, Quant Fin, Quant Bio.'
 FAVICON = "/images/favicon.png" # SITEURL + 
 BANNER = '/images/banner.jpg'
+BANNER_ALL_PAGES = True
 
 # Feed generation is usually not desired when developing
 
