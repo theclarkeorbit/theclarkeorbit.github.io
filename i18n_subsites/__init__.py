@@ -1,1 +1,1 @@
-from .tipue_search import *
+from .i18n_subsites import *

@@ -1,402 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-        <meta charset="utf-8" />
-        <title>p. bhogale - math_sci_tech</title>
-        <link rel="stylesheet" href="../theme/css/main.css" />
-        <link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="p. bhogale Atom Feed" />
+    <title>math_sci_tech - p. bhogale</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+
+    <link href="../https://theclarkeorbit.github.io/images/favicon.png" rel="icon">
+
+
+    <meta name="author" content="pras" />
+    <meta name="keywords" content="math_sci_tech" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="p. bhogale" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="p. bhogale"/>
+        <meta property="og:url" content=".."/>
+        <meta property="og:description" content="p. bhogale"/>
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="../theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="../theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="../theme/css/pygments/monokai.css" rel="stylesheet">
+    <link href="../theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="../theme/css/style.css" type="text/css"/>
+
+        <link href="../feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale ATOM Feed"/>
+
+
+
+        <link href="../feeds/math_sci_tech.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale math_sci_tech ATOM Feed"/>
+
 </head>
+<body>
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="../">p. bhogale  <strong>Data Sci, Quant Fin, Quant Bio.</strong></a></h1>
-                <nav><ul>
-                    <li><a href="../pages/about.html">About</a></li>
-                    <li><a href="../category/blog.html">blog</a></li>
-                    <li class="active"><a href="../category/math_sci_tech.html">math_sci_tech</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
-
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="../the-invisible-hand.html">"The Invisible Hand"</a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2018-03-18T00:00:00+01:00">
-                Published: Sun 18 March 2018
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="../author/pras.html">pras</a>
-        </address>
-<p>In <a href="../category/math_sci_tech.html">math_sci_tech</a>.</p>
-
-</footer><!-- /.post-info --><p><strong>Markets and financial time series data.</strong></p>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="../" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src="../https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400" width=""/> p. bhogale            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="../pages/about.html">
+                             About
+                          </a></li>
+                        <li >
+                            <a href="../category/blog.html">Blog</a>
+                        </li>
+                        <li class="active">
+                            <a href="../category/math_sci_tech.html">Math_sci_tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="../the-invisible-hand.html">"The Invisible Hand"</a></h2>
+                <div class="summary"><p><strong>Markets and financial time series data.</strong></p>
 <h2>Basic ideas about markets</h2>
 <p>Inevitably, finance and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible data.</p>
-<p><strong>What is a market ?</strong> A market is a system which enables <em>traders</em> to exchange <em>commodities/assets</em> at a mutually agreeable <em>price</em>. Every market has at its center a <em>market maker</em> - an entity which matches traders who want to buy at a certain price with traders who want to sell at that price.</p>
-<p><strong>No Arbitrage.</strong> The word arbitrage refers to a situation where the same asset has different prices in different locations. For instance, if Klingon Bat'Leths are available at 10USD a piece in Berlin and at 15USD a piece in Baghdad, and if the cost of transporting a Bat'Leth from Berlin to Baghdad is 1USD, then money can be made by buying Bat'Leths in Berlin and selling them in Baghdad. In fact, people will buy Bat'Leths in Berlin and sell them in Baghdad until the price of Bat'Leths increases in Berlin and decreases in Baghdad and there is no more profit to be made. In an ideal market, arbitrage is instantaneously washed out by traders making money off it. The <em>no arbitrage condition</em> implies that the market serves as a mechanism for price setting. Each commodity has a "rational" price decided in the market by balancing the forces of demand and supply.</p>
-<p><strong>The efficient market.</strong> A market is said to be efficient if all the information about a particular asset is instantly assimilated by the market and is immediately reflected in the price of the asset. This assumption has significant implications for the time series of the price of an asset traded on the market. Since Bachelier in 1900, it has been argued that an efficient market should imply that prices move randomly but a formal proof was presented by <a href="https://www.ifa.com/media/images/pdf%20files/samuelson-proof.pdf">Samuelson in 1965 (pdf)</a>. The paper is readable to anyone with moderate exposure to probability theory and the principle result is that at the present time <span class="math">\(t\)</span>, given the historical time series of prices of a particular asset <span class="math">\(\{y_t,y_{t-1}.......y_0\}\)</span>, if the futures price of that asset to be delivered at time <span class="math">\(T&gt;t\)</span> is <span class="math">\(C(T,t)\)</span>, then the expected price at the next time point <span class="math">\(t+1\)</span> is given by <span class="math">\(E\left\{C(T,t+1)\right\}=C(T,t)\)</span>. In other words, it is impossible to predict which way the price will move at the next time point based on the historical price data.</p>
-<p>Before making this idea more intuitive, we will introduce market <em>returns</em>. If the price of an asset today is <span class="math">\(y_t\)</span> and tomorrow it is <span class="math">\(y_{t+1}\)</span>, then the return an investor might have obtained by buying today and selling tomorrow is defined to be <span class="math">\(\frac{y_{t+1}-y_t}{y_t}\)</span>. It is more common in practice to use the logarithmic return defined by <span class="math">\(ln\left(\frac{y_{t+1}}{y_t}\right)\)</span>. It is useful to think of logarithmic returns being related to compound interest and normal returns being related to simple interest. If the price today was 100, and tomorrow is 110, then my return is 10% while my logarithmic return is 9.5%. The two methods of calculating return give approximately the same result but the logarithmic return is smaller since a lower rate of return is needed to obtain the same final capital with compound interest.</p>
-<p>We can now restate the efficient market hypothesis as a statement about returns. In an efficient market, returns must be serially uncorrelated. Stated this way, it is much easier to see the link between the efficient market hypothesis and the randomness of prices. If, for a certain asset, it were possible to predict that the price would rise (positive return) or fall (negative return) based on the past, this would present a powerful arbitrage opportunity. If prices were predicted to rise in the future, intelligent investors (intelligent enough to see correlations in returns anyway) could make a lot of money by buying today and selling when the price rose. However, this buying activity would immediately cause the price (at which the asset can be bought) to rise, washing out the gains that the investors might have made.</p>
-<p>It is worth stating that while the degree of randomness of returns on the price of a traded asset <a href="https://www.sciencedirect.com/science/article/pii/037842669390087T">can be tested</a>, tests for the efficient market hypothesis suffer from the so-called <a href="http://finance.wharton.upenn.edu/~jwachter/fnce100/h11.pdf">joint hypothesis problem</a>. How would we know if a market is inefficient ? We might look at all the information available, and find that the market behaves "abnormally" or "irrationally", given the available information. However, to evaluate what a normal/abnormal return is, we need a model that connects available information to the price of an asset (<a href="https://hbr.org/1982/01/does-the-capital-asset-pricing-model-work">an asset pricing model</a>). And therein lies the issue : even if we observe "abnormal returns", is the market inefficient or is our asset pricing model wrong ? We cannot possibly know. </p>
-<p><strong>Who does an "informed investor" buy from ?</strong> There is a word for them. Noise Investors. They provide the liquidity in the market, buying and selling assets regardless of price, perhaps acting on information that is really noise, or driven by other factors like an urgent need for cash resulting in a sale regardless of price. Since demand from noise investors is - by definition - random and independent of the price of the asset, the random uncorrelated fluctuations in asset prices are caused by the actions of informed investors seeking maximum profit. Anyone familiar with information theory will immediately recognize what is going on here. Since the time series of the price or returns on an asset incorporates non redundant information at each time point, it looks like a completely random, uncorrelated sequence. A sequence that has very little information can be compressed and expressed as a concise computer program (see <a href="https://en.wikipedia.org/wiki/Kolmogorov_complexity">algorithmic complexity</a>) or compressed in other ways using correlations. The higher the information content the more random a sequence looks. From this point of view, it is clear that a sequence incorporating a lot of information is indistinguishable from a completely random sequence.</p>
-<p><strong>If the price can be predicted to go up based on history, it would have already gone up to a point where no more profit is expected from a price rise.</strong> Once one has assumed that the market is efficient, this conclusion seems inescapable. As the old joke goes, two economists are walking along a road and one of them spots a 100\<span class="math">\( bill on the street. The other economist tells him not to bother, since if there really were a 100\\)</span> bill lying about, it would already have been picked up !</p>
-<p>While real markets resemble ideal, efficient markets in many ways (correlations between returns are washed out in less than 2 minutes, arbitrage is hard to find and so on) markets are only efficient in proportion to the number of intelligent investors looking to profit from their inefficiencies. There is a clear tension here. The effort investors are prepared to make to sniff out inefficiencies is proportional to the degree of inefficiency that exists. So, every profit opportunity is washed out only if one is not participating in the washing out.</p>
-<h2>A peek at financial data</h2>
-<p>We will use the <code>Quandl</code> package (see the <a href="https://www.quandl.com/tools/full-list">website</a> for details) to download recent oil prices and analyze them a little bit. This will serve as a short introduction to uni-variate time series analysis in R. See <a href="https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm">this</a> useful resource from the NIST for a simple overview of the theory. </p>
-<div class="highlight"><pre><span></span>oil_prices <span class="o">&lt;-</span> Quandl<span class="p">(</span><span class="s">&quot;OPEC/ORB&quot;</span><span class="p">,</span> type <span class="o">=</span> <span class="s">&quot;raw&quot;</span><span class="p">,</span> 
-                     transform <span class="o">=</span> <span class="s">&quot;normalize&quot;</span><span class="p">,</span> 
-                     collapse <span class="o">=</span> <span class="s">&quot;daily&quot;</span><span class="p">,</span> 
-                     force_irregular <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span> 
-                     start_date<span class="o">=</span><span class="s">&quot;2001-01-01&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  as_data_frame<span class="p">()</span> <span class="o">%&gt;%</span> 
-  transmute<span class="p">(</span>date <span class="o">=</span> Date<span class="p">,</span> price_of_oil <span class="o">=</span> Value<span class="p">)</span> <span class="o">%&gt;%</span> 
-  arrange<span class="p">(</span><span class="kp">date</span><span class="p">)</span>
-</pre></div>
-
-
-<p>The <code>transform = "normalize"</code> option sets the first value in the time series to 100 and scales all the other values accordingly. Let us take a look at oil prices over the last 18 years, scaled to the price on the 1st of January 2001.</p>
-<div class="highlight"><pre><span></span>ggplot<span class="p">(</span>data <span class="o">=</span> oil_prices<span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> price_of_oil<span class="p">))</span> <span class="o">+</span>
-  geom_vline<span class="p">(</span>xintercept <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2008-07-11&quot;</span><span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  annotate<span class="p">(</span>geom <span class="o">=</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> 
-           label <span class="o">=</span> <span class="s">&quot;Financial crash of 2008&quot;</span><span class="p">,</span> 
-           x <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2006-6-11&quot;</span><span class="p">),</span> y <span class="o">=</span> <span class="m">480</span><span class="p">,</span>
-           colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  geom_vline<span class="p">(</span>xintercept <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2014-10-11&quot;</span><span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  annotate<span class="p">(</span>geom <span class="o">=</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> label <span class="o">=</span> <span class="s">&quot;Overproduction&quot;</span><span class="p">,</span> 
-           x <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2016-4-11&quot;</span><span class="p">),</span> y <span class="o">=</span> <span class="m">480</span><span class="p">,</span> 
-           colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Normalized oil prices since 2001-01-01&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-3-1.png"></p>
-<p>In this data, there are two major crashes the first corresponding to the financial crisis of 2008 (<a href="http://www.nytimes.com/2008/11/12/business/worldbusiness/12oil.html">NYT comment on oil prices around this time</a>) which led to lower demand, while the oil price crash of 2014-15 seems to be linked to over production as oil producers competed for market share despite production ramp-ups in North America with <a href="https://www.forbes.com/sites/uhenergy/2017/09/05/how-american-fracking-ran-opecs-oil-recovery-off-the-rails/#11ee9db1ec26">fracking in the USA</a> and <a href="https://oilprice.com/Energy/Energy-General/What-Does-The-Future-Hold-For-Canadas-Oil-Sands.html">oil sands in Canada</a>. </p>
-<h3>Correlations in time</h3>
-<p><strong>Is this a random walk ?</strong> <a href="https://www.chicagobooth.edu/~/media/34F68FFD9CC04EF1A76901F6C61C0A76.PDF">The random walk hypothesis</a> follows intuitively from the efficient market hypothesis. If today's price includes <em>all available information</em> then it is the best available estimate of tomorrow's price, i.e., the price could go either way tomorrow, and successive returns are un-correlated. However, We see from the oil price chart above that there are long periods of positive and negative returns. At least at some times, over short-ish time scales, returns do seem to be correlated. </p>
-<p>Another useful concept about any time series <span class="math">\(\{y_t\}\)</span> is <strong>stationarity</strong>. A time series is said to be stationary if it's mean function <span class="math">\(\mu_t = E[y_t]\)</span> and it's autocovariance function <span class="math">\(\gamma(t,t-k) = E[(y_t-\mu_t)(y_{t-k}-\mu_{t-k})]\)</span> are both independent of time. In other words, a series is stationary if, over time, all its values are distributed around the same mean, and its relationship with its past does not evolve over time. A strongly stationary process has a joint probability distribution which does not change when shifted in time, i.e. ALL moments of the distribution are time independent. </p>
-<p>In practice, most financial time series are not stationary, however, stationary series can often be derived from non stationary series. For instance, the differences, or returns on a time series could be stationary even if the series itself is not. Or, the series could be fit to a function that approximates its mean over time, and subtracting this fitted mean from the original series yields a stationary series. As we shall see in subsequent sections, the simplest models often assume that a series is stationary.</p>
-<p>We can measure the influence of the past on the present value of a time series via its autocorrelation function. The <a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda35c.htm">autocorrelation</a> of a signal is the correlation of a signal with a delayed copy of itself. The autocorrelation function (ACF) calculates the correlations with different lags, giving us some idea about how long it takes for information contained in today's price to be swamped by new information in the signal. </p>
-<p>The autocorrelation is just the normalized autocovariance function. Given observations <span class="math">\(y_t\)</span> for <span class="math">\(t\in \{1..N\}\)</span>, the autocorrelation for lag <span class="math">\(k\)</span> is given by,
-</p>
-<div class="math">$$\rho_y(k) = \frac{\gamma(t,t-k)}{\gamma(t,t)} = \frac{\sum_{t=1+k}^N (y_{t-k}-\mu_{t-k})(y_t-\mu_t)}{\sum_{t=1}^N (y_t-\mu_t)^2}$$</div>
-<p>
-and stationarity would imply <span class="math">\(\mu_{t-k}=\mu_t \text{  }\forall (t,k)\)</span>. The ACF computes this number for various values of <span class="math">\(k\)</span>. In practice, we use the (slightly more complicated) <a href="https://en.wikipedia.org/wiki/Partial_autocorrelation_function">partial autocorrelation function</a> that computes the correlation of a time series with a lagged version of itself like the ACF, but also controls for the influence of all shorter lags. In other words, for a lag of say, 2 days, it computes how much the price day before yesterday is correlated with the price today (over the whole time series) over and above the correlation induced by the price yesterday (which is correlated to today's as well as day before yesterday's price). This gives a "decoupled" version of the influence of various time points in the past on the present.  </p>
-<div class="highlight"><pre><span></span>oil_price_returns <span class="o">&lt;-</span> <span class="kt">data_frame</span><span class="p">(</span>date <span class="o">=</span> oil_prices<span class="o">$</span><span class="kp">date</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="kp">nrow</span><span class="p">(</span>oil_prices<span class="p">)],</span> 
-                                returns <span class="o">=</span> <span class="kp">diff</span><span class="p">(</span>oil_prices<span class="o">$</span>price_of_oil<span class="p">),</span> 
-                                log_returns <span class="o">=</span> <span class="kp">diff</span><span class="p">(</span><span class="kp">log</span><span class="p">(</span>oil_prices<span class="o">$</span>price_of_oil<span class="p">)))</span>
-
-ggplot<span class="p">(</span>oil_price_returns<span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> log_returns<span class="p">,</span> 
-                colour <span class="o">=</span> <span class="s">&quot;logarithmic returns&quot;</span><span class="p">))</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Time series of logarithmic returns&quot;</span><span class="p">)</span> <span class="o">+</span>
-  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span> <span class="o">+</span>
-  geom_vline<span class="p">(</span>xintercept <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2008-07-11&quot;</span><span class="p">),</span> 
-             colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  annotate<span class="p">(</span>geom <span class="o">=</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> label <span class="o">=</span> <span class="s">&quot;Financial crash of 2008&quot;</span><span class="p">,</span> 
-           x <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2006-6-11&quot;</span><span class="p">),</span> y <span class="o">=</span> <span class="m">0.15</span><span class="p">,</span>
-           colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  geom_vline<span class="p">(</span>xintercept <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2014-10-11&quot;</span><span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  annotate<span class="p">(</span>geom <span class="o">=</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> label <span class="o">=</span> <span class="s">&quot;Overproduction&quot;</span><span class="p">,</span> 
-           x <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2016-4-11&quot;</span><span class="p">),</span> y <span class="o">=</span> <span class="m">0.15</span><span class="p">,</span> 
-           colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-4-1.png"></p>
-<div class="highlight"><pre><span></span>temp_acf_log_returns <span class="o">&lt;-</span> pacf<span class="p">(</span>oil_price_returns<span class="o">$</span>log_returns<span class="p">,</span> 
-                             lag.max <span class="o">=</span> <span class="m">8</span><span class="p">,</span> plot <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
-acf_df <span class="o">&lt;-</span> <span class="kt">data_frame</span><span class="p">(</span>log_returns_acf <span class="o">=</span> temp_acf_log_returns<span class="o">$</span>acf<span class="p">[,</span> <span class="p">,</span><span class="m">1</span><span class="p">],</span> 
-                     lag <span class="o">=</span> temp_acf_log_returns<span class="o">$</span>lag<span class="p">[,</span> <span class="p">,</span><span class="m">1</span><span class="p">])</span>
-ggplot<span class="p">(</span>data <span class="o">=</span> acf_df<span class="p">)</span> <span class="o">+</span>
-  geom_point<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> lag<span class="p">,</span> y <span class="o">=</span> log_returns_acf<span class="p">))</span> <span class="o">+</span>
-  geom_segment<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> lag<span class="p">,</span> y <span class="o">=</span> log_returns_acf<span class="p">,</span> 
-                   xend <span class="o">=</span> lag<span class="p">,</span> yend <span class="o">=</span> <span class="m">0</span><span class="p">))</span> <span class="o">+</span>
-  geom_hline<span class="p">(</span>aes<span class="p">(</span>yintercept <span class="o">=</span> <span class="m">0</span><span class="p">))</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Partial autocorrelation function for the logarithmic returns&quot;</span><span class="p">)</span> <span class="o">+</span>
-  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-4-2.png">
-In general then, the price of oil today is correlated with the price of oil yesterday, but, it would seem, has basically nothing to do with the price of oil the day before. </p>
-<p>While this is true of the whole time series, we could also compute this for windows of 365 days each (short windows lead to noisy estimates of the ACF coefficients), to see if there are periods of high long-range (multiple day) correlations. </p>
-<div class="highlight"><pre><span></span>acf_noplot <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span><span class="kt">vector</span><span class="p">){</span>
-    <span class="kr">return</span><span class="p">(</span>pacf<span class="p">(</span><span class="kt">vector</span><span class="p">,</span> lag.max <span class="o">=</span> <span class="m">8</span><span class="p">,</span> pl <span class="o">=</span> <span class="kc">FALSE</span><span class="p">))</span>
-<span class="p">}</span>
-window_width <span class="o">&lt;-</span> <span class="m">365</span>
-windowed_acf <span class="o">&lt;-</span> rollapply<span class="p">(</span>oil_price_returns<span class="o">$</span>log_returns<span class="p">,</span> 
-                          width <span class="o">=</span> window_width<span class="p">,</span> 
-                          FUN <span class="o">=</span> acf_noplot<span class="p">,</span>
-                          align <span class="o">=</span> <span class="s">&quot;left&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="kp">unlist</span><span class="p">()</span>
-
-windowed_acf_df <span class="o">&lt;-</span> windowed_acf  <span class="o">%&gt;%</span> 
-  <span class="kt">matrix</span><span class="p">(</span><span class="m">8</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>windowed_acf<span class="p">)</span><span class="o">/</span><span class="m">8</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="kp">t</span><span class="p">()</span> <span class="o">%&gt;%</span> 
-  as_data_frame<span class="p">()</span> <span class="o">%&gt;%</span> 
-  slice<span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>oil_price_returns<span class="p">)</span><span class="o">-</span>window_width<span class="m">+1</span><span class="p">))</span> <span class="o">%&gt;%</span> 
-  mutate_all<span class="p">(</span><span class="kp">as.numeric</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  mutate<span class="p">(</span>date <span class="o">=</span> oil_price_returns<span class="o">$</span><span class="kp">date</span><span class="p">[</span>window_width<span class="o">:</span><span class="kp">nrow</span><span class="p">(</span>oil_price_returns<span class="p">)])</span>
-
-acf_values <span class="o">&lt;-</span> windowed_acf_df <span class="o">%&gt;%</span> 
-  summarise_all<span class="p">(</span><span class="kp">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  gather<span class="p">()</span>
-
-acf_values <span class="o">%&gt;%</span> <span class="kp">head</span><span class="p">()</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## # A tibble: 6 x 2
-##   key      value
-##   &lt;chr&gt;    &lt;dbl&gt;
-## 1 V1     0.245  
-## 2 V2    -0.0536 
-## 3 V3     0.0213 
-## 4 V4     0.00316
-## 5 V5     0.0104 
-## 6 V6    -0.0128
-</pre></div>
-
-
-<p>We can see that while evaluating ACFs on smaller samples via a moving window and taking the mean is not <em>quite</em> the same as taking the ACF on the whole series, the pattern is not different, i.e., the correlation is washed out after the second day.</p>
-<p>Now, we can plot the 2nd, 3rd and 4th terms of the ACF function to see if there are periods of higher and lower correlations in the oil prices.</p>
-<div class="highlight"><pre><span></span>ggplot<span class="p">(</span>windowed_acf_df<span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> V1<span class="p">,</span> colour <span class="o">=</span> <span class="s">&quot;Lag 1&quot;</span><span class="p">))</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> V2<span class="p">,</span> colour <span class="o">=</span> <span class="s">&quot;Lag 2&quot;</span><span class="p">))</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> V3<span class="p">,</span> colour <span class="o">=</span> <span class="s">&quot;Lag 3&quot;</span><span class="p">))</span> <span class="o">+</span>
-  geom_vline<span class="p">(</span>xintercept <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2008-07-11&quot;</span><span class="p">),</span> 
-             colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  annotate<span class="p">(</span>geom <span class="o">=</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> label <span class="o">=</span> <span class="s">&quot;Financial crash of 2008&quot;</span><span class="p">,</span> 
-           x <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2006-6-11&quot;</span><span class="p">),</span> y <span class="o">=</span> <span class="m">0.5</span><span class="p">,</span>
-           colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  geom_vline<span class="p">(</span>xintercept <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2014-10-11&quot;</span><span class="p">),</span> 
-             colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  annotate<span class="p">(</span>geom <span class="o">=</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> label <span class="o">=</span> <span class="s">&quot;Overproduction&quot;</span><span class="p">,</span> 
-           x <span class="o">=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2016-4-11&quot;</span><span class="p">),</span> y <span class="o">=</span> <span class="m">0.5</span><span class="p">,</span> 
-           colour <span class="o">=</span> <span class="s">&quot;#7379d6&quot;</span><span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> oil_prices<span class="o">$</span><span class="kp">date</span><span class="p">[</span>window_width<span class="o">:</span><span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>oil_prices<span class="p">)</span><span class="m">-1</span><span class="p">)],</span>
-                y <span class="o">=</span> oil_prices<span class="o">$</span>price_of_oil<span class="p">[</span>window_width<span class="o">:</span><span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>oil_prices<span class="p">)</span><span class="m">-1</span><span class="p">)]</span><span class="o">/</span><span class="m">1000</span><span class="p">,</span>
-                colour <span class="o">=</span> <span class="s">&quot;rescaled oil price&quot;</span><span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.55</span><span class="p">)</span> <span class="o">+</span>
-  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Evolution of correlations with different lags&quot;</span><span class="p">)</span> <span class="o">+</span>
-  ylab<span class="p">(</span><span class="s">&quot;correlation&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-6-1.png">
-It is clear by inspection that both crashes correspond to increasing correlation (of log-returns) across all three lag terms plotted. That is, while the oil price was crashing, autocorrelations (of log-returns) with lags of 1, 2, 3 days were all increasing. autocorrelations peaked when the oil price reached rock bottom and relaxed again as the price recovery started. </p>
-<p>The time series of log-returns on oil prices is clearly not stationary (and nor are oil prices themselves, needless to say). So, what is a good way to forecast oil prices ?</p>
-<h3><span class="math">\(AR(p)\)</span>, <span class="math">\(ARMA(p,q)\)</span>, <span class="math">\(ARIMA(p,d,q)\)</span>, <span class="math">\(ARCH(q)\)</span>, <span class="math">\(GARCH(p,q)\)</span> ...</h3>
-<p>One possible simple model of a time series like ours is an <a href="https://en.wikipedia.org/wiki/Autoregressive_model">autoregressive process</a> of order <span class="math">\(p\)</span>. This just means that the current value of the time series depends on the value of the time series at <span class="math">\(p\)</span> previous time steps and a noise term. An <span class="math">\(AR(p)\)</span> process (this is what they are called..) take the form, 
-</p>
-<div class="math">$$x_{t} = c + \sum_{i = 1}^p \phi_i x_{t-i\Delta t} + \epsilon_t$$</div>
-<p>
-where <span class="math">\(\epsilon_t\)</span> is the uncorrelated, unbiased noise term. For oil price returns, the coefficients <span class="math">\(\phi_i\)</span> will probably not be significant (overall) for <span class="math">\(i&gt;1\)</span>. However, we have already seen that the influence of the past changes with time, and there are periods when multiple day correlations might be vital to explaining the change in price. <span class="math">\(AR(p)\)</span> processes need not always be stationary. <a href="https://en.wikipedia.org/wiki/Moving-average_model">Moving average models</a> <span class="math">\(MA(q)\)</span> on the other hand are always stationary and posit that the present value <span class="math">\(y_t\)</span> is the sum of some mean value, a white noise term, and a sum over <span class="math">\(q\)</span> past values of noise terms (the moving average referred to in the name).
-</p>
-<div class="math">$$y_t = \mu + \epsilon_t + \sum_{i=1}^q \epsilon_{t-i\Delta t}.$$</div>
-<p>
-It does not take a genius to infer that <a href="https://en.wikipedia.org/wiki/Autoregressive%E2%80%93moving-average_model">autoregressive moving average</a> <span class="math">\(ARMA(p,q)\)</span> models consist of <span class="math">\(p\)</span> auto regressive and <span class="math">\(q\)</span> moving average terms. They are weakly stationary (the first two moments are time invariant). </p>
-<p>To be able to forecast non-stationary processes, <span class="math">\(ARMA(p,q)\)</span> models have been generalized to <a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average">autoregressive integrated moving average</a> <span class="math">\(ARIMA(p,d,q)\)</span> models. Apart from the <span class="math">\(p\)</span> lagged values of itself and the sum over <span class="math">\(q\)</span> noise terms from the past the <span class="math">\(ARIMA(p,d,q)\)</span> also have the time series values differenced <span class="math">\(d\)</span> times. This differencing is the discrete version of a derivative, so 1st order differencing is <span class="math">\(y_t' = y_t - y_{t-1}\)</span> while second order differencing is <span class="math">\(y_t'' = y'_t - y'_{t-1} = (y_t - y_{t-1}) - (y_{t-1} - y_{t-2})\)</span> and so on. </p>
-<p>So far, we have seen schemes add successive levels of complexity to model the value of a time series, but none of these attempt to model the changes over time of the noise terms. So far, these schemes have assumed the parameters of the noise term to be constants. The <a href="https://en.wikipedia.org/wiki/Autoregressive_conditional_heteroskedasticity">autoregressive conditional heteroskedasticity</a> <span class="math">\(ARCH(q)\)</span> and it's cousin the generalized autoregressive conditional heteroskedasticity <span class="math">\(GARCH(p,q)\)</span> do model the evolution of the noise term over time. In particular, <span class="math">\(ARCH(q)\)</span> models assume an autoregression of order <span class="math">\(q\)</span>, an <span class="math">\(AR(q)\)</span> model for the variance of the noise term, while <span class="math">\(GARCH(p,q)\)</span> models assume an <span class="math">\(ARIMA(p,q)\)</span> model for the variance of the noise term. Thus, one might use a <span class="math">\(ARIMA(p,d,q)\)</span> process to model the price of oil, and a <span class="math">\(GARCH(r,s)\)</span> process to model its <a href="https://www.reuters.com/article/us-usa-stocks-weekahead/stock-volatility-back-with-a-bang-and-here-to-stay-idUSKCN1G02AP">volatility</a> (the variance of the noise term !). 
-Now, we will attempt to forecast oil prices using a <span class="math">\(ARIMA(2,2,2)\)</span> process. We will fit the process to data until 2018-01-01, and calculate the RMS error on log-returns data post 2015-01-01. </p>
-<div class="highlight"><pre><span></span>test_date <span class="o">&lt;-</span> <span class="s">&quot;2017-05-01&quot;</span>
-train <span class="o">&lt;-</span> oil_prices<span class="o">$</span>price_of_oil<span class="p">[</span>oil_prices<span class="o">$</span><span class="kp">date</span><span class="o">&lt;=</span><span class="kp">as.Date</span><span class="p">(</span>test_date<span class="p">)]</span>
-test <span class="o">&lt;-</span> oil_prices<span class="o">$</span>price_of_oil<span class="p">[</span>oil_prices<span class="o">$</span><span class="kp">date</span><span class="o">&gt;</span><span class="kp">as.Date</span><span class="p">(</span>test_date<span class="p">)]</span>
-
-arima_fit <span class="o">&lt;-</span> arima<span class="p">(</span>train<span class="p">,</span> order <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> transform.pars <span class="o">=</span> <span class="kc">TRUE</span><span class="p">,</span>
-                   seasonal<span class="o">=</span><span class="kt">list</span><span class="p">(</span>order<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">),</span> period<span class="o">=</span><span class="m">20</span><span class="p">))</span>
-simulated_prices <span class="o">&lt;-</span> predict<span class="p">(</span>arima_fit<span class="p">,</span><span class="kp">length</span><span class="p">(</span>test<span class="p">))</span>
-test_df <span class="o">&lt;-</span> <span class="kt">data_frame</span><span class="p">(</span>date <span class="o">=</span> oil_prices<span class="o">$</span><span class="kp">date</span><span class="p">,</span> 
-                      price_of_oil <span class="o">=</span> oil_prices<span class="o">$</span>price_of_oil<span class="p">,</span> 
-                      arima_prediction <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>train<span class="p">,</span>simulated_prices<span class="o">$</span>pred<span class="p">),</span> 
-                      arima_error <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="kp">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span>length.out <span class="o">=</span> <span class="kp">length</span><span class="p">(</span>train<span class="p">)),</span>
-                                      simulated_prices<span class="o">$</span>se<span class="p">))</span>
-ggplot<span class="p">(</span>test_df<span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> arima_prediction<span class="p">,</span> colour <span class="o">=</span> <span class="s">&quot;arima pred&quot;</span><span class="p">))</span> <span class="o">+</span>
-  geom_errorbar<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> 
-                    ymin <span class="o">=</span> arima_prediction<span class="o">-</span>arima_error<span class="p">,</span> 
-                    ymax <span class="o">=</span> arima_prediction<span class="o">+</span>arima_error<span class="p">,</span> 
-                    colour <span class="o">=</span> <span class="s">&quot;arima pred&quot;</span><span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.07</span><span class="p">)</span> <span class="o">+</span>
-  geom_line<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">date</span><span class="p">,</span> y <span class="o">=</span> price_of_oil<span class="p">,</span> 
-                colour <span class="o">=</span> <span class="s">&quot;price of oil&quot;</span><span class="p">))</span> <span class="o">+</span>
-  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span> <span class="o">+</span>
-  xlim<span class="p">(</span><span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2015-08-01&quot;</span><span class="p">),</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2018-03-25&quot;</span><span class="p">))</span> <span class="o">+</span>
-  ylim<span class="p">(</span><span class="m">20</span><span class="p">,</span><span class="m">350</span><span class="p">)</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Arima predictions&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-7-1.png"></p>
-<p>Clearly, not a great forecast even during a period without extreme price movements. We will round off our little discussion of univariate financial time series with a small section on how returns are distributed.</p>
-<h3>Distribution of returns</h3>
-<p>With all the talk around random walks on wall street, and with Gaussian distributions being analytically tractable, people - including experts - have come to rely on too many distributions in finance being Gaussian, and they are not. There is a rather good reason for random walks leading to Gaussian distributions : the <a href="https://www.khanacademy.org/math/ap-statistics/sampling-distribution-ap/sampling-distribution-mean/v/central-limit-theorem">central limit theorem</a>. The basic idea is, for a large class of probability distributions (i.e. those whose variances are finite) if one adds a large number of independent random variables (eg. steps in a random walk... the position after a large number of steps is the sum of each step) one gets a number that has a Gaussian distribution.</p>
-<p>However, these conditions are not always fulfilled. We have already seen that each step (the returns) in the random walk (of the price) is not always independent of the others (see the autocorrelations in the returns discussed above), and even worse, the returns may or may not have a distribution that is nice and has a finite variance. </p>
-<p>Let us take a look at the distribution of scaled logarithmic returns of oil prices as compared to the normal (Gaussian) distribution via <a href="http://data.library.virginia.edu/understanding-q-q-plots/">quantile-quantile plots</a>.</p>
-<div class="highlight"><pre><span></span>ggplot<span class="p">(</span>oil_price_returns<span class="p">)</span> <span class="o">+</span>
-    geom_qq<span class="p">(</span>aes<span class="p">(</span>sample <span class="o">=</span> <span class="kp">scale</span><span class="p">(</span>log_returns<span class="p">),</span> colour <span class="o">=</span> <span class="s">&quot;log-returns&quot;</span><span class="p">),</span> 
-            distribution <span class="o">=</span> stats<span class="o">::</span>qnorm<span class="p">)</span> <span class="o">+</span>
-    ggtitle<span class="p">(</span><span class="s">&quot;Quantile-quantile plot of log-returns against normal distribution&quot;</span><span class="p">)</span> <span class="o">+</span>
-    ggthemes<span class="o">::</span>theme_economist<span class="p">()</span>
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-8-1.png">
-Clearly, both returns and logarithmic returns take large positive and negative values far more frequently than they would if they indeed followed a Gaussian distribution. This tells us that the distributions of returns (and log-returns) of oil prices have <a href="http://nassimtaleb.org/tag/fat-tails/">fatter tails</a>. </p>
-<p>We can try to fit these to a distribution with a fatter tail, like the Cauchy distribution, and plot the densities on a semi-log plot so that we see the tails better.</p>
-<div class="highlight"><pre><span></span>cauchy_fit <span class="o">&lt;-</span> fitdistr<span class="p">(</span><span class="kp">scale</span><span class="p">(</span>oil_price_returns<span class="o">$</span>returns<span class="p">),</span> densfun <span class="o">=</span> <span class="s">&quot;cauchy&quot;</span><span class="p">)</span>
-glue<span class="p">(</span><span class="s">&quot;Location parameter is {cauchy_fit$estimate[1]} and the scale parameter is {cauchy_fit$estimate[2]}&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## Location parameter is 0.0347862087434961 and the scale parameter is 0.497758531292875
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>ggplot<span class="p">(</span>oil_price_returns<span class="p">)</span> <span class="o">+</span>
-  geom_point<span class="p">(</span>aes<span class="p">(</span>x <span class="o">=</span> <span class="kp">scale</span><span class="p">(</span>oil_price_returns<span class="o">$</span>log_returns<span class="p">),</span> 
-                 colour <span class="o">=</span> <span class="s">&quot;log returns&quot;</span><span class="p">,</span> y <span class="o">=</span> <span class="m">..</span>density..<span class="p">),</span> stat <span class="o">=</span> <span class="s">&quot;bin&quot;</span><span class="p">)</span> <span class="o">+</span>
-  stat_function<span class="p">(</span>fun <span class="o">=</span> dcauchy<span class="p">,</span> n <span class="o">=</span> <span class="m">1e2</span><span class="p">,</span> args <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>location <span class="o">=</span> cauchy_fit<span class="o">$</span>estimate<span class="p">[</span><span class="m">1</span><span class="p">],</span>
-                                                    scale <span class="o">=</span> cauchy_fit<span class="o">$</span>estimate<span class="p">[</span><span class="m">2</span><span class="p">]),</span>
-                size <span class="o">=</span> <span class="m">1</span><span class="p">,</span> alpha <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> aes<span class="p">(</span>colour <span class="o">=</span> <span class="s">&quot;cauchy&quot;</span><span class="p">))</span> <span class="o">+</span>
-  stat_function<span class="p">(</span>fun <span class="o">=</span> dnorm<span class="p">,</span> n <span class="o">=</span> <span class="m">1e2</span><span class="p">,</span>
-                args <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>mean <span class="o">=</span> <span class="kp">mean</span><span class="p">(</span><span class="kp">scale</span><span class="p">(</span>oil_price_returns<span class="o">$</span>log_returns<span class="p">)),</span>
-                            sd <span class="o">=</span> sd<span class="p">(</span><span class="kp">scale</span><span class="p">(</span>oil_price_returns<span class="o">$</span>log_returns<span class="p">))),</span>
-                size <span class="o">=</span> <span class="m">1</span><span class="p">,</span> alpha <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span> aes<span class="p">(</span>colour <span class="o">=</span> <span class="s">&quot;gaussian&quot;</span><span class="p">),</span> xlim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">-4</span><span class="p">,</span><span class="m">4</span><span class="p">))</span> <span class="o">+</span>
-  scale_y_log10<span class="p">()</span> <span class="o">+</span>
-  ggtitle<span class="p">(</span><span class="s">&quot;Distribution of logarithmic returns&quot;</span><span class="p">)</span> <span class="o">+</span>
-  ggthemes<span class="o">::</span>theme_economist<span class="p">()</span> <span class="o">+</span>
-  xlab<span class="p">(</span><span class="s">&quot;Scaled logarithmic returns&quot;</span><span class="p">)</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-</pre></div>
-
-
-<p><img alt="center" src="/figures/The_Invisible_Hand/unnamed-chunk-9-1.png">
-We see that the distribution of logarithmic returns has fatter tails than the Gaussian, but is not quite as fat tailed as the Cauchy distribution.</p>
-<p>The central limit theorem is only one of a class of limit theorems, and the Gaussian is only one attractor of an infinite set of attractors in the space of probability distributions. When assumptions about independence and existence of second moments that lead to the CLT fail, we should examine other limit distributions that may lead to behavior that is qualitatively different from that of a pleasant Gaussian random walk. But, that is a story for a later blog post :)</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="../greta-playground.html" rel="bookmark"
-                           title="Permalink to "greta playground"">"greta playground"</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2018-03-11T00:00:00+01:00">
-                Published: Sun 11 March 2018
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="../author/pras.html">pras</a>
-        </address>
-<p>In <a href="../category/math_sci_tech.html">math_sci_tech</a>.</p>
-
-</footer><!-- /.post-info -->                <p>A first foray into probabilistic programming with Greta</p>
+<p><strong>What is a market ?</strong> A market is a …</p>
+                    <a class="btn btn-default btn-xs" href="../the-invisible-hand.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="../greta-playground.html">"greta playground"</a></h2>
+                <div class="summary"><p>A first foray into probabilistic programming with Greta</p>
 <h2>Models and modelling</h2>
 <p>Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after <a href="https://en.wikipedia.org/wiki/Tycho_Brahe">Tycho Brahe</a> made detailed observations of planetary motion (<a href="http://www.pafko.com/tycho/observe.html">here</a> is data on mars), <a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion">Johannes …</a></p>
-                <a class="readmore" href="../greta-playground.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
-                </ol><!-- /#posts-list -->
-                </section><!-- /#content -->
-        <section id="extras" class="body">
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
-                            <li><a href="https://theclarkeorbit.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                    <a class="btn btn-default btn-xs" href="../greta-playground.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
 
-                            <li><a href="https://www.linkedin.com/in/pbhogale">linkedin</a></li>
-                            <li><a href="https://twitter.com/thegymnosophist">twitter</a></li>
-                            <li><a href="https://github.com/pbhogale">github</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/pbhogale"><i class="fa fa-linkedin-square fa-lg"></i> linkedin</a></li>
+    <li class="list-group-item"><a href="https://twitter.com/thegymnosophist"><i class="fa fa-twitter-square fa-lg"></i> twitter</a></li>
+    <li class="list-group-item"><a href="https://github.com/pbhogale"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2018 pras
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="../theme/js/jquery.min.js"></script>
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../theme/js/bootstrap.min.js"></script>
 
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="../theme/js/respond.min.js"></script>
+
+
+    <!-- Google Analytics -->
     <script type="text/javascript">
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-115756026-1', 'auto');
-    ga('send', 'pageview');
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-115756026-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
     </script>
+    <!-- End Google Analytics Code -->
+
+
 </body>
 </html>
