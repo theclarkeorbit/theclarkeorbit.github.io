@@ -222,7 +222,7 @@ glue&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Location
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Location parameter is 0.0345920376641853 and the scale parameter is 0.497741411484468
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Location parameter is 0.0347862087434961 and the scale parameter is 0.497758531292875
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -304,7 +304,7 @@ We see that the distribution of logarithmic returns has fatter tails than the Ga
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content></entry><entry><title>"greta playground"</title><link href="https://theclarkeorbit.github.io/greta-playground.html" rel="alternate"></link><published>2018-03-10T00:00:00+01:00</published><updated>2018-03-10T00:00:00+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2018-03-10:/greta-playground.html</id><summary type="html">&lt;p&gt;A first foray into probabilistic programming with Greta&lt;/p&gt;
+&lt;/script&gt;</content></entry><entry><title>"greta playground"</title><link href="https://theclarkeorbit.github.io/greta-playground.html" rel="alternate"></link><published>2018-03-11T00:00:00+01:00</published><updated>2018-03-11T00:00:00+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2018-03-11:/greta-playground.html</id><summary type="html">&lt;p&gt;A first foray into probabilistic programming with Greta&lt;/p&gt;
 &lt;h2&gt;Models and modelling&lt;/h2&gt;
 &lt;p&gt;Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after &lt;a href="https://en.wikipedia.org/wiki/Tycho_Brahe"&gt;Tycho Brahe&lt;/a&gt; made detailed observations of planetary motion (&lt;a href="http://www.pafko.com/tycho/observe.html"&gt;here&lt;/a&gt; is data on mars), &lt;a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion"&gt;Johannes …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;A first foray into probabilistic programming with Greta&lt;/p&gt;
 &lt;h2&gt;Models and modelling&lt;/h2&gt;
@@ -426,7 +426,7 @@ param_estimates &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## # A tibble: 1 x 3
 ##   intercept_p slope_p sd_eps_p
 ##         &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1       -1.96    3.23     24.0
+## 1       -7.24    3.22     21.2
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -436,7 +436,7 @@ opt_params&lt;span class="o"&gt;$&lt;/span&gt;par &lt;span class="o"&gt;%&amp;gt
 
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## intercept_p     slope_p    sd_eps_p 
-##   -4.274934    3.136769   26.435570
+##   -8.367414    3.098064   19.139992
 &lt;/pre&gt;&lt;/div&gt;
 
 

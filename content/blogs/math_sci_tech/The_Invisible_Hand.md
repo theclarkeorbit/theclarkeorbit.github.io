@@ -269,7 +269,7 @@ glue("Location parameter is {cauchy_fit$estimate[1]} and the scale parameter is 
 ```
 
 ```
-## Location parameter is 0.0345920376641853 and the scale parameter is 0.497741411484468
+## Location parameter is 0.0347862087434961 and the scale parameter is 0.497758531292875
 ```
 
 ```r
