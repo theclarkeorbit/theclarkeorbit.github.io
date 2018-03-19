@@ -32,7 +32,7 @@ GITHUB_USER = 'pbhogale'
 SITELOGO = "/images/gravtar.jpg"# SITEURL +  u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
 BANNER_SUBTITLE = 'Data Sci, Quant Fin, Quant Bio.'
-FAVICON = "/images/favicon.png" # SITEURL + 
+FAVICON = "/images/gravtar.jpg"#"/images/favicon.png" # SITEURL + 
 BANNER = '/images/banner.jpg'
 BANNER_ALL_PAGES = True
 
