@@ -38,4 +38,4 @@ knit_folder <- function(infolder, outfolder, figsfolder, cachefolder, force = F)
   }
 }
 
-knit_folder("_R", "blogs/math_sci_tech", "figures/", "_caches")
+knit_folder("_R", "blogs/data_sci_tech", "figures/", "_caches")
