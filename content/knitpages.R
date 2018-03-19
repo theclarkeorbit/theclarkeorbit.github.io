@@ -18,8 +18,8 @@ KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="/") {
   opts_chunk$set(fig.path = fig.path)
   opts_chunk$set(cache.path = cache.path)
   opts_chunk$set(fig.cap = "center")
-  opts_chunk$set(fig.width = 7)
-  opts_chunk$set(fig.height = 5)
+  opts_chunk$set(fig.width = 10.5)
+  opts_chunk$set(fig.height = 7.5)
   render_markdown()
   knit(input, outfile, envir = parent.frame())
 }

@@ -12,7 +12,7 @@ SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 #BROWSER_COLOR = '#333333'
 #PYGMENTS_STYLE = 'monokai' #
 PLUGIN_PATHS = ['/']
-PLUGINS = ['render_math']
+PLUGINS = ['render_math', 'tipue_search']
 
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
