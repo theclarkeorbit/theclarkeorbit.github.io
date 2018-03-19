@@ -54,32 +54,32 @@ Recall that a supervised learning algorithm takes a data set (the **training set
 
 We denote the model by $h$ (for hypothesis) this is a function that maps from $x$ to $y$. If $h$ is parametrized by some set of parameters $\theta$, we can write $y=h_{\theta}(x)$. When the model is linear, we call this **linear regression**.   
 
-\[
+$$
 y=h_{\theta}(x)=\sum_{j}\theta_j x_j=x\theta
-\]
+$$
 
 where $x$ is a $1*n$ vector and $\theta$ is a $n*1$ vector of parameters. Note that the first row of data is always 1, so that the first parameter is always a bias value. 
 
 We determine the values of the model parameters $\theta$ that will result in the best possible prediction of $y$ given $x$. We do this by defining a cost function (something that measures the error in predictions from our model) and minimise this cost function to obtain the final form of our model. This is an *optimization problem*. So, one might want to find $\theta$ such that $E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]$ is minimized. So, we minimise the expectation value of the squared error.  
 
-\[
+$$
 J(\theta) = E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]
-\]
+$$
 
 This is called the squared error cost function and is commonly used for linear regression problems. Other cost functions are possible, but generally the form of the cost function that is used is determined by how efficiently it can be minimized. One common way of writing the above cost function is 
 
-\[J(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2\right] \]
+$$J(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2\right] $$
 
 where the factor of $\frac{1}{2}$ is added by convention. Representing by $X$ the matrix of the data (excluding the target variable) where predictors are columns and each example is in a different row ($X$ is an $m*n$ matrix), and letting $y$ be the $n*1$ vector with the target variables, we can write down the matrix version of the cost function for linear regression ($h_{\theta}(x^i)=x^i\theta$, the product of the vector of parameters $\theta$ and the $i^{th}$ row of the data) as follows,
 
-\[J(\theta) = \frac{1}{2m}(X \theta-y)^T (X \theta-y).\]
+$$J(\theta) = \frac{1}{2m}(X \theta-y)^T (X \theta-y).$$
 
 Now, the problem of learning this linear model is reduced to searching for $\theta^{*}$ in the multi dimensional space $\{\theta\}$ for which the cost function $J$ is minimised for the given training set. This is achieved (in general) using something called a **gradient descent algorithm**. 
 
 
-\[
+$$
 \theta^{*} = \arg \min_{\theta}\left(E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]\right)
-\]
+$$
 
 **Notation alert :** $x^i_j$ denotes the $j^{th}$ feature in the $i^{th}$ row of the training set. 
 
@@ -93,9 +93,9 @@ The basic prescription is the following :
 
 We determine the "direction of maximum decrease" for $J(\theta)$ using a derivative. 
 
-\[
+$$
 \text{repeat until convergence} \left[\theta_j := \theta_j-\alpha\frac{dJ(\theta)}{d\theta_j} \text{  }\forall j\right]
-\]
+$$
 
 where $\alpha$ determines the size of our baby step (the *learning rate*), and we are just walking in the direction of the [gradient](https://en.wikipedia.org/wiki/Gradient) $-\nabla_\theta J$. The symbol $:=$ here is an assignment, not a truth assertion. It is implicit that all the $\theta$ are updated simultaneously, and that the cost function $J$ is differentiable with respect to all the $\theta$. This is what makes the mean square error a good cost function - some other possible cost functions (like the absolute error) are not differentiable.
 
@@ -103,20 +103,20 @@ There are various flavours of gradient descent. If all the samples of the traini
 
 For linear regression, all the derivatives $\frac{dJ(\theta)}{d\theta_j}$ are trivial to compute (see [this blog post](http://eli.thegreenplace.net/2015/the-normal-equation-and-matrix-calculus/) for an excellent explanation for derivatives on matrices) and the gradient descent algorithm can be written as,
 
-\[\text{repeat until convergence}\left[\theta_j :=\theta_j - \alpha \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right]\]
+$$\text{repeat until convergence}\left[\theta_j :=\theta_j - \alpha \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right]$$
 
 which, in matrix form becomes,
 
-\[\text{repeat until convergence}\left[\theta := \theta - \frac{\alpha}{m}(X\theta-y)^TX \right].\]
+$$\text{repeat until convergence}\left[\theta := \theta - \frac{\alpha}{m}(X\theta-y)^TX \right].$$
 
 ### Practical tips for gradient descent
 
 **Feature scaling :** When different features are on very different scales, the hills/valleys we would like to reach in our gradient descent optimization are shaped like long narrow canyons, and along the length, the gradient descent algorithm converges very slowly to the minimum/maximum. If we scale features so that the hills/valleys have more "circular" symmetry, gradient descent converges faster. It is better to have all features scaled into the same range of values, say $[-1,1]$ or $[0,1]$. 
 
 A common way to scale a feature $j$ would be
-\[
+$$
 v_j = \frac{x_j-\mu_j}{\sigma_j}
-\]
+$$
 
 where $\mu_j$ is the mean and $\sigma_j$ is the standard deviation of the values taken by feature $j$ in the training set, and $v_j$ are the new scaled values of the feature $j$.
 
@@ -135,15 +135,15 @@ Thus, polynomial regression is an example of something that is ubiquitous in mac
 For linear regression, one can solve for $\theta$ analytically, without the iterative gradient descent procedure. 
 The problem is to minimize $J(\theta_0,\theta_1,\cdots\theta_n) = E_i[h_{\theta}(x^i)-y^i]$ wrt the $\theta$s. This requires the solution of $(n+1)$ equations
 
-\[
+$$
 \frac{d}{d\theta_0}J(\theta)=\frac{d}{d\theta_1}J(\theta)=\cdots=0
-\]
+$$
 
 For the particular quadratic cost function we have used, the solution is given by
 
-\[
+$$
 \theta^*=(X^TX)^{-1}X^Ty
-\]
+$$
 where $X$ is the matrix of all features in the training set (including $x_0=1$) and $y$ is the vector of target variables in the training set. For the derivation (express $J$ in matrix form, and differentiate wrt $\theta$ and set the derivatives to 0, there are subtleties while differentiating matrices, transposes wrt vectors) see page 45 of [ESLR](http://statweb.stanford.edu/~tibs/ElemStatLearn/). See [this blog](http://eli.thegreenplace.net/2014/derivation-of-the-normal-equation-for-linear-regression/) for a friendly explanation of the derivation sketched out in ESLR.
 
 The normal equation is excellent when the matrix $X$ is small and the number of features is $<10000$. The matrix operations become slow for large data sets, and then gradient descent is the fall back option.
@@ -156,15 +156,15 @@ When the target variable is discrete, the problem is called a classification pro
 
 A simple type of classification problem is *binary classification*, where the target variable can take one of two values. It is common to denote the two levels of a binary variable by $\{0,1\}$ so we need our hypothesis function $0\leq h_{\theta}(x)\leq 1$. We construct this using the sigmoid form
 
-\[
+$$
 h_{\theta}(x) = \frac{1}{1+e^{-\theta^Tx}} = g(\theta^Tx)
-\]
+$$
 
 The function $h_{\theta}$ is interpreted as the probability that the target variable is 1 given $x$ and parametrized by $\theta$, and we denote the sigmoid function by $g$. 
 
-\[
+$$
 h_{\theta}(x) = \mathbf{P}(y=1|x;\theta)
-\]
+$$
 
 **Tip : ** A logistic regression problem has another parameter. Given a hypothesis function $h_{\theta}(x)$, what is the threshold for the prediction to be $y=1$ rather than $y=0$ ? A sensible boundary may be $h_{\theta}=0.5$, but in practice, this parameter needs to be optimised on the training set (or a validation set) to obtain the best possible predictions.  
 
@@ -178,21 +178,21 @@ If the hypothesis function $\frac{1}{1+e^{-\theta^Tx}}$ is substituted into the 
 
 The function of the error commonly used for logistic regression is 
 
-  \[
+  $$
   \text{ErrCost}(\theta,x^i) = \begin{cases} 
       -\text{log}(h_{\theta}(x^i)) & y^i= 1 \\
       -\text{log}(1-h_{\theta}(x^i)) &  y^i=0
    \end{cases}
-\]
-\[
+$$
+$$
 J(\theta) = E_i[\text{ErrCost}(\theta,x^i)]
-\]
+$$
 It is clear that this function for the error imposes a very heavy penalty (which can be $\infty$) for a completely wrong prediction. This also grantees a convex $J(\theta)$ for logistic regression.
 
 Since $y\in \{0,1\}$, we can write,
-\[
+$$
 J(\theta) = E_i[-y\text{log}(h_{\theta}(x^i))-(1-y)\text{log}(1-h_{\theta}(x^i))]
-\]
+$$
 This cost function follows from maximum likelihood estimation. A cool derivation to look up. The optimal values $\theta^*$ are obtained by gradient descent as before.
 
 ### Using other optimization algorithms
@@ -210,7 +210,7 @@ One must write an efficient function that can supply the value of $J(\theta)$ an
 ### Multiclass classification
 
 Simple logistic regression works well for binary classification, but what is a good way to generalize it to a problem with multiple categories for the target variable ? We use an idea called **one-vs-all classification**. So, if we have $C$ categories for the target variable $y\in \{ l_1\cdots l_C\}$, we create $C$ new training sets each of which has a binary target variable. In the $q^{th}$ training set the target variable is 1 only if $y=l_q$ and 0 otherwise. Now, we can train a logistic regression classifier for each of these $C$ sets, $h^1_{\theta}\cdots h^q_{\theta} \cdots h^C_{\theta}$, where $h^q_{\theta}(x)=\mathbf{P}(y=l_q|x;\theta)$ and the final prediction is given by 
-\[y=\max_q h^{q}_{\theta}(x)\]
+$$y=\max_q h^{q}_{\theta}(x)$$
 
 ## Overfitting
 
@@ -232,18 +232,18 @@ If there is over-fitting, the following remedy could be tried :
 ### Regularization 
 
 **Regularization** basically consists of imposing a **cost on complexity** of the model. So, a model with large number of parameters, or a model that is very flexible (models with low bias, high variance) are penalized with a term in the cost function. So, the cost function might become 
-\[J_R(\theta) = J(\theta) + \underbrace{\lambda\cdot f_R(\theta)}_{\text{regularization term}}\]
+$$J_R(\theta) = J(\theta) + \underbrace{\lambda\cdot f_R(\theta)}_{\text{regularization term}}$$
 where $\lambda$ is called the regularization parameter. Larger $\lambda$ imposes more of a cost on flexibility and makes the model more rigid (pushes the bias-variance trade-off toward more bias, less variance). Low $\lambda$ improves the fitting accuracy with increased model flexibility (pushes the bias variance trade-off toward less bias, more variance)
 
 **Regularized linear regression**
 
 One possible regularised cost function for linear regression would be a sum of parameter squares,
-\[J_R(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2 + \underbrace{\lambda\sum_j (\theta_j)^2}_{\text{regularization term}}\right],\]
+$$J_R(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2 + \underbrace{\lambda\sum_j (\theta_j)^2}_{\text{regularization term}}\right],$$
 then, the gradient descent algorithm for this cost function looks like
-\[\text{repeat until convergence}\left[\theta_j :=\theta_j-\alpha\underbrace{\left(\frac{\lambda}{m}\theta_j + \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right)}_{=\frac{\partial}{\partial\theta_j}J_R(\theta)}\right]\]
+$$\text{repeat until convergence}\left[\theta_j :=\theta_j-\alpha\underbrace{\left(\frac{\lambda}{m}\theta_j + \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right)}_{=\frac{\partial}{\partial\theta_j}J_R(\theta)}\right]$$
 
 The normal equation (derived in the same way as before) looks like
-\[\theta = (X^TX-\lambda I)^{-1}X^Ty\]
+$$\theta = (X^TX-\lambda I)^{-1}X^Ty$$
 The Identity matrix is used since here, we are treating all the $\theta$s in the same way. If - as in the lectures of Prof. Ng - one wants to leave $\theta_0$ (the bias term) out of the regularization process, then one use a matrix in which the first row of the identity matrix is replaced with all 0s.
 
 For wide data $m<n$ (more features than examples) $X^TX$ is non invertible. But, the regularised version  $X^TX-\lambda I$ solves this issue too.
@@ -251,9 +251,9 @@ For wide data $m<n$ (more features than examples) $X^TX$ is non invertible. But,
 **Regularized logistic regression**
 
 The regularized cost function for logistic regression follows along the same lines as for linear regression,
-\[
+$$
 J_R(\theta) = E_i[-y^i\text{log}(h_{\theta}(x^i))-(1-y^i)\text{log}(1-h_{\theta}(x^i))]+\frac{\lambda}{2m}\sum_j (\theta_j)^2
-\]
+$$
 Gradient descent too has the same form, but of course, the hypothesis function is the logistic function.
 
 ## The anatomy of supervised learning
@@ -282,24 +282,24 @@ Neural Networks turn out to be a much better way to deal with this need for non 
 A very good introduction to the fundamentals of neural networks is available [from M. Nielsen here](http://neuralnetworksanddeeplearning.com/chap1.html).
 
 On our scheme, each neuron as several inputs $\{x\}$, and one output $h_{\theta}(x)$. Each neuron will typically implement a sigmoidal function (parametrized by $\theta$) on the inputs. As before,  
-\[h_{\theta}(x) = g(\theta^Tx) = \frac{1}{1+e^{-\theta^Tx}}.\]
+$$h_{\theta}(x) = g(\theta^Tx) = \frac{1}{1+e^{-\theta^Tx}}.$$
 
 **Notation :** 
 
 The inputs are **layer 1**, the last layer ($L$) is the **output layer** and all intermediate layers are **hidden layers**. The activation (computed output) of a neuron $i$ in layer $j$ is denoted by $a^j_i$. The weight of the output $x_p$ from a neuron $p$ in layer $j-1$ coming into neuron $i$ in layer $j$, is represented by $\Theta^{j-1}_{ip}$. So, for each set of connections from layer $j-1\to j$ we have the weight matrix $\Theta^{j-1}$. Now, the activation of all neurons in layer $j$ is given by the vector,
-\[a^j = h(\Theta^{j-1}x),\]
+$$a^j = h(\Theta^{j-1}x),$$
 where $h$ is the sigmoidal function as before.
 By convention, a bias input $x_0$ present at each neuron. So, if there are $s_{j-1}$ neurons in layer $j-1$ and $s_j$ neurons in layer $j$, $\Theta^{j-1}$ is a $s_j\times (s_{j-1}+1)$ dimensional matrix. 
 
 If we have one hidden layer with 3 neurons, and 3 inputs (plus a bias), and one output neuron, then our neural network is represented by,
-\[\begin{bmatrix} x_0\\ x_1\\ x_2\\ x_3 \end{bmatrix} \to
+$$\begin{bmatrix} x_0\\ x_1\\ x_2\\ x_3 \end{bmatrix} \to
 \begin{bmatrix} a^2_0\\ a^2_1\\ a^2_2\\ a^2_3 \end{bmatrix} \to
 h_{\theta}(x),
-\]
+$$
 where $h_{\Theta}(x)$ represents the computation of the output neuron on the inputs from the hidden layer. For this case, the output is,
-\[
+$$
 h_{\Theta}(x) = g\left(\Theta^2*\underbrace{\text{adBias}(\Theta^1*\text{adBias}(x^T))}_{\text{output of layer 2 }\{a^2\}}\right)
-\]
+$$
 where the function $\text{adBias}()$ increases dimension by 1 and adds the bias input $1$ for each layer, and $\Theta^1$, $\Theta^2$ are the weights to go from layer $1 \to 2$, and $2 \to \text{output}$ layer respectively.
 
 
@@ -320,7 +320,7 @@ Let the number of layers in a neural network be denoted by $L$ and the number of
 
 Clearly, we need a generalization of the cost function for logistic regression. Instead of one value, the network is outputting a $K$ dimensional vector. To reflect this we sum over all the outputs and the cost function can be written as,
 
-\[J(\Theta)= -\frac{1}{m}\left[\underbrace{\sum_i}_{\text{examples}}\underbrace{\sum_k}_{\text{o/p}} y^i_k\text{log}(h_{\Theta}(x^i)_k)+(1-y^i_k)\text{log}\left(1-h_{\Theta}(x^i)_k\right)\right]+\underbrace{\frac{\lambda}{2m}\underbrace{\sum^{L-1}_l\sum^{s_l}_i\sum^{s_{l+1}}_j}_{\text{layers, weights}} (\Theta^l_{ji})^2}_{\text{regulatization term}}\]
+$$J(\Theta)= -\frac{1}{m}\left[\underbrace{\sum_i}_{\text{examples}}\underbrace{\sum_k}_{\text{o/p}} y^i_k\text{log}(h_{\Theta}(x^i)_k)+(1-y^i_k)\text{log}\left(1-h_{\Theta}(x^i)_k\right)\right]+\underbrace{\frac{\lambda}{2m}\underbrace{\sum^{L-1}_l\sum^{s_l}_i\sum^{s_{l+1}}_j}_{\text{layers, weights}} (\Theta^l_{ji})^2}_{\text{regulatization term}}$$
 
 In the cost function above, the bias parameters are not penalized in the regularization term, per convention. The parameters of the neural network are the $\Theta^l_{ji}$ each of which is the weight to go from neuron $i$ of layer $l$ to neuron $j$ of layer $l+1$. 
 
@@ -331,48 +331,48 @@ As before, we need to search for the parameters $\Theta^*$ that minimise the cos
 
 To calculate the dependence of $J$ on the parameters, we use the chain rule. Consider the parameters $\Theta^{L-1}$ which feed the output layer,
 
-\[
+$$
 \begin{align}
 \frac{\partial J(\Theta)}{\partial \Theta^{L-1}_{ji}} &= \frac{\partial J(\Theta)}{\partial h^L_j}
 {\frac{\partial h^L_j}{\partial z^{L}_j}}
 \underbrace{\frac{\partial z^{L}_j}{\partial \Theta^{L-1}_{ji}}}_{h^{L-1}_i} \\
 &= \delta^L_j h^{L-1}_i.
 \end{align}
-\]
+$$
 where $h^L_j$ denotes the activation of the $j^{th}$ neuron in the $L^{th}$ layer (in this case, the output layer), and the quantities below the under-braces follow from trivial differentiation. We defined $z^{L}_j = \Theta^{L-1}_j\text{adBias}(h^{L-1})$ and,
-\[
+$$
 \delta^L_j = \frac{\partial J(\Theta)}{\partial h^L_j}\frac{\partial h^L_j}{\partial (z^{L}_j)} = \frac{\partial J(\Theta)}{\partial h^L_j}g'(z^{L}_j)
-\]
+$$
 
 We would like to calculate the $\delta^{L-1}$s based on our knowledge of the $\delta^{L}$s. This is the essence of back-propagation, we compute the errors for earlier layers based on the error we compute at the output. What follows, is going to be a repeated application of uni and multivariate chain rules (see [this blog for another detailed explanation](http://adbrebs.github.io/Backpropagation-simply-explained/))
 
-\[\begin{align}
+$$\begin{align}
 \delta^{L-1}_j &= \frac{\partial J(\Theta)}{\partial h^{L-1}_j}\frac{\partial h^{L-1}_j}{\partial (z^{L-1}_j)} \\
 &=  \frac{\partial J(\Theta)}{\partial z^{L-1}_j}\\
 &= \sum_k\frac{\partial J(\Theta)}{\partial z^{L}_k}\frac{\partial z^{L}_k}{\partial z^{L-1}_j}\\
 &= \sum_k \delta^{L}_k \frac{\partial z^{L}_k}{\partial z^{L-1}_j}\\
 &= \sum_k \delta^{L}_k \frac{\partial z^{L}_k}{\partial h^{L-1}_j}\frac{\partial h^{L-1}_j}{\partial z^{L-1}_j}\\
 &= g'(z^{L-1}_j)\sum_k \delta^L_k \Theta^{L-1}_{kj}
-\end{align}\]
+\end{align}$$
 
 Then, the usual gradient descent algorithm tells us,
 
-\[
+$$
 \begin{align}
 \Delta \Theta^{L-1}_{ji} &= -\alpha \frac{\partial J(\Theta)}{\partial \Theta^{L-1}_{ji}} \\
 &= -\alpha \delta^L_j h^{L-1}_i.
 \end{align}
-\]
+$$
 
 And, since we can calculate all the $\delta$s successively starting from the output layer, we can derive the corrections to all the parameters of the neural network.
 
 **In matrix form : **
 
-\[
+$$
 \delta^{l-1} = g'(z^{l-1})\odot(\Theta^{l-1})^T\delta^l\\
 \Delta \Theta^{l-1} = -\alpha (h^{l-1})^T\delta^l\\
 h^l = g(\Theta^{l-1}\text{adBias}(h^{l-1}))
-\]
+$$
 
 It is implicit in the above discussion that this process is conducted for one training example at a time. So,
 
@@ -425,7 +425,7 @@ But, which one should you do ? How to those a course of action ? This is where *
 
 Consider the three errors $J_{train}$ on the training set, $J_{valid}$ on the validation set, and $J_{test}$ on the test set. We always have,
 
-\[J_{train} < J_{valid} < J_{test}.\]
+$$J_{train} < J_{valid} < J_{test}.$$
 
 - When the regularization parameter $\lambda$ is very large, we are penalising the parameters of the model and **underfitting** the data (high bias) : **high $J_{train}$ and high $J_{valid}$**.  
 - For very low values of $\lambda$ where our model might be **overfitting** the data (high variance)  : **very low $J_{train}$ and high $J_{valid}$**.
@@ -457,10 +457,10 @@ Needless to say, small neural networks are prone to under-fitting. Large neural 
 - Plot **learning curves** to diagnose over/under fitting and decide on course of action.  
 - **Error analysis.** examine, plot etc the examples from the validation set that the algorithm failed on, and try to spot patterns or features that can be used to improve performance. 
 - **Skewed classes :** when the overwhelming number of examples fall into one class. E.g.. faulty parts. Only 0.01% of parts might be faulty, so just marking everything as fine will lead to 99.9% correct classification, and yet, not a single faulty part will have been caught. Thus, for such cases, a different error metric is needed. 
-- **Precision/recall :** calculate number of true positives, true negatives and false positives and false negatives. \[\text{Precision} = \frac{\text{True positives}}{\text{# Predicted positives}}=\frac{\text{True positives}}{\text{True positives+False positives}}\]
-    \[\text{Recall}=\frac{\text{True positives}}{\text{# Actual positives}} = \frac{\text{True positives}}{\text{True positives+False negatives}}\]
+- **Precision/recall :** calculate number of true positives, true negatives and false positives and false negatives. $$\text{Precision} = \frac{\text{True positives}}{\text{# Predicted positives}}=\frac{\text{True positives}}{\text{True positives+False positives}}$$
+    $$\text{Recall}=\frac{\text{True positives}}{\text{# Actual positives}} = \frac{\text{True positives}}{\text{True positives+False negatives}}$$
 - **Precision/Recall tradeoffs :** trade-off occurs because increasing precision means reducing number of false positives, so stringent criteria for predicting a positive. This will inevitably mean that the number of false negatives increase too, leading to lower recall. And it works the other way too, increasing recall leads to lower precision. 
-- **F$_1$ score :** comparing precision/recall numbers. \[F_1 = 2\frac{PR}{P+R}\] makes for a good metric that ensures neither precision $P$ nor recall $R$ are too low, if the $F_1$ score is quite good. Choose the value of the threshold (for logistic regression, say) that maximises the $F_1$ score on the cross validation set.
+- **F$_1$ score :** comparing precision/recall numbers. $$F_1 = 2\frac{PR}{P+R}$$ makes for a good metric that ensures neither precision $P$ nor recall $R$ are too low, if the $F_1$ score is quite good. Choose the value of the threshold (for logistic regression, say) that maximises the $F_1$ score on the cross validation set.
 - **When is lots of data worth it ?** Learning algorithms with large number off parameters (low bias) need large data sets to prevent over-fitting. Basically, we address the bias problem with a flexible and powerful learning algorithm and we address the variance problem with the massive data set. 
 - Always worth asking and investigating if the problem is soluble at all, before investing in big data and machine learning.
 - **Feature engineering matters more than specific learning algorithm used**. The amount of data, the type of features created, and skill in how the learning algorithm is used affects results a lot more than using this or that algorithm.
@@ -470,48 +470,48 @@ Needless to say, small neural networks are prone to under-fitting. Large neural 
 **An alternative view of logistic regression** :
 remember, the hypothesis function of logistic regression for an input vector $x$ is,
  
-\[
+$$
 h_{\theta}(x)=\frac{1}{1+e^{-\theta^T x}} = g(z)
-\]
+$$
 where 
-\[
+$$
 z=\theta^T x.
-\]
+$$
 Intuitively, if $y=1$, $h_{\theta}\approx 1\implies z\gg 0$ and $y=0$, $h_{\theta}\approx 0\implies z\ll 0$.
 Recall the cost function of logistic regression 
-\[
+$$
 -\left[y\cdot \text{log}(h_{\theta}(x))+(1-y)\cdot\text{log}(1-h_{\theta}(x)) \right].
-\] 
+$$ 
 For a particular example $(x,y)$ where $x$ is the input vector and $y$ is the output, suppose $y=1$.
 Then, the cost function becomes 
-\[
+$$
 \text{ErrCost}(z|y=1)=-\text{log}\frac{1}{1+e^{-z}}.
-\]
+$$
 To make a support vector machine, we basically use a new cost function $\text{cost}_1$ that approximates this cost function with 2 straight line segments, while approximating 
-\[
+$$
 \text{ErrCost}(z|y=0)=\text{log}\left(1-\frac{1}{1+e^{-z}}\right)
-\] 
+$$ 
 with a different cost function $\text{cost}_0$ also consisting of 2 line segments. This yields a simpler, faster optimization problem.
 
 In particular, $\text{cost}_1$ is a straight line with negative slope with an x intercept at 1. For $x\geq 1$, $\text{cost}_1=0$. On the other hand, $\text{cost}_0$ is a straight line with positive slope with an x intercept at -1. For $x\leq -1$, $\text{cost}_0=0$. 
 
 The cost function for **logistic regression**
-\[
+$$
 J(\theta) = E_i[-y^i\text{log}(h_{\theta}(x^i))-(1-y^i)\text{log}(1-h_{\theta}(x^i))]+\frac{\lambda}{2m}\sum_j (\theta_j)^2
-\]
+$$
 while, for **support vector machines** the cost function is written as
-\[
+$$
 J(\theta)=C\cdot mE_i[ y^{(i)}\text{cost}_1(\theta^T x^{(i)}) +(1-y^{(i)})\text{cost}_0(\theta^T x^{(i)})]+\frac{1}{2}\sum_j (\theta_j)^2.
-\]
+$$
 Apart from the more approximate cost functions, the differences in the two cost functions are a matter of convention. For SVMs, the relative weights of the errors and the regularization term is controlled by the parameter C that is multiplied to the error term, rather than $\lambda$ multiplied to the regularization term as in the cost function for logistic regression. Also, in support vector machines the error and regularization term are not divided through by the number of examples. These changes should not - of course - change anything fundamental in the optimization procedure. 
 
 Unlike logistic regression which gives a probability, the hypothesis function of an SVM is,
-\[
+$$
 h_{\theta}(x) = \begin{cases}
                 1 & \theta^T x\geq 0\\
                 0 & \theta^T x<0
                 \end{cases}.
-\]
+$$
 
 **Large margin classifier limit**
 
@@ -521,13 +521,13 @@ On the other hand, large margin classifiers can be very sensitive to outliers, S
 
 when the classes are well separated, we can set error to 0. Hence, the optimisation function becomes
 
-\[
+$$
 \hat{\theta} = \arg \min_{\theta}\left(\frac{1}{2}\sum_{j=1}^n\theta_j^2 \right)\text{ such that }
 \begin{cases}
 \theta^Tx\geq 1 & \text{if } y^{(i)}=1 \\
 \theta^Tx\leq -1 & \text{if } y^{(i)}=0. 
 \end{cases}
-\]
+$$
 
 ### Kernels - adapting SVMs for non linear decision boundaries
 
@@ -535,9 +535,9 @@ One way to get non linear boundaries is to include polynomial features and treat
 
 A better way to pick features is using **landmarks**. Certain points are identified in the space of features as being in some way specially significant to the problem at hand, and proximity (using some notion of distance or similarity) to these points is used to compute further features. For instance, given landmarks $l^{(1)},l^{(2)},l^{(3)}$ in the space of features, we can define one feature to be 
 
-\[
+$$
 f_1 = \exp\left(-\frac{\norm{x-l^{(1)}}^2}{2\sigma^2}\right)
-\]
+$$
 
 The specific similarity functions used are called **kernels**. In this case, we are using a *gaussian* kernel for $f_1$. It is clear that the Gaussian kernel falls away from the landmark at a rate determined by $\sigma$ and has a value of 1 at the landmark, and 0 infinitely far from the landmark. For classification problems, it is clear how choosing landmarks at estimated or intuitive or known centres of classes would be a good choice. 
 
@@ -547,9 +547,9 @@ In fact, given a limited number of $m$ training examples, each training example 
 
 - Hypothesis : given $x$, compute the features $f\in \mathbb{R}^{m+1}$. Parameters $\theta\in\mathbb{R}^{m+1}$, predict $y=1$ if $\theta^Tf\geq 0$.   
 - Training : 
-\[
+$$
 \hat\theta = \arg \min_{\theta}\left[ C\cdot \sum_{i=1}^m \left( y^{(i)}\text{cost}_1(\theta^Tf^{(i)}) + (1-y^{(i)})\text{cost}_0(\theta^Tf^{(i)})\right) + \frac{1}{2}\sum_{j=1}^m \theta_j^2\right]
-\]
+$$
 
 Intuition on over, under fitting :
 
@@ -595,9 +595,9 @@ Unsupervised learning algorithms find structure in unlabelled datasets. for inst
 
 **Optimization objective function** for the K-Means algorithm : 
 we have $m$ data points, and $K$ clusters. Then, 
-\[
+$$
 J(c^{(1)},...c^{(m)},\mu_1,...\mu_K) = \frac{1}{m}\sum_{i=1}^{m}||x^{(i)}-\mu_{c^{(i)}}||
-\]
+$$
 
 This function is also called the **distortion**. The K-Means algorithm minimises this function. Clearly, the cluster assignment step is minimising the distances from data points to the cluster centroid of the clusters they are assigned to, and then, the re calculation of the cluster centroids again reduces the distance by moving the cluster centroids to the centre of mass. 
 
@@ -639,13 +639,13 @@ If this sort of thing is to be used for data compression, clearly, we need to be
 - average squared projection error = $\frac{1}{m}\sum_{i}^{m}||x^{(i)}-x_{\text{approx}}^{(i)}||^2$  
 - total variation in the data = $\frac{1}{m}\sum_{i=1}^m ||x^{(i)}||^2$  
 - choose $k$ to be the smallest value such that 99% of the variance is retained,   
-\[
+$$
 \frac{\frac{1}{m}\sum_{i}^{m}||x^{(i)}-x_{\text{approx}}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m ||x^{(i)}||^2}\leq 0.01
-\]
+$$
 - the way to check this, is using the matrix `S` from the `[U,S,V] = svd(Sigma)`. `S` is a diagonal square matrix $S_{ii}$. for a given $k$, we have,
-\[
+$$
 \frac{\frac{1}{m}\sum_{i}^{m}||x^{(i)}-x_{\text{approx}}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m ||x^{(i)}||^2} = 1 - \frac{\sum_{i=1}^k S_{ii}}{\sum_{i=1}^n S_{ii}},
-\]
+$$
 so, with just one run of the `svd`, we can find the value of $k$ we need. [Here is](https://stats.stackexchange.com/questions/134282/relationship-between-svd-and-pca-how-to-use-svd-to-perform-pca) an excellent account of the relationship between singular value decomposition and PCA.
 
 **Using PCA to speedup a learning algorithm :** essentially, learning on very high dimensional data is hard. With PCA, we can reduce the dimensionality and thus, in due to trivial computational reasons (fewer numbers to crunch !) get any algorithm to run faster. Clearly, we must apply PCA on training set, find the mapping (the learned matrix $U_r$) and apply the same mapping to cross validation and test data. 
@@ -669,9 +669,9 @@ All of this sounds like a job for [kernel density estimation](https://arxiv.org/
 - Choose features $\{x_j\}$ that might be indicative of anomalous examples  
 - Fit parameters $\{\mu_j, \sigma^2_j\}$ for each feature  
 - given new example, compute   
-\[
+$$
 p(x) = \prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)  
-\]
+$$
 - anomaly if $p(x)<\epsilon$.
 
 **Real number evaluation** while evaluating an algorithm, always best to have a method that returns a number.. which allows us to gauge how good the algorithms is. 
@@ -709,9 +709,9 @@ This suggests an iterative process :
 - repeat until reasonable convergence.  
 
 But, there is a more efficient algorithm that does not need to iterate. Instead, just treat $x$s and $\theta$s as one set of parameters $\{...x^{(i)}......\theta^{(j)}...\}$. The modified optimization objective is 
-\[
+$$
 J(..x^{(i)}......\theta^{(j)}...) = \frac{1}{2}\sum_{(i,j):r(i,j)=1}\left(\left(\theta^{(j)}\right)^Tx^{(i)}-y(i,j)\right)^2 + \frac{1}{2}\sum_i\sum_k \left( x_k^{(i)} \right)^2 + \frac{1}{2}\sum_j\sum_k \left( \theta_k^{(j)} \right)^2
-\]
+$$
 where we must minimise over all $x$s and $\theta$s. 
 
 The **collaborative filtering algorithm** is :   
@@ -721,10 +721,10 @@ The **collaborative filtering algorithm** is :
 
 **Vectorized collaborative filtering**
 
-\[Y_{(i,j)} = \theta^{(j)}\cdot x^{(i)}\]
-\[X_{(i,k)} = x^{(i)}_k\]
-\[\Theta_{(j,k)} = \theta^{(j)}_k\]
-\[Y = X\Theta^T\]
+$$Y_{(i,j)} = \theta^{(j)}\cdot x^{(i)}$$
+$$X_{(i,k)} = x^{(i)}_k$$
+$$\Theta_{(j,k)} = \theta^{(j)}_k$$
+$$Y = X\Theta^T$$
 
 This is called **low ranked matrix factorization** because $Y$ is [low ranked.](https://en.wikipedia.org/wiki/Rank_(linear_algebra)) 
 
@@ -739,9 +739,9 @@ when starting with a big data set, **always** first try with small subsets, and 
 ### Gradient descent with large datasets
 
 Recall the gradient descent update rule -
-\[
+$$
 \theta_j :=\theta_j - \alpha \frac{1}{m}\sum_i^m (h_{\theta}(x^i)-y^i)x^i_j
-\]
+$$
 When $m$ is very large, each step of the gradient descent algorithm requires summing over a huge $m$, and this is computationally hugely expensive and time consuming. 
 
 **Stochastic gradient descent**
@@ -752,13 +752,13 @@ For stochastic gradient descent :
 1. define a cost function for one training example $cost(\theta, i) = \frac{1}{2}(h_{\theta}(x^i)-y^i)^2$  
 2. shuffle the order of training dataset  
 3. Repeat until reasonable results (between 1-10 times), 
-\[
+$$
 \text{for i=1..m} \\
 \left\{
 \text{for j=i..n} \\
 \theta_j := \theta_j-\alpha((h_{\theta}(x^i)-y^i)x^i_j)
 \right\}
-\]
+$$
 This does not really converge, but it ends up with parameters in the vicinity of the global minimum. In exchange for very significant computational savings.  
 
 **Mini-batch gradient descent**
@@ -767,13 +767,13 @@ Batch gradient descent - use all $m$ examples in each update.
 Stochastic gradient descent - use 1 example in each update.  
 Mini-batch gradient descent - use $b$ examples in each iteration.  
 
-\[
+$$
 \text{for i=1..}\frac{m}{b} \\
 \left\{
 \text{for j=i..n} \\
 \theta_j := \theta_j-\alpha\frac{1}{b}\sum_{k=1}^{b-1}((h_{\theta}(x^{(i-1)b+k})-y^{(i-1)b+k})x^{(i-1)b+k}_j)
 \right\}
-\]
+$$
 
 this gives better performance than stochastic gradient if we have a very good vectorized implementation. Of course, this is same as batch gradient descent if $b=m$. 
 
@@ -796,13 +796,13 @@ This has the advantage of letting your website/business adapt to changing user p
 Some data problems are too large to handle on one machine. Such problems are usually tackled with clusters of computers, and map-reduce is a frame work to parallelize work over several machines. Can handle problems far larger than stochastic gradient descent. 
 
 If there are $m$ training examples, and there are $q$ machines to run these on, then $m/q$ are sent to each machine, and each machine computes 
-\[
+$$
 t^q_j = \sum_k^{(m/q)} (h_{\theta}(x^k)-y^k)x_j^k
-\]
+$$
 then, we can compute the update for batch gradient descent 
-\[
+$$
 \theta_j := \theta_j -\alpha\frac{1}{m}\sum_q t_j^q
-\]
+$$
 
 and (ignoring overheads) we can get a maximum speed-up of $q$ times. This basically, parallelizes the calculation of the sum involved in gradient descent updates. 
 

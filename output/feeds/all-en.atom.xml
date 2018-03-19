@@ -545,22 +545,22 @@ Flying a helicopter. It is very hard to program a computer to do this complex ta
 &lt;h2&gt;Models and cost functions&lt;/h2&gt;
 &lt;p&gt;Recall that a supervised learning algorithm takes a data set (the &lt;strong&gt;training set&lt;/strong&gt; with &lt;span class="math"&gt;\(m\)&lt;/span&gt; examples (rows)) and learns from it to construct a &lt;strong&gt;model&lt;/strong&gt;. We denote the &lt;em&gt;features&lt;/em&gt; or &lt;em&gt;predictors&lt;/em&gt; by the letter &lt;span class="math"&gt;\(x\)&lt;/span&gt; while the target variable is &lt;span class="math"&gt;\(y\)&lt;/span&gt;. &lt;span class="math"&gt;\((x^i, y^i)\)&lt;/span&gt; is one row of the training set. &lt;span class="math"&gt;\(x^i\)&lt;/span&gt; is a vector with as many elements as there are features. For convenience, we will assume the number of features (predictors, columns) to be &lt;span class="math"&gt;\(n\)&lt;/span&gt;. &lt;/p&gt;
 &lt;p&gt;We denote the model by &lt;span class="math"&gt;\(h\)&lt;/span&gt; (for hypothesis) this is a function that maps from &lt;span class="math"&gt;\(x\)&lt;/span&gt; to &lt;span class="math"&gt;\(y\)&lt;/span&gt;. If &lt;span class="math"&gt;\(h\)&lt;/span&gt; is parametrized by some set of parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;, we can write &lt;span class="math"&gt;\(y=h_{\theta}(x)\)&lt;/span&gt;. When the model is linear, we call this &lt;strong&gt;linear regression&lt;/strong&gt;.   &lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 y=h_{\theta}(x)=\sum_{j}\theta_j x_j=x\theta
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\(x\)&lt;/span&gt; is a &lt;span class="math"&gt;\(1*n\)&lt;/span&gt; vector and &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; is a &lt;span class="math"&gt;\(n*1\)&lt;/span&gt; vector of parameters. Note that the first row of data is always 1, so that the first parameter is always a bias value. &lt;/p&gt;
 &lt;p&gt;We determine the values of the model parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; that will result in the best possible prediction of &lt;span class="math"&gt;\(y\)&lt;/span&gt; given &lt;span class="math"&gt;\(x\)&lt;/span&gt;. We do this by defining a cost function (something that measures the error in predictions from our model) and minimise this cost function to obtain the final form of our model. This is an &lt;em&gt;optimization problem&lt;/em&gt;. So, one might want to find &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; such that &lt;span class="math"&gt;\(E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]\)&lt;/span&gt; is minimized. So, we minimise the expectation value of the squared error.  &lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 J(\theta) = E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;This is called the squared error cost function and is commonly used for linear regression problems. Other cost functions are possible, but generally the form of the cost function that is used is determined by how efficiently it can be minimized. One common way of writing the above cost function is &lt;/p&gt;
-&lt;p&gt;[J(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2\right] ]&lt;/p&gt;
+&lt;div class="math"&gt;$$J(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2\right] $$&lt;/div&gt;
 &lt;p&gt;where the factor of &lt;span class="math"&gt;\(\frac{1}{2}\)&lt;/span&gt; is added by convention. Representing by &lt;span class="math"&gt;\(X\)&lt;/span&gt; the matrix of the data (excluding the target variable) where predictors are columns and each example is in a different row (&lt;span class="math"&gt;\(X\)&lt;/span&gt; is an &lt;span class="math"&gt;\(m*n\)&lt;/span&gt; matrix), and letting &lt;span class="math"&gt;\(y\)&lt;/span&gt; be the &lt;span class="math"&gt;\(n*1\)&lt;/span&gt; vector with the target variables, we can write down the matrix version of the cost function for linear regression (&lt;span class="math"&gt;\(h_{\theta}(x^i)=x^i\theta\)&lt;/span&gt;, the product of the vector of parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; and the &lt;span class="math"&gt;\(i^{th}\)&lt;/span&gt; row of the data) as follows,&lt;/p&gt;
-&lt;p&gt;[J(\theta) = \frac{1}{2m}(X \theta-y)^T (X \theta-y).]&lt;/p&gt;
+&lt;div class="math"&gt;$$J(\theta) = \frac{1}{2m}(X \theta-y)^T (X \theta-y).$$&lt;/div&gt;
 &lt;p&gt;Now, the problem of learning this linear model is reduced to searching for &lt;span class="math"&gt;\(\theta^{*}\)&lt;/span&gt; in the multi dimensional space &lt;span class="math"&gt;\(\{\theta\}\)&lt;/span&gt; for which the cost function &lt;span class="math"&gt;\(J\)&lt;/span&gt; is minimised for the given training set. This is achieved (in general) using something called a &lt;strong&gt;gradient descent algorithm&lt;/strong&gt;. &lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 \theta^{*} = \arg \min_{\theta}\left(E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]\right)
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Notation alert :&lt;/strong&gt; &lt;span class="math"&gt;\(x^i_j\)&lt;/span&gt; denotes the &lt;span class="math"&gt;\(j^{th}\)&lt;/span&gt; feature in the &lt;span class="math"&gt;\(i^{th}\)&lt;/span&gt; row of the training set. &lt;/p&gt;
 &lt;h2&gt;Gradient Descent&lt;/h2&gt;
 &lt;p&gt;The basic prescription is the following :&lt;/p&gt;
@@ -570,21 +570,22 @@ J(\theta) = E\left[\sum_i(h_{\theta}(x^i)-y^i)^2\right]
 &lt;li&gt;Take a baby step in this direction and repeat step 2, until a minimum is reached.   &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;We determine the "direction of maximum decrease" for &lt;span class="math"&gt;\(J(\theta)\)&lt;/span&gt; using a derivative. &lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 \text{repeat until convergence} \left[\theta_j := \theta_j-\alpha\frac{dJ(\theta)}{d\theta_j} \text{  }\forall j\right]
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; determines the size of our baby step (the &lt;em&gt;learning rate&lt;/em&gt;), and we are just walking in the direction of the &lt;a href="https://en.wikipedia.org/wiki/Gradient"&gt;gradient&lt;/a&gt; &lt;span class="math"&gt;\(-\nabla_\theta J\)&lt;/span&gt;. The symbol &lt;span class="math"&gt;\(:=\)&lt;/span&gt; here is an assignment, not a truth assertion. It is implicit that all the &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; are updated simultaneously, and that the cost function &lt;span class="math"&gt;\(J\)&lt;/span&gt; is differentiable with respect to all the &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;. This is what makes the mean square error a good cost function - some other possible cost functions (like the absolute error) are not differentiable.&lt;/p&gt;
 &lt;p&gt;There are various flavours of gradient descent. If all the samples of the training set are used to compute the gradient at every step (as described above) the algorithm is called &lt;em&gt;batch gradient descent&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;For linear regression, all the derivatives &lt;span class="math"&gt;\(\frac{dJ(\theta)}{d\theta_j}\)&lt;/span&gt; are trivial to compute (see &lt;a href="http://eli.thegreenplace.net/2015/the-normal-equation-and-matrix-calculus/"&gt;this blog post&lt;/a&gt; for an excellent explanation for derivatives on matrices) and the gradient descent algorithm can be written as,&lt;/p&gt;
-&lt;p&gt;[\text{repeat until convergence}\left[\theta_j :=\theta_j - \alpha \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right]]&lt;/p&gt;
+&lt;div class="math"&gt;$$\text{repeat until convergence}\left[\theta_j :=\theta_j - \alpha \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right]$$&lt;/div&gt;
 &lt;p&gt;which, in matrix form becomes,&lt;/p&gt;
-&lt;p&gt;[\text{repeat until convergence}\left[\theta := \theta - \frac{\alpha}{m}(X\theta-y)^TX \right].]&lt;/p&gt;
+&lt;div class="math"&gt;$$\text{repeat until convergence}\left[\theta := \theta - \frac{\alpha}{m}(X\theta-y)^TX \right].$$&lt;/div&gt;
 &lt;h3&gt;Practical tips for gradient descent&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Feature scaling :&lt;/strong&gt; When different features are on very different scales, the hills/valleys we would like to reach in our gradient descent optimization are shaped like long narrow canyons, and along the length, the gradient descent algorithm converges very slowly to the minimum/maximum. If we scale features so that the hills/valleys have more "circular" symmetry, gradient descent converges faster. It is better to have all features scaled into the same range of values, say &lt;span class="math"&gt;\([-1,1]\)&lt;/span&gt; or &lt;span class="math"&gt;\([0,1]\)&lt;/span&gt;. &lt;/p&gt;
 &lt;p&gt;A common way to scale a feature &lt;span class="math"&gt;\(j\)&lt;/span&gt; would be
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 v_j = \frac{x_j-\mu_j}{\sigma_j}
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\(\mu_j\)&lt;/span&gt; is the mean and &lt;span class="math"&gt;\(\sigma_j\)&lt;/span&gt; is the standard deviation of the values taken by feature &lt;span class="math"&gt;\(j\)&lt;/span&gt; in the training set, and &lt;span class="math"&gt;\(v_j\)&lt;/span&gt; are the new scaled values of the feature &lt;span class="math"&gt;\(j\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Learning rate &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; :&lt;/strong&gt; If gradient descent is working properly, &lt;span class="math"&gt;\(J\)&lt;/span&gt; should decrease after every iteration, and convergence is defined by &lt;span class="math"&gt;\(J\)&lt;/span&gt; decreasing by some very small value at each iteration (say &lt;span class="math"&gt;\(10^{-4}\)&lt;/span&gt; or so). If gradient descent is blowing up (&lt;span class="math"&gt;\(J\)&lt;/span&gt; is &lt;em&gt;increasing&lt;/em&gt; with each iteration) it could be because the learning rate &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; is too large and the algorithm is "overshooting" the optimum. Decreasing &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; should fix this. For a small enough &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; gradient descent should ALWAYS find a local optimum, and &lt;span class="math"&gt;\(J\)&lt;/span&gt; should decrease with every iteration. &lt;/p&gt;
 &lt;p&gt;On the other hand, a very small &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; will lead to very slow convergence. &lt;/p&gt;
@@ -594,48 +595,50 @@ v_j = \frac{x_j-\mu_j}{\sigma_j}
 &lt;h2&gt;The normal equation for linear regression&lt;/h2&gt;
 &lt;p&gt;For linear regression, one can solve for &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; analytically, without the iterative gradient descent procedure. 
 The problem is to minimize &lt;span class="math"&gt;\(J(\theta_0,\theta_1,\cdots\theta_n) = E_i[h_{\theta}(x^i)-y^i]\)&lt;/span&gt; wrt the &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;s. This requires the solution of &lt;span class="math"&gt;\((n+1)\)&lt;/span&gt; equations&lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 \frac{d}{d\theta_0}J(\theta)=\frac{d}{d\theta_1}J(\theta)=\cdots=0
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;For the particular quadratic cost function we have used, the solution is given by&lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 \theta^*=(X^TX)^{-1}X^Ty
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 where &lt;span class="math"&gt;\(X\)&lt;/span&gt; is the matrix of all features in the training set (including &lt;span class="math"&gt;\(x_0=1\)&lt;/span&gt;) and &lt;span class="math"&gt;\(y\)&lt;/span&gt; is the vector of target variables in the training set. For the derivation (express &lt;span class="math"&gt;\(J\)&lt;/span&gt; in matrix form, and differentiate wrt &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; and set the derivatives to 0, there are subtleties while differentiating matrices, transposes wrt vectors) see page 45 of &lt;a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/"&gt;ESLR&lt;/a&gt;. See &lt;a href="http://eli.thegreenplace.net/2014/derivation-of-the-normal-equation-for-linear-regression/"&gt;this blog&lt;/a&gt; for a friendly explanation of the derivation sketched out in ESLR.&lt;/p&gt;
 &lt;p&gt;The normal equation is excellent when the matrix &lt;span class="math"&gt;\(X\)&lt;/span&gt; is small and the number of features is &lt;span class="math"&gt;\(&amp;lt;10000\)&lt;/span&gt;. The matrix operations become slow for large data sets, and then gradient descent is the fall back option.&lt;/p&gt;
 &lt;p&gt;In the normal equation, we see that we need to invert the matrix &lt;span class="math"&gt;\(X^TX\)&lt;/span&gt; and many things can make a matrix non-invertible. Generally, the solution is to delete some features that might be redundant and/or &lt;a href="https://en.wikipedia.org/wiki/Regularization_%28mathematics%29"&gt;regularize&lt;/a&gt; the matrix. Regularization prevents over-fitting when the number of variables are greater than the number of equations (in which case of course, a unique solution cannot be found).&lt;/p&gt;
 &lt;h2&gt;Logistic regression, classification&lt;/h2&gt;
 &lt;p&gt;When the target variable is discrete, the problem is called a classification problem. E.g.. is an email spam/not spam ? is a tumour malignant/non malignant ? Needless to say, it is not a good idea to predict discrete variables with linear regression. &lt;/p&gt;
 &lt;p&gt;A simple type of classification problem is &lt;em&gt;binary classification&lt;/em&gt;, where the target variable can take one of two values. It is common to denote the two levels of a binary variable by &lt;span class="math"&gt;\(\{0,1\}\)&lt;/span&gt; so we need our hypothesis function &lt;span class="math"&gt;\(0\leq h_{\theta}(x)\leq 1\)&lt;/span&gt;. We construct this using the sigmoid form&lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 h_{\theta}(x) = \frac{1}{1+e^{-\theta^Tx}} = g(\theta^Tx)
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;The function &lt;span class="math"&gt;\(h_{\theta}\)&lt;/span&gt; is interpreted as the probability that the target variable is 1 given &lt;span class="math"&gt;\(x\)&lt;/span&gt; and parametrized by &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;, and we denote the sigmoid function by &lt;span class="math"&gt;\(g\)&lt;/span&gt;. &lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 h_{\theta}(x) = \mathbf{P}(y=1|x;\theta)
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Tip : &lt;/strong&gt; A logistic regression problem has another parameter. Given a hypothesis function &lt;span class="math"&gt;\(h_{\theta}(x)\)&lt;/span&gt;, what is the threshold for the prediction to be &lt;span class="math"&gt;\(y=1\)&lt;/span&gt; rather than &lt;span class="math"&gt;\(y=0\)&lt;/span&gt; ? A sensible boundary may be &lt;span class="math"&gt;\(h_{\theta}=0.5\)&lt;/span&gt;, but in practice, this parameter needs to be optimised on the training set (or a validation set) to obtain the best possible predictions.  &lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;decision boundary&lt;/strong&gt; is the hyper-surface defined by &lt;span class="math"&gt;\(\theta^Tx=0\)&lt;/span&gt; (corresponding to &lt;span class="math"&gt;\(h_{\theta}=0.5\)&lt;/span&gt;) that is supposed to separate the two classes from each other. As &lt;span class="math"&gt;\(\theta\to\theta^*\)&lt;/span&gt; (the optimum), the decision boundary approaches the best possible separation between the two classes.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Non-linear decision boundaries&lt;/strong&gt; are achieved through &lt;em&gt;feature engineering&lt;/em&gt;, and including as features various powers and functions of the original &lt;span class="math"&gt;\(\{x\}\)&lt;/span&gt;, as before. Arbitrarily complex decision boundaries are possible with this kind of feature engineering. &lt;/p&gt;
 &lt;h3&gt;Cost function for classification&lt;/h3&gt;
 &lt;p&gt;If the hypothesis function &lt;span class="math"&gt;\(\frac{1}{1+e^{-\theta^Tx}}\)&lt;/span&gt; is substituted into the quadratic error we used for linear regression, the resulting cost function &lt;span class="math"&gt;\(J(\theta)\)&lt;/span&gt; turns out not to be convex, and with lots of local optima that will make it impossible for gradient descent to find the global minimum.&lt;/p&gt;
 &lt;p&gt;The function of the error commonly used for logistic regression is &lt;/p&gt;
-&lt;p&gt;[
-  \text{ErrCost}(\theta,x^i) = &lt;/p&gt;
-&lt;div class="math"&gt;\begin{cases} 
+&lt;div class="math"&gt;$$
+  \text{ErrCost}(\theta,x^i) = \begin{cases} 
       -\text{log}(h_{\theta}(x^i)) &amp;amp; y^i= 1 \\
       -\text{log}(1-h_{\theta}(x^i)) &amp;amp;  y^i=0
-   \end{cases}&lt;/div&gt;
-&lt;p&gt;
-]
-[
+   \end{cases}
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
 J(\theta) = E_i[\text{ErrCost}(\theta,x^i)]
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 It is clear that this function for the error imposes a very heavy penalty (which can be &lt;span class="math"&gt;\(\infty\)&lt;/span&gt;) for a completely wrong prediction. This also grantees a convex &lt;span class="math"&gt;\(J(\theta)\)&lt;/span&gt; for logistic regression.&lt;/p&gt;
 &lt;p&gt;Since &lt;span class="math"&gt;\(y\in \{0,1\}\)&lt;/span&gt;, we can write,
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 J(\theta) = E_i[-y\text{log}(h_{\theta}(x^i))-(1-y)\text{log}(1-h_{\theta}(x^i))]
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 This cost function follows from maximum likelihood estimation. A cool derivation to look up. The optimal values &lt;span class="math"&gt;\(\theta^*\)&lt;/span&gt; are obtained by gradient descent as before.&lt;/p&gt;
 &lt;h3&gt;Using other optimization algorithms&lt;/h3&gt;
 &lt;p&gt;Gradient descent is not the only algorithm available to us. Given that we can compute &lt;span class="math"&gt;\(J(\theta)\)&lt;/span&gt; and &lt;span class="math"&gt;\(\frac{\partial}{\partial\theta_j}J(\theta)\)&lt;/span&gt;, we can also use  &lt;/p&gt;
@@ -648,7 +651,8 @@ This cost function follows from maximum likelihood estimation. A cool derivation
 &lt;p&gt;One must write an efficient function that can supply the value of &lt;span class="math"&gt;\(J(\theta)\)&lt;/span&gt; and its derivatives, and supply this function to one of Octave's in built optimization routines. Using these routines and more sophisticated optimization algorithms enables us to use logistic and linear regression on larger data sets.&lt;/p&gt;
 &lt;h3&gt;Multiclass classification&lt;/h3&gt;
 &lt;p&gt;Simple logistic regression works well for binary classification, but what is a good way to generalize it to a problem with multiple categories for the target variable ? We use an idea called &lt;strong&gt;one-vs-all classification&lt;/strong&gt;. So, if we have &lt;span class="math"&gt;\(C\)&lt;/span&gt; categories for the target variable &lt;span class="math"&gt;\(y\in \{ l_1\cdots l_C\}\)&lt;/span&gt;, we create &lt;span class="math"&gt;\(C\)&lt;/span&gt; new training sets each of which has a binary target variable. In the &lt;span class="math"&gt;\(q^{th}\)&lt;/span&gt; training set the target variable is 1 only if &lt;span class="math"&gt;\(y=l_q\)&lt;/span&gt; and 0 otherwise. Now, we can train a logistic regression classifier for each of these &lt;span class="math"&gt;\(C\)&lt;/span&gt; sets, &lt;span class="math"&gt;\(h^1_{\theta}\cdots h^q_{\theta} \cdots h^C_{\theta}\)&lt;/span&gt;, where &lt;span class="math"&gt;\(h^q_{\theta}(x)=\mathbf{P}(y=l_q|x;\theta)\)&lt;/span&gt; and the final prediction is given by 
-[y=\max_q h^{q}_{\theta}(x)]&lt;/p&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$y=\max_q h^{q}_{\theta}(x)$$&lt;/div&gt;
 &lt;h2&gt;Overfitting&lt;/h2&gt;
 &lt;p&gt;Many learning algorithms - if not used carefully - build models that capture the behaviour of the training set as well as the &lt;em&gt;noise&lt;/em&gt; that is inherent in any data set. In general, a very rigid (&lt;strong&gt;biased&lt;/strong&gt; because it has encodes some strong assumptions that cannot be changed, e.g.. "the model is a straight line" is one such strong assumption) model will not be able to capture some important behaviour of the data. On the other hand a &lt;em&gt;very flexible&lt;/em&gt; model (a very high order polynomial, for instance) will end up capturing a lot of noise from the data, and will not predict well when presented with new data which will have a different realization of randomness. Such a model is said to have high &lt;strong&gt;variance&lt;/strong&gt; and this phenomenon is called &lt;strong&gt;overfitting&lt;/strong&gt;. &lt;/p&gt;
 &lt;p&gt;The link to the usual scientific idea about fitting is that given enough parameters, any data set can be fit perfectly. That does not mean that such a model will be good at predicting the result when new data is presented to it. However, with too few parameters - too simple/rigid/biased a model - the data cannot be properly explained. This is the &lt;strong&gt;bias variance tradeoff&lt;/strong&gt;. &lt;/p&gt;
@@ -662,22 +666,31 @@ This cost function follows from maximum likelihood estimation. A cool derivation
     - Works well when there are a lot of features and each has low predictive power.  &lt;/p&gt;
 &lt;h3&gt;Regularization&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Regularization&lt;/strong&gt; basically consists of imposing a &lt;strong&gt;cost on complexity&lt;/strong&gt; of the model. So, a model with large number of parameters, or a model that is very flexible (models with low bias, high variance) are penalized with a term in the cost function. So, the cost function might become 
-[J_R(\theta) = J(\theta) + \underbrace{\lambda\cdot f_R(\theta)}_{\text{regularization term}}]
+&lt;/p&gt;
+&lt;div class="math"&gt;$$J_R(\theta) = J(\theta) + \underbrace{\lambda\cdot f_R(\theta)}_{\text{regularization term}}$$&lt;/div&gt;
+&lt;p&gt;
 where &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; is called the regularization parameter. Larger &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; imposes more of a cost on flexibility and makes the model more rigid (pushes the bias-variance trade-off toward more bias, less variance). Low &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; improves the fitting accuracy with increased model flexibility (pushes the bias variance trade-off toward less bias, more variance)&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Regularized linear regression&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;One possible regularised cost function for linear regression would be a sum of parameter squares,
-[J_R(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2 + \underbrace{\lambda\sum_j (\theta_j)^2}&lt;em&gt;{\text{regularization term}}\right],]
+&lt;/p&gt;
+&lt;div class="math"&gt;$$J_R(\theta) = \frac{1}{2m}\left[\sum_{i=1}^m (h_{\theta}(x^i)-y^i)^2 + \underbrace{\lambda\sum_j (\theta_j)^2}_{\text{regularization term}}\right],$$&lt;/div&gt;
+&lt;p&gt;
 then, the gradient descent algorithm for this cost function looks like
-[\text{repeat until convergence}\left[\theta_j :=\theta_j-\alpha\underbrace{\left(\frac{\lambda}{m}\theta_j + \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right)}&lt;/em&gt;{\partial\theta_j}J_R(\theta)}\right]]&lt;/p&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\text{repeat until convergence}\left[\theta_j :=\theta_j-\alpha\underbrace{\left(\frac{\lambda}{m}\theta_j + \frac{1}{m}\sum_i (x^i\theta-y^i)x^i_j\right)}_{=\frac{\partial}{\partial\theta_j}J_R(\theta)}\right]$$&lt;/div&gt;
 &lt;p&gt;The normal equation (derived in the same way as before) looks like
-[\theta = (X^TX-\lambda I)^{-1}X^Ty]
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\theta = (X^TX-\lambda I)^{-1}X^Ty$$&lt;/div&gt;
+&lt;p&gt;
 The Identity matrix is used since here, we are treating all the &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;s in the same way. If - as in the lectures of Prof. Ng - one wants to leave &lt;span class="math"&gt;\(\theta_0\)&lt;/span&gt; (the bias term) out of the regularization process, then one use a matrix in which the first row of the identity matrix is replaced with all 0s.&lt;/p&gt;
 &lt;p&gt;For wide data &lt;span class="math"&gt;\(m&amp;lt;n\)&lt;/span&gt; (more features than examples) &lt;span class="math"&gt;\(X^TX\)&lt;/span&gt; is non invertible. But, the regularised version  &lt;span class="math"&gt;\(X^TX-\lambda I\)&lt;/span&gt; solves this issue too.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Regularized logistic regression&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The regularized cost function for logistic regression follows along the same lines as for linear regression,
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 J_R(\theta) = E_i[-y^i\text{log}(h_{\theta}(x^i))-(1-y^i)\text{log}(1-h_{\theta}(x^i))]+\frac{\lambda}{2m}\sum_j (\theta_j)^2
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 Gradient descent too has the same form, but of course, the hypothesis function is the logistic function.&lt;/p&gt;
 &lt;h2&gt;The anatomy of supervised learning&lt;/h2&gt;
 &lt;p&gt;For &lt;strong&gt;any supervised machine learning problem&lt;/strong&gt;, the following are true :&lt;/p&gt;
@@ -704,25 +717,28 @@ Gradient descent too has the same form, but of course, the hypothesis function i
 &lt;p&gt;Neural Networks turn out to be a much better way to deal with this need for non linearity. One example of the power of neural networks is illustrated by the &lt;strong&gt;one learning hypothesis&lt;/strong&gt; - the brain (a super complex neural network) does not do each learning task with a unique algorithm, but uses the same learning algorithm to do ALL the learning tasks it encounters. Then, it would make sense to mimic this learning algorithm to recreate such versatility in our machine learning systems. This is where neural networks excel. There are all kinds of cool experiments where the brain can learn to &lt;a href="https://thepsychologist.bps.org.uk/volume-25/edition-12/exotic-sensory-capabilities-humans"&gt;interpret new sensory stimuli&lt;/a&gt;, or learn to see with the audio cortex, etc.&lt;/p&gt;
 &lt;p&gt;A very good introduction to the fundamentals of neural networks is available &lt;a href="http://neuralnetworksanddeeplearning.com/chap1.html"&gt;from M. Nielsen here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;On our scheme, each neuron as several inputs &lt;span class="math"&gt;\(\{x\}\)&lt;/span&gt;, and one output &lt;span class="math"&gt;\(h_{\theta}(x)\)&lt;/span&gt;. Each neuron will typically implement a sigmoidal function (parametrized by &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;) on the inputs. As before,&lt;br&gt;
-[h_{\theta}(x) = g(\theta^Tx) = \frac{1}{1+e^{-\theta^Tx}}.]&lt;/p&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$h_{\theta}(x) = g(\theta^Tx) = \frac{1}{1+e^{-\theta^Tx}}.$$&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Notation :&lt;/strong&gt; &lt;/p&gt;
 &lt;p&gt;The inputs are &lt;strong&gt;layer 1&lt;/strong&gt;, the last layer (&lt;span class="math"&gt;\(L\)&lt;/span&gt;) is the &lt;strong&gt;output layer&lt;/strong&gt; and all intermediate layers are &lt;strong&gt;hidden layers&lt;/strong&gt;. The activation (computed output) of a neuron &lt;span class="math"&gt;\(i\)&lt;/span&gt; in layer &lt;span class="math"&gt;\(j\)&lt;/span&gt; is denoted by &lt;span class="math"&gt;\(a^j_i\)&lt;/span&gt;. The weight of the output &lt;span class="math"&gt;\(x_p\)&lt;/span&gt; from a neuron &lt;span class="math"&gt;\(p\)&lt;/span&gt; in layer &lt;span class="math"&gt;\(j-1\)&lt;/span&gt; coming into neuron &lt;span class="math"&gt;\(i\)&lt;/span&gt; in layer &lt;span class="math"&gt;\(j\)&lt;/span&gt;, is represented by &lt;span class="math"&gt;\(\Theta^{j-1}_{ip}\)&lt;/span&gt;. So, for each set of connections from layer &lt;span class="math"&gt;\(j-1\to j\)&lt;/span&gt; we have the weight matrix &lt;span class="math"&gt;\(\Theta^{j-1}\)&lt;/span&gt;. Now, the activation of all neurons in layer &lt;span class="math"&gt;\(j\)&lt;/span&gt; is given by the vector,
-[a^j = h(\Theta^{j-1}x),]
+&lt;/p&gt;
+&lt;div class="math"&gt;$$a^j = h(\Theta^{j-1}x),$$&lt;/div&gt;
+&lt;p&gt;
 where &lt;span class="math"&gt;\(h\)&lt;/span&gt; is the sigmoidal function as before.
 By convention, a bias input &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; present at each neuron. So, if there are &lt;span class="math"&gt;\(s_{j-1}\)&lt;/span&gt; neurons in layer &lt;span class="math"&gt;\(j-1\)&lt;/span&gt; and &lt;span class="math"&gt;\(s_j\)&lt;/span&gt; neurons in layer &lt;span class="math"&gt;\(j\)&lt;/span&gt;, &lt;span class="math"&gt;\(\Theta^{j-1}\)&lt;/span&gt; is a &lt;span class="math"&gt;\(s_j\times (s_{j-1}+1)\)&lt;/span&gt; dimensional matrix. &lt;/p&gt;
 &lt;p&gt;If we have one hidden layer with 3 neurons, and 3 inputs (plus a bias), and one output neuron, then our neural network is represented by,
-[&lt;/p&gt;
-&lt;div class="math"&gt;\begin{bmatrix} x_0\\ x_1\\ x_2\\ x_3 \end{bmatrix}&lt;/div&gt;
-&lt;p&gt; \to
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{bmatrix} a^2_0\\ a^2_1\\ a^2_2\\ a^2_3 \end{bmatrix}&lt;/div&gt;
-&lt;p&gt; \to
+&lt;div class="math"&gt;$$\begin{bmatrix} x_0\\ x_1\\ x_2\\ x_3 \end{bmatrix} \to
+\begin{bmatrix} a^2_0\\ a^2_1\\ a^2_2\\ a^2_3 \end{bmatrix} \to
 h_{\theta}(x),
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 where &lt;span class="math"&gt;\(h_{\Theta}(x)\)&lt;/span&gt; represents the computation of the output neuron on the inputs from the hidden layer. For this case, the output is,
-[
-h_{\Theta}(x) = g\left(\Theta^2&lt;em&gt;\underbrace{\text{adBias}(\Theta^1&lt;/em&gt;\text{adBias}(x^T))}_{\text{output of layer 2 }{a^2}}\right)
-]
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+h_{\Theta}(x) = g\left(\Theta^2*\underbrace{\text{adBias}(\Theta^1*\text{adBias}(x^T))}_{\text{output of layer 2 }\{a^2\}}\right)
+$$&lt;/div&gt;
+&lt;p&gt;
 where the function &lt;span class="math"&gt;\(\text{adBias}()\)&lt;/span&gt; increases dimension by 1 and adds the bias input &lt;span class="math"&gt;\(1\)&lt;/span&gt; for each layer, and &lt;span class="math"&gt;\(\Theta^1\)&lt;/span&gt;, &lt;span class="math"&gt;\(\Theta^2\)&lt;/span&gt; are the weights to go from layer &lt;span class="math"&gt;\(1 \to 2\)&lt;/span&gt;, and &lt;span class="math"&gt;\(2 \to \text{output}\)&lt;/span&gt; layer respectively.&lt;/p&gt;
 &lt;p&gt;This process of computing the output of the neural network by starting with the input layer is called &lt;strong&gt;forward computation&lt;/strong&gt;. Each neuron is just a logistic regression unit, with the features being the outputs of neurons in the last layer. This means that each layer &lt;em&gt;learns&lt;/em&gt; what the best features are, to solve the given problem. This is what eliminates the need to include huge numbers of higher order terms as we would if were just doing logistic regression. &lt;/p&gt;
 &lt;p&gt;The way neurons are linked up in an artificial neural network is known as the &lt;strong&gt;architecture&lt;/strong&gt; of the neural network.&lt;/p&gt;
@@ -732,52 +748,48 @@ where the function &lt;span class="math"&gt;\(\text{adBias}()\)&lt;/span&gt; inc
 &lt;h3&gt;Cost function for neural network&lt;/h3&gt;
 &lt;p&gt;Let the number of layers in a neural network be denoted by &lt;span class="math"&gt;\(L\)&lt;/span&gt; and the number of neurons in a layer &lt;span class="math"&gt;\(l\)&lt;/span&gt; be denoted by &lt;span class="math"&gt;\(s_l\)&lt;/span&gt;. In terms of classification problems with &lt;span class="math"&gt;\(K\)&lt;/span&gt; classes, we will have &lt;span class="math"&gt;\(s_L=K\)&lt;/span&gt; neurons in the output layer. &lt;/p&gt;
 &lt;p&gt;Clearly, we need a generalization of the cost function for logistic regression. Instead of one value, the network is outputting a &lt;span class="math"&gt;\(K\)&lt;/span&gt; dimensional vector. To reflect this we sum over all the outputs and the cost function can be written as,&lt;/p&gt;
-&lt;p&gt;[J(\Theta)= -\frac{1}{m}\left[\underbrace{\sum_i}&lt;em _text_o_p="\text{o/p"&gt;{\text{examples}}\underbrace{\sum_k}&lt;/em&gt;} y^i_k\text{log}(h_{\Theta}(x^i)&lt;em _Theta="\Theta"&gt;k)+(1-y^i_k)\text{log}\left(1-h&lt;/em&gt;(x^i)&lt;em l_1="l+1"&gt;k\right)\right]+\underbrace{\frac{\lambda}{2m}\underbrace{\sum^{L-1}_l\sum^{s_l}_i\sum^{s&lt;/em&gt;}&lt;em _text_layers_="\text{layers," weights&gt;j}&lt;/em&gt;} (\Theta^l_{ji})^2}_{\text{regulatization term}}]&lt;/p&gt;
+&lt;div class="math"&gt;$$J(\Theta)= -\frac{1}{m}\left[\underbrace{\sum_i}_{\text{examples}}\underbrace{\sum_k}_{\text{o/p}} y^i_k\text{log}(h_{\Theta}(x^i)_k)+(1-y^i_k)\text{log}\left(1-h_{\Theta}(x^i)_k\right)\right]+\underbrace{\frac{\lambda}{2m}\underbrace{\sum^{L-1}_l\sum^{s_l}_i\sum^{s_{l+1}}_j}_{\text{layers, weights}} (\Theta^l_{ji})^2}_{\text{regulatization term}}$$&lt;/div&gt;
 &lt;p&gt;In the cost function above, the bias parameters are not penalized in the regularization term, per convention. The parameters of the neural network are the &lt;span class="math"&gt;\(\Theta^l_{ji}\)&lt;/span&gt; each of which is the weight to go from neuron &lt;span class="math"&gt;\(i\)&lt;/span&gt; of layer &lt;span class="math"&gt;\(l\)&lt;/span&gt; to neuron &lt;span class="math"&gt;\(j\)&lt;/span&gt; of layer &lt;span class="math"&gt;\(l+1\)&lt;/span&gt;. &lt;/p&gt;
 &lt;h3&gt;Learning/optimizing the parameters of a neural network&lt;/h3&gt;
 &lt;p&gt;As before, we need to search for the parameters &lt;span class="math"&gt;\(\Theta^*\)&lt;/span&gt; that minimise the cost function &lt;span class="math"&gt;\(J(\Theta)\)&lt;/span&gt;. The algorithm used to do this for neural networks is called the &lt;strong&gt;backpropagation&lt;/strong&gt; algorithm. As before, for particular values of &lt;span class="math"&gt;\(\{\Theta^l_{ij}\}\)&lt;/span&gt; we need to compute the value &lt;span class="math"&gt;\(J(\Theta)\)&lt;/span&gt; as well as all the derivatives &lt;span class="math"&gt;\(\frac{\partial}{\partial \Theta^l_{ij}}J(\Theta)\)&lt;/span&gt;. &lt;/p&gt;
 &lt;p&gt;To calculate the dependence of &lt;span class="math"&gt;\(J\)&lt;/span&gt; on the parameters, we use the chain rule. Consider the parameters &lt;span class="math"&gt;\(\Theta^{L-1}\)&lt;/span&gt; which feed the output layer,&lt;/p&gt;
-&lt;p&gt;[
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{align}
+&lt;div class="math"&gt;$$
+\begin{align}
 \frac{\partial J(\Theta)}{\partial \Theta^{L-1}_{ji}} &amp;amp;= \frac{\partial J(\Theta)}{\partial h^L_j}
 {\frac{\partial h^L_j}{\partial z^{L}_j}}
 \underbrace{\frac{\partial z^{L}_j}{\partial \Theta^{L-1}_{ji}}}_{h^{L-1}_i} \\
 &amp;amp;= \delta^L_j h^{L-1}_i.
-\end{align}&lt;/div&gt;
+\end{align}
+$$&lt;/div&gt;
 &lt;p&gt;
-]
 where &lt;span class="math"&gt;\(h^L_j\)&lt;/span&gt; denotes the activation of the &lt;span class="math"&gt;\(j^{th}\)&lt;/span&gt; neuron in the &lt;span class="math"&gt;\(L^{th}\)&lt;/span&gt; layer (in this case, the output layer), and the quantities below the under-braces follow from trivial differentiation. We defined &lt;span class="math"&gt;\(z^{L}_j = \Theta^{L-1}_j\text{adBias}(h^{L-1})\)&lt;/span&gt; and,
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \delta^L_j = \frac{\partial J(\Theta)}{\partial h^L_j}\frac{\partial h^L_j}{\partial (z^{L}_j)} = \frac{\partial J(\Theta)}{\partial h^L_j}g'(z^{L}_j)
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;We would like to calculate the &lt;span class="math"&gt;\(\delta^{L-1}\)&lt;/span&gt;s based on our knowledge of the &lt;span class="math"&gt;\(\delta^{L}\)&lt;/span&gt;s. This is the essence of back-propagation, we compute the errors for earlier layers based on the error we compute at the output. What follows, is going to be a repeated application of uni and multivariate chain rules (see &lt;a href="http://adbrebs.github.io/Backpropagation-simply-explained/"&gt;this blog for another detailed explanation&lt;/a&gt;)&lt;/p&gt;
-&lt;p&gt;[&lt;/p&gt;
-&lt;div class="math"&gt;\begin{align}
+&lt;div class="math"&gt;$$\begin{align}
 \delta^{L-1}_j &amp;amp;= \frac{\partial J(\Theta)}{\partial h^{L-1}_j}\frac{\partial h^{L-1}_j}{\partial (z^{L-1}_j)} \\
 &amp;amp;=  \frac{\partial J(\Theta)}{\partial z^{L-1}_j}\\
 &amp;amp;= \sum_k\frac{\partial J(\Theta)}{\partial z^{L}_k}\frac{\partial z^{L}_k}{\partial z^{L-1}_j}\\
 &amp;amp;= \sum_k \delta^{L}_k \frac{\partial z^{L}_k}{\partial z^{L-1}_j}\\
 &amp;amp;= \sum_k \delta^{L}_k \frac{\partial z^{L}_k}{\partial h^{L-1}_j}\frac{\partial h^{L-1}_j}{\partial z^{L-1}_j}\\
 &amp;amp;= g'(z^{L-1}_j)\sum_k \delta^L_k \Theta^{L-1}_{kj}
-\end{align}&lt;/div&gt;
-&lt;p&gt;]&lt;/p&gt;
+\end{align}$$&lt;/div&gt;
 &lt;p&gt;Then, the usual gradient descent algorithm tells us,&lt;/p&gt;
-&lt;p&gt;[
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{align}
+&lt;div class="math"&gt;$$
+\begin{align}
 \Delta \Theta^{L-1}_{ji} &amp;amp;= -\alpha \frac{\partial J(\Theta)}{\partial \Theta^{L-1}_{ji}} \\
 &amp;amp;= -\alpha \delta^L_j h^{L-1}_i.
-\end{align}&lt;/div&gt;
-&lt;p&gt;
-]&lt;/p&gt;
+\end{align}
+$$&lt;/div&gt;
 &lt;p&gt;And, since we can calculate all the &lt;span class="math"&gt;\(\delta\)&lt;/span&gt;s successively starting from the output layer, we can derive the corrections to all the parameters of the neural network.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;In matrix form : &lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;[
-\delta^{l-1} = g'(z^{l-1})\odot(\Theta^{l-1})^T\delta^l\
-\Delta \Theta^{l-1} = -\alpha (h^{l-1})^T\delta^l\
+&lt;div class="math"&gt;$$
+\delta^{l-1} = g'(z^{l-1})\odot(\Theta^{l-1})^T\delta^l\\
+\Delta \Theta^{l-1} = -\alpha (h^{l-1})^T\delta^l\\
 h^l = g(\Theta^{l-1}\text{adBias}(h^{l-1}))
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;It is implicit in the above discussion that this process is conducted for one training example at a time. So,&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Using forward propagation, calculate the output &lt;span class="math"&gt;\(h_{\Theta}(x)\)&lt;/span&gt; for one training example.&lt;/li&gt;
@@ -811,7 +823,7 @@ So, the questions remain, how many hidden layers and how many neurons should eac
 &lt;p&gt;But, which one should you do ? How to those a course of action ? This is where &lt;strong&gt;ML diagnostics&lt;/strong&gt; enter the picture. &lt;/p&gt;
 &lt;h3&gt;Bias Vs Variance&lt;/h3&gt;
 &lt;p&gt;Consider the three errors &lt;span class="math"&gt;\(J_{train}\)&lt;/span&gt; on the training set, &lt;span class="math"&gt;\(J_{valid}\)&lt;/span&gt; on the validation set, and &lt;span class="math"&gt;\(J_{test}\)&lt;/span&gt; on the test set. We always have,&lt;/p&gt;
-&lt;p&gt;[J_{train} &amp;lt; J_{valid} &amp;lt; J_{test}.]&lt;/p&gt;
+&lt;div class="math"&gt;$$J_{train} &amp;lt; J_{valid} &amp;lt; J_{test}.$$&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;When the regularization parameter &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; is very large, we are penalising the parameters of the model and &lt;strong&gt;underfitting&lt;/strong&gt; the data (high bias) : &lt;strong&gt;high &lt;span class="math"&gt;\(J_{train}\)&lt;/span&gt; and high &lt;span class="math"&gt;\(J_{valid}\)&lt;/span&gt;&lt;/strong&gt;.  &lt;/li&gt;
 &lt;li&gt;For very low values of &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; where our model might be &lt;strong&gt;overfitting&lt;/strong&gt; the data (high variance)  : &lt;strong&gt;very low &lt;span class="math"&gt;\(J_{train}\)&lt;/span&gt; and high &lt;span class="math"&gt;\(J_{valid}\)&lt;/span&gt;&lt;/strong&gt;.&lt;/li&gt;
@@ -836,10 +848,11 @@ So, the questions remain, how many hidden layers and how many neurons should eac
 &lt;li&gt;Plot &lt;strong&gt;learning curves&lt;/strong&gt; to diagnose over/under fitting and decide on course of action.  &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Error analysis.&lt;/strong&gt; examine, plot etc the examples from the validation set that the algorithm failed on, and try to spot patterns or features that can be used to improve performance. &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Skewed classes :&lt;/strong&gt; when the overwhelming number of examples fall into one class. E.g.. faulty parts. Only 0.01% of parts might be faulty, so just marking everything as fine will lead to 99.9% correct classification, and yet, not a single faulty part will have been caught. Thus, for such cases, a different error metric is needed. &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Precision/recall :&lt;/strong&gt; calculate number of true positives, true negatives and false positives and false negatives. [\text{Precision} = \frac{\text{True positives}}{\text{# Predicted positives}}=\frac{\text{True positives}}{\text{True positives+False positives}}]
-    [\text{Recall}=\frac{\text{True positives}}{\text{# Actual positives}} = \frac{\text{True positives}}{\text{True positives+False negatives}}]&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Precision/recall :&lt;/strong&gt; calculate number of true positives, true negatives and false positives and false negatives. &lt;div class="math"&gt;$$\text{Precision} = \frac{\text{True positives}}{\text{# Predicted positives}}=\frac{\text{True positives}}{\text{True positives+False positives}}$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\text{Recall}=\frac{\text{True positives}}{\text{# Actual positives}} = \frac{\text{True positives}}{\text{True positives+False negatives}}$$&lt;/div&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Precision/Recall tradeoffs :&lt;/strong&gt; trade-off occurs because increasing precision means reducing number of false positives, so stringent criteria for predicting a positive. This will inevitably mean that the number of false negatives increase too, leading to lower recall. And it works the other way too, increasing recall leads to lower precision. &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;F&lt;span class="math"&gt;\(_1\)&lt;/span&gt; score :&lt;/strong&gt; comparing precision/recall numbers. [F_1 = 2\frac{PR}{P+R}] makes for a good metric that ensures neither precision &lt;span class="math"&gt;\(P\)&lt;/span&gt; nor recall &lt;span class="math"&gt;\(R\)&lt;/span&gt; are too low, if the &lt;span class="math"&gt;\(F_1\)&lt;/span&gt; score is quite good. Choose the value of the threshold (for logistic regression, say) that maximises the &lt;span class="math"&gt;\(F_1\)&lt;/span&gt; score on the cross validation set.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F&lt;span class="math"&gt;\(_1\)&lt;/span&gt; score :&lt;/strong&gt; comparing precision/recall numbers. &lt;div class="math"&gt;$$F_1 = 2\frac{PR}{P+R}$$&lt;/div&gt; makes for a good metric that ensures neither precision &lt;span class="math"&gt;\(P\)&lt;/span&gt; nor recall &lt;span class="math"&gt;\(R\)&lt;/span&gt; are too low, if the &lt;span class="math"&gt;\(F_1\)&lt;/span&gt; score is quite good. Choose the value of the threshold (for logistic regression, say) that maximises the &lt;span class="math"&gt;\(F_1\)&lt;/span&gt; score on the cross validation set.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;When is lots of data worth it ?&lt;/strong&gt; Learning algorithms with large number off parameters (low bias) need large data sets to prevent over-fitting. Basically, we address the bias problem with a flexible and powerful learning algorithm and we address the variance problem with the massive data set. &lt;/li&gt;
 &lt;li&gt;Always worth asking and investigating if the problem is soluble at all, before investing in big data and machine learning.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Feature engineering matters more than specific learning algorithm used&lt;/strong&gt;. The amount of data, the type of features created, and skill in how the learning algorithm is used affects results a lot more than using this or that algorithm.&lt;/li&gt;
@@ -847,75 +860,86 @@ So, the questions remain, how many hidden layers and how many neurons should eac
 &lt;h2&gt;Support Vector Machines&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;An alternative view of logistic regression&lt;/strong&gt; :
 remember, the hypothesis function of logistic regression for an input vector &lt;span class="math"&gt;\(x\)&lt;/span&gt; is,&lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 h_{\theta}(x)=\frac{1}{1+e^{-\theta^T x}} = g(z)
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 where 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 z=\theta^T x.
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 Intuitively, if &lt;span class="math"&gt;\(y=1\)&lt;/span&gt;, &lt;span class="math"&gt;\(h_{\theta}\approx 1\implies z\gg 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(y=0\)&lt;/span&gt;, &lt;span class="math"&gt;\(h_{\theta}\approx 0\implies z\ll 0\)&lt;/span&gt;.
 Recall the cost function of logistic regression 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 -\left[y\cdot \text{log}(h_{\theta}(x))+(1-y)\cdot\text{log}(1-h_{\theta}(x)) \right].
-] 
+$$&lt;/div&gt;
+&lt;p&gt; 
 For a particular example &lt;span class="math"&gt;\((x,y)\)&lt;/span&gt; where &lt;span class="math"&gt;\(x\)&lt;/span&gt; is the input vector and &lt;span class="math"&gt;\(y\)&lt;/span&gt; is the output, suppose &lt;span class="math"&gt;\(y=1\)&lt;/span&gt;.
 Then, the cost function becomes 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \text{ErrCost}(z|y=1)=-\text{log}\frac{1}{1+e^{-z}}.
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 To make a support vector machine, we basically use a new cost function &lt;span class="math"&gt;\(\text{cost}_1\)&lt;/span&gt; that approximates this cost function with 2 straight line segments, while approximating 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \text{ErrCost}(z|y=0)=\text{log}\left(1-\frac{1}{1+e^{-z}}\right)
-] 
+$$&lt;/div&gt;
+&lt;p&gt; 
 with a different cost function &lt;span class="math"&gt;\(\text{cost}_0\)&lt;/span&gt; also consisting of 2 line segments. This yields a simpler, faster optimization problem.&lt;/p&gt;
 &lt;p&gt;In particular, &lt;span class="math"&gt;\(\text{cost}_1\)&lt;/span&gt; is a straight line with negative slope with an x intercept at 1. For &lt;span class="math"&gt;\(x\geq 1\)&lt;/span&gt;, &lt;span class="math"&gt;\(\text{cost}_1=0\)&lt;/span&gt;. On the other hand, &lt;span class="math"&gt;\(\text{cost}_0\)&lt;/span&gt; is a straight line with positive slope with an x intercept at -1. For &lt;span class="math"&gt;\(x\leq -1\)&lt;/span&gt;, &lt;span class="math"&gt;\(\text{cost}_0=0\)&lt;/span&gt;. &lt;/p&gt;
 &lt;p&gt;The cost function for &lt;strong&gt;logistic regression&lt;/strong&gt;
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 J(\theta) = E_i[-y^i\text{log}(h_{\theta}(x^i))-(1-y^i)\text{log}(1-h_{\theta}(x^i))]+\frac{\lambda}{2m}\sum_j (\theta_j)^2
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 while, for &lt;strong&gt;support vector machines&lt;/strong&gt; the cost function is written as
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 J(\theta)=C\cdot mE_i[ y^{(i)}\text{cost}_1(\theta^T x^{(i)}) +(1-y^{(i)})\text{cost}_0(\theta^T x^{(i)})]+\frac{1}{2}\sum_j (\theta_j)^2.
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 Apart from the more approximate cost functions, the differences in the two cost functions are a matter of convention. For SVMs, the relative weights of the errors and the regularization term is controlled by the parameter C that is multiplied to the error term, rather than &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; multiplied to the regularization term as in the cost function for logistic regression. Also, in support vector machines the error and regularization term are not divided through by the number of examples. These changes should not - of course - change anything fundamental in the optimization procedure. &lt;/p&gt;
 &lt;p&gt;Unlike logistic regression which gives a probability, the hypothesis function of an SVM is,
-[
-h_{\theta}(x) = &lt;/p&gt;
-&lt;div class="math"&gt;\begin{cases}
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+h_{\theta}(x) = \begin{cases}
                 1 &amp;amp; \theta^T x\geq 0\\
                 0 &amp;amp; \theta^T x&amp;lt;0
-                \end{cases}&lt;/div&gt;
-&lt;p&gt;.
-]&lt;/p&gt;
+                \end{cases}.
+$$&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Large margin classifier limit&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Due to the form of the functions &lt;span class="math"&gt;\(\text{cost}_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(\text{cost}_0\)&lt;/span&gt;, if &lt;span class="math"&gt;\(y=1\)&lt;/span&gt;, we want &lt;span class="math"&gt;\(\theta^T x\geq 1\)&lt;/span&gt; (not just &lt;span class="math"&gt;\(\geq 0\)&lt;/span&gt;) and if &lt;span class="math"&gt;\(y=0\)&lt;/span&gt;, we want &lt;span class="math"&gt;\(\theta^T x\leq -1\)&lt;/span&gt; (not just &lt;span class="math"&gt;\(&amp;lt;0\)&lt;/span&gt;). In other words, the boundaries for the two classes are separated from each other, unlike in logistic regression. In practice, SVMs choose separators between cases that have larger margins to all classes. hence the name. This happens because of the optimization problem we have defined with the cost function and the definitions of the functions &lt;span class="math"&gt;\(\text{cost}_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(\text{cost}_0\)&lt;/span&gt;. In the limit &lt;span class="math"&gt;\(C\gg 1\)&lt;/span&gt;, SVMs are equivalent to large margin classifiers. &lt;/p&gt;
 &lt;p&gt;On the other hand, large margin classifiers can be very sensitive to outliers, SVMs do not suffer from this as long as the parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt; is chosen wisely. &lt;/p&gt;
 &lt;p&gt;when the classes are well separated, we can set error to 0. Hence, the optimisation function becomes&lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 \hat{\theta} = \arg \min_{\theta}\left(\frac{1}{2}\sum_{j=1}^n\theta_j^2 \right)\text{ such that }
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{cases}
+\begin{cases}
 \theta^Tx\geq 1 &amp;amp; \text{if } y^{(i)}=1 \\
 \theta^Tx\leq -1 &amp;amp; \text{if } y^{(i)}=0. 
-\end{cases}&lt;/div&gt;
-&lt;p&gt;
-]&lt;/p&gt;
+\end{cases}
+$$&lt;/div&gt;
 &lt;h3&gt;Kernels - adapting SVMs for non linear decision boundaries&lt;/h3&gt;
 &lt;p&gt;One way to get non linear boundaries is to include polynomial features and treat those as new predictors, as we discussed for logistic regression. But, for complex problems, higher order polynomials are not really a good choice and can be very computationally expensive to include all necessary features. &lt;/p&gt;
 &lt;p&gt;A better way to pick features is using &lt;strong&gt;landmarks&lt;/strong&gt;. Certain points are identified in the space of features as being in some way specially significant to the problem at hand, and proximity (using some notion of distance or similarity) to these points is used to compute further features. For instance, given landmarks &lt;span class="math"&gt;\(l^{(1)},l^{(2)},l^{(3)}\)&lt;/span&gt; in the space of features, we can define one feature to be &lt;/p&gt;
-&lt;p&gt;[
+&lt;div class="math"&gt;$$
 f_1 = \exp\left(-\frac{\norm{x-l^{(1)}}^2}{2\sigma^2}\right)
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;The specific similarity functions used are called &lt;strong&gt;kernels&lt;/strong&gt;. In this case, we are using a &lt;em&gt;gaussian&lt;/em&gt; kernel for &lt;span class="math"&gt;\(f_1\)&lt;/span&gt;. It is clear that the Gaussian kernel falls away from the landmark at a rate determined by &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; and has a value of 1 at the landmark, and 0 infinitely far from the landmark. For classification problems, it is clear how choosing landmarks at estimated or intuitive or known centres of classes would be a good choice. &lt;/p&gt;
 &lt;p&gt;In fact, given a limited number of &lt;span class="math"&gt;\(m\)&lt;/span&gt; training examples, each training example can be a landmark leading to a new feature vector &lt;span class="math"&gt;\(f=\{f_1, f_2,...f_m\}\)&lt;/span&gt;. So, for a training example &lt;span class="math"&gt;\(x^{(i)}\)&lt;/span&gt;, we have the feature vector &lt;span class="math"&gt;\(f^{(i)} = \{f^{(i)}_1,f^{(i)}_2,f^{(i)}_3....f^{(i)}_m\}\)&lt;/span&gt; where &lt;span class="math"&gt;\(f^{(i)}_j\)&lt;/span&gt; is the similarity measure (given by the kernel) of the &lt;span class="math"&gt;\(i^{th}\)&lt;/span&gt; training example from the &lt;span class="math"&gt;\(j^{th}\)&lt;/span&gt; landmark (which, in this case, is the &lt;span class="math"&gt;\(j^{th}\)&lt;/span&gt; training example.. so &lt;span class="math"&gt;\(f^{(k)}_k = 1\)&lt;/span&gt; in this particular case). &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Definition of SVM with kernels&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Hypothesis : given &lt;span class="math"&gt;\(x\)&lt;/span&gt;, compute the features &lt;span class="math"&gt;\(f\in \mathbb{R}^{m+1}\)&lt;/span&gt;. Parameters &lt;span class="math"&gt;\(\theta\in\mathbb{R}^{m+1}\)&lt;/span&gt;, predict &lt;span class="math"&gt;\(y=1\)&lt;/span&gt; if &lt;span class="math"&gt;\(\theta^Tf\geq 0\)&lt;/span&gt;.   &lt;/li&gt;
 &lt;li&gt;Training : 
-[
-\hat\theta = \arg \min_{\theta}\left[ C\cdot \sum_{i=1}^m \left( y^{(i)}\text{cost}&lt;em j="1"&gt;1(\theta^Tf^{(i)}) + (1-y^{(i)})\text{cost}_0(\theta^Tf^{(i)})\right) + \frac{1}{2}\sum&lt;/em&gt;^m \theta_j^2\right]
-]&lt;/li&gt;
+&lt;div class="math"&gt;$$
+\hat\theta = \arg \min_{\theta}\left[ C\cdot \sum_{i=1}^m \left( y^{(i)}\text{cost}_1(\theta^Tf^{(i)}) + (1-y^{(i)})\text{cost}_0(\theta^Tf^{(i)})\right) + \frac{1}{2}\sum_{j=1}^m \theta_j^2\right]
+$$&lt;/div&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Intuition on over, under fitting :&lt;/p&gt;
 &lt;ul&gt;
@@ -954,9 +978,10 @@ f_1 = \exp\left(-\frac{\norm{x-l^{(1)}}^2}{2\sigma^2}\right)
 &lt;p&gt;&lt;em&gt;how cool will it be to visualize a K-Means run on flat, sperical, toroidal etc geometries ! does it converge on a mobius strip ? on a sphere ?&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Optimization objective function&lt;/strong&gt; for the K-Means algorithm : 
 we have &lt;span class="math"&gt;\(m\)&lt;/span&gt; data points, and &lt;span class="math"&gt;\(K\)&lt;/span&gt; clusters. Then, 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 J(c^{(1)},...c^{(m)},\mu_1,...\mu_K) = \frac{1}{m}\sum_{i=1}^{m}||x^{(i)}-\mu_{c^{(i)}}||
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;This function is also called the &lt;strong&gt;distortion&lt;/strong&gt;. The K-Means algorithm minimises this function. Clearly, the cluster assignment step is minimising the distances from data points to the cluster centroid of the clusters they are assigned to, and then, the re calculation of the cluster centroids again reduces the distance by moving the cluster centroids to the centre of mass. &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Randomly initializing cluster centroids&lt;/strong&gt; : &lt;br&gt;
 - clearly, &lt;span class="math"&gt;\(K&amp;lt;m\)&lt;/span&gt;.&lt;br&gt;
@@ -985,13 +1010,17 @@ Most popularly, do some data exploration and visualization and choose the number
 - average squared projection error = &lt;span class="math"&gt;\(\frac{1}{m}\sum_{i}^{m}||x^{(i)}-x_{\text{approx}}^{(i)}||^2\)&lt;/span&gt;&lt;br&gt;
 - total variation in the data = &lt;span class="math"&gt;\(\frac{1}{m}\sum_{i=1}^m ||x^{(i)}||^2\)&lt;/span&gt;&lt;br&gt;
 - choose &lt;span class="math"&gt;\(k\)&lt;/span&gt; to be the smallest value such that 99% of the variance is retained, &lt;br&gt;
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \frac{\frac{1}{m}\sum_{i}^{m}||x^{(i)}-x_{\text{approx}}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m ||x^{(i)}||^2}\leq 0.01
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 - the way to check this, is using the matrix &lt;code&gt;S&lt;/code&gt; from the &lt;code&gt;[U,S,V] = svd(Sigma)&lt;/code&gt;. &lt;code&gt;S&lt;/code&gt; is a diagonal square matrix &lt;span class="math"&gt;\(S_{ii}\)&lt;/span&gt;. for a given &lt;span class="math"&gt;\(k\)&lt;/span&gt;, we have,
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \frac{\frac{1}{m}\sum_{i}^{m}||x^{(i)}-x_{\text{approx}}^{(i)}||^2}{\frac{1}{m}\sum_{i=1}^m ||x^{(i)}||^2} = 1 - \frac{\sum_{i=1}^k S_{ii}}{\sum_{i=1}^n S_{ii}},
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 so, with just one run of the &lt;code&gt;svd&lt;/code&gt;, we can find the value of &lt;span class="math"&gt;\(k\)&lt;/span&gt; we need. &lt;a href="https://stats.stackexchange.com/questions/134282/relationship-between-svd-and-pca-how-to-use-svd-to-perform-pca"&gt;Here is&lt;/a&gt; an excellent account of the relationship between singular value decomposition and PCA.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Using PCA to speedup a learning algorithm :&lt;/strong&gt; essentially, learning on very high dimensional data is hard. With PCA, we can reduce the dimensionality and thus, in due to trivial computational reasons (fewer numbers to crunch !) get any algorithm to run faster. Clearly, we must apply PCA on training set, find the mapping (the learned matrix &lt;span class="math"&gt;\(U_r\)&lt;/span&gt;) and apply the same mapping to cross validation and test data. &lt;/p&gt;
 &lt;p&gt;Ng says PCA should be used as a part of pre-processing for ML algorithms &lt;em&gt;only if&lt;/em&gt; running with the raw data does not work. &lt;/p&gt;
@@ -1010,9 +1039,10 @@ Usually, this is approached by building a probability distribution &lt;span clas
 &lt;li&gt;Choose features &lt;span class="math"&gt;\(\{x_j\}\)&lt;/span&gt; that might be indicative of anomalous examples  &lt;/li&gt;
 &lt;li&gt;Fit parameters &lt;span class="math"&gt;\(\{\mu_j, \sigma^2_j\}\)&lt;/span&gt; for each feature  &lt;/li&gt;
 &lt;li&gt;given new example, compute &lt;br&gt;
-[
-p(x) = \prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)&lt;br&gt;
-]&lt;/li&gt;
+&lt;div class="math"&gt;$$
+p(x) = \prod_{j=1}^n p(x_j;\mu_j,\sigma^2_j)  
+$$&lt;/div&gt;
+&lt;/li&gt;
 &lt;li&gt;anomaly if &lt;span class="math"&gt;\(p(x)&amp;lt;\epsilon\)&lt;/span&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;Real number evaluation&lt;/strong&gt; while evaluating an algorithm, always best to have a method that returns a number.. which allows us to gauge how good the algorithms is. &lt;/p&gt;
@@ -1038,19 +1068,21 @@ Index &lt;span class="math"&gt;\(i\)&lt;/span&gt; denotes movie, &lt;span class=
 - infer &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; based on &lt;span class="math"&gt;\(x\)&lt;/span&gt; and ratings&lt;br&gt;
 - repeat until reasonable convergence.  &lt;/p&gt;
 &lt;p&gt;But, there is a more efficient algorithm that does not need to iterate. Instead, just treat &lt;span class="math"&gt;\(x\)&lt;/span&gt;s and &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;s as one set of parameters &lt;span class="math"&gt;\(\{...x^{(i)}......\theta^{(j)}...\}\)&lt;/span&gt;. The modified optimization objective is 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 J(..x^{(i)}......\theta^{(j)}...) = \frac{1}{2}\sum_{(i,j):r(i,j)=1}\left(\left(\theta^{(j)}\right)^Tx^{(i)}-y(i,j)\right)^2 + \frac{1}{2}\sum_i\sum_k \left( x_k^{(i)} \right)^2 + \frac{1}{2}\sum_j\sum_k \left( \theta_k^{(j)} \right)^2
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 where we must minimise over all &lt;span class="math"&gt;\(x\)&lt;/span&gt;s and &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;s. &lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;collaborative filtering algorithm&lt;/strong&gt; is : &lt;br&gt;
 1. Initialize the parameters &lt;span class="math"&gt;\(\{...x^{(i)}......\theta^{(j)}...\}\)&lt;/span&gt; to small random values&lt;br&gt;
 2. Minimise &lt;span class="math"&gt;\(J(..x^{(i)}......\theta^{(j)}...)\)&lt;/span&gt; over all parameters using gradient descent.&lt;br&gt;
 3. For a user with parameters &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; and a movie with features &lt;span class="math"&gt;\(x\)&lt;/span&gt;, the rating is &lt;span class="math"&gt;\(\theta\cdot x\)&lt;/span&gt;.   &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Vectorized collaborative filtering&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;[Y_{(i,j)} = \theta^{(j)}\cdot x^{(i)}]
-[X_{(i,k)} = x^{(i)}&lt;em _j_k_="(j,k)"&gt;k]
-[\Theta&lt;/em&gt; = \theta^{(j)}_k]
-[Y = X\Theta^T]&lt;/p&gt;
+&lt;div class="math"&gt;$$Y_{(i,j)} = \theta^{(j)}\cdot x^{(i)}$$&lt;/div&gt;
+&lt;div class="math"&gt;$$X_{(i,k)} = x^{(i)}_k$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\Theta_{(j,k)} = \theta^{(j)}_k$$&lt;/div&gt;
+&lt;div class="math"&gt;$$Y = X\Theta^T$$&lt;/div&gt;
 &lt;p&gt;This is called &lt;strong&gt;low ranked matrix factorization&lt;/strong&gt; because &lt;span class="math"&gt;\(Y\)&lt;/span&gt; is &lt;a href="https://en.wikipedia.org/wiki/Rank_(linear_algebra)"&gt;low ranked.&lt;/a&gt; &lt;/p&gt;
 &lt;p&gt;Once we know features related to movies &lt;span class="math"&gt;\(x^(i)\)&lt;/span&gt; then finding movies related to a given movie &lt;span class="math"&gt;\(x^{(i_0)}\)&lt;/span&gt;, one can just calculate the distances &lt;span class="math"&gt;\(||x^{(i_0)}-x^{(i)}||\)&lt;/span&gt; and pick a few movies with the lowest distances. &lt;/p&gt;
 &lt;p&gt;In general, it's best to regularize the means for various known quantities. &lt;/p&gt;
@@ -1058,9 +1090,11 @@ where we must minimise over all &lt;span class="math"&gt;\(x\)&lt;/span&gt;s and
 &lt;p&gt;when starting with a big data set, &lt;strong&gt;always&lt;/strong&gt; first try with small subsets, and plot the learning curves (&lt;span class="math"&gt;\(J_{train}, J_{CV}\)&lt;/span&gt; vs &lt;span class="math"&gt;\(m\)&lt;/span&gt;) to ensure that your learning algorithm has a large variance for small &lt;span class="math"&gt;\(m\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h3&gt;Gradient descent with large datasets&lt;/h3&gt;
 &lt;p&gt;Recall the gradient descent update rule -
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \theta_j :=\theta_j - \alpha \frac{1}{m}\sum_i^m (h_{\theta}(x^i)-y^i)x^i_j
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 When &lt;span class="math"&gt;\(m\)&lt;/span&gt; is very large, each step of the gradient descent algorithm requires summing over a huge &lt;span class="math"&gt;\(m\)&lt;/span&gt;, and this is computationally hugely expensive and time consuming. &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Stochastic gradient descent&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The usual gradient descent is called &lt;em&gt;batch gradient descent&lt;/em&gt;, when all training examples are used to update the parameters in the &lt;span class="math"&gt;\(\frac{1}{m}\sum_i^m (h_{\theta}(x^i)-y^i)x^i_j\)&lt;/span&gt; term (which reflects the derivative of the cost function &lt;span class="math"&gt;\(J_{train}(\theta) = \frac{1}{2m}\sum_{i=1}^m (h_{\theta}(x^i)-y^i)\)&lt;/span&gt;).&lt;/p&gt;
@@ -1068,25 +1102,27 @@ When &lt;span class="math"&gt;\(m\)&lt;/span&gt; is very large, each step of the
 1. define a cost function for one training example &lt;span class="math"&gt;\(cost(\theta, i) = \frac{1}{2}(h_{\theta}(x^i)-y^i)^2\)&lt;/span&gt;&lt;br&gt;
 2. shuffle the order of training dataset&lt;br&gt;
 3. Repeat until reasonable results (between 1-10 times), 
-[
-\text{for i=1..m} \
-\left{
-\text{for j=i..n} \
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\text{for i=1..m} \\
+\left\{
+\text{for j=i..n} \\
 \theta_j := \theta_j-\alpha((h_{\theta}(x^i)-y^i)x^i_j)
-\right}
-]
+\right\}
+$$&lt;/div&gt;
+&lt;p&gt;
 This does not really converge, but it ends up with parameters in the vicinity of the global minimum. In exchange for very significant computational savings.  &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Mini-batch gradient descent&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Batch gradient descent - use all &lt;span class="math"&gt;\(m\)&lt;/span&gt; examples in each update. &lt;br&gt;
 Stochastic gradient descent - use 1 example in each update.&lt;br&gt;
 Mini-batch gradient descent - use &lt;span class="math"&gt;\(b\)&lt;/span&gt; examples in each iteration.  &lt;/p&gt;
-&lt;p&gt;[
-\text{for i=1..}\frac{m}{b} \
-\left{
-\text{for j=i..n} \
+&lt;div class="math"&gt;$$
+\text{for i=1..}\frac{m}{b} \\
+\left\{
+\text{for j=i..n} \\
 \theta_j := \theta_j-\alpha\frac{1}{b}\sum_{k=1}^{b-1}((h_{\theta}(x^{(i-1)b+k})-y^{(i-1)b+k})x^{(i-1)b+k}_j)
-\right}
-]&lt;/p&gt;
+\right\}
+$$&lt;/div&gt;
 &lt;p&gt;this gives better performance than stochastic gradient if we have a very good vectorized implementation. Of course, this is same as batch gradient descent if &lt;span class="math"&gt;\(b=m\)&lt;/span&gt;. &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Tips for ensuring stochastic gradient descent is working&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -1102,13 +1138,16 @@ Mini-batch gradient descent - use &lt;span class="math"&gt;\(b\)&lt;/span&gt; ex
 &lt;h3&gt;Map-reduce and parallelism&lt;/h3&gt;
 &lt;p&gt;Some data problems are too large to handle on one machine. Such problems are usually tackled with clusters of computers, and map-reduce is a frame work to parallelize work over several machines. Can handle problems far larger than stochastic gradient descent. &lt;/p&gt;
 &lt;p&gt;If there are &lt;span class="math"&gt;\(m\)&lt;/span&gt; training examples, and there are &lt;span class="math"&gt;\(q\)&lt;/span&gt; machines to run these on, then &lt;span class="math"&gt;\(m/q\)&lt;/span&gt; are sent to each machine, and each machine computes 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 t^q_j = \sum_k^{(m/q)} (h_{\theta}(x^k)-y^k)x_j^k
-]
+$$&lt;/div&gt;
+&lt;p&gt;
 then, we can compute the update for batch gradient descent 
-[
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \theta_j := \theta_j -\alpha\frac{1}{m}\sum_q t_j^q
-]&lt;/p&gt;
+$$&lt;/div&gt;
 &lt;p&gt;and (ignoring overheads) we can get a maximum speed-up of &lt;span class="math"&gt;\(q\)&lt;/span&gt; times. This basically, parallelizes the calculation of the sum involved in gradient descent updates. &lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;key question :&lt;/strong&gt; can the learning algorithm be expressed as a sum of some functions over the training set ? if so, map-reduce can help.&lt;/p&gt;
 &lt;p&gt;For instance, for many optimization algorithms, we need to provide them with cost functions (thats one sum) and gradient (another sum), so for large data sets, map-reduce can parallelize these sums and pass these values to the optimization algorithm.  &lt;/p&gt;
