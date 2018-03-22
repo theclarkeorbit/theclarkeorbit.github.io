@@ -1,6 +1,6 @@
 ---
 title: "Notes from the original ML course by Andrew Ng"
-date: 24 Feb 2016
+date: 24 Feb 2017
 output:
   html_document:
     df_print: paged
