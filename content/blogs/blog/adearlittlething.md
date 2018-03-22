@@ -2,7 +2,7 @@ Title: I once was lost... but now am Dad ?
 Date: 09 Jun 2016
 
 
-![](/images/kav.jpg)
+![center](/images/kav.jpg)
 
 And so there she is, our baby daughter. Even after a fairly uneventful pregnancy, the birth of a baby must be among the most epic things men can witness and women can experience. The pain that women go through alone makes the experience singular, even without a whole new person leaving his/her comfortable cocoon to enter our world.
 
