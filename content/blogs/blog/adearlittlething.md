@@ -14,8 +14,10 @@ Evolution gives human babies a large head that makes birth excruciating for the 
     .. what the caterpillar calls the end of the world, philosophers call a butterfly.
 
 
-The birth of my first child is already a moment that fills me with joy, but it is not experienced as a joyful moment. It is too biblical for that. Thunder and lightening. Creation and destruction. Brahma and Maheshwara. Shock and Awe and infinite respect.
+The birth of my first child is already a moment that fills me with joy, but it is not experienced as a joyful moment, it is too biblical for that. 
+Thunder and lightening, Creation and destruction, Brahma and Maheshwara. 
 
+Shock and Awe and infinite respect.
 
 Welcome to our world Kaveri. We shall not let you down.
 
