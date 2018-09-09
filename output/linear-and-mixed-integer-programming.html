@@ -13,13 +13,13 @@
 <link rel="canonical" href="./linear-and-mixed-integer-programming.html">
 
         <meta name="author" content="pras" />
-        <meta name="description" content="post inspired by the OptiPy meetup. link to meetup Linear programming Wiki article on linear programming. Combining the concept of an objective function with constraints. Dantzig came up with the simplex algorithm. The most common solver in python is PuLP. Optimisation problems when the constraints and const function are linear …" />
+        <meta name="description" content="post inspired by the OptiPy meetup. link to meetup Linear programming Wiki article on linear programming. Combining the concept of an objective function with constraints. Dantzig came up with the simplex algorithm. The most common solver in python is PuLP. Optimisation problems where the constraints and cost function are linear …" />
 
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;Linear and mixed integer programming&#34;"/>
         <meta property="og:url" content="./linear-and-mixed-integer-programming.html"/>
-        <meta property="og:description" content="post inspired by the OptiPy meetup. link to meetup Linear programming Wiki article on linear programming. Combining the concept of an objective function with constraints. Dantzig came up with the simplex algorithm. The most common solver in python is PuLP. Optimisation problems when the constraints and const function are linear …"/>
+        <meta property="og:description" content="post inspired by the OptiPy meetup. link to meetup Linear programming Wiki article on linear programming. Combining the concept of an objective function with constraints. Dantzig came up with the simplex algorithm. The most common solver in python is PuLP. Optimisation problems where the constraints and cost function are linear …"/>
         <meta property="article:published_time" content="2018-09-08" />
             <meta property="article:section" content="data_sci_tech" />
             <meta property="article:author" content="pras" />
@@ -122,7 +122,7 @@
                 <p>post inspired by the OptiPy meetup. <a href="https://www.meetup.com/OptiPy-Python-Quants-of-BeNeDeLux/events/253090625/">link to meetup</a></p>
 <h2>Linear programming</h2>
 <p><a href="https://en.wikipedia.org/wiki/Linear_programming">Wiki article on linear programming</a>. Combining the concept of an objective function with constraints. Dantzig came up with the <a href="https://en.wikipedia.org/wiki/Simplex_algorithm">simplex algorithm</a>. The most common solver in python is <a href="https://pythonhosted.org/PuLP/">PuLP</a>.</p>
-<p>Optimisation problems when the constraints and const function are linear and the decision variables are continuous are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a hard (NP hard) problem with this frame work, the definition needs to be exponentially large.</p>
+<p>Optimisation problems where the constraints and cost function are linear, and the decision variables are continuous, are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a hard (NP hard) problem with this framework, the problem definition needs to be exponentially large (<a href="https://www.cwi.nl/system/files/scimeeting13.pdf">see this (pdf)</a>).</p>
 <p>However, if we allow for (some) decision variables to be integers instead of continuous, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.</p>
 <p>First, a toy linear programming problem in PuLP.</p>
 <h3>Simple linear programming</h3>

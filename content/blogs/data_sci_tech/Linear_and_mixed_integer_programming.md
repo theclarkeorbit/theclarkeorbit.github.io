@@ -8,7 +8,7 @@ post inspired by the OptiPy meetup. [link to meetup](https://www.meetup.com/Opti
 ## Linear programming
 [Wiki article on linear programming](https://en.wikipedia.org/wiki/Linear_programming). Combining the concept of an objective function with constraints. Dantzig came up with the [simplex algorithm](https://en.wikipedia.org/wiki/Simplex_algorithm). The most common solver in python is [PuLP](https://pythonhosted.org/PuLP/).
 
-Optimisation problems when the constraints and const function are linear and the decision variables are continuous are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a hard (NP hard) problem with this frame work, the definition needs to be exponentially large.
+Optimisation problems where the constraints and cost function are linear, and the decision variables are continuous, are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a hard (NP hard) problem with this framework, the problem definition needs to be exponentially large ([see this (pdf)](https://www.cwi.nl/system/files/scimeeting13.pdf)).
 
 However, if we allow for (some) decision variables to be integers instead of continuous, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.
 
