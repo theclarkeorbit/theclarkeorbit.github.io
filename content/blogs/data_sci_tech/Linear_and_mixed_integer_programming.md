@@ -22,8 +22,11 @@ Eat the optimal amount of schnitzel and pommes to survive while minimising cost,
 This problem can be formulated as follows :
 
 Decision vars :
+
 - how much schnitzel : x1
 - how much pommes : x2
+
+
 
 ```
 cost = 8*x1 + 3*x2 # cost function
