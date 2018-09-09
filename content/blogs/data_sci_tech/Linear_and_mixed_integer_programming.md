@@ -150,15 +150,11 @@ L <- list("torch", "food", "tent", "knife", "books") # objects
 for(j in 1:20) {
     L <- append(L, paste('random_stuff',j,sep = '_'))
 }
-weight_list <- list()
-usefulness_list <- list()
+
 set.seed(685474)
-for(j in 1:length(L)) {
-    weight_list <- append(weight_list, unlist(runif(1)))
-    usefulness_list <- append(usefulness_list, unlist(runif(1)))
-}
-usefulness <- as.numeric(usefulness_list)
-weight <- as.numeric(weight_list)
+
+usefulness <- runif(length(L))
+weight <- runif(length(L))
 ```
 
 Defining the model
@@ -192,7 +188,15 @@ print(sum(objects_taken$weights))
 and it is
 
 ```
-[1] 0.949882
+[1] 0.9203911
+
+objects usefulness  weights       taken
+<chr>    <dbl>       <dbl>        <dbl>
+torch   0.7605667   0.44670019     0
+food    0.9440156	0.53843038	   0
+tent    0.3925896	0.02805875	   1
+knife   0.7986606	0.88793490	   0
+books   0.8166644	0.40233223	   0
 ```
 
 an overview of optimization in R is provided [here (pdf)](https://www.is.uni-freiburg.de/resources/computational-economics/5_OptimizationR.pdf)

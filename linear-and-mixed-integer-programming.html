@@ -237,15 +237,11 @@ L <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</sp
 <span class="kr">for</span><span class="p">(</span>j <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">20</span><span class="p">)</span> <span class="p">{</span>
     L <span class="o">&lt;-</span> <span class="kp">append</span><span class="p">(</span>L<span class="p">,</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&#39;random_stuff&#39;</span><span class="p">,</span>j<span class="p">,</span>sep <span class="o">=</span> <span class="s">&#39;_&#39;</span><span class="p">))</span>
 <span class="p">}</span>
-weight_list <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">()</span>
-usefulness_list <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">()</span>
+
 <span class="kp">set.seed</span><span class="p">(</span><span class="m">685474</span><span class="p">)</span>
-<span class="kr">for</span><span class="p">(</span>j <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="kp">length</span><span class="p">(</span>L<span class="p">))</span> <span class="p">{</span>
-    weight_list <span class="o">&lt;-</span> <span class="kp">append</span><span class="p">(</span>weight_list<span class="p">,</span> <span class="kp">unlist</span><span class="p">(</span>runif<span class="p">(</span><span class="m">1</span><span class="p">)))</span>
-    usefulness_list <span class="o">&lt;-</span> <span class="kp">append</span><span class="p">(</span>usefulness_list<span class="p">,</span> <span class="kp">unlist</span><span class="p">(</span>runif<span class="p">(</span><span class="m">1</span><span class="p">)))</span>
-<span class="p">}</span>
-usefulness <span class="o">&lt;-</span> <span class="kp">as.numeric</span><span class="p">(</span>usefulness_list<span class="p">)</span>
-weight <span class="o">&lt;-</span> <span class="kp">as.numeric</span><span class="p">(</span>weight_list<span class="p">)</span>
+
+usefulness <span class="o">&lt;-</span> runif<span class="p">(</span><span class="kp">length</span><span class="p">(</span>L<span class="p">))</span>
+weight <span class="o">&lt;-</span> runif<span class="p">(</span><span class="kp">length</span><span class="p">(</span>L<span class="p">))</span>
 </pre></div>
 
 
@@ -275,7 +271,15 @@ objects_taken <span class="o">&lt;-</span> solution_data <span class="o">%&gt;%<
 
 
 <p>and it is</p>
-<div class="highlight"><pre><span></span>[1] 0.949882
+<div class="highlight"><pre><span></span>[1] 0.9203911
+
+objects usefulness  weights       taken
+&lt;chr&gt;    &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;
+torch   0.7605667   0.44670019     0
+food    0.9440156   0.53843038     0
+tent    0.3925896   0.02805875     1
+knife   0.7986606   0.88793490     0
+books   0.8166644   0.40233223     0
 </pre></div>
 
 
