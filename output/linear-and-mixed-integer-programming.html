@@ -126,11 +126,11 @@
 <p>However, if we allow for (some) decision variables to be integers instead of reals, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.</p>
 <p>First, a toy linear programming problem in PuLP.</p>
 <h3>Simple linear programming</h3>
-<p>Eat the optimal amount of schnitzel and pommes to survive, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities, and humans need at least 150 units of carbs and 50 units of proteins to survive (schnitzel has 23 units of carbs and 18 units of proteins, while pommes has 33 units of carbs and 4 units of proteins) while consuming less than 75 units of fat (schnitzel has 15 units of fat and pommes 13).</p>
+<p>Eat the optimal amount of schnitzel and pommes to survive while minimising cost, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities, and humans need at least 150 units of carbs and 50 units of proteins to survive (schnitzel has 23 units of carbs and 18 units of proteins, while pommes has 33 units of carbs and 4 units of proteins) while consuming less than 75 units of fat (schnitzel has 15 units of fat and pommes 13). Schnitzel costs 8 per unit, and pommes costs 3.</p>
 <p>This problem can be formulated as follows :</p>
 <p>Decision vars :
 - how much schnitzel : x1
-- how much pommes : x2</p>
+- how much pommes : x2  </p>
 <div class="highlight"><pre><span></span>cost = 8*x1 + 3*x2 # cost function
 </pre></div>
 
