@@ -75,7 +75,7 @@ Mixed integer models, however, are a different story. Large models are very hard
 
 Below, we will work through a couple of relatively simple problems in sagemath, R and PuLP.
 
-### Tutorial 1 : knapsack problem.
+### Tutorial - knapsack problem.
 
 #### Sagemath version
 
