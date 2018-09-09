@@ -41,11 +41,26 @@
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a href="./" class="navbar-brand">
 <img class="img-responsive pull-left gap-right" src=".//images/gravtar.jpg" width=""/> p. bhogale            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
+                         <li><a href="./pages/about.html">
+                             About
+                          </a></li>
+                        <li >
+                            <a href="./category/blog.html">Blog</a>
+                        </li>
+                        <li >
+                            <a href="./category/data_sci_tech.html">Data_sci_tech</a>
+                        </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
             </ul>
@@ -71,6 +86,60 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
+            <article>
+                <h2><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></h2>
+                <div class="summary"><p>post inspired by the OptiPy meetup. <a href="https://www.meetup.com/OptiPy-Python-Quants-of-BeNeDeLux/events/253090625/">link to meetup</a></p>
+<h2>Linear programming</h2>
+<p><a href="https://en.wikipedia.org/wiki/Linear_programming">Wiki article on linear programming</a>. Combining the concept of an objective function with constraints. Dantzig came up with the <a href="https://en.wikipedia.org/wiki/Simplex_algorithm">simplex algorithm</a>. The most common solver in python is <a href="https://pythonhosted.org/PuLP/">PuLP</a>.</p>
+<p>Optimisation problems when the constraints and const function are linear …</p>
+                    <a class="btn btn-default btn-xs" href="./linear-and-mixed-integer-programming.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="./the-invisible-hand.html">"The Invisible Hand"</a></h2>
+                <div class="summary"><p><strong>Markets and financial time series data.</strong></p>
+<h2>Basic ideas about markets</h2>
+<p>Inevitably, finance and markets will be a recurring subject of discussion on this blog. They are ubiquitous, useful, fascinatingly complex at various levels and they generate a lot of readily accessible data.</p>
+<p><strong>What is a market ?</strong> A market is a …</p>
+                    <a class="btn btn-default btn-xs" href="./the-invisible-hand.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="./greta-playground.html">"greta playground"</a></h2>
+                <div class="summary"><p>A first foray into probabilistic programming with Greta</p>
+<h2>Models and modelling</h2>
+<p>Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after <a href="https://en.wikipedia.org/wiki/Tycho_Brahe">Tycho Brahe</a> made detailed observations of planetary motion (<a href="http://www.pafko.com/tycho/observe.html">here</a> is data on mars), <a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion">Johannes …</a></p>
+                    <a class="btn btn-default btn-xs" href="./greta-playground.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="./notes-from-the-original-ml-course-by-andrew-ng.html">"Notes from the original ML course by Andrew Ng"</a></h2>
+                <div class="summary"><p>These are notes I took while watching the lectures from <a href="https://www.coursera.org/learn/machine-learning">Andrew Ng's ML course</a>. There is no code, just some math and my take aways from the course. It should still serve as a useful first document to skim for someone just starting out with machine learning.</p>
+<h2>What can ML …</h2>
+                    <a class="btn btn-default btn-xs" href="./notes-from-the-original-ml-course-by-andrew-ng.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="./i-once-was-lost-but-now-am-dad.html">I once was lost... but now am Dad ?</a></h2>
+                <div class="summary"><p><img alt="center" src="/images/kav.jpg"></p>
+<p>And so there she is, our baby daughter. Even after a fairly uneventful pregnancy, the birth of a baby must be among the most epic things men can witness and women can experience. The pain that women go through alone makes the experience singular, even without a whole new person …</p>
+                    <a class="btn btn-default btn-xs" href="./i-once-was-lost-but-now-am-dad.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="./tiger-hill.html">Tiger Hill</a></h2>
+                <div class="summary"><p>1.</p>
+<p>"I've checked", the Principal said one morning at assembly "The hill behind the school does not seem to have a name. In the memory of those who died in Kashmir, we will call it Tiger Hill. So that we never forget."</p>
+<p>It was the monsoon of 1999. I stood …</p>
+                    <a class="btn btn-default btn-xs" href="./tiger-hill.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
 
         </div>
         <div class="col-sm-3" id="sidebar">
@@ -94,6 +163,11 @@
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></li>
+    <li class="list-group-item"><a href="./the-invisible-hand.html">"The Invisible Hand"</a></li>
+    <li class="list-group-item"><a href="./greta-playground.html">"greta playground"</a></li>
+    <li class="list-group-item"><a href="./notes-from-the-original-ml-course-by-andrew-ng.html">"Notes from the original ML course by Andrew Ng"</a></li>
+    <li class="list-group-item"><a href="./i-once-was-lost-but-now-am-dad.html">I once was lost... but now am Dad ?</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
@@ -107,7 +181,7 @@
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy;  pras
+         <div class="col-xs-10">&copy; 2018 pras
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
