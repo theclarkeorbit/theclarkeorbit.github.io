@@ -10,30 +10,32 @@ post inspired by the OptiPy meetup. [link to meetup](https://www.meetup.com/Opti
 
 Optimisation problems where the constraints and cost function are linear, and the decision variables are continuous, are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a hard (NP hard) problem with this framework, the problem definition needs to be exponentially large ([see this (pdf)](https://www.cwi.nl/system/files/scimeeting13.pdf)).
 
-However, if we allow for (some) decision variables to be integers instead of continuous, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.
+However, if we allow for (some) decision variables to be integers instead of reals, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.
 
 First, a toy linear programming problem in PuLP.
 
 ### Simple linear programming
 
-Eat the optimal amount of schnitzel and pommes to survive, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities :D
+Eat the optimal amount of schnitzel and pommes to survive, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities, and humans need at least 150 units of carbs and 50 units of proteins to survive (schnitzel has 23 units of carbs and 18 units of proteins, while pommes has 33 units of carbs and 4 units of proteins) while consuming less than 75 units of fat (schnitzel has 15 units of fat and pommes 13).
+
+This problem can be formulated as follows :
 
 Decision vars :
-* how much schnitzel : x1
-* how much pommes : x2
+- how much schnitzel : x1
+- how much pommes : x2
 
 ```
-cost = 8*x1 + 3*x2
+cost = 8*x1 + 3*x2 # cost function
 ```
 
 constraints :
 ```
- 23*x1 + 33*x2 >= 150
- 18*x1 + 4*x2 >= 50
- 15*x1 + 13*x2 <= 75
+ 23*x1 + 33*x2 >= 150 # carbs
+ 18*x1 + 4*x2 >= 50 # protein
+ 15*x1 + 13*x2 <= 75 # fats
 ```
 
-code :
+we now code this up in the popular python LP framework, PuLP :
 
 ```python
 import pulp

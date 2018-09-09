@@ -6,25 +6,26 @@
 &lt;h2&gt;Linear programming&lt;/h2&gt;
 &lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Linear_programming"&gt;Wiki article on linear programming&lt;/a&gt;. Combining the concept of an objective function with constraints. Dantzig came up with the &lt;a href="https://en.wikipedia.org/wiki/Simplex_algorithm"&gt;simplex algorithm&lt;/a&gt;. The most common solver in python is &lt;a href="https://pythonhosted.org/PuLP/"&gt;PuLP&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Optimisation problems where the constraints and cost function are linear, and the decision variables are continuous, are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a hard (NP hard) problem with this framework, the problem definition needs to be exponentially large (&lt;a href="https://www.cwi.nl/system/files/scimeeting13.pdf"&gt;see this (pdf)&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;However, if we allow for (some) decision variables to be integers instead of continuous, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.&lt;/p&gt;
+&lt;p&gt;However, if we allow for (some) decision variables to be integers instead of reals, a much richer range of problems can be expressed and solved in a similar framework. This is called mixed integer programming.&lt;/p&gt;
 &lt;p&gt;First, a toy linear programming problem in PuLP.&lt;/p&gt;
 &lt;h3&gt;Simple linear programming&lt;/h3&gt;
-&lt;p&gt;Eat the optimal amount of schnitzel and pommes to survive, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities :D&lt;/p&gt;
+&lt;p&gt;Eat the optimal amount of schnitzel and pommes to survive, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities, and humans need at least 150 units of carbs and 50 units of proteins to survive (schnitzel has 23 units of carbs and 18 units of proteins, while pommes has 33 units of carbs and 4 units of proteins) while consuming less than 75 units of fat (schnitzel has 15 units of fat and pommes 13).&lt;/p&gt;
+&lt;p&gt;This problem can be formulated as follows :&lt;/p&gt;
 &lt;p&gt;Decision vars :
-&lt;em&gt; how much schnitzel : x1
-&lt;/em&gt; how much pommes : x2&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cost = 8*x1 + 3*x2
+- how much schnitzel : x1
+- how much pommes : x2&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cost = 8*x1 + 3*x2 # cost function
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;constraints :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 23*x1 + 33*x2 &amp;gt;= 150
- 18*x1 + 4*x2 &amp;gt;= 50
- 15*x1 + 13*x2 &amp;lt;= 75
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 23*x1 + 33*x2 &amp;gt;= 150 # carbs
+ 18*x1 + 4*x2 &amp;gt;= 50 # protein
+ 15*x1 + 13*x2 &amp;lt;= 75 # fats
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;code :&lt;/p&gt;
+&lt;p&gt;we now code this up in the popular python LP framework, PuLP :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pulp&lt;/span&gt;
 
 &lt;span class="n"&gt;diet_program&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pulp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LpProblem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Diet Program&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pulp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LpMinimize&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
