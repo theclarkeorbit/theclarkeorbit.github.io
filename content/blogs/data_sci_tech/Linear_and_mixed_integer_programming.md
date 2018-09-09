@@ -74,7 +74,7 @@ Mixed integer models, however, are a different story. Large models are very hard
 
 ### Material
 
-1. the Sagemath documentation page has a rather [good chapter](http://doc.sagemath.org/html/en/thematic_tutorials/linear_programming.html)) on linear and mixed integer programming. On the face of it, the syntax seems more elegant and extensible than [PuLP](https://pythonhosted.org/PuLP/)
+1. the Sagemath documentation page has a rather [good chapter](http://doc.sagemath.org/html/en/thematic_tutorials/linear_programming.html) on linear and mixed integer programming. On the face of it, the syntax seems more elegant and extensible than [PuLP](https://pythonhosted.org/PuLP/)
 2. For R, most optimisation problems need matrix definitions and this makes constructing large models in R basically impossible. The [ompr package](https://channel9.msdn.com/Events/useR-international-R-User-conferences/useR-International-R-User-2017-Conference/ompr-an-alternative-way-to-model-mixed-integer-linear-programs) seems to solve this issue, and enables construction of models in a step by step fashion, like PuLP and sagemath.
 
 Below, we will work through a couple of relatively simple problems in sagemath, R and PuLP.
