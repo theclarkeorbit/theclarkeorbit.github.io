@@ -160,6 +160,7 @@ objects_taken &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; solution_data &lt;spa
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;an overview of optimization in R is provided &lt;a href="https://www.is.uni-freiburg.de/resources/computational-economics/5_OptimizationR.pdf"&gt;here (pdf)&lt;/a&gt;&lt;/p&gt;
 &lt;h4&gt;PuLP version&lt;/h4&gt;
 &lt;p&gt;The pulp problem is setup in a very similar fashion to the sage problem.  Below is the entire code for the problem solution in PuLP.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pulp&lt;/span&gt;

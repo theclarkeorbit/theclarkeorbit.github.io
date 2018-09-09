@@ -191,6 +191,8 @@ and it is
 [1] 0.949882
 ```
 
+an overview of optimization in R is provided [here (pdf)](https://www.is.uni-freiburg.de/resources/computational-economics/5_OptimizationR.pdf)
+
 #### PuLP version
 
 The pulp problem is setup in a very similar fashion to the sage problem.  Below is the entire code for the problem solution in PuLP.
