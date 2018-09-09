@@ -70,7 +70,7 @@ Often, real problems have a large number of decision variables and constraints, 
 
 ## Mixed integer programming
 
-Mixed integer models, however, are a different story. Large models are very hard to solve with open source solvers and advanced commercial solvers are needed to solve real world mixed integer models in a reasonable amount of time.
+Mixed integer models, however, are a different story. Large models are very hard to solve with open source solvers and expensive commercial solvers are needed to solve real world problems in a reasonable amount of time.
 
 ### Material
 
