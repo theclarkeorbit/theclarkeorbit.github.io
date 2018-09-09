@@ -13,7 +13,10 @@
 &lt;p&gt;Decision vars :
 &lt;em&gt; how much schnitzel : x1
 &lt;/em&gt; how much pommes : x2&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cost = 8*x1 + 3*x2&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cost = 8*x1 + 3*x2
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;constraints :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 23*x1 + 33*x2 &amp;gt;= 150
  18*x1 + 4*x2 &amp;gt;= 50

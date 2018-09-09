@@ -22,7 +22,9 @@ Decision vars :
 * how much schnitzel : x1
 * how much pommes : x2
 
-`cost = 8*x1 + 3*x2`
+```
+cost = 8*x1 + 3*x2
+```
 
 constraints :
 ```
