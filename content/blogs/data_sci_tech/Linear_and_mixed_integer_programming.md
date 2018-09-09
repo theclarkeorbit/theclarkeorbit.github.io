@@ -128,7 +128,7 @@ the total weight of taken objects is
 
 #### R version
 
-Most optimisers in R (including the popular [ROI](https://cran.r-project.org/web/packages/ROI/) package that provides a unified interface to multiple solvers) need problem definitions in matrix form. However, matrix definitions are not easy to read and interpret, and are the end result of a process of problem definition. Step by step definitions of the optimisation problem (like the one above) provide a much better framework in which to understand and define optimisation problems.
+Most optimisers in R (including the popular [ROI](https://cran.r-project.org/web/packages/ROI/) package that provides a unified interface to multiple solvers) need problem definitions in matrix form. However, since any final problem definition to be optimised is the end result of a long process of experimentation and development, hard to interpret matrices do not provide a convenient language in which to tackle a new problem. Step by step definitions of the optimisation problem (like the one above) are much better in this respect.
 
 The [ompr](https://dirkschumacher.github.io/ompr/) package provides such an interface for problem definition and solution in R, using the pipe operator from the [Tidyverse](https://www.tidyverse.org/).
 

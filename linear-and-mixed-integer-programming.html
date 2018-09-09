@@ -221,7 +221,7 @@ The objective to be maximised is usefulness of taken objects, the constraint is 
 
 
 <h4>R version</h4>
-<p>Most optimisers in R (including the popular <a href="https://cran.r-project.org/web/packages/ROI/">ROI</a> package that provides a unified interface to multiple solvers) need problem definitions in matrix form. However, matrix definitions are not easy to read and interpret, and are the end result of a process of problem definition. Step by step definitions of the optimisation problem (like the one above) provide a much better framework in which to understand and define optimisation problems.</p>
+<p>Most optimisers in R (including the popular <a href="https://cran.r-project.org/web/packages/ROI/">ROI</a> package that provides a unified interface to multiple solvers) need problem definitions in matrix form. However, since any final problem definition to be optimised is the end result of a long process of experimentation and development, hard to interpret matrices do not provide a convenient language in which to tackle a new problem. Step by step definitions of the optimisation problem (like the one above) are much better in this respect.</p>
 <p>The <a href="https://dirkschumacher.github.io/ompr/">ompr</a> package provides such an interface for problem definition and solution in R, using the pipe operator from the <a href="https://www.tidyverse.org/">Tidyverse</a>.</p>
 <p>Setting up the basics</p>
 <div class="highlight"><pre><span></span><span class="kn">library</span><span class="p">(</span>tidyverse<span class="p">)</span>
