@@ -17,13 +17,13 @@ First, a toy linear programming problem in PuLP.
 
 ### Simple linear programming
 
-Eat the optimal amount of schnitzel and pommes to survive while minimising cost, given nutrition value and costs in terms of various ingredients. Assume that schnitzel and pommes come in continuous quantities, and humans need at least 150 units of carbs and 50 units of proteins to survive (schnitzel has 23 units of carbs and 18 units of proteins, while pommes has 33 units of carbs and 4 units of proteins) while consuming less than 75 units of fat (schnitzel has 15 units of fat and pommes 13). Schnitzel costs 8 per unit, and pommes costs 3.
+Eat the optimal amount of schnitzel and pommes to survive while minimising cost, given nutrition value. Assume that schnitzel and pommes come in continuous quantities, and humans need at least 150 units of carbs and 50 units of proteins to survive (schnitzel has 23 units of carbs and 18 units of proteins, while pommes has 33 units of carbs and 4 units of proteins) while consuming less than 75 units of fat (schnitzel has 15 units of fat and pommes 13). Schnitzel costs 8 per unit, and pommes costs 3.
 
 This problem can be formulated as follows :
 
 Decision vars :
 - how much schnitzel : x1
-- how much pommes : x2  
+- how much pommes : x2
 
 ```
 cost = 8*x1 + 3*x2 # cost function
