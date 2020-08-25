@@ -1,5 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2018-09-08T00:00:00+02:00</updated><entry><title>"Linear and mixed integer programming"</title><link href="https://theclarkeorbit.github.io/linear-and-mixed-integer-programming.html" rel="alternate"></link><published>2018-09-08T00:00:00+02:00</published><updated>2018-09-08T00:00:00+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2018-09-08:/linear-and-mixed-integer-programming.html</id><summary type="html">&lt;p&gt;post inspired by the OptiPy meetup. &lt;a href="https://www.meetup.com/OptiPy-Python-Quants-of-BeNeDeLux/events/253090625/"&gt;link to meetup&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2020-08-25T21:00:32+02:00</updated><entry><title>Becoming a Data Scientist : an opinionated take in 2020</title><link href="https://theclarkeorbit.github.io/./becoming-a-data-scientist-an-opinionated-take-in-2020.html" rel="alternate"></link><published>2020-08-25T21:00:32+02:00</published><updated>2020-08-25T21:00:32+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2020-08-25:/./becoming-a-data-scientist-an-opinionated-take-in-2020.html</id><summary type="html">
+
+
+&lt;div class="container-fluid main-container"&gt;
+
+
+
+
+&lt;div class="fluid-row" id="header"&gt;
+
+&lt;div class="btn-group pull-right"&gt;
+&lt;button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;&lt;span&gt;Code&lt;/span&gt; &lt;span class="caret"&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;ul class="dropdown-menu" style="min-width: 50px;"&gt;
+&lt;li&gt;&lt;a id="rmd-show-all-code" href="#"&gt;Show All Code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="rmd-hide-all-code" href="#"&gt;Hide All Code&lt;/a&gt;&lt;/li&gt;
+&lt;li role="separator" class="divider"&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="rmd-download-source" href="#"&gt;Download Rmd&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+
+
+&lt;h1 class="title toc-ignore"&gt;Becoming a Data Scientist : an opinionated take in 2020&lt;/h1&gt;
+
+&lt;/div&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+&lt;p&gt;This is an &lt;a href="http://rmarkdown.rstudio.com"&gt;R Markdown&lt;/a&gt; Notebook. When you execute code within the notebook, the results appear beneath the code.&lt;/p&gt;
+&lt;p&gt;Try executing this chunk by clicking the &lt;em&gt;Run&lt;/em&gt; button within the chunk or …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">
+
+
+&lt;div class="container-fluid main-container"&gt;
+
+
+
+
+&lt;div class="fluid-row" id="header"&gt;
+
+&lt;div class="btn-group pull-right"&gt;
+&lt;button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;&lt;span&gt;Code&lt;/span&gt; &lt;span class="caret"&gt;&lt;/span&gt;&lt;/button&gt;
+&lt;ul class="dropdown-menu" style="min-width: 50px;"&gt;
+&lt;li&gt;&lt;a id="rmd-show-all-code" href="#"&gt;Show All Code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="rmd-hide-all-code" href="#"&gt;Hide All Code&lt;/a&gt;&lt;/li&gt;
+&lt;li role="separator" class="divider"&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="rmd-download-source" href="#"&gt;Download Rmd&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+
+
+&lt;h1 class="title toc-ignore"&gt;Becoming a Data Scientist : an opinionated take in 2020&lt;/h1&gt;
+
+&lt;/div&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+&lt;p&gt;This is an &lt;a href="http://rmarkdown.rstudio.com"&gt;R Markdown&lt;/a&gt; Notebook. When you execute code within the notebook, the results appear beneath the code.&lt;/p&gt;
+&lt;p&gt;Try executing this chunk by clicking the &lt;em&gt;Run&lt;/em&gt; button within the chunk or by placing your cursor inside it and pressing &lt;em&gt;Cmd+Shift+Enter&lt;/em&gt;.&lt;/p&gt;
+&lt;!-- rnb-text-end --&gt;
+&lt;!-- rnb-chunk-begin --&gt;
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChjYXJzKVxuYGBgIn0= --&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plot(cars)&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- rnb-source-end --&gt;
+&lt;!-- rnb-chunk-end --&gt;
+&lt;!-- rnb-text-begin --&gt;
+&lt;p&gt;Add a new chunk by clicking the &lt;em&gt;Insert Chunk&lt;/em&gt; button on the toolbar or by pressing &lt;em&gt;Cmd+Option+I&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the &lt;em&gt;Preview&lt;/em&gt; button or press &lt;em&gt;Cmd+Shift+K&lt;/em&gt; to preview the HTML file).&lt;/p&gt;
+&lt;p&gt;The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike &lt;em&gt;Knit&lt;/em&gt;, &lt;em&gt;Preview&lt;/em&gt; does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.&lt;/p&gt;
+&lt;!-- rnb-text-end --&gt;
+
+&lt;div id="rmd-source-code"&gt;LS0tCnRpdGxlOiAiQmVjb21pbmcgYSBEYXRhIFNjaWVudGlzdCA6IGFuIG9waW5pb25hdGVkIHRha2UgaW4gMjAyMCIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ21kK1NoaWZ0K0VudGVyKi4gCgpgYGB7cn0KcGxvdChjYXJzKQpgYGAKCkFkZCBhIG5ldyBjaHVuayBieSBjbGlja2luZyB0aGUgKkluc2VydCBDaHVuayogYnV0dG9uIG9uIHRoZSB0b29sYmFyIG9yIGJ5IHByZXNzaW5nICpDbWQrT3B0aW9uK0kqLgoKV2hlbiB5b3Ugc2F2ZSB0aGUgbm90ZWJvb2ssIGFuIEhUTUwgZmlsZSBjb250YWluaW5nIHRoZSBjb2RlIGFuZCBvdXRwdXQgd2lsbCBiZSBzYXZlZCBhbG9uZ3NpZGUgaXQgKGNsaWNrIHRoZSAqUHJldmlldyogYnV0dG9uIG9yIHByZXNzICpDbWQrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4gCgpUaGUgcHJldmlldyBzaG93cyB5b3UgYSByZW5kZXJlZCBIVE1MIGNvcHkgb2YgdGhlIGNvbnRlbnRzIG9mIHRoZSBlZGl0b3IuIENvbnNlcXVlbnRseSwgdW5saWtlICpLbml0KiwgKlByZXZpZXcqIGRvZXMgbm90IHJ1biBhbnkgUiBjb2RlIGNodW5rcy4gSW5zdGVhZCwgdGhlIG91dHB1dCBvZiB0aGUgY2h1bmsgd2hlbiBpdCB3YXMgbGFzdCBydW4gaW4gdGhlIGVkaXRvciBpcyBkaXNwbGF5ZWQuCgo=&lt;/div&gt;
+
+
+
+&lt;/div&gt;
+
+&lt;script&gt;
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+$(document).ready(function () {
+  $('.knitsql-table').addClass('kable-table');
+  var container = $('.kable-table');
+  container.each(function() {
+
+    // move the caption out of the table
+    var table = $(this).children('table');
+    var caption = table.children('caption').detach();
+    caption.insertBefore($(this)).css('display', 'inherit');
+  });
+});
+
+&lt;/script&gt;
+
+&lt;!-- tabsets --&gt;
+
+&lt;script&gt;
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown &gt; .nav-tabs &gt; li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+&lt;/script&gt;
+
+&lt;!-- code folding --&gt;
+&lt;script&gt;
+$(document).ready(function () {
+  window.initializeSourceEmbed("Becoming_a_data_scientist.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+&lt;/script&gt;
+
+
+&lt;!-- dynamically load mathjax for compatibility with self-contained --&gt;
+&lt;script&gt;
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+&lt;/script&gt;
+
+</content></entry><entry><title>"Becoming a Data Scientist : an opinionated take in 2020"</title><link href="https://theclarkeorbit.github.io/./becoming-a-data-scientist-an-opinionated-take-in-2020.html" rel="alternate"></link><published>2020-08-25T00:00:00+02:00</published><updated>2020-08-25T00:00:00+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2020-08-25:/./becoming-a-data-scientist-an-opinionated-take-in-2020.html</id><summary type="html">&lt;p&gt;There are many articles on this subject, and many of them are excellent. For some examples see &lt;a href="https://towardsdatascience.com/how-to-become-a-data-scientist-2a02ed565336"&gt;here&lt;/a&gt;, &lt;a href="https://towardsdatascience.com/how-to-become-a-data-scientist-3f8d6e75482f"&gt;here&lt;/a&gt;, &lt;a href="https://www.kdnuggets.com/2018/05/simplilearn-9-must-have-skills-data-scientist.html"&gt;here&lt;/a&gt; and &lt;a href="https://www.discoverdatascience.org/career-information/data-scientist/"&gt;here&lt;/a&gt;. All such articles are opinionated takes, and helped me out to some extent when I was starting out in this field some years ago. Contrary to my expectations …&lt;/p&gt;</summary><content type="html">&lt;p&gt;There are many articles on this subject, and many of them are excellent. For some examples see &lt;a href="https://towardsdatascience.com/how-to-become-a-data-scientist-2a02ed565336"&gt;here&lt;/a&gt;, &lt;a href="https://towardsdatascience.com/how-to-become-a-data-scientist-3f8d6e75482f"&gt;here&lt;/a&gt;, &lt;a href="https://www.kdnuggets.com/2018/05/simplilearn-9-must-have-skills-data-scientist.html"&gt;here&lt;/a&gt; and &lt;a href="https://www.discoverdatascience.org/career-information/data-scientist/"&gt;here&lt;/a&gt;. All such articles are opinionated takes, and helped me out to some extent when I was starting out in this field some years ago. Contrary to my expectations, the term &lt;strong&gt;Data Scientist&lt;/strong&gt; has become more confusing with time over the last 3-4 years.&lt;/p&gt;
+&lt;p&gt;This is my poor attempt to clarify (to myself) what I (and a lot of other people) mean when I use this term. This also helps contextualize other terms like "ML engineer" and "Data engineer". &lt;/p&gt;
+&lt;h3&gt;A definition, and the basic requirements&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;A data scientist uses quantitative techniques to understand, define and solve business problems.&lt;/strong&gt; That's it. In this view, a data scientist is a scientist applying the scientific method and mathematical techniques to business problems. &lt;/p&gt;
+&lt;p&gt;While that works as a definition, it is rather inadequate because it tells us very little about the skills needed and the type of work a data scientist has to do. The answers to those questions depend partly on the context and culture of the business in which a data scientist works, but some skills are likely to be universally required for any data scientist working in the wilderness of corporate life, and these are the ones (IMHO) :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;A bouquet of quantitative skills&lt;/strong&gt; : depending on your background, you'll have some of these. The more the better. Apart from those, its good to brush up on statistics, &lt;em&gt;really&lt;/em&gt; understand linear regression, PCA and get a solid grounding in Bayesian thinking. You could do a lot worst than investing 20-24 hrs in &lt;a href="https://www.youtube.com/watch?v=4WVelCswXo4&amp;amp;list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI"&gt;Richard McElreath's course&lt;/a&gt; on statistics, bayesian thinking etc. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SQL&lt;/strong&gt; : it is hard to imagine a data scientist who does not - very regularly - need to access databases, and for good or ill, SQL is the most common interface to data bases. Learning SQL well is also a way to learn the paradigms of data wrangling that come in handy later. There are plenty of resources out there to learn SQL, but I quite liked this &lt;a href="https://www.udacity.com/course/sql-for-data-analysis--ud198#"&gt;free course from Udacity&lt;/a&gt;.  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Excel&lt;/strong&gt; : every single business uses Excel, and certainly a lot of your stakeholders will use it, and sooner rather than later, you will have to deal with data in excel sheets. Its ubiquity (despite its multifarious flaws) makes it worth learning. I haven't made myself learn it yet, so I can't point to any good resources.  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Programming&lt;/strong&gt; : It does not really matter what you learn to code in, as long as you can code. The aim should be to feel "I don't care what language or package code I need to deal with, I'll pick it up". But if you must pick one language, I'd recommend Python. Even though I personally prefer R. Learn to write clean code, document it, write tests and version control. &lt;a href="https://docs.python-guide.org/intro/learning/"&gt;This&lt;/a&gt; is a great list of free resources.   &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data wrangling and visualization&lt;/strong&gt; : This is another skill no data scientist can do without. There is no better resource to learn how to approach data once you get hold of it than the &lt;a href="https://r4ds.had.co.nz/"&gt;free R4DS book&lt;/a&gt;. Yes it is in R, but that is a language worth picking up anyway.   &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A sprinkling of ML&lt;/strong&gt; : Its good to know the classical ML techniques and where you might use them, an excellent, self contained and concise resource is &lt;a href="http://faculty.marshall.usc.edu/gareth-james/ISL/"&gt;ISLR&lt;/a&gt; also available freely.   &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pursuation and the ability to say NO&lt;/strong&gt; : Every data scientist works with multiple stakeholders (often non technical ones) from whome they need to learn, and whome they need to teach. This is unavoidable, and the better you are at listening carefully and communicating well, the happier you will be.   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With these things in your kitty, you are well set to be the problem solver of last resort (and first preference) for your employer. A Sherlock Holmes for business, if you will. However, depending on your context you will probably need some other skills. &lt;/p&gt;
+&lt;h3&gt;Context : the dev teams&lt;/h3&gt;
+&lt;p&gt;Increasingly, data scientists are embedded in the engineering departments of their companies, and so (unfortunately) have to jump through such utterly pointless hoops as 5 technical interviews and live coding tests. After you have performed for the engineering manager and convinced 10 developers that you are worth hiring, you will need to be able to interact with their code (this is the easy part) and their organizational and social mores (this is the hard part). Here is what you will need :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;The phoenix project&lt;/strong&gt; : A &lt;a href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/0988262592"&gt;book like no other&lt;/a&gt; to understand why things the way they are in modern software organizations. Added bonus, most devs and product people havent read it so you can quote scripture at them from Day 1.   &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DevOps&lt;/strong&gt; : An understanding of CI/CD pipelines that take your code (the DNA of the thing you are building) and turn it into a running product that does things (the working cell with proteins and interfaces to other cells). LinkedIn has a course called &lt;a href="https://www.linkedin.com/learning/devops-for-data-scientists"&gt;DevOps for Data Scientists&lt;/a&gt;. Havent watched it, but it'll probably be useful.   &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Docker + APIs&lt;/strong&gt; : Continuing the DNA/Cell analogy, think of a Docker container as the cell wall that encloses the environment in which your code runs. That makes no sense ? It will, eventually. This seems like a &lt;a href="https://www.analyticsvidhya.com/blog/2017/11/reproducible-data-science-docker-for-data-science/"&gt;fairly useful introduction&lt;/a&gt;. An API is just the interface to the outside world (the stuff the other devs are building) through the cell wall. Take a look at &lt;a href="https://www.restapitutorial.com/"&gt;this&lt;/a&gt;.  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Enough deep learning to tell people why you aren't using deep learning&lt;/strong&gt; : this is a cultural issue. Every week, 2-3 devs will ask you why you aren't doing what ever you are doing with deep learning.   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Context : the marketing/finance departments&lt;/h3&gt;
+&lt;p&gt;Many data scientists are concerned with answering business questions and helping design strategy or informing management decisions. In such situations, the data scientist will probably work closely with a data base team and communicate results in meetings quite a bit. What you will need to succeed :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PowerPoint Ninja&lt;/strong&gt; : If you can make impactful slides quickly, you are golden. It is worth investing in learning and mastering this artform, for that is what it is. &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DWH skills&lt;/strong&gt; : Its probably worth being able to lend a hand in maintaining and managing the business data warehouse (and loearning what that is, in the first place). You will also want to be familiar with such things as cubes, business KPIs, accounting standards and pivot tables.   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Context : replacing human cognition&lt;/h3&gt;
+&lt;p&gt;A lot of companies have realized that one way of utilize data is to make things easier for humans and/or replacing humans for some tasks altogether. These topics have traditionally been the domain of electrical engineering (image and audio processing) and computational linguistics (NLP). If you are expected to work on these fascinating problems, you will need a bouquet of skills that we have not mentioned before : &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Software engineering&lt;/strong&gt; : Delivering solutions to these problems - for now - require the data scientist to be more aquainted with robust software engineering techniques than some of the other contexts we have mentioned before. It is probably wise to become very good at writing idiomatic python code, just for starters.   &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deep learning&lt;/strong&gt; : While these were disparate fields, they are all three (computer vision, NLP, audio processing) sub fields of "Deep learning" and you will have to master a fairly large amount of material that is common to them all, and quite a lot of material sepcific to each domain. I unhesitatingly reccommend the &lt;a href="https://www.fast.ai/"&gt;material provided for free by Fast AI&lt;/a&gt;. If you put in the time and effort to work through it, you will be in an excellent position to contribute. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;What about those other things ?&lt;/h3&gt;
+&lt;p&gt;An &lt;strong&gt;ML engineer&lt;/strong&gt; is a software engineer who trains, deploys and maintains a machine learning model in production. This is something a data scientist might do as well, but not necessarily.&lt;br&gt;
+A &lt;strong&gt;Data engineer&lt;/strong&gt; is a software and infrastructure engineer who builds and maintains the cloud infrastructure for the company databases &lt;strong&gt;and&lt;/strong&gt; ensures data quality and availability for those in the company who need it, like people who make operational decisions, dashboards, data scientists. This is a hard hard job, and in high demand these days. A data scientist should know some data engineering, if only to appreciate and help the data engineering teams they work with. &lt;/p&gt;
+&lt;h3&gt;Take home message&lt;/h3&gt;
+&lt;p&gt;While there there is an infinite variety of skills one could learn (I have not even touched upon such useful things as Spark and Airflow) I will return to what characterises a data scientist from all the job descriptions around data. &lt;strong&gt;A data scientist uses quantitative techniques to understand, define and solve business problems.&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;A data scientist must have an analytical mind to bring to the table, and must take the effort to develop a deep understanding of the domain and the business context they operate in. Then, they must do whatever it takes (software engineering, organizational lobbying, operational changes) to create impact from the solutions they have devised. &lt;/p&gt;</content></entry><entry><title>"Linear and mixed integer programming"</title><link href="https://theclarkeorbit.github.io/linear-and-mixed-integer-programming.html" rel="alternate"></link><published>2018-09-08T00:00:00+02:00</published><updated>2018-09-08T00:00:00+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2018-09-08:/linear-and-mixed-integer-programming.html</id><summary type="html">&lt;p&gt;post inspired by the OptiPy meetup. &lt;a href="https://www.meetup.com/OptiPy-Python-Quants-of-BeNeDeLux/events/253090625/"&gt;link to meetup&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Linear programming&lt;/h2&gt;
 &lt;p&gt;Optimisation problems where the constraints and cost function are linear, and the decision variables are continuous, are the simple, canonical domain of linear programming. However, such problems can be solved in polynomial time, which means that to tackle a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;post inspired by the OptiPy meetup. &lt;a href="https://www.meetup.com/OptiPy-Python-Quants-of-BeNeDeLux/events/253090625/"&gt;link to meetup&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Linear programming&lt;/h2&gt;
