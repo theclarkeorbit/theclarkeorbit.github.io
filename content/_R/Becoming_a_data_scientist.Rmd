@@ -41,12 +41,12 @@ Increasingly, data scientists are embedded in the engineering departments of the
 Many data scientists are concerned with answering business questions and helping design strategy or informing management decisions. In such situations, the data scientist will probably work closely with a data base team and communicate results in meetings quite a bit. What you will need to succeed :
 
 - **PowerPoint Ninja** : If you can make impactful slides quickly, you are golden. It is worth investing in learning and mastering this artform, for that is what it is. 
-- **DWH skills** : Its probably worth being able to lend a hand in maintaining and managing the business data warehouse (and loearning what that is, in the first place). You will also want to be familiar with such things as cubes, business KPIs, accounting standards and pivot tables.   
+- **DWH skills** : Its probably worth being able to lend a hand in maintaining and managing the business data warehouse (and learning what that is, in the first place). You will also want to be familiar with such things as cubes, business KPIs, accounting standards and pivot tables.   
 
 
 ### Context : replacing human cognition  
 
-A lot of companies have realized that one way of utilize data is to make things easier for humans and/or replacing humans for some tasks altogether. These topics have traditionally been the domain of electrical engineering (image and audio processing) and computational linguistics (NLP). If you are expected to work on these fascinating problems, you will need a bouquet of skills that we have not mentioned before : 
+A lot of companies have realized that one way of utilize data is to make things easier for humans and/or replacing humans for some tasks altogether. These topics have traditionally been the domain of electrical engineering (image and audio processing) and computational linguistics (NLP). If you are expected to work on these fascinating problems, you will need a bouquet of skills that we have not really mentioned before : 
 
 - **Software engineering** : Delivering solutions to these problems - for now - require the data scientist to be more aquainted with robust software engineering techniques than some of the other contexts we have mentioned before. It is probably wise to become very good at writing idiomatic python code, just for starters.   
 - **Deep learning** : While these were disparate fields, they are all three (computer vision, NLP, audio processing) sub fields of "Deep learning" and you will have to master a fairly large amount of material that is common to them all, and quite a lot of material sepcific to each domain. I unhesitatingly reccommend the [material provided for free by Fast AI](https://www.fast.ai/). If you put in the time and effort to work through it, you will be in an excellent position to contribute. 
