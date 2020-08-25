@@ -12,7 +12,7 @@ This is my poor attempt to clarify (to myself) what I (and a lot of other people
 
 ### A definition, and the basic requirements
 
-**A data scientist uses quantitative techniques to understand, define and solve business problems.** That's it. In this view, a data scientist is a scientist an analytical mind and mathematical techniques to business problems. 
+**A data scientist uses quantitative techniques to understand, define and solve business problems.** That's it. In this view, a data scientist is a scientist who brings an analytical mind and mathematical techniques to business problems. 
 
 While that works as a definition, it is rather inadequate because it tells us very little about the skills needed and the type of work a data scientist has to do. The answers to those questions depend partly on the context and culture of the business in which a data scientist works, but some skills are likely to be universally required for any data scientist working in the wilderness of corporate life. IMHO, the following skills are the minimum for any data scientist :
 
