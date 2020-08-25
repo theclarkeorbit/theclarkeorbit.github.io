@@ -59,7 +59,7 @@ A **Data engineer** is a software and infrastructure engineer who builds and mai
 
 ### Take home message  
 
-While there there is an infinite variety of skills one could learn (I have not even touched upon such useful things as Spark and Airflow) I will return to what characterises a data scientist from all the job descriptions around data. **A data scientist uses quantitative techniques to understand, define and solve business problems.** 
+While there there is an infinite variety of skills one could learn (I have not even touched upon such useful things as Spark and Airflow) I will return to what (I think) really characterizes a data scientist. **Using quantitative techniques to understand, define and solve business problems.** 
 
 A data scientist must have an analytical mind to bring to the table, and must take the effort to develop a deep understanding of the domain and the business context they operate in. Then, they must do whatever it takes (software engineering, organizational lobbying, operational changes) to create impact from the solutions they have devised. 
 
