@@ -24,7 +24,7 @@ While that works as a definition, it is rather inadequate because it tells us ve
 - **A sprinkling of ML** : Its good to know the classical ML techniques and where you might use them, an excellent, self contained and concise resource is [ISLR](http://faculty.marshall.usc.edu/gareth-james/ISL/) also available freely.   
 - **Pursuation and the ability to say NO** : Every data scientist works with multiple stakeholders (often non technical ones) from whome they need to learn, and whome they need to teach. This is unavoidable, and the better you are at listening carefully and communicating well, the happier you will be.   
 
-With these things in your kitty, you are well set to be the problem solver of last resort (and first preference) for your employer. A Sherlock Holmes for business, if you will. However, depending on your context you will probably need some other skills. 
+With these things in your kitty, you are well set to be the problem solver of last resort (and first preference) for your employer. A Sherlock Holmes for business, if you will. However, depending on your context you will probably need some other skills as well.. 
 
 ### Context : the dev teams
 
