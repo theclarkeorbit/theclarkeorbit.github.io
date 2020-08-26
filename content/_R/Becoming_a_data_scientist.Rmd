@@ -6,9 +6,9 @@ output:
     df_print: paged
 ---
 
-There are many articles on this subject, and many of them are excellent. For some examples see [here](https://towardsdatascience.com/how-to-become-a-data-scientist-2a02ed565336), [here](https://towardsdatascience.com/how-to-become-a-data-scientist-3f8d6e75482f), [here](https://www.kdnuggets.com/2018/05/simplilearn-9-must-have-skills-data-scientist.html) and [here](https://www.discoverdatascience.org/career-information/data-scientist/). All such articles are opinionated takes, and helped me out to some extent when I was starting out in this field some years ago. Contrary to my expectations, the term **Data Scientist** has become more confusing with time over the last 3-4 years.
+There are many articles on this subject, and many of them are excellent. For some examples see [here](https://towardsdatascience.com/how-to-become-a-data-scientist-2a02ed565336), [here](https://towardsdatascience.com/how-to-become-a-data-scientist-3f8d6e75482f), [here](https://www.kdnuggets.com/2018/05/simplilearn-9-must-have-skills-data-scientist.html) and [here](https://www.discoverdatascience.org/career-information/data-scientist/). All such articles are opinionated takes, and articles like these did help when I was starting out in data science some years ago. Contrary to my expectations, the term **Data Scientist** has become more confusing over the last 3-4 years.
 
-This is my poor attempt to clarify (to myself) what I (and a lot of other people) mean when I use this term. This also helps contextualize other terms like "ML engineer" and "Data engineer". 
+This is my poor attempt to clarify (to myself) what I  mean when I use this term. This also helps contextualize other terms like "ML engineer" and "Data engineer". 
 
 ### A definition, and the basic requirements
 
