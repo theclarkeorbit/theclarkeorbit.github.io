@@ -33,34 +33,35 @@
               title="p. bhogale ATOM Feed"/>
 
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115756026-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', UA-115756026-1);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
 
 </head>
 <body>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="container">
+    <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a href="./" class="navbar-brand">
 <img class="img-responsive pull-left gap-right" src=".//images/gravtar.jpg" width=""/> p. bhogale            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                         <li><a href="./pages/about.html">
-                             About
-                          </a></li>
-                        <li >
-                            <a href="./category/blog.html">Blog</a>
-                        </li>
-                        <li >
-                            <a href="./category/data_sci_tech.html">Data_sci_tech</a>
-                        </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
             </ul>
@@ -68,6 +69,7 @@
         <!-- /.navbar-collapse -->
     </div>
 </div> <!-- /.navbar -->
+
 <!-- Banner -->
 <style>
 	#banner{
@@ -83,40 +85,14 @@
 		</div>
 	</div>
 </div><!-- End Banner -->
+
+<!-- Content Container -->
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
     <section id="content">
       <h1>Archives for p. bhogale</h1>
         <div id="archives">
-                <p>
-                    <span class="categories-timestamp"><time datetime="2020-08-25T00:00:00+02:00">Tue 25 August 2020</time></span>
-                    <a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2018-09-08T00:00:00+02:00">Sat 08 September 2018</time></span>
-                    <a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2018-03-18T00:00:00+01:00">Sun 18 March 2018</time></span>
-                    <a href="./the-invisible-hand.html">"The Invisible Hand"</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2018-03-11T00:00:00+01:00">Sun 11 March 2018</time></span>
-                    <a href="./greta-playground.html">"greta playground"</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2017-02-24T00:00:00+01:00">Fri 24 February 2017</time></span>
-                    <a href="./notes-from-the-original-ml-course-by-andrew-ng.html">"Notes from the original ML course by Andrew Ng"</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2016-06-09T00:00:00+02:00">Thu 09 June 2016</time></span>
-                    <a href="./i-once-was-lost-but-now-am-dad.html">I once was lost... but now am Dad ?</a>
-                </p>
-                <p>
-                    <span class="categories-timestamp"><time datetime="2015-11-12T00:00:00+01:00">Thu 12 November 2015</time></span>
-                    <a href="./tiger-hill.html">Tiger Hill</a>
-                </p>
         </div>
     </section>
         </div>
@@ -141,11 +117,6 @@
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
-    <li class="list-group-item"><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></li>
-    <li class="list-group-item"><a href="./the-invisible-hand.html">"The Invisible Hand"</a></li>
-    <li class="list-group-item"><a href="./greta-playground.html">"greta playground"</a></li>
-    <li class="list-group-item"><a href="./notes-from-the-original-ml-course-by-andrew-ng.html">"Notes from the original ML course by Andrew Ng"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
@@ -155,11 +126,13 @@
         </div>
     </div>
 </div>
+<!-- End Content Container -->
+
 <footer>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2020 pras
+         <div class="col-xs-10">&copy;  pras
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
@@ -177,23 +150,6 @@
 
 
     <script src="./theme/js/bodypadding.js"></script>
-    <!-- Google Analytics -->
-    <script type="text/javascript">
-
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-115756026-1']);
-        _gaq.push(['_trackPageview']);
-
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
-    <!-- End Google Analytics Code -->
 
 
 </body>

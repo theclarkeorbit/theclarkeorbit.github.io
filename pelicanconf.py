@@ -27,7 +27,7 @@ I18N_TEMPLATES_LANG = 'en'
 #MENUITEMS = (('About', '/About.html'),)
 
 
-THEME = 'pelican-bootstrap2'
+THEME = '/home/prasanna/pelican-themes/pelican-bootstrap3'
 #GITHUB_USER = 'pbhogale'
 SITELOGO = "/images/gravtar.jpg"# SITEURL +  u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 DISPLAY_RECENT_POSTS_ON_SIDEBAR = True
