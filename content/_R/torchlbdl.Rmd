@@ -1,5 +1,5 @@
 ---
-title: "A little `r-torch`"
+title: "A little r-torch"
 Date: 29 Apr 2024
 output:
   html_document:
