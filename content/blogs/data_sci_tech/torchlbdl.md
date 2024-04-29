@@ -6,8 +6,6 @@ output:
     df_print: paged
 ---
 
-# Notes on the little book of deep learning, with torch
-
 These notes are meant to impliment little examples from [Francois Fleuret's](https://fleuret.org/francois/index.html) Little Book of Deep Learning ([pdf link](https://fleuret.org/public/lbdl.pdf)) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. 
 
 You'll need to have the book with you to understand these notes, but since it is available freely, that ought not to be an issue.
