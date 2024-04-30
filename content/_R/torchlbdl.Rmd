@@ -544,7 +544,7 @@ net <- nn_module(
 
 Now, we will train this on our data. 
 
-```{r, include=FALSE}
+```{r, include=FALSE, echo=TRUE}
 fitted <- net |>
   setup(
     loss = nn_cross_entropy_loss(),
