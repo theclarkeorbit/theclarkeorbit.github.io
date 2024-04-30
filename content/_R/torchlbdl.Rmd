@@ -314,11 +314,11 @@ data_classif <- tensor_dataset(features, labels)
 dataloaders <- dataloader(data_classif, batch_size = 100, shuffle = TRUE)
 
 # defining the model
-model <- net %>%
+model <- net |>
   setup(
     loss = nn_cross_entropy_loss(),
     optimizer = optim_adam
-  ) %>%
+  ) |>
   fit(dataloaders, epochs = 200)
 ```
 
@@ -385,7 +385,7 @@ n_class <- penguins$species |> unique() |> length() |> as.numeric()
 
 Now, we train a simple MLP on 75% of this dataset. 
 
-```{r}
+```{r, include=FALSE}
 mlpnet <- nn_module(
   "MLPnet",
   initialize = function(din, dhidden1, dhidden2, dhidden3, n_class) {
@@ -403,11 +403,7 @@ mlpnet <- nn_module(
     self$net(x)
   }
 )
-```
 
-
-
-```{r, include=FALSE}
 total_size <- length(ds)
 train_size <- floor(0.8 * total_size)
 valid_size <- total_size - train_size
@@ -456,3 +452,117 @@ ggplot(loss_df, aes(x = epoch, y = loss, colour = loss_type)) +
   labs(title = "Losses on the training and validation sets") 
 ```
 
+#### Convolutional networks - resnets
+
+Images are usually dealt with by convolutional networks - they reduce the signal size until fully connected layers can handle it, or they output 2D signals which are themselves large. Residual networks involve an architecture where signal is taken from one layer and added to a later layer. 
+
+We will build a very simple resnet for the task of image classification, example loosely based on the DL+SC with R torch [book](https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/image_classification_1.html).
+
+```{r}
+library(torchvision)
+
+set.seed(777)
+torch_manual_seed(777)
+
+dir <- "~/.torch-datasets"
+
+train_ds <- torchvision::kmnist_dataset(train = TRUE,
+  dir,
+  download = TRUE,
+  transform = function(x) {
+    x |>
+      transform_to_tensor() 
+  }
+)
+
+valid_ds <- torchvision::mnist_dataset(train = FALSE,
+  dir,
+  transform = function(x) {
+    x |>
+      transform_to_tensor()
+  }
+)
+
+train_dl <- dataloader(train_ds,
+  batch_size = 128,
+  shuffle = TRUE
+)
+valid_dl <- dataloader(valid_ds, batch_size = 128)
+```
+
+There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. 
+
+```{r}
+# Define a simple Residual Block
+simple_resblock <- nn_module(
+  "SimpleResBlock",
+  initialize = function(channels) {
+    self$conv1 <- nn_conv2d(channels, channels, kernel_size = 3, padding = 1)
+    self$relu1 <- nn_relu()
+    self$conv2 <- nn_conv2d(channels, channels, kernel_size = 3, padding = 1)
+    self$relu2 <- nn_relu()
+  },
+  forward = function(x) {
+    identity <- x
+    out <- self$relu1(self$conv1(x))
+    out <- self$relu2(self$conv2(out))
+    out + identity #the eponymous residual operation.
+  }
+)
+
+
+net <- nn_module(
+  "Net",
+  
+  initialize = function() {
+    self$conv1 <- nn_conv2d(1, 32, 3, 1)
+    self$conv2 <- nn_conv2d(32, 64, 3, 1)
+    self$dropout1 <- nn_dropout(0.25)
+    self$dropout2 <- nn_dropout(0.5)
+    self$fc1 <- nn_linear(9216, 128)
+    self$resblock1 <- simple_resblock(32)
+    self$fc2 <- nn_linear(128, 10)
+  },
+  
+  forward = function(x) {
+    x |>                                  # N * 1 * 28 * 28
+      self$conv1() |>                     # N * 32 * 26 * 26
+      nnf_relu() |>     
+      self$resblock1() |> 
+      self$conv2() |>                     # N * 64 * 24 * 24
+      nnf_relu() |> 
+      nnf_max_pool2d(2) |>                # N * 64 * 12 * 12
+      self$dropout1() |> 
+      torch_flatten(start_dim = 2) |>     # N * 9216
+      self$fc1() |>                       # N * 128
+      nnf_relu() |> 
+      self$dropout2() |> 
+      self$fc2()                           # N * 10
+  }
+)
+```
+
+Now, we will train this on our data. 
+
+```{r, include=FALSE}
+fitted <- net |>
+  setup(
+    loss = nn_cross_entropy_loss(),
+    optimizer = optim_adam,
+    metrics = list(
+      luz_metric_accuracy()
+    )
+  ) |>
+  fit(train_dl, epochs = 1)
+```
+
+Let's see how it does on the test set. 
+
+```{r}
+model_eval <- evaluate(fitted, valid_dl)
+print(model_eval)
+```
+
+#### Attention and transformers
+
+[TODO]

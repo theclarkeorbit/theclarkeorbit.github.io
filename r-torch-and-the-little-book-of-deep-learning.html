@@ -248,7 +248,7 @@ When the model is too small to capture the features of the data (in our case, to
 <p><strong>Overfitting</strong> 
 When there is too little data to properly constrain the parameters of a larger model.</p>
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-7-1.png"></p>
-<h3>Autoregressive models</h3>
+<h3>Classification, and the usefulness of depth</h3>
 <p>Let us generate data that looks similar to that shown in section 3.5 of the book. </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Function to generate C-shaped data</span>
 <span class="n">generate_c_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x_offset</span><span class="p">,</span><span class="w"> </span><span class="n">y_offset</span><span class="p">,</span><span class="w"> </span><span class="n">y_scale</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">xflipaxis</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -305,27 +305,106 @@ When there is too little data to properly constrain the parameters of a larger m
 </code></pre></div>
 
 <p>Now, we train a simple MLP on 75% of this dataset. </p>
-<div class="highlight"><pre><span></span><code><span class="n">mlpnet</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
-<span class="w">  </span><span class="s">&quot;MLPnet&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">din</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden1</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden2</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden3</span><span class="p">,</span><span class="w"> </span><span class="n">n_class</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_sequential</span><span class="p">(</span>
-<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">din</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden1</span><span class="p">),</span>
-<span class="w">      </span><span class="nf">nn_relu</span><span class="p">(),</span>
-<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">dhidden1</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden2</span><span class="p">),</span>
-<span class="w">      </span><span class="nf">nn_relu</span><span class="p">(),</span>
-<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">dhidden2</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden3</span><span class="p">),</span>
-<span class="w">      </span><span class="nf">nn_relu</span><span class="p">(),</span>
-<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">dhidden3</span><span class="p">,</span><span class="w"> </span><span class="n">n_class</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span>
+<p>Now, let us visualize the validation loss during the training process.</p>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-13-1.png"></p>
+<h4>Convolutional networks - resnets</h4>
+<p>Images are usually dealt with by convolutional networks - they reduce the signal size until fully connected layers can handle it, or they output 2D signals which are themselves large. Residual networks involve an architecture where signal is taken from one layer and added to a later layer. </p>
+<p>We will build a very simple resnet for the task of image classification, example loosely based on the DL+SC with R torch <a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/image_classification_1.html">book</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">torchvision</span><span class="p">)</span>
+
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">777</span><span class="p">)</span>
+<span class="nf">torch_manual_seed</span><span class="p">(</span><span class="m">777</span><span class="p">)</span>
+
+<span class="n">dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;~/.torch-datasets&quot;</span>
+
+<span class="n">train_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">kmnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">dir</span><span class="p">,</span>
+<span class="w">  </span><span class="n">download</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">      </span><span class="nf">transform_to_tensor</span><span class="p">()</span><span class="w"> </span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">valid_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">mnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="w">  </span><span class="n">dir</span><span class="p">,</span>
+<span class="w">  </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">      </span><span class="nf">transform_to_tensor</span><span class="p">()</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">train_dl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span>
+<span class="w">  </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="p">,</span>
+<span class="w">  </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="p">)</span>
+<span class="n">valid_dl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">valid_ds</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="p">)</span>
+</code></pre></div>
+
+<p>There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define a simple Residual Block</span>
+<span class="n">simple_resblock</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;SimpleResBlock&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">channels</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">conv1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv2d</span><span class="p">(</span><span class="n">channels</span><span class="p">,</span><span class="w"> </span><span class="n">channels</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">relu1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_relu</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">conv2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv2d</span><span class="p">(</span><span class="n">channels</span><span class="p">,</span><span class="w"> </span><span class="n">channels</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">relu2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_relu</span><span class="p">()</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="nf">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">identity</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">out</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">relu1</span><span class="p">(</span><span class="n">self</span><span class="o">$</span><span class="nf">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="w">    </span><span class="n">out</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">relu2</span><span class="p">(</span><span class="n">self</span><span class="o">$</span><span class="nf">conv2</span><span class="p">(</span><span class="n">out</span><span class="p">))</span>
+<span class="w">    </span><span class="n">out</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">identity</span><span class="w"> </span><span class="c1">#the eponymous residual operation.</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+
+<span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;Net&quot;</span><span class="p">,</span>
+
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">conv1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv2d</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">conv2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv2d</span><span class="p">(</span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="m">64</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dropout1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_dropout</span><span class="p">(</span><span class="m">0.25</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dropout2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_dropout</span><span class="p">(</span><span class="m">0.5</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">fc1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">9216</span><span class="p">,</span><span class="w"> </span><span class="m">128</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">resblock1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">simple_resblock</span><span class="p">(</span><span class="m">32</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">fc2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">128</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                                  </span><span class="c1"># N * 1 * 28 * 28</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">conv1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                     </span><span class="c1"># N * 32 * 26 * 26</span>
+<span class="w">      </span><span class="nf">nnf_relu</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">     </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">resblock1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">conv2</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                     </span><span class="c1"># N * 64 * 24 * 24</span>
+<span class="w">      </span><span class="nf">nnf_relu</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">nnf_max_pool2d</span><span class="p">(</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                </span><span class="c1"># N * 64 * 12 * 12</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dropout1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">torch_flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">     </span><span class="c1"># N * 9216</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">fc1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                       </span><span class="c1"># N * 128</span>
+<span class="w">      </span><span class="nf">nnf_relu</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dropout2</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">fc2</span><span class="p">()</span><span class="w">                           </span><span class="c1"># N * 10</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre></div>
 
-<p>Now, let us visualize the validation loss during the training process.</p>
-<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-14-1.png"></p>
+<p>Now, we will train this on our data. </p>
+<p>Let's see how it does on the test set. </p>
+<div class="highlight"><pre><span></span><code><span class="n">model_eval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">fitted</span><span class="p">,</span><span class="w"> </span><span class="n">valid_dl</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">model_eval</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## A `luz_module_evaluation`</span>
+<span class="c1">## ── Results ─────────────────────────────────────────────────────────────────────</span>
+<span class="c1">## loss: 0.3379</span>
+<span class="c1">## acc: 0.8958</span>
+</code></pre></div>
+
+<h4>Attention and transformers</h4>
+<p>[TODO]</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

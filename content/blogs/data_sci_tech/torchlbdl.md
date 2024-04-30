@@ -146,7 +146,7 @@ When there is too little data to properly constrain the parameters of a larger m
 
 ![center](/figures/torchlbdl/unnamed-chunk-7-1.png)
 
-### Autoregressive models
+### Classification, and the usefulness of depth
 
 Let us generate data that looks similar to that shown in section 3.5 of the book. 
 
@@ -222,31 +222,122 @@ n_class <- penguins$species |> unique() |> length() |> as.numeric()
 Now, we train a simple MLP on 75% of this dataset. 
 
 
+
+Now, let us visualize the validation loss during the training process.
+
+![center](/figures/torchlbdl/unnamed-chunk-13-1.png)
+
+#### Convolutional networks - resnets
+
+Images are usually dealt with by convolutional networks - they reduce the signal size until fully connected layers can handle it, or they output 2D signals which are themselves large. Residual networks involve an architecture where signal is taken from one layer and added to a later layer. 
+
+We will build a very simple resnet for the task of image classification, example loosely based on the DL+SC with R torch [book](https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/image_classification_1.html).
+
+
 ```r
-mlpnet <- nn_module(
-  "MLPnet",
-  initialize = function(din, dhidden1, dhidden2, dhidden3, n_class) {
-    self$net <- nn_sequential(
-      nn_linear(din, dhidden1),
-      nn_relu(),
-      nn_linear(dhidden1, dhidden2),
-      nn_relu(),
-      nn_linear(dhidden2, dhidden3),
-      nn_relu(),
-      nn_linear(dhidden3, n_class)
-    )
+library(torchvision)
+
+set.seed(777)
+torch_manual_seed(777)
+
+dir <- "~/.torch-datasets"
+
+train_ds <- torchvision::kmnist_dataset(train = TRUE,
+  dir,
+  download = TRUE,
+  transform = function(x) {
+    x |>
+      transform_to_tensor() 
+  }
+)
+
+valid_ds <- torchvision::mnist_dataset(train = FALSE,
+  dir,
+  transform = function(x) {
+    x |>
+      transform_to_tensor()
+  }
+)
+
+train_dl <- dataloader(train_ds,
+  batch_size = 128,
+  shuffle = TRUE
+)
+valid_dl <- dataloader(valid_ds, batch_size = 128)
+```
+
+There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. 
+
+
+```r
+# Define a simple Residual Block
+simple_resblock <- nn_module(
+  "SimpleResBlock",
+  initialize = function(channels) {
+    self$conv1 <- nn_conv2d(channels, channels, kernel_size = 3, padding = 1)
+    self$relu1 <- nn_relu()
+    self$conv2 <- nn_conv2d(channels, channels, kernel_size = 3, padding = 1)
+    self$relu2 <- nn_relu()
   },
   forward = function(x) {
-    self$net(x)
+    identity <- x
+    out <- self$relu1(self$conv1(x))
+    out <- self$relu2(self$conv2(out))
+    out + identity #the eponymous residual operation.
+  }
+)
+
+
+net <- nn_module(
+  "Net",
+  
+  initialize = function() {
+    self$conv1 <- nn_conv2d(1, 32, 3, 1)
+    self$conv2 <- nn_conv2d(32, 64, 3, 1)
+    self$dropout1 <- nn_dropout(0.25)
+    self$dropout2 <- nn_dropout(0.5)
+    self$fc1 <- nn_linear(9216, 128)
+    self$resblock1 <- simple_resblock(32)
+    self$fc2 <- nn_linear(128, 10)
+  },
+  
+  forward = function(x) {
+    x |>                                  # N * 1 * 28 * 28
+      self$conv1() |>                     # N * 32 * 26 * 26
+      nnf_relu() |>     
+      self$resblock1() |> 
+      self$conv2() |>                     # N * 64 * 24 * 24
+      nnf_relu() |> 
+      nnf_max_pool2d(2) |>                # N * 64 * 12 * 12
+      self$dropout1() |> 
+      torch_flatten(start_dim = 2) |>     # N * 9216
+      self$fc1() |>                       # N * 128
+      nnf_relu() |> 
+      self$dropout2() |> 
+      self$fc2()                           # N * 10
   }
 )
 ```
 
+Now, we will train this on our data. 
 
 
 
+Let's see how it does on the test set. 
 
-Now, let us visualize the validation loss during the training process.
 
-![center](/figures/torchlbdl/unnamed-chunk-14-1.png)
+```r
+model_eval <- evaluate(fitted, valid_dl)
+print(model_eval)
+```
 
+```
+## A `luz_module_evaluation`
+## ── Results ─────────────────────────────────────────────────────────────────────
+## loss: 0.3379
+## acc: 0.8958
+```
+
+#### Attention and transformers
+
+[TODO]
