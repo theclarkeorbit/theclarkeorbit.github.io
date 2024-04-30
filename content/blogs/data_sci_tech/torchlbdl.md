@@ -96,20 +96,14 @@ Now,we will use gradient descent to minimise the MSE between the model and the r
 
 
 ```r
-# Define the loss function (MSE)
-loss_fn <- function(y_pred, y_true) {
-  (y_pred - y_true)^2 |>  mean()
-}
-
 # Learning rate
 lr <- 0.01
 
 # Gradient descent loop
 for (epoch in 1:5000) {
   y_pred <- model_y(x)
-  #loss <- nn_mse_loss()
   
-  op <- loss_fn(y_pred, torch_tensor(y))
+  op <- nnf_mse_loss(y_pred, torch_tensor(y))
   
   # Backpropagation
   op$backward()
@@ -140,10 +134,112 @@ ggplot() +
 
 ![center](/figures/torchlbdl/unnamed-chunk-5-1.png)
 
-Underfitting: when the model is too small to capture the features of the data (in our case, too few weights)
+**Underfitting** 
+When the model is too small to capture the features of the data (in our case, too few weights)
 
 ![center](/figures/torchlbdl/unnamed-chunk-6-1.png)
 
-Overfitting: when there is too little data to properly constrain the parameters of a larger model.
+**Overfitting** 
+When there is too little data to properly constrain the parameters of a larger model.
 
 ![center](/figures/torchlbdl/unnamed-chunk-7-1.png)
+
+### Autoregressive models
+
+Let us generate data that looks similar to that shown in section 3.5 of the book. 
+
+
+```r
+# Function to generate C-shaped data
+generate_c_data <- function(n, x_offset, y_offset, y_scale, label, xflipaxis) {
+  theta <- runif(n, pi/2, 3*pi/2)  # Angle for C shape
+  x <- cos(theta) + rnorm(n, mean = 0, sd = 0.1) + x_offset
+  if(xflipaxis==T){
+    x <- 1-x
+  }
+  y <- sin(theta) * y_scale + rnorm(n, mean = 0, sd = 0.1) + y_offset
+  data.frame(x = x, y = y, label = label)
+}
+
+# Number of points per class
+n_points <- 100
+
+# Generate data for both classes
+data_class_1 <- generate_c_data(n_points, x_offset = 0, 
+                                y_offset = 0, y_scale = 1, label = 1,
+                                xflipaxis = F)
+data_class_0 <- generate_c_data(n_points, x_offset = 1, 
+                                y_offset = -1.0, y_scale = -1, label = 2,
+                                xflipaxis = T)  # Mirrored and adjusted
+
+# Combine data
+data <- rbind(data_class_0, data_class_1)
+
+# Plotting the data
+ggplot(data, aes(x, y, color = as.factor(label))) +
+  geom_point(alpha = 0.7, size = 3) +
+  scale_color_manual(values = c('1' = 'blue', '2' = 'red')) +
+  labs(title = "Adjusted C-shaped Data for Classification", x = "X axis", y = "Y axis") +
+  theme_tufte()
+```
+
+![center](/figures/torchlbdl/unnamed-chunk-8-1.png)
+
+Now, we can build a very simple neural net to classify these points and try to visualize what the trained net is doing at each layer.
+
+
+```r
+# Define the neural network model
+activations <- list() # we want to access the activations later
+
+net <- nn_module(
+  "ClassifierNet",
+  initialize = function() {
+    self$layer1 <- nn_linear(2, 2)
+    self$layer2 <- nn_linear(2, 2)
+    self$layer3 <- nn_linear(2, 2)
+    self$layer4 <- nn_linear(2, 2)
+    self$output <- nn_linear(2, 2)
+  },
+  
+  forward = function(x) {
+    x <- self$layer1(x) |> tanh()
+    activations$layer1 <- x
+    x <- self$layer2(x) |> tanh()
+    activations$layer2 <- x
+    x <- self$layer3(x) |> tanh()
+    activations$layer3 <- x
+    x <- self$layer4(x) |> tanh()
+    activations$layer4 <- x
+    x <- self$output(x)
+    x
+  }
+)
+
+
+# Convert the features and labels into tensors
+features <- torch_tensor(as.matrix(data[c("x", "y")]))
+labels <- torch_tensor(as.integer(data$label))
+
+# Create a dataset using lists of features and labels
+data_classif <- tensor_dataset(features, labels)
+
+# Create a dataloader from the dataset
+dataloaders <- dataloader(data_classif, batch_size = 10, shuffle = TRUE)
+
+# defining the model
+model <- net %>%
+  setup(
+    loss = nn_cross_entropy_loss(),
+    optimizer = optim_adam
+  ) %>%
+  fit(dataloaders, epochs = 200)
+```
+
+Now, lets try to visualize the activations. 
+
+
+```r
+preds <- predict(model, data_classif)
+```
+
