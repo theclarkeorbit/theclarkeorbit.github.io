@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 #import render_math
+from math import *
 
 #LOAD_CONTENT_CACHE = False
 AUTHOR = u'pras'
