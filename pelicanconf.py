@@ -17,6 +17,7 @@ PLUGINS = ['render_math','i18n_subsites']
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
+OUTPUT_PATH = 'output/'
 STATIC_PATHS = ['images', 'pdfs', 'figures', 'pages']
 TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
