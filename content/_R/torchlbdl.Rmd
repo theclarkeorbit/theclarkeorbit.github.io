@@ -445,6 +445,7 @@ loss_df <- cbind(train_loss, valid_loss) |>
                values_to = "loss")
 ggplot(loss_df, aes(x = epoch, y = loss, colour = loss_type)) +
   geom_line() +
-  theme_tufte()
+  theme_tufte() +
+  title("Losses on the training and validation sets")
 ```
 

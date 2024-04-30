@@ -245,5 +245,8 @@ mlpnet <- nn_module(
 
 Now, let us visualize the validation loss during the training process.
 
-![center](/figures/torchlbdl/unnamed-chunk-14-1.png)
+
+```
+## Error in title("Losses on the training and validation sets"): plot.new has not been called yet
+```
 
