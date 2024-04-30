@@ -1,12 +1,12 @@
 ---
-title: "A little r-torch"
+title: "R, Torch, and the little book of deep learning"
 Date: 29 Apr 2024
 output:
   html_document:
     df_print: paged
 ---
 
-These notes are meant to impliment little examples from [Francois Fleuret's](https://fleuret.org/francois/index.html) Little Book of Deep Learning ([pdf link](https://fleuret.org/public/lbdl.pdf)) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. 
+These notes are meant to implement little examples from [Francois Fleuret's](https://fleuret.org/francois/index.html) Little Book of Deep Learning ([pdf link](https://fleuret.org/public/lbdl.pdf)) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. 
 
 You'll need to have the book with you to understand these notes, but since it is available freely, that ought not to be an issue.
 
@@ -48,6 +48,7 @@ y <- sqrt(1 - x^2)
 data <- data.frame(x = x, y = y)
 ggplot(data, aes(x, y)) + 
   geom_point() + 
+  theme(element_text(size = 30)) +
   ggtitle("Semi-Circle") +
   theme_tufte()
 ```
@@ -128,6 +129,7 @@ predicted_data <- data.frame(x = fin_x, y = as.numeric(final_y))
 ggplot() +
   geom_point(data = data, aes(x, y)) +
   geom_line(data = predicted_data, aes(x, y)) +
+  theme(element_text(size = 30)) +
   ggtitle("Original and Fitted Semi-Circle, 50 points and 10 weights, basis functions") +
   theme_tufte()
 ```
@@ -178,6 +180,7 @@ data <- rbind(data_class_0, data_class_1)
 # Plotting the data
 ggplot(data, aes(x, y, color = as.factor(label))) +
   geom_point(alpha = 0.7, size = 3) +
+  theme(element_text(size = 30)) +
   labs(title = "Adjusted C-shaped Data for Classification", x = "X axis", y = "Y axis") +
   theme_tufte()
 ```
