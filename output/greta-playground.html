@@ -141,9 +141,9 @@
 <h2>Models and modelling</h2>
 <p>Much of science - physical and social - is devoted to positing mechanisms that explain how the data we observe are generated. In a classic example, after <a href="https://en.wikipedia.org/wiki/Tycho_Brahe">Tycho Brahe</a> made detailed observations of planetary motion (<a href="http://www.pafko.com/tycho/observe.html">here</a> is data on mars), <a href="https://en.wikipedia.org/wiki/Kepler%27s_laws_of_planetary_motion">Johannes Kepler posited laws</a> of planetary motion that <em>explained</em> how this data were generated. Effectively, <strong>modelling</strong> is the art of constructing data generators that help us understand and predict. </p>
 <p><strong>Statistical models</strong> are one class of models that aim to construct - given some observed data - the probability distribution from which the data were drawn. That is, given a sample of data, a statistical model is a hypothesis about how this data were generated. In practice, this happens in two steps :<br>
-- constructing a hypothesis, or a model $H$ parametrized by some parameters $\theta$,<br>
-- finding (<em>inferring</em>) the distribution of parameters $\theta$ or, the most suitable parameters $\theta$ given the observed data</p>
-<p>What parameters are "most suitable" is indicated (in a particular sense of the word "suitable" will become clear in the following discussion) by the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters $H_{\theta}$. Understandably, we want to find parameters such that the observed data is the most likely, this is called <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a>.</p>
+- constructing a hypothesis, or a model <span class="math">\(H\)</span> parametrized by some parameters <span class="math">\(\theta\)</span>,<br>
+- finding (<em>inferring</em>) the distribution of parameters <span class="math">\(\theta\)</span> or, the most suitable parameters <span class="math">\(\theta\)</span> given the observed data</p>
+<p>What parameters are "most suitable" is indicated (in a particular sense of the word "suitable" will become clear in the following discussion) by the <a href="https://en.wikipedia.org/wiki/Likelihood_function">likelihood function</a> that quantifies how probable the observed data set is, for a given hypothesis parametrized by some particular parameters <span class="math">\(H_{\theta}\)</span>. Understandably, we want to find parameters such that the observed data is the most likely, this is called <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimation</a>.</p>
 <p>Since all but the simplest models are analytically intractable (i.e., the maximum of the likelihood function needs to be evaluated numerically and parameter distributions are even harder to compute) it makes sense to construct general rules and syntax to easily define statistical models and quickly infer their parameters. This is the field of probabilistic programming. </p>
 <h2>Probabilistic programming</h2>
 <p>The probabilistic programming language (PPL) has two tasks :  </p>
@@ -163,16 +163,19 @@
 </ol>
 <p>The algorithm that does this is called <a href="https://en.wikipedia.org/wiki/Backpropagation">back propagation</a>.
 Thus, the objective in deep learning or machine learning is to obtain the <strong>best values</strong> (in the sense of that they minimize error on the training set) of the parameters given some data.</p>
-<p>The objective of probabilistic modelling is subtly different. The aim here is to obtain the <strong>distribution</strong> (called <strong>posterior distribution</strong>) of parameters, given the data. If we denote the data by $D$, <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes theorem</a> relates (for a particular hypothesis about how the data were generated $H$), the likelihood of the data given some parameters $P(D|\theta,H)$, our prior expectations about how the parameters are distributed $P(\theta)$ and the posterior distribution of the parameters themselves $P(\theta|D,H)$ :</p>
-<p>$$P(\theta|D,H) = \frac{P(D|\theta,H)P(\theta)}{P(D)}.$$</p>
-<p>The priors $P(\theta)$ do not depend on the data and encode "domain knowledge" while the probability of the data set $P(D)$ over the whole parameter space is (typically) a high dimensional integral given by
-$$P(D|H) = \int P(D,\theta|H)d\theta.$$</p>
-<p>Intuitively, we can see that the most likely parameters given the data, i.e. the parameters $\theta$ which maximize $P(\theta|D,H)$ ought to correspond to the sense of "best" or "most suitable" described above. From Bayes theorem, it is clear that the posterior distribution is directly proportional to the likelihood $P(\theta|D,H) \propto P(D|\theta,H)$. Thus, maximizing likelihood is one way to get estimates of the "most likely parameters" (in the limit of infinite data), but computing the full distribution $P(\theta|D,H)$ involves dealing with the difficult integral for $P(D|H)$.</p>
+<p>The objective of probabilistic modelling is subtly different. The aim here is to obtain the <strong>distribution</strong> (called <strong>posterior distribution</strong>) of parameters, given the data. If we denote the data by <span class="math">\(D\)</span>, <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes theorem</a> relates (for a particular hypothesis about how the data were generated <span class="math">\(H\)</span>), the likelihood of the data given some parameters <span class="math">\(P(D|\theta,H)\)</span>, our prior expectations about how the parameters are distributed <span class="math">\(P(\theta)\)</span> and the posterior distribution of the parameters themselves <span class="math">\(P(\theta|D,H)\)</span> :</p>
+<div class="math">$$P(\theta|D,H) = \frac{P(D|\theta,H)P(\theta)}{P(D)}.$$</div>
+<p>The priors <span class="math">\(P(\theta)\)</span> do not depend on the data and encode "domain knowledge" while the probability of the data set <span class="math">\(P(D)\)</span> over the whole parameter space is (typically) a high dimensional integral given by
+</p>
+<div class="math">$$P(D|H) = \int P(D,\theta|H)d\theta.$$</div>
+<p>Intuitively, we can see that the most likely parameters given the data, i.e. the parameters <span class="math">\(\theta\)</span> which maximize <span class="math">\(P(\theta|D,H)\)</span> ought to correspond to the sense of "best" or "most suitable" described above. From Bayes theorem, it is clear that the posterior distribution is directly proportional to the likelihood <span class="math">\(P(\theta|D,H) \propto P(D|\theta,H)\)</span>. Thus, maximizing likelihood is one way to get estimates of the "most likely parameters" (in the limit of infinite data), but computing the full distribution <span class="math">\(P(\theta|D,H)\)</span> involves dealing with the difficult integral for <span class="math">\(P(D|H)\)</span>.</p>
 <h3>Bayesian prediction and MCMC</h3>
-<p>Prediction in this framework is also fundamentally different from typical machine learning model. The probability of a new data point $d$,
-$$P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta,$$
+<p>Prediction in this framework is also fundamentally different from typical machine learning model. The probability of a new data point <span class="math">\(d\)</span>,
+</p>
+<div class="math">$$P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta,$$</div>
+<p>
 which consists of the expectation value of the new data point over the whole distribution of parameters given the observed data (the posterior distribution calculated obtained from the solution to the inference problem), instead of a value calculated by plugging in the "learned parameter values" into the machine learning model. </p>
-<p>The integrals needed for inference ($P(D|H) = \int P(D,\theta|H)d\theta$ as well as prediction $P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta$ need to be evaluated over the entire parameter space of the model which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. <a href="https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/">This</a> is an excellent overview of modern Hamiltonian Monte Carlo methods while <a href="https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&amp;ref_source=link">this</a> provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. </p>
+<p>The integrals needed for inference (<span class="math">\(P(D|H) = \int P(D,\theta|H)d\theta\)</span> as well as prediction <span class="math">\(P(d|D,H) = \int P(d|\theta,H)P(\theta|D,H)d\theta\)</span> need to be evaluated over the entire parameter space of the model which can be very high dimensional. Markov Chain Monte Carlo methods are used to approximate these integrals. <a href="https://www.reddit.com/r/deeplearning/comments/8487xg/very_good_introduction_to_hamiltonian_monte_carlo/">This</a> is an excellent overview of modern Hamiltonian Monte Carlo methods while <a href="https://www.reddit.com/r/MachineLearning/comments/84fobk/superb_overview_and_motivation_for_monte_carlo/?ref=share&amp;ref_source=link">this</a> provides wonderful perspective from the dawn of the field. Both papers are long but eminently readable and highly recommended. </p>
 <p>Clearly then, along with the computational graph to define models, a PPL needs a good MCMC algorithm (or another inference algorithm) to compute the high dimensional integrals needed to infer as well as perform a prediction on a general probabilistic model. </p>
 <p>A broad overview of Bayesian machine learning is available <a href="http://mlg.eng.cam.ac.uk/zoubin/talks/mit12csail.pdf">here (PDF)</a> and <a href="http://fastml.com/bayesian-machine-learning/">here</a></p>
 <p>Now, we illustrate some of these points using the simplest possible example, linear regression.</p>
@@ -207,8 +210,8 @@ which consists of the expectation value of the new data point over the whole dis
 <span class="nf">distribution</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">normal</span><span class="p">(</span><span class="n">mean_y</span><span class="p">,</span><span class="w"> </span><span class="n">sd_eps_p</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Here, we hypothesize that the target variable $y$ is linearly dependent on some independent variable $x$ with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the model. </p>
-<p>Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing the target $y$ starting from the prior distributions of our input variables. We plot this computational graph below :</p>
+<p>Here, we hypothesize that the target variable <span class="math">\(y\)</span> is linearly dependent on some independent variable <span class="math">\(x\)</span> with a noise term drawn from a Gaussian distribution whose standard deviation is also a parameter of the model. </p>
+<p>Under the hood, Greta has constructed a computational graph that encapsulates all these operations, and defines the process of computing the target <span class="math">\(y\)</span> starting from the prior distributions of our input variables. We plot this computational graph below :</p>
 <div class="highlight"><pre><span></span><code><span class="n">our_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="n">intercept_p</span><span class="p">,</span><span class="w"> </span><span class="n">slope_p</span><span class="p">,</span><span class="w"> </span><span class="n">sd_eps_p</span><span class="p">)</span>
 <span class="n">our_model</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">plot</span><span class="p">()</span>
 </code></pre></div>
@@ -258,7 +261,7 @@ which consists of the expectation value of the new data point over the whole dis
 </code></pre></div>
 
 <h3>Bayesian prediction</h3>
-<p>Bayesian prediction is implemented via the <code>calculate()</code> function available in the latest release of <code>greta</code> on github. This generates a prediction on $y$ for each draw from the posterior distribution of the parameters (see previous section). Taking the expectation over this distribution of predictions gives us the mean value of the target variable $y$ but we have the whole distribution of $y$ available to us if we need to analyse it. </p>
+<p>Bayesian prediction is implemented via the <code>calculate()</code> function available in the latest release of <code>greta</code> on github. This generates a prediction on <span class="math">\(y\)</span> for each draw from the posterior distribution of the parameters (see previous section). Taking the expectation over this distribution of predictions gives us the mean value of the target variable <span class="math">\(y\)</span> but we have the whole distribution of <span class="math">\(y\)</span> available to us if we need to analyse it. </p>
 <div class="highlight"><pre><span></span><code><span class="n">mean_y_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">intercept_p</span><span class="o">+</span><span class="n">slope_p</span><span class="o">*</span><span class="n">x</span>
 <span class="n">mean_y_plot_draws</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">calculate</span><span class="p">(</span><span class="n">mean_y_plot</span><span class="p">,</span><span class="w"> </span><span class="n">param_draws</span><span class="p">)</span>
 <span class="n">mean_y_est</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">colMeans</span><span class="p">(</span><span class="n">mean_y_plot_draws</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
@@ -277,6 +280,68 @@ which consists of the expectation value of the new data point over the whole dis
 <li><a href="http://www.mit.edu/~9.520/spring10/Classes/class21_mcmc_2010.pdf">This</a> is a good intro to the role of MCMC in inference.  </li>
 <li>These video lectures on <a href="https://www.youtube.com/watch?v=oy7Ks3YfbDg">statistical rethinking</a> emphasizing Bayesian statistics also seem interesting.</li>
 </ol>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </div>
             <!-- /.entry-content -->
         </article>
