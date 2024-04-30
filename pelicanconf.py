@@ -11,7 +11,7 @@ SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 #BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'monokai' 
-PLUGIN_PATHS = ['/']
+PLUGIN_PATHS = ['/home/prasanna/pelican-plugins']
 PLUGINS = ['render_math','i18n_subsites']
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 SITEURL = 'https://theclarkeorbit.github.io'
@@ -41,7 +41,7 @@ BANNER_ALL_PAGES = True
 DEFAULT_DATE='fs'
 
 SOCIAL = (('linkedin', 'https://www.linkedin.com/in/pbhogale'),
-          ('twitter','https://twitter.com/thegymnosophist'),
+          #('twitter','https://twitter.com/thegymnosophist'),
           #('reddit','https://www.reddit.com/user/thegymnosophist'),
           ('github', 'https://github.com/pbhogale'))
 
