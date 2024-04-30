@@ -239,11 +239,11 @@ mlpnet <- nn_module(
 )
 ```
 
-Now, we train. 
 
 
 
-Now, let us visualize the validation loss. 
+
+Now, let us visualize the validation loss during the training process.
 
 ![center](/figures/torchlbdl/unnamed-chunk-14-1.png)
 

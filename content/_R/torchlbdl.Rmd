@@ -399,7 +399,7 @@ mlpnet <- nn_module(
 )
 ```
 
-Now, we train. 
+
 
 ```{r, include=FALSE}
 total_size <- length(ds)
@@ -426,7 +426,7 @@ fitted_mlp <- mlpnet |>
   fit(train_dataset, epochs = 15, valid_data = valid_dataset)
 ```
 
-Now, let us visualize the validation loss. 
+Now, let us visualize the validation loss during the training process.
 
 ```{r, echo=FALSE}
 fitted_mlp$records$metrics$train |> 
