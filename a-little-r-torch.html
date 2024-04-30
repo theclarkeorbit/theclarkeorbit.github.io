@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>"A little r-torch" - p. bhogale</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href=".//images/gravtar.jpg" rel="icon">
+
+<link rel="canonical" href="./a-little-r-torch.html">
+
+        <meta name="author" content="pras" />
+        <meta name="description" content="These notes are meant to impliment little examples from Francois Fleuret&#39;s Little Book of Deep Learning (pdf link) in r-torch. I&#39;m writing these as a fun way to dive into torch in R while surveying DL quickly. You&#39;ll need to have the book with you to understand these notes, but …" />
+
+        <meta property="og:site_name" content="p. bhogale" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="&#34;A little r-torch&#34;"/>
+        <meta property="og:url" content="./a-little-r-torch.html"/>
+        <meta property="og:description" content="These notes are meant to impliment little examples from Francois Fleuret&#39;s Little Book of Deep Learning (pdf link) in r-torch. I&#39;m writing these as a fun way to dive into torch in R while surveying DL quickly. You&#39;ll need to have the book with you to understand these notes, but …"/>
+        <meta property="article:published_time" content="2024-04-29" />
+            <meta property="article:section" content="data_sci_tech" />
+            <meta property="article:author" content="pras" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale ATOM Feed"/>
+
+        <link href="./feeds/data_sci_tech.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale data_sci_tech ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115756026-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', UA-115756026-1);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src=".//images/gravtar.jpg" width=""/> p. bhogale            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="./pages/about.html">
+                             About
+                          </a></li>
+                        <li >
+                            <a href="./category/blog.html">Blog</a>
+                        </li>
+                        <li class="active">
+                            <a href="./category/data_sci_tech.html">Data_sci_tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<style>
+	#banner{
+	    background-image:url(".//images/banner.jpg");
+	}
+</style>
+
+<div id="banner">
+	<div class="container">
+		<div class="copy">
+			<h1>p. bhogale</h1>
+				<p class="intro">Data Sci, Quant Fin, Quant Bio.</p>
+		</div>
+	</div>
+</div><!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./a-little-r-torch.html"
+                       rel="bookmark"
+                       title="Permalink to "A little r-torch"">
+                        "A little r-torch"
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2024-04-29T00:00:00+02:00"> Mo 29 April 2024</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>These notes are meant to impliment little examples from <a href="https://fleuret.org/francois/index.html">Francois Fleuret's</a> Little Book of Deep Learning (<a href="https://fleuret.org/public/lbdl.pdf">pdf link</a>) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. </p>
+<p>You'll need to have the book with you to understand these notes, but since it is available freely, that ought not to be an issue.</p>
+<h3>Basis function regression</h3>
+<p>We will generate synthetic data that is similar to the example shown in the book:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Number of samples</span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">50</span>
+
+<span class="c1"># Randomly distributed x values from -1 to 1</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w"> </span><span class="c1"># for reproducibility</span>
+<span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">Attaching</span><span class="w"> </span><span class="kn">package</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">stats</span><span class="err">&#39;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">objects</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">masked</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="err">&#39;</span><span class="kn">package</span><span class="p">:</span><span class="nx">dplyr</span><span class="err">&#39;</span><span class="p">:</span>
+<span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w">     </span><span class="nx">filter</span><span class="p">,</span><span class="w"> </span><span class="nx">lag</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1"># Sorting for plotting purposes</span>
+
+<span class="c1"># y values as the semi-circle</span>
+<span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># Plotting the original semi-circle with randomly distributed x</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Semi-Circle&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-1-1.png"></p>
+<p>Following the book, we use gaussian kernels as the basis functions to fit <span class="math">\(y \sim f(x;w)\)</span>, where <span class="math">\(w\)</span> are the weights of the basis functions.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define Gaussian basis functions</span>
+<span class="n">basis_functions</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">centers</span><span class="p">,</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">centers</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">scale</span><span class="o">^</span><span class="m">2</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="c1"># Centers of the Gaussian kernels, these do cover the region of space we are interested in</span>
+<span class="n">centers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now, we define our model for <span class="math">\(y\)</span>, which, for basis function regression, is a linear combination of the basis functions initialized with random weights <span class="math">\(w\)</span>. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Initial random weights</span>
+<span class="n">weightss</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_randn</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">centers</span><span class="p">),</span><span class="w"> </span><span class="n">requires_grad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># Calculate the model output</span>
+<span class="n">model_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># Convert x to a torch tensor if it isn&#39;t already one</span>
+<span class="w">  </span><span class="n">x_tensor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># Create a tensor for the basis functions evaluated at each x</span>
+<span class="w">  </span><span class="c1"># Resulting tensor will have size [length(x), length(centers)]</span>
+<span class="w">  </span><span class="n">basis_matrix</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_stack</span><span class="p">(</span><span class="nf">lapply</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="nf">basis_functions</span><span class="p">(</span><span class="n">x_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)),</span><span class="w"> </span><span class="n">dim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># Calculate the output using matrix multiplication</span>
+<span class="w">  </span><span class="c1"># basis_matrix is [n, 10] and weights is [10, 1]</span>
+<span class="w">  </span><span class="n">y_pred</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_matmul</span><span class="p">(</span><span class="n">basis_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">weightss</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1"># Flatten the output to match the dimension of y</span>
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now,we will use gradient descent to minimise the MSE between the model and the real values of <span class="math">\(y\)</span> to obtain the optimal weights <span class="math">\(w^*\)</span>. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Learning rate</span>
+<span class="n">lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.01</span>
+
+<span class="c1"># Gradient descent loop</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">5000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">y_pred</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">model_y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="w">  </span><span class="n">op</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nnf_mse_loss</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+<span class="w">  </span><span class="c1"># Backpropagation</span>
+<span class="w">  </span><span class="n">op</span><span class="o">$</span><span class="nf">backward</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c1"># Update weights</span>
+<span class="w">  </span><span class="nf">with_no_grad</span><span class="p">({</span>
+<span class="w">    </span><span class="n">weightss</span><span class="o">$</span><span class="nf">sub_</span><span class="p">(</span><span class="n">lr</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">weightss</span><span class="o">$</span><span class="n">grad</span><span class="p">)</span>
+<span class="w">    </span><span class="n">weightss</span><span class="o">$</span><span class="n">grad</span><span class="o">$</span><span class="nf">zero_</span><span class="p">()</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now, we can see how good our predictions are:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get model predictions</span>
+<span class="n">fin_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">length.out</span><span class="o">=</span><span class="m">100</span><span class="p">)</span>
+<span class="n">final_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">model_y</span><span class="p">(</span><span class="n">fin_x</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">predicted_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fin_x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">final_y</span><span class="p">))</span>
+<span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">predicted_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;Original and Fitted Semi-Circle, 50 points and 10 weights, basis functions&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-5-1.png"></p>
+<p><strong>Underfitting</strong> 
+When the model is too small to capture the features of the data (in our case, too few weights)</p>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-6-1.png"></p>
+<p><strong>Overfitting</strong> 
+When there is too little data to properly constrain the parameters of a larger model.</p>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-7-1.png"></p>
+<h3>Autoregressive models</h3>
+<p>Let us generate data that looks similar to that shown in section 3.5 of the book. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Function to generate C-shaped data</span>
+<span class="n">generate_c_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x_offset</span><span class="p">,</span><span class="w"> </span><span class="n">y_offset</span><span class="p">,</span><span class="w"> </span><span class="n">y_scale</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">xflipaxis</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">theta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kc">pi</span><span class="o">/</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="o">*</span><span class="kc">pi</span><span class="o">/</span><span class="m">2</span><span class="p">)</span><span class="w">  </span><span class="c1"># Angle for C shape</span>
+<span class="w">  </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x_offset</span>
+<span class="w">  </span><span class="nf">if</span><span class="p">(</span><span class="n">xflipaxis</span><span class="o">==</span><span class="bp">T</span><span class="p">){</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">-</span><span class="n">x</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y_scale</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y_offset</span>
+<span class="w">  </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Number of points per class</span>
+<span class="n">n_points</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+
+<span class="c1"># Generate data for both classes</span>
+<span class="n">data_class_1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">generate_c_data</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span><span class="w"> </span><span class="n">x_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                </span><span class="n">y_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">y_scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">xflipaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">F</span><span class="p">)</span>
+<span class="n">data_class_0</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">generate_c_data</span><span class="p">(</span><span class="n">n_points</span><span class="p">,</span><span class="w"> </span><span class="n">x_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                </span><span class="n">y_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-1.0</span><span class="p">,</span><span class="w"> </span><span class="n">y_scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">xflipaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">T</span><span class="p">)</span><span class="w">  </span><span class="c1"># Mirrored and adjusted</span>
+
+<span class="c1"># Combine data</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rbind</span><span class="p">(</span><span class="n">data_class_0</span><span class="p">,</span><span class="w"> </span><span class="n">data_class_1</span><span class="p">)</span>
+
+<span class="c1"># Plotting the data</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">label</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;blue&#39;</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;2&#39;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;red&#39;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Adjusted C-shaped Data for Classification&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X axis&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y axis&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-8-1.png"></p>
+<p>Now, we can build a very simple neural net to classify these points and try to visualize what the trained net is doing at each layer.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define the neural network model</span>
+<span class="n">activations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span><span class="w"> </span><span class="c1"># we want to access the activations later</span>
+
+<span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;ClassifierNet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">output</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">activations</span><span class="o">$</span><span class="n">layer1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">activations</span><span class="o">$</span><span class="n">layer2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">activations</span><span class="o">$</span><span class="n">layer3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer4</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">activations</span><span class="o">$</span><span class="n">layer4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">output</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">x</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Convert the features and labels into tensors</span>
+<span class="n">features</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">)]))</span>
+<span class="n">labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">label</span><span class="p">))</span>
+
+<span class="c1"># Create a dataset using lists of features and labels</span>
+<span class="n">data_classif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tensor_dataset</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Create a dataloader from the dataset</span>
+<span class="n">dataloaders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">data_classif</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># defining the model</span>
+<span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">net</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">setup</span><span class="p">(</span>
+<span class="w">    </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now, lets try to visualize the activations. </p>
+<div class="highlight"><pre><span></span><code><span class="n">preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">data_classif</span><span class="p">)</span>
+</code></pre></div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/pbhogale"><i class="fa fa-linkedin-square fa-lg"></i> linkedin</a></li>
+    <li class="list-group-item"><a href="https://github.com/pbhogale"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./a-little-r-torch.html">"A little r-torch"</a></li>
+    <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
+    <li class="list-group-item"><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></li>
+    <li class="list-group-item"><a href="./the-invisible-hand.html">"The Invisible Hand"</a></li>
+    <li class="list-group-item"><a href="./greta-playground.html">"greta playground"</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2024 pras
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="./theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="./theme/js/respond.min.js"></script>
+
+
+    <script src="./theme/js/bodypadding.js"></script>
+
+
+</body>
+</html>
