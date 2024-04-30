@@ -322,6 +322,17 @@ net <- nn_module(
 Now, we will train this on our data. 
 
 
+```r
+fitted <- net |>
+  setup(
+    loss = nn_cross_entropy_loss(),
+    optimizer = optim_adam,
+    metrics = list(
+      luz_metric_accuracy()
+    )
+  ) |>
+  fit(train_dl, epochs = 1)
+```
 
 Let's see how it does on the test set. 
 

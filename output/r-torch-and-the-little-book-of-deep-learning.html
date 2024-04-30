@@ -392,6 +392,17 @@ When there is too little data to properly constrain the parameters of a larger m
 </code></pre></div>
 
 <p>Now, we will train this on our data. </p>
+<div class="highlight"><pre><span></span><code><span class="n">fitted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">net</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">setup</span><span class="p">(</span>
+<span class="w">    </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span><span class="p">,</span>
+<span class="w">    </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+<span class="w">      </span><span class="nf">luz_metric_accuracy</span><span class="p">()</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">train_dl</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Let's see how it does on the test set. </p>
 <div class="highlight"><pre><span></span><code><span class="n">model_eval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">fitted</span><span class="p">,</span><span class="w"> </span><span class="n">valid_dl</span><span class="p">)</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">model_eval</span><span class="p">)</span>
