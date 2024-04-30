@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 #import render_math
-from math import *
+#s	from math import *
 
 #LOAD_CONTENT_CACHE = False
 AUTHOR = u'pras'
@@ -13,7 +13,7 @@ SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 #BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'monokai' 
 PLUGIN_PATHS = ['/home/prasanna/pelican-plugins']
-PLUGINS = ['pelican_katex','i18n_subsites']
+PLUGINS = ['render_math','i18n_subsites']
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 SITEURL = 'https://theclarkeorbit.github.io'
 PATH = 'content'
