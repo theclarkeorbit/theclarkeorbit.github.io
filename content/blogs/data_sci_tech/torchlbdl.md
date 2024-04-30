@@ -162,13 +162,13 @@ generate_c_data <- function(n, x_offset, y_offset, y_scale, label, xflipaxis) {
 }
 
 # Number of points per class
-n_points <- 100
+n_points <- 1000
 
 # Generate data for both classes
 data_class_1 <- generate_c_data(n_points, x_offset = 0, 
                                 y_offset = 0, y_scale = 1, label = 1,
                                 xflipaxis = F)
-data_class_0 <- generate_c_data(n_points, x_offset = 1, 
+data_class_0 <- generate_c_data(n_points, x_offset = 1.25, 
                                 y_offset = -1.0, y_scale = -1, label = 2,
                                 xflipaxis = T)  # Mirrored and adjusted
 
@@ -178,7 +178,6 @@ data <- rbind(data_class_0, data_class_1)
 # Plotting the data
 ggplot(data, aes(x, y, color = as.factor(label))) +
   geom_point(alpha = 0.7, size = 3) +
-  scale_color_manual(values = c('1' = 'blue', '2' = 'red')) +
   labs(title = "Adjusted C-shaped Data for Classification", x = "X axis", y = "Y axis") +
   theme_tufte()
 ```
@@ -188,58 +187,63 @@ ggplot(data, aes(x, y, color = as.factor(label))) +
 Now, we can build a very simple neural net to classify these points and try to visualize what the trained net is doing at each layer.
 
 
-```r
-# Define the neural network model
-activations <- list() # we want to access the activations later
 
-net <- nn_module(
-  "ClassifierNet",
-  initialize = function() {
-    self$layer1 <- nn_linear(2, 2)
-    self$layer2 <- nn_linear(2, 2)
-    self$layer3 <- nn_linear(2, 2)
-    self$layer4 <- nn_linear(2, 2)
-    self$output <- nn_linear(2, 2)
-  },
-  
-  forward = function(x) {
-    x <- self$layer1(x) |> tanh()
-    activations$layer1 <- x
-    x <- self$layer2(x) |> tanh()
-    activations$layer2 <- x
-    x <- self$layer3(x) |> tanh()
-    activations$layer3 <- x
-    x <- self$layer4(x) |> tanh()
-    activations$layer4 <- x
-    x <- self$output(x)
-    x
-  }
+Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
+
+![center](/figures/torchlbdl/unnamed-chunk-10-1.png)
+
+**TODO:** I have not yet figured out a way to access model activations when the model is trained with luz.
+
+
+### Architectures
+
+#### Multi Layer Perceptrons
+
+This is a neural net that has a series of fully connected layers seperated by activations. We will illustrate an MLP using the Penguins dataset, where we try to predict the species of a penguin from some features. Example adapted from the excellent Deep Learning with R Torch [book](https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/). 
+
+
+```r
+library(palmerpenguins)
+
+penguins <- na.omit(penguins)
+ds <- tensor_dataset(
+  torch_tensor(as.matrix(penguins[, 3:6])),
+  torch_tensor(
+    as.integer(penguins$species)
+  )$to(torch_long())
 )
 
-
-# Convert the features and labels into tensors
-features <- torch_tensor(as.matrix(data[c("x", "y")]))
-labels <- torch_tensor(as.integer(data$label))
-
-# Create a dataset using lists of features and labels
-data_classif <- tensor_dataset(features, labels)
-
-# Create a dataloader from the dataset
-dataloaders <- dataloader(data_classif, batch_size = 10, shuffle = TRUE)
-
-# defining the model
-model <- net %>%
-  setup(
-    loss = nn_cross_entropy_loss(),
-    optimizer = optim_adam
-  ) %>%
-  fit(dataloaders, epochs = 200)
+n_class <- penguins$species |> unique() |> length() |> as.numeric()
 ```
 
-Now, lets try to visualize the activations. 
+Now, we train a simple MLP on 75% of this dataset. 
 
 
 ```r
-preds <- predict(model, data_classif)
+mlpnet <- nn_module(
+  "MLPnet",
+  initialize = function(din, dhidden1, dhidden2, dhidden3, n_class) {
+    self$net <- nn_sequential(
+      nn_linear(din, dhidden1),
+      nn_relu(),
+      nn_linear(dhidden1, dhidden2),
+      nn_relu(),
+      nn_linear(dhidden2, dhidden3),
+      nn_relu(),
+      nn_linear(dhidden3, n_class)
+    )
+  },
+  forward = function(x) {
+    self$net(x)
+  }
+)
 ```
+
+Now, we train. 
+
+
+
+Now, let us visualize the validation loss. 
+
+![center](/figures/torchlbdl/unnamed-chunk-14-1.png)
 
