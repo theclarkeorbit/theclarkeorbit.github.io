@@ -266,7 +266,7 @@ train_dl <- dataloader(train_ds,
 valid_dl <- dataloader(valid_ds, batch_size = 128)
 ```
 
-There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. 
+There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. The model below is partially based on [this tutorial](https://jtr13.github.io/cc21fall2/tutorial-on-r-torch-package.html) from 2021.
 
 
 ```r
@@ -297,7 +297,8 @@ net <- nn_module(
     self$dropout1 <- nn_dropout(0.25)
     self$dropout2 <- nn_dropout(0.5)
     self$fc1 <- nn_linear(9216, 128)
-    self$resblock1 <- simple_resblock(32)
+    self$resblock1 <- simple_resblock(32) # 32 since its used after first conv layer that o/ps 32 channels
+    self$resblock2 <- simple_resblock(64) # used after the second conv layer that outputs 64 channels
     self$fc2 <- nn_linear(128, 10)
   },
   
@@ -305,9 +306,10 @@ net <- nn_module(
     x |>                                  # N * 1 * 28 * 28
       self$conv1() |>                     # N * 32 * 26 * 26
       nnf_relu() |>     
-      self$resblock1() |> 
+      self$resblock1() |>                 # the residual block
       self$conv2() |>                     # N * 64 * 24 * 24
       nnf_relu() |> 
+      self$resblock2() |>                 # second residual block
       nnf_max_pool2d(2) |>                # N * 64 * 12 * 12
       self$dropout1() |> 
       torch_flatten(start_dim = 2) |>     # N * 9216
@@ -345,8 +347,8 @@ print(model_eval)
 ```
 ## A `luz_module_evaluation`
 ## ── Results ─────────────────────────────────────────────────────────────────────
-## loss: 0.3379
-## acc: 0.8958
+## loss: 0.3452
+## acc: 0.899
 ```
 
 #### Attention and transformers

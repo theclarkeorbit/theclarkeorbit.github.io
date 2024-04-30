@@ -341,7 +341,7 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="n">valid_dl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">valid_ds</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="p">)</span>
 </code></pre></div>
 
-<p>There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. </p>
+<p>There, we have downloaded the Kanji MNIST dataset to use to test our simple resnet. The model below is partially based on <a href="https://jtr13.github.io/cc21fall2/tutorial-on-r-torch-package.html">this tutorial</a> from 2021.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Define a simple Residual Block</span>
 <span class="n">simple_resblock</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
 <span class="w">  </span><span class="s">&quot;SimpleResBlock&quot;</span><span class="p">,</span>
@@ -369,7 +369,8 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dropout1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_dropout</span><span class="p">(</span><span class="m">0.25</span><span class="p">)</span>
 <span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dropout2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_dropout</span><span class="p">(</span><span class="m">0.5</span><span class="p">)</span>
 <span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">fc1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">9216</span><span class="p">,</span><span class="w"> </span><span class="m">128</span><span class="p">)</span>
-<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">resblock1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">simple_resblock</span><span class="p">(</span><span class="m">32</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">resblock1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">simple_resblock</span><span class="p">(</span><span class="m">32</span><span class="p">)</span><span class="w"> </span><span class="c1"># 32 since its used after first conv layer that o/ps 32 channels</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">resblock2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">simple_resblock</span><span class="p">(</span><span class="m">64</span><span class="p">)</span><span class="w"> </span><span class="c1"># used after the second conv layer that outputs 64 channels</span>
 <span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">fc2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">128</span><span class="p">,</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
 <span class="w">  </span><span class="p">},</span>
 
@@ -377,9 +378,10 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                                  </span><span class="c1"># N * 1 * 28 * 28</span>
 <span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">conv1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                     </span><span class="c1"># N * 32 * 26 * 26</span>
 <span class="w">      </span><span class="nf">nnf_relu</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">     </span>
-<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">resblock1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">resblock1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                 </span><span class="c1"># the residual block</span>
 <span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">conv2</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                     </span><span class="c1"># N * 64 * 24 * 24</span>
 <span class="w">      </span><span class="nf">nnf_relu</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">resblock2</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                 </span><span class="c1"># second residual block</span>
 <span class="w">      </span><span class="nf">nnf_max_pool2d</span><span class="p">(</span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">                </span><span class="c1"># N * 64 * 12 * 12</span>
 <span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dropout1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">      </span><span class="nf">torch_flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w">     </span><span class="c1"># N * 9216</span>
@@ -410,8 +412,8 @@ When there is too little data to properly constrain the parameters of a larger m
 
 <div class="highlight"><pre><span></span><code><span class="c1">## A `luz_module_evaluation`</span>
 <span class="c1">## ── Results ─────────────────────────────────────────────────────────────────────</span>
-<span class="c1">## loss: 0.3379</span>
-<span class="c1">## acc: 0.8958</span>
+<span class="c1">## loss: 0.3452</span>
+<span class="c1">## acc: 0.899</span>
 </code></pre></div>
 
 <h4>Attention and transformers</h4>
