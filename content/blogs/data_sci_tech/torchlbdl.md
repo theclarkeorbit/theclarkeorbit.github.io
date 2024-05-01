@@ -190,6 +190,61 @@ ggplot(data, aes(x, y, color = as.factor(label))) +
 Now, we can build a very simple neural net to classify these points and try to visualize what the trained net is doing at each layer.
 
 
+```r
+net <- nn_module(
+  "ClassifierNet",
+  initialize = function() {
+    self$layer1 <- nn_linear(2, 2)
+    self$layer2 <- nn_linear(2, 2)
+    self$layer3 <- nn_linear(2, 2)
+    self$layer4 <- nn_linear(2, 2)
+    self$layer5 <- nn_linear(2, 2)
+    self$layer6 <- nn_linear(2, 2)
+    self$layer7 <- nn_linear(2, 2)
+    self$output <- nn_softmax(2)
+    # Initialize an environment to store activations
+    self$activations <- list()
+  },
+  
+  forward = function(x) {
+    x <- self$layer1(x) |> tanh()
+    self$activations$layer1 <- x
+    x <- self$layer2(x) |> tanh()
+    self$activations$layer2 <- x
+    x <- self$layer3(x) |> tanh()
+    self$activations$layer3 <- x
+    x <- self$layer4(x) |> tanh()
+    self$activations$layer4 <- x
+    x <- self$layer5(x) |> tanh()
+    self$activations$layer5 <- x
+    x <- self$layer6(x) |> tanh()
+    self$activations$layer6 <- x
+    x <- self$layer7(x) |> tanh()
+    self$activations$layer7 <- x
+    x <- self$output(x)
+    x
+  }
+)
+
+
+# Convert the features and labels into tensors
+features <- torch_tensor(as.matrix(data[c("x", "y")]))
+labels <- torch_tensor(as.integer(data$label))
+
+# Create a dataset using lists of features and labels
+data_classif <- tensor_dataset(features, labels)
+
+# Create a dataloader from the dataset
+dataloaders <- dataloader(data_classif, batch_size = 100, shuffle = TRUE)
+
+# defining the model
+model <- net |>
+  setup(
+    loss = nn_cross_entropy_loss(),
+    optimizer = optim_adam
+  ) |>
+  fit(dataloaders, epochs = 200)
+```
 
 Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
 
@@ -222,6 +277,48 @@ n_class <- penguins$species |> unique() |> length() |> as.numeric()
 Now, we train a simple MLP on 75% of this dataset. 
 
 
+```r
+mlpnet <- nn_module(
+  "MLPnet",
+  initialize = function(din, dhidden1, dhidden2, dhidden3, n_class) {
+    self$net <- nn_sequential(
+      nn_linear(din, dhidden1),
+      nn_relu(),
+      nn_linear(dhidden1, dhidden2),
+      nn_relu(),
+      nn_linear(dhidden2, dhidden3),
+      nn_relu(),
+      nn_linear(dhidden3, n_class)
+    )
+  },
+  forward = function(x) {
+    self$net(x)
+  }
+)
+
+total_size <- length(ds)
+train_size <- floor(0.8 * total_size)
+valid_size <- total_size - train_size
+
+# Generate indices and shuffle them
+set.seed(123)  # For reproducibility
+indices <- sample(total_size)
+
+train_indices <- indices[1:train_size]
+valid_indices <- indices[(train_size + 1):total_size]
+
+train_dataset <- ds[train_indices]
+valid_dataset <- ds[valid_indices]
+
+fitted_mlp <- mlpnet |> 
+  setup(loss = nn_cross_entropy_loss(), optimizer = optim_adam) |> 
+  set_hparams(din = 4,
+              dhidden1 = 2,
+              dhidden2 = 2,
+              dhidden3 = 2,
+              n_class = n_class) |> 
+  fit(train_dataset, epochs = 15, valid_data = valid_dataset)
+```
 
 Now, let us visualize the validation loss during the training process.
 

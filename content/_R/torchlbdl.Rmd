@@ -266,7 +266,7 @@ ggplot(data, aes(x, y, color = as.factor(label))) +
 
 Now, we can build a very simple neural net to classify these points and try to visualize what the trained net is doing at each layer.
 
-```{r, include=FALSE}
+```{r, warning=FALSE}
 net <- nn_module(
   "ClassifierNet",
   initialize = function() {
@@ -385,7 +385,7 @@ n_class <- penguins$species |> unique() |> length() |> as.numeric()
 
 Now, we train a simple MLP on 75% of this dataset. 
 
-```{r, include=FALSE}
+```{r}
 mlpnet <- nn_module(
   "MLPnet",
   initialize = function(din, dhidden1, dhidden2, dhidden3, n_class) {

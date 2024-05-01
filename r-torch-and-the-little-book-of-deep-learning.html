@@ -285,6 +285,61 @@ When there is too little data to properly constrain the parameters of a larger m
 
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-8-1.png"></p>
 <p>Now, we can build a very simple neural net to classify these points and try to visualize what the trained net is doing at each layer.</p>
+<div class="highlight"><pre><span></span><code><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;ClassifierNet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer6</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">layer7</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_linear</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">output</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_softmax</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="c1"># Initialize an environment to store activations</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer4</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer5</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer5</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer6</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer6</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">layer7</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tanh</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">activations</span><span class="o">$</span><span class="n">layer7</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="nf">output</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">x</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Convert the features and labels into tensors</span>
+<span class="n">features</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">)]))</span>
+<span class="n">labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">label</span><span class="p">))</span>
+
+<span class="c1"># Create a dataset using lists of features and labels</span>
+<span class="n">data_classif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tensor_dataset</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Create a dataloader from the dataset</span>
+<span class="n">dataloaders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">data_classif</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># defining the model</span>
+<span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">net</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">setup</span><span class="p">(</span>
+<span class="w">    </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. </p>
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-10-1.png"></p>
 <p><strong>TODO:</strong> I have not yet figured out a way to access model activations when the model is trained with luz.</p>
@@ -305,6 +360,48 @@ When there is too little data to properly constrain the parameters of a larger m
 </code></pre></div>
 
 <p>Now, we train a simple MLP on 75% of this dataset. </p>
+<div class="highlight"><pre><span></span><code><span class="n">mlpnet</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;MLPnet&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">din</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden1</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden2</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden3</span><span class="p">,</span><span class="w"> </span><span class="n">n_class</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">net</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_sequential</span><span class="p">(</span>
+<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">din</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden1</span><span class="p">),</span>
+<span class="w">      </span><span class="nf">nn_relu</span><span class="p">(),</span>
+<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">dhidden1</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden2</span><span class="p">),</span>
+<span class="w">      </span><span class="nf">nn_relu</span><span class="p">(),</span>
+<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">dhidden2</span><span class="p">,</span><span class="w"> </span><span class="n">dhidden3</span><span class="p">),</span>
+<span class="w">      </span><span class="nf">nn_relu</span><span class="p">(),</span>
+<span class="w">      </span><span class="nf">nn_linear</span><span class="p">(</span><span class="n">dhidden3</span><span class="p">,</span><span class="w"> </span><span class="n">n_class</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="nf">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">total_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">train_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">total_size</span><span class="p">)</span>
+<span class="n">valid_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">total_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">train_size</span>
+
+<span class="c1"># Generate indices and shuffle them</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">  </span><span class="c1"># For reproducibility</span>
+<span class="n">indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">total_size</span><span class="p">)</span>
+
+<span class="n">train_indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">indices</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">valid_indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">indices</span><span class="p">[(</span><span class="n">train_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">:</span><span class="n">total_size</span><span class="p">]</span>
+
+<span class="n">train_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ds</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>
+<span class="n">valid_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ds</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span>
+
+<span class="n">fitted_mlp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mlpnet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">setup</span><span class="p">(</span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span><span class="w"> </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">set_hparams</span><span class="p">(</span><span class="n">din</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dhidden1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dhidden2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dhidden3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
+<span class="w">              </span><span class="n">n_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_class</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">valid_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valid_dataset</span><span class="p">)</span>
+</code></pre></div>
+
 <p>Now, let us visualize the validation loss during the training process.</p>
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-13-1.png"></p>
 <h4>Convolutional networks - resnets</h4>
