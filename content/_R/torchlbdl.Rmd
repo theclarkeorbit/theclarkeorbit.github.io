@@ -571,3 +571,20 @@ It seems to be a rule that any text on the internet mentioning these words must 
 ![](attention.png).
 Instead of the paper, this part of the post is largely based on [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/), except we will use modules built into the `torch` package instead of coding attention and transformers from scratch. 
 
+```{r}
+sentence <- "Life is short, eat dessert first"
+
+# Remove the comma and split the sentence into words
+words <- strsplit(gsub(",", "", sentence), " ")[[1]]
+
+# Sort the words
+sorted_words <- sort(words)
+
+# Create a named vector with indices
+dc <- setNames(seq_along(sorted_words), sorted_words)
+
+# Print the result
+print(dc)
+
+```
+

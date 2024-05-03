@@ -186,12 +186,8 @@
 <p>Now, we define our model for <span class="math">\(y\)</span>, which, for basis function regression, is a linear combination of the basis functions initialized with random weights <span class="math">\(w\)</span>. </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Initial random weights</span>
 <span class="n">weightss</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_randn</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">centers</span><span class="p">),</span><span class="w"> </span><span class="n">requires_grad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in (function (size, options) : Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Calculate the model output</span>
+<span class="c1"># Calculate the model output</span>
 <span class="n">model_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1"># Convert x to a torch tensor if it isn&#39;t already one</span>
 <span class="w">  </span><span class="n">x_tensor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -230,26 +226,14 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
 <p>Now, we can see how good our predictions are:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Get model predictions</span>
 <span class="n">fin_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">length.out</span><span class="o">=</span><span class="m">100</span><span class="p">)</span>
 <span class="n">final_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">model_y</span><span class="p">(</span><span class="n">fin_x</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Plotting</span>
+<span class="c1"># Plotting</span>
 <span class="n">predicted_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fin_x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">final_y</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;final_y&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">predicted_data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -257,43 +241,13 @@
 <span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;predicted_data&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-5-1.png"></p>
 <p><strong>Underfitting</strong> 
 When the model is too small to capture the features of the data (in our case, too few weights)</p>
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in (function (size, options) : Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;final_y&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;predicted_data&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-6-1.png"></p>
 <p><strong>Overfitting</strong> 
 When there is too little data to properly constrain the parameters of a larger model.</p>
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in (function (size, options) : Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;final_y&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;predicted_data&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-7-1.png"></p>
 <h3>Classification, and the usefulness of depth</h3>
 <p>Let us generate data that looks similar to that shown in section 3.5 of the book. </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Function to generate C-shaped data</span>
@@ -369,32 +323,15 @@ When there is too little data to properly constrain the parameters of a larger m
 
 <span class="c1"># Convert the features and labels into tensors</span>
 <span class="n">features</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">)]))</span>
-</code></pre></div>
+<span class="n">labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">label</span><span class="p">))</span>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">label</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Create a dataset using lists of features and labels</span>
+<span class="c1"># Create a dataset using lists of features and labels</span>
 <span class="n">data_classif</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tensor_dataset</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="w"> </span><span class="n">labels</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;features&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Create a dataloader from the dataset</span>
+<span class="c1"># Create a dataloader from the dataset</span>
 <span class="n">dataloaders</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">data_classif</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;data_classif&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># defining the model</span>
+<span class="c1"># defining the model</span>
 <span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">net</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">setup</span><span class="p">(</span>
 <span class="w">    </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span>
@@ -403,38 +340,8 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
 <p>Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. </p>
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_features&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;model&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error in eval(ei, envir): object &#39;preds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;preds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;predicted_labels&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `geom_point()`:
-<span class="gu">##</span> ! Problem while computing aesthetics.
-<span class="gu">##</span> ℹ Error occurred in the 1st layer.
-<span class="gu">##</span> Caused by error:
-<span class="gu">##</span> ! object &#39;predictions&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-10-1.png"></p>
 <p><strong>TODO:</strong> I have not yet figured out a way to access model activations when the model is trained with luz.</p>
 <h3>Architectures</h3>
 <h4>Multi Layer Perceptrons</h4>
@@ -448,12 +355,8 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">    </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">penguins</span><span class="o">$</span><span class="n">species</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span><span class="o">$</span><span class="nf">to</span><span class="p">(</span><span class="nf">torch_long</span><span class="p">())</span>
 <span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">n_class</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">penguins</span><span class="o">$</span><span class="n">species</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">unique</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">length</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">()</span>
+<span class="n">n_class</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">penguins</span><span class="o">$</span><span class="n">species</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">unique</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">length</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">()</span>
 </code></pre></div>
 
 <p>Now, we train a simple MLP on 75% of this dataset. </p>
@@ -476,56 +379,20 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="p">)</span>
 
 <span class="n">total_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-</code></pre></div>
+<span class="n">train_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">total_size</span><span class="p">)</span>
+<span class="n">valid_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">total_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">train_size</span>
 
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;ds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">train_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="m">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">total_size</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;total_size&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">valid_size</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">total_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">train_size</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;total_size&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Generate indices and shuffle them</span>
+<span class="c1"># Generate indices and shuffle them</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w">  </span><span class="c1"># For reproducibility</span>
 <span class="n">indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">total_size</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;total_size&#39; not found
-</code></pre></div>
+<span class="n">train_indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">indices</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">valid_indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">indices</span><span class="p">[(</span><span class="n">train_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">:</span><span class="n">total_size</span><span class="p">]</span>
 
-<div class="highlight"><pre><span></span><code><span class="n">train_indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">indices</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">train_size</span><span class="p">]</span>
-</code></pre></div>
+<span class="n">train_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ds</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>
+<span class="n">valid_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ds</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span>
 
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;indices&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">valid_indices</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">indices</span><span class="p">[(</span><span class="n">train_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="o">:</span><span class="n">total_size</span><span class="p">]</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;indices&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">train_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ds</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;ds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">valid_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ds</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;ds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">fitted_mlp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mlpnet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">fitted_mlp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mlpnet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">setup</span><span class="p">(</span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span><span class="w"> </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">set_hparams</span><span class="p">(</span><span class="n">din</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span>
 <span class="w">              </span><span class="n">dhidden1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
@@ -535,28 +402,8 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">valid_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valid_dataset</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
 <p>Now, let us visualize the validation loss during the training process.</p>
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;fitted_mlp&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(ei, envir): object &#39;train_loss&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;fitted_mlp&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(ei, envir): object &#39;valid_loss&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;train_loss&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;loss_df&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-13-1.png"></p>
 <h4>Convolutional networks - resnets</h4>
 <p>Images are usually dealt with by convolutional networks - they reduce the signal size until fully connected layers can handle it, or they output 2D signals which are themselves large. Residual networks involve an architecture where signal is taken from one layer and added to a later layer. </p>
 <p>We will build a very simple resnet for the task of image classification, example loosely based on the DL+SC with R torch <a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/image_classification_1.html">book</a>.</p>
@@ -564,12 +411,8 @@ When there is too little data to properly constrain the parameters of a larger m
 
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">777</span><span class="p">)</span>
 <span class="nf">torch_manual_seed</span><span class="p">(</span><span class="m">777</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in cpp_torch_manual_seed(as.character(seed)): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;~/.torch-datasets&quot;</span>
+<span class="n">dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;~/.torch-datasets&quot;</span>
 
 <span class="n">train_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">kmnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
 <span class="w">  </span><span class="n">dir</span><span class="p">,</span>
@@ -659,26 +502,40 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">train_dl</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
 <p>Let's see how it does on the test set. </p>
 <div class="highlight"><pre><span></span><code><span class="n">model_eval</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">fitted</span><span class="p">,</span><span class="w"> </span><span class="n">valid_dl</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">model_eval</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">model_eval</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;model_eval&#39; not found
+<div class="highlight"><pre><span></span><code><span class="c1">## A `luz_module_evaluation`</span>
+<span class="c1">## ── Results ─────────────────────────────────────────────────────────────────────</span>
+<span class="c1">## loss: 0.3452</span>
+<span class="c1">## acc: 0.899</span>
 </code></pre></div>
 
 <h4>Attention and transformers</h4>
 <p>It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" <a href="https://arxiv.org/abs/1706.03762">paper</a>. 
 <img alt="" src="attention.png">.
 Instead of the paper, this part of the post is largely based on <a href="https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention">this</a> excellent article by <a href="https://sebastianraschka.com/">Sebastian Raschka</a>, except we will use modules built into the <code>torch</code> package instead of coding attention and transformers from scratch. </p>
+<div class="highlight"><pre><span></span><code><span class="n">sentence</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;Life is short, eat dessert first&quot;</span>
+
+<span class="c1"># Remove the comma and split the sentence into words</span>
+<span class="n">words</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">strsplit</span><span class="p">(</span><span class="nf">gsub</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sentence</span><span class="p">),</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">)[[</span><span class="m">1</span><span class="p">]]</span>
+
+<span class="c1"># Sort the words</span>
+<span class="n">sorted_words</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+<span class="c1"># Create a named vector with indices</span>
+<span class="n">dc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">setNames</span><span class="p">(</span><span class="nf">seq_along</span><span class="p">(</span><span class="n">sorted_words</span><span class="p">),</span><span class="w"> </span><span class="n">sorted_words</span><span class="p">)</span>
+
+<span class="c1"># Print the result</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">dc</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## dessert     eat   first      is    Life   short 
+##       1       2       3       4       5       6
+</code></pre></div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
