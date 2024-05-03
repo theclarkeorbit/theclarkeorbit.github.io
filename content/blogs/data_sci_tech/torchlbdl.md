@@ -74,7 +74,13 @@ Now, we define our model for $y$, which, for basis function regression, is a lin
 ```r
 # Initial random weights
 weightss <- torch_randn(length(centers), requires_grad = TRUE)
+```
 
+```
+## Error in (function (size, options) : Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
 # Calculate the model output
 model_y <- function(x) {
   # Convert x to a torch tensor if it isn't already one
@@ -117,15 +123,32 @@ for (epoch in 1:5000) {
 }
 ```
 
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
 Now, we can see how good our predictions are:
 
 ```r
 # Get model predictions
 fin_x <- seq(-1,1,length.out=100)
 final_y <- model_y(fin_x)
+```
 
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
 # Plotting
 predicted_data <- data.frame(x = fin_x, y = as.numeric(final_y))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'final_y' not found
+```
+
+```r
 ggplot() +
   geom_point(data = data, aes(x, y)) +
   geom_line(data = predicted_data, aes(x, y)) +
@@ -134,17 +157,57 @@ ggplot() +
   theme_tufte()
 ```
 
-![center](/figures/torchlbdl/unnamed-chunk-5-1.png)
+```
+## Error in eval(expr, envir, enclos): object 'predicted_data' not found
+```
 
 **Underfitting** 
 When the model is too small to capture the features of the data (in our case, too few weights)
 
-![center](/figures/torchlbdl/unnamed-chunk-6-1.png)
+
+```
+## Error in (function (size, options) : Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'final_y' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'predicted_data' not found
+```
 
 **Overfitting** 
 When there is too little data to properly constrain the parameters of a larger model.
 
-![center](/figures/torchlbdl/unnamed-chunk-7-1.png)
+
+```
+## Error in (function (size, options) : Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'final_y' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'predicted_data' not found
+```
 
 ### Classification, and the usefulness of depth
 
@@ -229,14 +292,39 @@ net <- nn_module(
 
 # Convert the features and labels into tensors
 features <- torch_tensor(as.matrix(data[c("x", "y")]))
-labels <- torch_tensor(as.integer(data$label))
+```
 
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
+labels <- torch_tensor(as.integer(data$label))
+```
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
 # Create a dataset using lists of features and labels
 data_classif <- tensor_dataset(features, labels)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'features' not found
+```
+
+```r
 # Create a dataloader from the dataset
 dataloaders <- dataloader(data_classif, batch_size = 100, shuffle = TRUE)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'data_classif' not found
+```
+
+```r
 # defining the model
 model <- net |>
   setup(
@@ -246,9 +334,48 @@ model <- net |>
   fit(dataloaders, epochs = 200)
 ```
 
+```
+## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
 Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
 
-![center](/figures/torchlbdl/unnamed-chunk-10-1.png)
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'test_features' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'model' not found
+```
+
+```
+## Error in eval(ei, envir): object 'preds' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'preds' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'predicted_labels' not found
+```
+
+```
+## Error in `geom_point()`:
+## ! Problem while computing aesthetics.
+## ℹ Error occurred in the 1st layer.
+## Caused by error:
+## ! object 'predictions' not found
+```
 
 **TODO:** I have not yet figured out a way to access model activations when the model is trained with luz.
 
@@ -270,7 +397,13 @@ ds <- tensor_dataset(
     as.integer(penguins$species)
   )$to(torch_long())
 )
+```
 
+```
+## Error in torch_tensor_cpp(data, dtype, device, requires_grad, pin_memory): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
 n_class <- penguins$species |> unique() |> length() |> as.numeric()
 ```
 
@@ -297,19 +430,71 @@ mlpnet <- nn_module(
 )
 
 total_size <- length(ds)
-train_size <- floor(0.8 * total_size)
-valid_size <- total_size - train_size
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'ds' not found
+```
+
+```r
+train_size <- floor(0.8 * total_size)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'total_size' not found
+```
+
+```r
+valid_size <- total_size - train_size
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'total_size' not found
+```
+
+```r
 # Generate indices and shuffle them
 set.seed(123)  # For reproducibility
 indices <- sample(total_size)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'total_size' not found
+```
+
+```r
 train_indices <- indices[1:train_size]
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'indices' not found
+```
+
+```r
 valid_indices <- indices[(train_size + 1):total_size]
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'indices' not found
+```
+
+```r
 train_dataset <- ds[train_indices]
-valid_dataset <- ds[valid_indices]
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'ds' not found
+```
+
+```r
+valid_dataset <- ds[valid_indices]
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'ds' not found
+```
+
+```r
 fitted_mlp <- mlpnet |> 
   setup(loss = nn_cross_entropy_loss(), optimizer = optim_adam) |> 
   set_hparams(din = 4,
@@ -320,9 +505,36 @@ fitted_mlp <- mlpnet |>
   fit(train_dataset, epochs = 15, valid_data = valid_dataset)
 ```
 
+```
+## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
 Now, let us visualize the validation loss during the training process.
 
-![center](/figures/torchlbdl/unnamed-chunk-13-1.png)
+
+```
+## Error in eval(expr, envir, enclos): object 'fitted_mlp' not found
+```
+
+```
+## Error in eval(ei, envir): object 'train_loss' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fitted_mlp' not found
+```
+
+```
+## Error in eval(ei, envir): object 'valid_loss' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'train_loss' not found
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'loss_df' not found
+```
 
 #### Convolutional networks - resnets
 
@@ -336,7 +548,13 @@ library(torchvision)
 
 set.seed(777)
 torch_manual_seed(777)
+```
 
+```
+## Error in cpp_torch_manual_seed(as.character(seed)): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
 dir <- "~/.torch-datasets"
 
 train_ds <- torchvision::kmnist_dataset(train = TRUE,
@@ -433,21 +651,32 @@ fitted <- net |>
   fit(train_dl, epochs = 1)
 ```
 
+```
+## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
 Let's see how it does on the test set. 
 
 
 ```r
 model_eval <- evaluate(fitted, valid_dl)
+```
+
+```
+## Error in cpp_backends_mps_is_available(): Lantern is not loaded. Please use `install_torch()` to install additional dependencies.
+```
+
+```r
 print(model_eval)
 ```
 
 ```
-## A `luz_module_evaluation`
-## ── Results ─────────────────────────────────────────────────────────────────────
-## loss: 0.3452
-## acc: 0.899
+## Error in eval(expr, envir, enclos): object 'model_eval' not found
 ```
 
 #### Attention and transformers
 
-[TODO]
+It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
+![](attention.png).
+Instead of the paper, this part of the post is largely based on [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/), except we will use modules built into the `torch` package instead of coding attention and transformers from scratch. 
+

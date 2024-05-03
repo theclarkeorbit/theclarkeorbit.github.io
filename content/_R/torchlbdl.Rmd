@@ -567,4 +567,7 @@ print(model_eval)
 
 #### Attention and transformers
 
-[TODO]
+It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
+![](attention.png).
+Instead of the paper, this part of the post is largely based on [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/), except we will use modules built into the `torch` package instead of coding attention and transformers from scratch. 
+
