@@ -470,35 +470,4 @@ Some simple example code based on the topics mentioned in the little book of dee
 First, we want to generate some noisy images, we use the tiny imagenet dataset from the `torchvision` package.
 
 
-```r
-dir <- "~/.torch-datasets"
-
-img_ds <- tiny_imagenet_dataset(
-  dir,
-  download = TRUE,
-  transform = function(x) {
-    x %>%
-      transform_to_tensor() 
-  }
-)
-```
-
-```
-## Downloding tiny imagenet dataset!
-```
-
-```
-## Warning in utils::download.file(url, tmp, mode = "wb"): downloaded length
-## 38977536 != reported length 248100043
-```
-
-```
-## Warning in utils::download.file(url, tmp, mode = "wb"): URL
-## 'https://cs231n.stanford.edu/tiny-imagenet-200.zip': Timeout of 600 seconds was
-## reached
-```
-
-```
-## Error in utils::download.file(url, tmp, mode = "wb"): download from 'http://cs231n.stanford.edu/tiny-imagenet-200.zip' failed
-```
 

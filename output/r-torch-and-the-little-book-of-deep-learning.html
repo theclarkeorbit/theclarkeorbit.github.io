@@ -524,33 +524,6 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <p>Some simple example code based on the topics mentioned in the little book of deep learning.</p>
 <h4>Image denoising</h4>
 <p>First, we want to generate some noisy images, we use the tiny imagenet dataset from the <code>torchvision</code> package.</p>
-<div class="highlight"><pre><span></span><code><span class="n">dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;~/.torch-datasets&quot;</span>
-
-<span class="n">img_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tiny_imagenet_dataset</span><span class="p">(</span>
-<span class="w">  </span><span class="n">dir</span><span class="p">,</span>
-<span class="w">  </span><span class="n">download</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
-<span class="w">  </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">%&gt;%</span>
-<span class="w">      </span><span class="nf">transform_to_tensor</span><span class="p">()</span><span class="w"> </span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Downloding tiny imagenet dataset!
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Warning in utils::download.file(url, tmp, mode = &quot;wb&quot;): downloaded length</span>
-<span class="c1">## 38977536 != reported length 248100043</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Warning in utils::download.file(url, tmp, mode = &quot;wb&quot;): URL</span>
-<span class="c1">## &#39;https://cs231n.stanford.edu/tiny-imagenet-200.zip&#39;: Timeout of 600 seconds was</span>
-<span class="c1">## reached</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in utils::download.file(url, tmp, mode = &quot;wb&quot;): download from &#39;http://cs231n.stanford.edu/tiny-imagenet-200.zip&#39; failed</span>
-</code></pre></div>
-
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

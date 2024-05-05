@@ -628,7 +628,7 @@ Some simple example code based on the topics mentioned in the little book of dee
 
 First, we want to generate some noisy images, we use the tiny imagenet dataset from the `torchvision` package.
 
-```{r}
+```{r, include=FALSE}
 dir <- "~/.torch-datasets"
 
 img_ds <- tiny_imagenet_dataset(
