@@ -14,6 +14,7 @@ You'll need to have the book with you to understand these notes, but since it is
 ```{r setup, include=FALSE}
 library(torch)
 library(luz)
+library(torchvision)
 library(tidyverse) #Because what can one do without the tidyverse
 library(ggthemes) #for Tufte
 ```
@@ -569,22 +570,74 @@ print(model_eval)
 
 It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
 ![](attention.png).
-Instead of the paper, this part of the post is largely based on [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/), except we will use modules built into the `torch` package instead of coding attention and transformers from scratch. 
+Instead of the paper, read [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/). Transformers and Attention deserve a seperate article, but for now, it is worth mentioning that the inbuilt modules `torch::nn_embedding` and `torch::nn_multihead_attention` can be used to build out a simple transformer. Further topics mentioned in LBDL, the post above:
+1. Causal self attention (nothing to do with causality in the Judea Pearl sense, just a condition on not letting tokens later in the sequence influence tokens that came before them).
+2. Generative Pre-trained Transformer (GPT)
+3. Vision transformer
 
-```{r}
-sentence <- "Life is short, eat dessert first"
+
+
+```{r, eval=FALSE, include=FALSE, echo=FALSE}
+sentence <- "Life is short, eat dessert first - okay?"
 
 # Remove the comma and split the sentence into words
-words <- strsplit(gsub(",", "", sentence), " ")[[1]]
+words <- strsplit(str_replace_all(sentence, "[[:punct:]]", " "), " +")[[1]]
 
 # Sort the words
 sorted_words <- sort(words)
 
-# Create a named vector with indices
+# Create a named vector with indices - the dictionary
 dc <- setNames(seq_along(sorted_words), sorted_words)
 
 # Print the result
 print(dc)
 
+# Convert sentence words to indices using the dictionary
+sentence_int <- sapply(strsplit(str_replace_all("first eat short dessert", "[[:punct:]]", " "), " +")[[1]], function(x) dc[x])
+
+
+# Create a torch tensor from the indices
+sentence_tensor <- torch_tensor(sentence_int, dtype = torch_long())
+
+# Print the tensor
+print(sentence_tensor)
+
+vocab_size <- 50000
+embedding_dim <- 3
+
+# Define an embedding layer
+embed <- nn_embedding(num_embeddings = vocab_size, embedding_dim = embedding_dim)
+
+# Apply embedding to the sentence tensor
+embedded_sentence <- embed(sentence_tensor)$detach()
+
+# Print the embedded sentence and its shape
+print(embedded_sentence)
+print(dim(embedded_sentence))
+
+attention_l <- nn_multihead_attention(embed_dim = 3, num_heads = 1)
+query <- embedded_sentence$unsqueeze(2)
+attention_l(query,query,query)
+```
+
+### Applications
+
+Some simple example code based on the topics mentioned in the little book of deep learning.
+
+#### Image denoising
+
+First, we want to generate some noisy images, we use the tiny imagenet dataset from the `torchvision` package.
+
+```{r}
+dir <- "~/.torch-datasets"
+
+img_ds <- tiny_imagenet_dataset(
+  dir,
+  download = TRUE,
+  transform = function(x) {
+    x %>%
+      transform_to_tensor() 
+  }
+)
 ```
 

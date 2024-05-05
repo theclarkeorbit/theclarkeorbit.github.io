@@ -452,27 +452,53 @@ print(model_eval)
 
 It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
 ![](attention.png).
-Instead of the paper, this part of the post is largely based on [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/), except we will use modules built into the `torch` package instead of coding attention and transformers from scratch. 
+Instead of the paper, read [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/). Transformers and Attention deserve a seperate article, but for now, it is worth mentioning that the inbuilt modules `torch::nn_embedding` and `torch::nn_multihead_attention` can be used to build out a simple transformer. Further topics mentioned in LBDL, the post above:
+1. Causal self attention (nothing to do with causality in the Judea Pearl sense, just a condition on not letting tokens later in the sequence influence tokens that came before them).
+2. Generative Pre-trained Transformer (GPT)
+3. Vision transformer
+
+
+
+
+
+### Applications
+
+Some simple example code based on the topics mentioned in the little book of deep learning.
+
+#### Image denoising
+
+First, we want to generate some noisy images, we use the tiny imagenet dataset from the `torchvision` package.
 
 
 ```r
-sentence <- "Life is short, eat dessert first"
+dir <- "~/.torch-datasets"
 
-# Remove the comma and split the sentence into words
-words <- strsplit(gsub(",", "", sentence), " ")[[1]]
-
-# Sort the words
-sorted_words <- sort(words)
-
-# Create a named vector with indices
-dc <- setNames(seq_along(sorted_words), sorted_words)
-
-# Print the result
-print(dc)
+img_ds <- tiny_imagenet_dataset(
+  dir,
+  download = TRUE,
+  transform = function(x) {
+    x %>%
+      transform_to_tensor() 
+  }
+)
 ```
 
 ```
-## dessert     eat   first      is    Life   short 
-##       1       2       3       4       5       6
+## Downloding tiny imagenet dataset!
+```
+
+```
+## Warning in utils::download.file(url, tmp, mode = "wb"): downloaded length
+## 38977536 != reported length 248100043
+```
+
+```
+## Warning in utils::download.file(url, tmp, mode = "wb"): URL
+## 'https://cs231n.stanford.edu/tiny-imagenet-200.zip': Timeout of 600 seconds was
+## reached
+```
+
+```
+## Error in utils::download.file(url, tmp, mode = "wb"): download from 'http://cs231n.stanford.edu/tiny-imagenet-200.zip' failed
 ```
 
