@@ -523,7 +523,48 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <h3>Applications</h3>
 <p>Some simple example code based on the topics mentioned in the little book of deep learning.</p>
 <h4>Image denoising</h4>
-<p>First, we want to generate some noisy images, we use the tiny imagenet dataset from the <code>torchvision</code> package.</p>
+<p>First, we want to generate some noisy images, we use some sample images. First, we would like to load and see these images in memory.</p>
+<div class="highlight"><pre><span></span><code><span class="n">image_dir</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;./sample_photos/&quot;</span>
+<span class="n">image_files</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list.files</span><span class="p">(</span><span class="n">image_dir</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;\\.jpg$&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">full.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="n">images</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lapply</span><span class="p">(</span><span class="n">image_files</span><span class="p">,</span><span class="w"> </span><span class="n">image_read</span><span class="p">)</span>
+
+<span class="c1"># Determine maximum dimensions</span>
+<span class="n">max_width</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">image_info</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">$</span><span class="n">width</span><span class="p">))</span>
+<span class="n">max_height</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="nf">sapply</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="nf">image_info</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">$</span><span class="n">height</span><span class="p">))</span>
+
+<span class="c1"># Pad and resize images</span>
+<span class="n">padded_images</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lapply</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nf">image_background</span><span class="p">(</span><span class="nf">image_resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">max_height</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;!&#39;</span><span class="p">)),</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="c1"># Plot an example image</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">padded_images</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-19-1.png"></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># convert to torch tensors</span>
+<span class="n">padded_tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lapply</span><span class="p">(</span><span class="n">padded_images</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">torch</span><span class="o">::</span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">image_data</span><span class="p">(</span><span class="n">img</span><span class="p">)[,,</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">])</span>
+<span class="p">})</span>
+
+<span class="c1"># Define the dataset</span>
+<span class="n">custom_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataset</span><span class="p">(</span>
+<span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CustomTensorDataset&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tensors</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="n">.getitem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">tensors</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="n">.length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">length</span><span class="p">(</span><span class="n">self</span><span class="o">$</span><span class="n">tensors</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Create an instance of the dataset</span>
+<span class="n">image_Dataset_instance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">custom_dataset</span><span class="p">(</span><span class="n">padded_tensors</span><span class="p">)</span>
+</code></pre></div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

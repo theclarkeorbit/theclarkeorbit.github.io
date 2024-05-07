@@ -17,6 +17,9 @@ library(luz)
 library(torchvision)
 library(tidyverse) #Because what can one do without the tidyverse
 library(ggthemes) #for Tufte
+library(jpeg)
+library(magick)
+library(grid)
 ```
 
 ### Basis function regression
@@ -626,18 +629,45 @@ Some simple example code based on the topics mentioned in the little book of dee
 
 #### Image denoising
 
-First, we want to generate some noisy images, we use the tiny imagenet dataset from the `torchvision` package.
+First, we want to generate some noisy images, we use some sample images. First, we would like to load and see these images in memory.
 
-```{r, include=FALSE}
-dir <- "~/.torch-datasets"
+```{r}
+image_dir <- "./sample_photos/"
+image_files <- list.files(image_dir, pattern = "\\.jpg$", full.names = TRUE)
+images <- lapply(image_files, image_read)
 
-img_ds <- tiny_imagenet_dataset(
-  dir,
-  download = TRUE,
-  transform = function(x) {
-    x %>%
-      transform_to_tensor() 
+# Determine maximum dimensions
+max_width <- max(sapply(images, function(x) image_info(x)$width))
+max_height <- max(sapply(images, function(x) image_info(x)$height))
+
+# Pad and resize images
+padded_images <- lapply(images, function(img) {
+  image_background(image_resize(img, paste(max_width, 'x', max_height, '!')), "white")
+})
+
+# Plot an example image
+plot(padded_images[[1]])
+
+# convert to torch tensors
+padded_tensors <- lapply(padded_images, function(img) {
+  torch::torch_tensor(image_data(img)[,,1, drop = FALSE])
+})
+
+# Define the dataset
+custom_dataset <- dataset(
+  name = "CustomTensorDataset",
+  initialize = function(tensors) {
+    self$tensors <- tensors
+  },
+  .getitem = function(i) {
+    self$tensors[[i]]
+  },
+  .length = function() {
+    length(self$tensors)
   }
 )
+
+# Create an instance of the dataset
+image_Dataset_instance <- custom_dataset(padded_tensors)
 ```
 
