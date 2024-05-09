@@ -721,7 +721,7 @@ img_datlod <- dataloader(img_dat, batch_size = 1, shuffle = TRUE)
 
 Now, we will train a very simple de-noising auto-encoder and test it on a new image. It will consist of a set of encoder layers that generate a compressed representation of the images and then decoder layers that will regenrate the originals back based on the copmopressed representation. 
 
-```{r, include=FALSE, echo=TRUE}
+```{r}
 # Define the autoencoder model
 autoencoder <- nn_module(
   "DenoisingAutoencoder",
@@ -775,7 +775,7 @@ model_setup <- autoencoder |>
 # model_a$forward(noisy_padded_tensors[[1]]) |> dim()
 
 fitted_model <- model_setup |>
-  fit(data = img_datlod, epochs = 50)
+  fit(data = img_datlod, epochs = 5)
 ```
 
 

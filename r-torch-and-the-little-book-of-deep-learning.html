@@ -615,6 +615,62 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 </code></pre></div>
 
 <p>Now, we will train a very simple de-noising auto-encoder and test it on a new image. It will consist of a set of encoder layers that generate a compressed representation of the images and then decoder layers that will regenrate the originals back based on the copmopressed representation. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define the autoencoder model</span>
+<span class="n">autoencoder</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_module</span><span class="p">(</span>
+<span class="w">  </span><span class="s">&quot;DenoisingAutoencoder&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1"># Encoder layers</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">enc_conv1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">out_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">enc_relu1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_relu</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">enc_conv2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">out_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">enc_relu2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_relu</span><span class="p">()</span><span class="w"> </span>
+
+<span class="w">    </span><span class="c1"># Decoder layers</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dec_conv1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv_transpose2d</span><span class="p">(</span><span class="n">in_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="n">out_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                          </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">output_padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dec_relu1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_relu</span><span class="p">()</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dec_conv2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_conv_transpose2d</span><span class="p">(</span><span class="n">in_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">out_channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                                          </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">output_padding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">dec_sigmoid</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nn_sigmoid</span><span class="p">()</span><span class="w">  </span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1"># Encoder</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 3  939 1560</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">enc_conv1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 16 469 779</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">enc_relu1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1">#16 469 779</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">enc_conv2</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 32 234 389 </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">enc_relu2</span><span class="p">()</span><span class="w"> </span><span class="c1"># 32 234 389</span>
+<span class="w">    </span><span class="c1"># Decoder</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dec_conv1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 16 469 779</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dec_relu1</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 16 470 780</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dec_conv2</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 3  939 1559</span>
+<span class="w">      </span><span class="n">self</span><span class="o">$</span><span class="nf">dec_sigmoid</span><span class="p">()</span><span class="w"> </span><span class="c1"># 3  939 1559</span>
+<span class="w">    </span><span class="n">x</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Setup the model with luz</span>
+<span class="n">model_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">autoencoder</span><span class="p">()</span><span class="w"> </span>
+<span class="n">model_setup</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">autoencoder</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">setup</span><span class="p">(</span>
+<span class="w">    </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_mse_loss</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span><span class="p">,</span>
+<span class="w">    </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">list</span><span class="p">(</span>
+<span class="w">      </span><span class="nf">luz_metric_mse</span><span class="p">()</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="c1"># model_a$forward(noisy_padded_tensors[[1]]) |&gt; dim()</span>
+
+<span class="n">fitted_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model_setup</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">img_datlod</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span>
+</code></pre></div>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
