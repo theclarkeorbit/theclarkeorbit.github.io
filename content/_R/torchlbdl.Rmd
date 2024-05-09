@@ -645,29 +645,54 @@ padded_images <- lapply(images, function(img) {
   image_background(image_resize(img, paste(max_width, 'x', max_height, '!')), "white")
 })
 
-# Plot an example image
-plot(padded_images[[1]])
-
-# convert to torch tensors
+# Function to properly convert ImageMagick image data to a torch tensor
 padded_tensors <- lapply(padded_images, function(img) {
-  torch::torch_tensor(image_data(img)[,,1, drop = FALSE])
+  # Extract pixel data as array
+  array <- as.integer(image_data(img))
+
+  # Convert the array to a tensor and normalize it
+  tensor <- torch::torch_tensor(array, dtype = torch_float32()) / 255
+
+  # Permute dimensions to have channel as the first dimension (if needed)
+  tensor <- tensor$permute(c(3, 1, 2))
+
+  return(tensor)
 })
 
-# Define the dataset
-custom_dataset <- dataset(
-  name = "CustomTensorDataset",
-  initialize = function(tensors) {
-    self$tensors <- tensors
-  },
-  .getitem = function(i) {
-    self$tensors[[i]]
-  },
-  .length = function() {
-    length(self$tensors)
-  }
-)
 
-# Create an instance of the dataset
-image_Dataset_instance <- custom_dataset(padded_tensors)
+# Function to add random noise to an image tensor
+add_noise_to_image <- function(image_tensor, noise_level = 0.1) {
+  # Generate noise
+  noise <- torch_rand_like(image_tensor) * noise_level
+  
+  # Add noise to the image
+  noisy_image <- image_tensor + noise
+  
+  # Ensure the noisy image is still within the valid range [0, 1] if normalized or [0, 255] if not
+  # Assuming the image tensor is normalized between 0 and 1
+  # noisy_image <- torch_clamp(noisy_image, min = 0, max = 1)
+  
+  return(noisy_image)
+}
+
+# Function to display a torch tensor as an image using magick
+plot_tensor_as_image <- function(tensor) {
+  tensor |> as.array() |> aperm(c(2,3,1)) |> magick::image_read() -> imgg
+  imgg |> plot()
+  # return(imgg)
+}
+
+
+# Plot the first tensor
+plot_tensor_as_image(padded_tensors[[1]])
+
+
+padded_tensors[[1]] |> 
+  add_noise_to_image(noise_level = 0.5) -> nimgg
+plot_tensor_as_image(nimgg)
+
+
+# Now we will construct a datsdet of noisy images
+
 ```
 

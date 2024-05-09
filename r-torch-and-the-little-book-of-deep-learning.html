@@ -537,32 +537,56 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <span class="w">  </span><span class="nf">image_background</span><span class="p">(</span><span class="nf">image_resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="n">max_width</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;x&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">max_height</span><span class="p">,</span><span class="w"> </span><span class="s">&#39;!&#39;</span><span class="p">)),</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">)</span>
 <span class="p">})</span>
 
-<span class="c1"># Plot an example image</span>
-<span class="nf">plot</span><span class="p">(</span><span class="n">padded_images</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
+<span class="c1"># Function to properly convert ImageMagick image data to a torch tensor</span>
+<span class="n">padded_tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lapply</span><span class="p">(</span><span class="n">padded_images</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># Extract pixel data as array</span>
+<span class="w">  </span><span class="n">array</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="nf">image_data</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+<span class="w">  </span><span class="c1"># Convert the array to a tensor and normalize it</span>
+<span class="w">  </span><span class="n">tensor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torch</span><span class="o">::</span><span class="nf">torch_tensor</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">torch_float32</span><span class="p">())</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">255</span>
+
+<span class="w">  </span><span class="c1"># Permute dimensions to have channel as the first dimension (if needed)</span>
+<span class="w">  </span><span class="n">tensor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tensor</span><span class="o">$</span><span class="nf">permute</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span>
+
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+<span class="p">})</span>
+
+
+<span class="c1"># Function to add random noise to an image tensor</span>
+<span class="n">add_noise_to_image</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">image_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">noise_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1"># Generate noise</span>
+<span class="w">  </span><span class="n">noise</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_rand_like</span><span class="p">(</span><span class="n">image_tensor</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">noise_level</span>
+
+<span class="w">  </span><span class="c1"># Add noise to the image</span>
+<span class="w">  </span><span class="n">noisy_image</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">image_tensor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span>
+
+<span class="w">  </span><span class="c1"># Ensure the noisy image is still within the valid range [0, 1] if normalized or [0, 255] if not</span>
+<span class="w">  </span><span class="c1"># Assuming the image tensor is normalized between 0 and 1</span>
+<span class="w">  </span><span class="c1"># noisy_image &lt;- torch_clamp(noisy_image, min = 0, max = 1)</span>
+
+<span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Function to display a torch tensor as an image using magick</span>
+<span class="n">plot_tensor_as_image</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">tensor</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as.array</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">aperm</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">magick</span><span class="o">::</span><span class="nf">image_read</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">imgg</span>
+<span class="w">  </span><span class="n">imgg</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">plot</span><span class="p">()</span>
+<span class="w">  </span><span class="c1"># return(imgg)</span>
+<span class="p">}</span>
+
+
+<span class="c1"># Plot the first tensor</span>
+<span class="nf">plot_tensor_as_image</span><span class="p">(</span><span class="n">padded_tensors</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
 </code></pre></div>
 
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-19-1.png"></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># convert to torch tensors</span>
-<span class="n">padded_tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lapply</span><span class="p">(</span><span class="n">padded_images</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="n">torch</span><span class="o">::</span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">image_data</span><span class="p">(</span><span class="n">img</span><span class="p">)[,,</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">drop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">])</span>
-<span class="p">})</span>
+<div class="highlight"><pre><span></span><code><span class="n">padded_tensors</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="n">noise_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">nimgg</span>
+<span class="nf">plot_tensor_as_image</span><span class="p">(</span><span class="n">nimgg</span><span class="p">)</span>
+</code></pre></div>
 
-<span class="c1"># Define the dataset</span>
-<span class="n">custom_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataset</span><span class="p">(</span>
-<span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CustomTensorDataset&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tensors</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="n">.getitem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">tensors</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="n">.length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nf">length</span><span class="p">(</span><span class="n">self</span><span class="o">$</span><span class="n">tensors</span><span class="p">)</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">)</span>
-
-<span class="c1"># Create an instance of the dataset</span>
-<span class="n">image_Dataset_instance</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">custom_dataset</span><span class="p">(</span><span class="n">padded_tensors</span><span class="p">)</span>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-19-2.png"></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Now we will construct a datsdet of noisy images</span>
 </code></pre></div>
 
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
