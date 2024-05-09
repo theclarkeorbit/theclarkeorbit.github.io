@@ -537,6 +537,37 @@ plot_tensor_as_image(nimgg)
 ![center](/figures/torchlbdl/unnamed-chunk-19-2.png)
 
 ```r
-# Now we will construct a datsdet of noisy images
+noisy_padded_tensors <- sapply(X = padded_tensors, FUN = add_noise_to_image, noise_level = 0.5)
+
+# Now we will construct a dataset where the noisy images are inputs and the clean images are outputs.
+
+# # Define the dataset
+paired_dataset <- dataset(
+  name = "PairedTensorDataset",
+  initialize = function(inputs, targets) {
+    self$x <- inputs
+    self$y <- targets
+  },
+
+  .getitem = function(i) {
+    list(input = self$x[[i]], target = self$y[[i]])
+  },
+
+  .length = function() {
+    length(self$x)
+  }
+)
+
+# Create an instance of the dataset
+img_dat <- paired_dataset(noisy_padded_tensors, padded_tensors)
+
+# Create a DataLoader
+img_datlod <- dataloader(img_dat, batch_size = 1, shuffle = TRUE)
 ```
+
+Now, we will train a very simple de-noising auto-encoder and test it on a new image. It will consist of a set of encoder layers that generate a compressed representation of the images and then decoder layers that will regenrate the originals back based on the copmopressed representation. 
+
+
+
+
 

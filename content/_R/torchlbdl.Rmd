@@ -691,8 +691,92 @@ padded_tensors[[1]] |>
   add_noise_to_image(noise_level = 0.5) -> nimgg
 plot_tensor_as_image(nimgg)
 
+noisy_padded_tensors <- sapply(X = padded_tensors, FUN = add_noise_to_image, noise_level = 0.5)
 
-# Now we will construct a datsdet of noisy images
+# Now we will construct a dataset where the noisy images are inputs and the clean images are outputs.
 
+# # Define the dataset
+paired_dataset <- dataset(
+  name = "PairedTensorDataset",
+  initialize = function(inputs, targets) {
+    self$x <- inputs
+    self$y <- targets
+  },
+
+  .getitem = function(i) {
+    list(input = self$x[[i]], target = self$y[[i]])
+  },
+
+  .length = function() {
+    length(self$x)
+  }
+)
+
+# Create an instance of the dataset
+img_dat <- paired_dataset(noisy_padded_tensors, padded_tensors)
+
+# Create a DataLoader
+img_datlod <- dataloader(img_dat, batch_size = 1, shuffle = TRUE)
 ```
+
+Now, we will train a very simple de-noising auto-encoder and test it on a new image. It will consist of a set of encoder layers that generate a compressed representation of the images and then decoder layers that will regenrate the originals back based on the copmopressed representation. 
+
+```{r, include=FALSE, echo=TRUE}
+# Define the autoencoder model
+autoencoder <- nn_module(
+  "DenoisingAutoencoder",
+  initialize = function() {
+    # Encoder layers
+    self$enc_conv1 <- nn_conv2d(in_channels = 3, out_channels = 16, 
+                                kernel_size = 3, stride = 1, padding = 0) 
+    self$enc_relu1 <- nn_relu() 
+    self$enc_conv2 <- nn_conv2d(in_channels = 16, out_channels = 32, 
+                                kernel_size = 3, stride = 1, padding = 0)
+    self$enc_relu2 <- nn_relu() 
+    
+    # Decoder layers
+    self$dec_conv1 <- nn_conv_transpose2d(in_channels = 32, out_channels = 16, 
+                                          kernel_size = 3, stride = 1, padding = 0, output_padding = 0)
+    self$dec_relu1 <- nn_relu()
+    self$dec_conv2 <- nn_conv_transpose2d(in_channels = 16, out_channels = 3, 
+                                          kernel_size = 3, stride = 1, padding = 0, output_padding = 0)
+    self$dec_sigmoid <- nn_sigmoid()  
+  },
+  
+  forward = function(x) {
+    # Encoder
+    x <- x |> # 3  939 1560
+      self$enc_conv1() |> # 16 469 779
+      self$enc_relu1() |> #16 469 779
+      self$enc_conv2() |> # 32 234 389 
+      self$enc_relu2() # 32 234 389
+    # Decoder
+    x <- x |> 
+      self$dec_conv1() |> # 16 469 779
+      self$dec_relu1() |> # 16 470 780
+      self$dec_conv2() |> # 3  939 1559
+      self$dec_sigmoid() # 3  939 1559
+    x
+  }
+)
+
+
+# Setup the model with luz
+model_a <- autoencoder() 
+model_setup <- autoencoder |> 
+  setup(
+    loss = nn_mse_loss(),
+    optimizer = optim_adam,
+    metrics = list(
+      luz_metric_mse()
+    )
+  )
+
+# model_a$forward(noisy_padded_tensors[[1]]) |> dim()
+
+fitted_model <- model_setup |>
+  fit(data = img_datlod, epochs = 50)
+```
+
+
 

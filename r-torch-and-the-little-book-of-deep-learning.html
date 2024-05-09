@@ -586,9 +586,35 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 </code></pre></div>
 
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-19-2.png"></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Now we will construct a datsdet of noisy images</span>
+<div class="highlight"><pre><span></span><code><span class="n">noisy_padded_tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sapply</span><span class="p">(</span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padded_tensors</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_noise_to_image</span><span class="p">,</span><span class="w"> </span><span class="n">noise_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+
+<span class="c1"># Now we will construct a dataset where the noisy images are inputs and the clean images are outputs.</span>
+
+<span class="c1"># # Define the dataset</span>
+<span class="n">paired_dataset</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataset</span><span class="p">(</span>
+<span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;PairedTensorDataset&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="n">initialize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span><span class="w"> </span><span class="n">targets</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">inputs</span>
+<span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">targets</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="n">.getitem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">list</span><span class="p">(</span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="n">x</span><span class="p">[[</span><span class="n">i</span><span class="p">]],</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="n">y</span><span class="p">[[</span><span class="n">i</span><span class="p">]])</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="n">.length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">length</span><span class="p">(</span><span class="n">self</span><span class="o">$</span><span class="n">x</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Create an instance of the dataset</span>
+<span class="n">img_dat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">paired_dataset</span><span class="p">(</span><span class="n">noisy_padded_tensors</span><span class="p">,</span><span class="w"> </span><span class="n">padded_tensors</span><span class="p">)</span>
+
+<span class="c1"># Create a DataLoader</span>
+<span class="n">img_datlod</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataloader</span><span class="p">(</span><span class="n">img_dat</span><span class="p">,</span><span class="w"> </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">shuffle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
 </code></pre></div>
 
+<p>Now, we will train a very simple de-noising auto-encoder and test it on a new image. It will consist of a set of encoder layers that generate a compressed representation of the images and then decoder layers that will regenrate the originals back based on the copmopressed representation. </p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
