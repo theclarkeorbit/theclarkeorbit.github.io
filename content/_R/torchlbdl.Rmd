@@ -800,7 +800,7 @@ model_setup <- autoencoder |>
 #     return(min(subset_df$lr))
 # }
 # print(return_max_lr(rates_and_losses, 0.05))
-max_lr <- 0.002 # return_max_lr(rates_and_losses, 0.05)
+max_lr <- 0.0075 # return_max_lr(rates_and_losses, 0.05)
 
 num_epochs <- 100
 
