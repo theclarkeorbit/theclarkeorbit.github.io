@@ -247,6 +247,43 @@ model <- net |>
 
 Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
 
+
+```r
+# Number of points per class
+n_points <- 50
+
+# Generate data for both classes
+test_data_class_1 <- generate_c_data(n_points, x_offset = 0, 
+                                y_offset = 0, y_scale = 1, label = 1,
+                                xflipaxis = F)
+test_data_class_0 <- generate_c_data(n_points, x_offset = 1.25, 
+                                y_offset = -1.0, y_scale = -1, label = 2,
+                                xflipaxis = T)  # Mirrored and adjusted
+# Combine data
+test_data <- rbind(test_data_class_0, test_data_class_1)
+
+# Convert the features and labels into tensors
+test_features <- torch_tensor(as.matrix(test_data[c("x", "y")]))
+test_labels <- torch_tensor(as.integer(test_data$label))
+
+# Create a dataset using lists of features and labels
+test_data_classif <- tensor_dataset(test_features, test_labels)
+
+preds <- predict(model, test_data_classif) |> 
+  as.matrix()
+colnames(preds) <- c("1","2")
+
+predicted_labels <- apply(preds, 1, which.max)
+test_data$predictions <- predicted_labels
+
+# Plotting the data
+ggplot(test_data, aes(x, y, color = as.factor(label), shape = as.factor(predictions))) +
+  geom_point(alpha = 0.7, size = 3) +
+  theme(element_text(size = 30)) +
+  labs(title = "Test data", x = "X axis", y = "Y axis") +
+  theme_tufte()
+```
+
 ![center](/figures/torchlbdl/unnamed-chunk-10-1.png)
 
 
@@ -351,6 +388,29 @@ fitted_mlp <- mlpnet |>
 ```
 
 Now, let us visualize the validation loss during the training process.
+
+
+```r
+fitted_mlp$records$metrics$train |> 
+  unlist() |> 
+  as_tibble()-> train_loss
+colnames(train_loss) <- c("training_loss")
+fitted_mlp$records$metrics$valid |> 
+  unlist() |> 
+  as_tibble()-> valid_loss
+colnames(valid_loss) <- c("validation_loss")
+
+loss_df <- cbind(train_loss, valid_loss) |> 
+  mutate(epoch = seq(1,nrow(train_loss))) |> 
+  pivot_longer(cols = c(training_loss, validation_loss),
+               names_to = "loss_type",
+               values_to = "loss")
+ggplot(loss_df, aes(x = epoch, y = loss, colour = loss_type)) +
+  geom_line() +
+  theme(element_text(size = 30)) +
+  theme_tufte() +
+  labs(title = "Losses on the training and validation sets") 
+```
 
 ![center](/figures/torchlbdl/unnamed-chunk-14-1.png)
 
@@ -481,7 +541,9 @@ print(model_eval)
 #### Attention and transformers
 
 It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
-![](attention.png).
+
+![](attention.png)
+
 Instead of the paper, read [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/). Transformers and Attention deserve a seperate article, but for now, it is worth mentioning that the inbuilt modules `torch::nn_embedding` and `torch::nn_multihead_attention` can be used to build out a simple transformer. Further topics mentioned in LBDL, the post above:
 1. Causal self attention (nothing to do with causality in the Judea Pearl sense, just a condition on not letting tokens later in the sequence influence tokens that came before them).
 2. Generative Pre-trained Transformer (GPT)

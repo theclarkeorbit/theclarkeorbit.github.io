@@ -130,7 +130,7 @@ When the model is too small to capture the features of the data (in our case, to
 n <- 50
 
 # Randomly distributed x values from -1 to 1
-set.seed(123) # for reproducibility
+# set.seed(123) # for reproducibility
 x <- runif(n, min = -1, max = 1)
 x <- sort(x) # Sorting for plotting purposes
 
@@ -319,7 +319,7 @@ model <- net |>
 
 Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
 
-```{r, echo=FALSE}
+```{r}
 # Number of points per class
 n_points <- 50
 
@@ -453,7 +453,7 @@ fitted_mlp <- mlpnet |>
 
 Now, let us visualize the validation loss during the training process.
 
-```{r, echo=FALSE}
+```{r}
 fitted_mlp$records$metrics$train |> 
   unlist() |> 
   as_tibble()-> train_loss
@@ -591,7 +591,9 @@ print(model_eval)
 #### Attention and transformers
 
 It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
-![](attention.png).
+
+![](attention.png)
+
 Instead of the paper, read [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/). Transformers and Attention deserve a seperate article, but for now, it is worth mentioning that the inbuilt modules `torch::nn_embedding` and `torch::nn_multihead_attention` can be used to build out a simple transformer. Further topics mentioned in LBDL, the post above:
 1. Causal self attention (nothing to do with causality in the Judea Pearl sense, just a condition on not letting tokens later in the sequence influence tokens that came before them).
 2. Generative Pre-trained Transformer (GPT)
