@@ -744,7 +744,7 @@ When there is too little data to properly constrain the parameters of a larger m
 
 <span class="c1"># Use the inbuilt learning rate finder</span>
 <span class="n">rates_and_losses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model_setup</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">lr_finder</span><span class="p">(</span><span class="n">img_datlod</span><span class="p">,</span><span class="w"> </span><span class="n">start_lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">end_lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">lr_finder</span><span class="p">(</span><span class="n">img_datlod</span><span class="p">,</span><span class="w"> </span><span class="n">start_lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">,</span><span class="w"> </span><span class="n">end_lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.03</span><span class="p">)</span>
 <span class="c1"># rates_and_losses |&gt; plot()</span>
 
 <span class="n">return_max_lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">ral</span><span class="p">,</span><span class="w"> </span><span class="n">threshfrac</span><span class="p">){</span>
@@ -758,7 +758,7 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="nf">print</span><span class="p">(</span><span class="nf">return_max_lr</span><span class="p">(</span><span class="n">rates_and_losses</span><span class="p">,</span><span class="w"> </span><span class="m">0.05</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## [1] 0.0446615
+<div class="highlight"><pre><span></span><code>## [1] 0.01068138
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">max_lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">return_max_lr</span><span class="p">(</span><span class="n">rates_and_losses</span><span class="p">,</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span>
