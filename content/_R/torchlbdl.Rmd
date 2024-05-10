@@ -314,7 +314,7 @@ model <- net |>
     loss = nn_cross_entropy_loss(),
     optimizer = optim_adam
   ) |>
-  fit(dataloaders, epochs = 200)
+  fit(dataloaders, epochs = 50)
 ```
 
 Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
@@ -355,7 +355,32 @@ ggplot(test_data, aes(x, y, color = as.factor(label), shape = as.factor(predicti
   theme_tufte()
 ```
 
-**TODO:** I have not yet figured out a way to access model activations when the model is trained with luz.
+
+The activations for the forward model are stored in `model$model$activations`.
+
+```{r}
+plots <- list()
+test_data$label <- test_data$label |> as.factor()
+plots[[1]] <- ggplot(test_data) +
+  geom_point(aes(x, y, colour = label), alpha = 0.5) +
+  labs(title = "Original", x = "X", y = "Y") +
+  theme_tufte()
+
+# do a forward pass on the points
+Y_temp <- model$model$forward(test_features) 
+
+num_layers <- model$model$activations |> length()
+for (i in 1:num_layers) {
+  df_temp <- model$model$activations[[i]] |> as.matrix() |> as_tibble()
+  df_temp$label <- test_data$label
+  plots[[i+1]] <- ggplot(df_temp) +
+    geom_point(aes(x = V1, y = V2, colour = label), alpha = 0.5) +
+    labs(title = paste("Layer ", i), x = "X", y = "Y") +
+    theme_tufte()
+}
+patchwork::wrap_plots(plots, ncol = 3)
+```
+We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.
 
 
 ### Architectures

@@ -336,12 +336,46 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">    </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">nn_cross_entropy_loss</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">optim_adam</span>
 <span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">200</span><span class="p">)</span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">dataloaders</span><span class="p">,</span><span class="w"> </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. </p>
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-10-1.png"></p>
-<p><strong>TODO:</strong> I have not yet figured out a way to access model activations when the model is trained with luz.</p>
+<p>The activations for the forward model are stored in <code>model$model$activations</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">plots</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span>
+<span class="n">test_data</span><span class="o">$</span><span class="n">label</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test_data</span><span class="o">$</span><span class="n">label</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">()</span>
+<span class="n">plots</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Original&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+
+<span class="c1"># do a forward pass on the points</span>
+<span class="n">Y_temp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model</span><span class="o">$</span><span class="n">model</span><span class="o">$</span><span class="nf">forward</span><span class="p">(</span><span class="n">test_features</span><span class="p">)</span><span class="w"> </span>
+
+<span class="n">num_layers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model</span><span class="o">$</span><span class="n">model</span><span class="o">$</span><span class="n">activations</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">length</span><span class="p">()</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">num_layers</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="n">df_temp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model</span><span class="o">$</span><span class="n">model</span><span class="o">$</span><span class="n">activations</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as_tibble</span><span class="p">()</span>
+<span class="w">  </span><span class="n">df_temp</span><span class="o">$</span><span class="n">label</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">test_data</span><span class="o">$</span><span class="n">label</span>
+<span class="w">  </span><span class="n">plots</span><span class="p">[[</span><span class="n">i</span><span class="m">+1</span><span class="p">]]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">ggplot</span><span class="p">(</span><span class="n">df_temp</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V1</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V2</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;Layer &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nf">theme_tufte</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if</span>
+<span class="c1">## `.name_repair` is omitted as of tibble 2.0.0.</span>
+<span class="c1">## ℹ Using compatibility `.name_repair`.</span>
+<span class="c1">## This warning is displayed once every 8 hours.</span>
+<span class="c1">## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span>
+<span class="c1">## generated.</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">patchwork</span><span class="o">::</span><span class="nf">wrap_plots</span><span class="p">(</span><span class="n">plots</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-11-1.png">
+We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.</p>
 <h3>Architectures</h3>
 <h4>Multi Layer Perceptrons</h4>
 <p>This is a neural net that has a series of fully connected layers seperated by activations. We will illustrate an MLP using the Penguins dataset, where we try to predict the species of a penguin from some features. Example adapted from the excellent Deep Learning with R Torch <a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/">book</a>. </p>
@@ -402,7 +436,7 @@ When there is too little data to properly constrain the parameters of a larger m
 </code></pre></div>
 
 <p>Now, let us visualize the validation loss during the training process.</p>
-<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-13-1.png"></p>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-14-1.png"></p>
 <h4>Convolutional networks - resnets</h4>
 <p>Images are usually dealt with by convolutional networks - they reduce the signal size until fully connected layers can handle it, or they output 2D signals which are themselves large. Residual networks involve an architecture where signal is taken from one layer and added to a later layer. </p>
 <p>We will build a very simple resnet for the task of image classification, example loosely based on the DL+SC with R torch <a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/image_classification_1.html">book</a>.</p>
@@ -574,13 +608,13 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <span class="nf">plot_tensor_as_image</span><span class="p">(</span><span class="n">padded_tensors</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-19-1.png"></p>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-20-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="n">padded_tensors</span><span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="n">noise_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">nimgg</span>
 <span class="nf">plot_tensor_as_image</span><span class="p">(</span><span class="n">nimgg</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-19-2.png"></p>
+<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-20-2.png"></p>
 <div class="highlight"><pre><span></span><code><span class="n">noisy_padded_tensors</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sapply</span><span class="p">(</span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">padded_tensors</span><span class="p">,</span><span class="w"> </span><span class="n">FUN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">add_noise_to_image</span><span class="p">,</span><span class="w"> </span><span class="n">noise_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
 
 <span class="c1"># Now we will construct a dataset where the noisy images are inputs and the clean images are outputs.</span>

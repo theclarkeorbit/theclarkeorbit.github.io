@@ -242,14 +242,54 @@ model <- net |>
     loss = nn_cross_entropy_loss(),
     optimizer = optim_adam
   ) |>
-  fit(dataloaders, epochs = 200)
+  fit(dataloaders, epochs = 50)
 ```
 
 Now, let us see (visually) how well the model predicts some new synthetic data generated similarly. 
 
 ![center](/figures/torchlbdl/unnamed-chunk-10-1.png)
 
-**TODO:** I have not yet figured out a way to access model activations when the model is trained with luz.
+
+The activations for the forward model are stored in `model$model$activations`.
+
+
+```r
+plots <- list()
+test_data$label <- test_data$label |> as.factor()
+plots[[1]] <- ggplot(test_data) +
+  geom_point(aes(x, y, colour = label), alpha = 0.5) +
+  labs(title = "Original", x = "X", y = "Y") +
+  theme_tufte()
+
+# do a forward pass on the points
+Y_temp <- model$model$forward(test_features) 
+
+num_layers <- model$model$activations |> length()
+for (i in 1:num_layers) {
+  df_temp <- model$model$activations[[i]] |> as.matrix() |> as_tibble()
+  df_temp$label <- test_data$label
+  plots[[i+1]] <- ggplot(df_temp) +
+    geom_point(aes(x = V1, y = V2, colour = label), alpha = 0.5) +
+    labs(title = paste("Layer ", i), x = "X", y = "Y") +
+    theme_tufte()
+}
+```
+
+```
+## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if
+## `.name_repair` is omitted as of tibble 2.0.0.
+## ℹ Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```r
+patchwork::wrap_plots(plots, ncol = 3)
+```
+
+![center](/figures/torchlbdl/unnamed-chunk-11-1.png)
+We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.
 
 
 ### Architectures
@@ -321,7 +361,7 @@ fitted_mlp <- mlpnet |>
 
 Now, let us visualize the validation loss during the training process.
 
-![center](/figures/torchlbdl/unnamed-chunk-13-1.png)
+![center](/figures/torchlbdl/unnamed-chunk-14-1.png)
 
 #### Convolutional networks - resnets
 
@@ -521,7 +561,7 @@ plot_tensor_as_image <- function(tensor) {
 plot_tensor_as_image(padded_tensors[[1]])
 ```
 
-![center](/figures/torchlbdl/unnamed-chunk-19-1.png)
+![center](/figures/torchlbdl/unnamed-chunk-20-1.png)
 
 ```r
 padded_tensors[[1]] |> 
@@ -529,7 +569,7 @@ padded_tensors[[1]] |>
 plot_tensor_as_image(nimgg)
 ```
 
-![center](/figures/torchlbdl/unnamed-chunk-19-2.png)
+![center](/figures/torchlbdl/unnamed-chunk-20-2.png)
 
 ```r
 noisy_padded_tensors <- sapply(X = padded_tensors, FUN = add_noise_to_image, noise_level = 0.5)
