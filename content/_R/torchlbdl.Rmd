@@ -20,6 +20,7 @@ library(ggthemes) #for Tufte
 library(jpeg)
 library(magick)
 library(grid)
+set.seed(123)
 ```
 
 ### Basis function regression
@@ -179,7 +180,6 @@ When there is too little data to properly constrain the parameters of a larger m
 n <- 5
 
 # Randomly distributed x values from -1 to 1
-set.seed(123) # for reproducibility
 x <- runif(n, min = -1, max = 1)
 x <- sort(x) # Sorting for plotting purposes
 
@@ -788,7 +788,7 @@ model_setup <- autoencoder |>
 
 # Use the inbuilt learning rate finder
 rates_and_losses <- model_setup |> 
-    lr_finder(img_datlod, start_lr = 0.01, end_lr = 0.03)
+    lr_finder(img_datlod, start_lr = 0.0001, end_lr = 0.03)
 # rates_and_losses |> plot()
 
 return_max_lr <- function(ral, threshfrac){
@@ -802,7 +802,7 @@ return_max_lr <- function(ral, threshfrac){
 print(return_max_lr(rates_and_losses, 0.05))
 max_lr <- return_max_lr(rates_and_losses, 0.05)
 
-num_epochs <- 50
+num_epochs <- 100
 
 # fit the model and stop when improvements stop
 fitted_model <- model_setup |> 

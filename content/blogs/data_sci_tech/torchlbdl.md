@@ -711,7 +711,7 @@ model_setup <- autoencoder |>
 
 # Use the inbuilt learning rate finder
 rates_and_losses <- model_setup |> 
-    lr_finder(img_datlod, start_lr = 0.01, end_lr = 0.03)
+    lr_finder(img_datlod, start_lr = 0.0001, end_lr = 0.03)
 # rates_and_losses |> plot()
 
 return_max_lr <- function(ral, threshfrac){
@@ -726,13 +726,13 @@ print(return_max_lr(rates_and_losses, 0.05))
 ```
 
 ```
-## [1] 0.01068138
+## [1] 0.01795479
 ```
 
 ```r
 max_lr <- return_max_lr(rates_and_losses, 0.05)
 
-num_epochs <- 50
+num_epochs <- 100
 
 # fit the model and stop when improvements stop
 fitted_model <- model_setup |> 
