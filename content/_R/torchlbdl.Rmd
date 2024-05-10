@@ -827,7 +827,7 @@ fitted_model <- model_setup |>
 ```
 Now, let us see how the model does on the test photos. First, let us get the test images and add noise to them.
 
-```{r}
+```{r,fig.asp=1}
 test_image_dir <- "./test_photos/"
 test_image_files <- list.files(test_image_dir, pattern = "\\.jpg$", full.names = TRUE)
 test_images <- lapply(test_image_files, image_read)
@@ -858,5 +858,6 @@ test_img_datlod <- dataloader(test_img_dat, batch_size = 1, shuffle = TRUE)
 fitted_model$model$forward(test_padded_tensors[[img_num]]) -> clean_test_nimgg
 plot_tensor_as_image(clean_test_nimgg)
 ```
+
 
 

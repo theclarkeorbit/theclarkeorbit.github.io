@@ -801,3 +801,4 @@ plot_tensor_as_image(clean_test_nimgg)
 ![center](/figures/torchlbdl/unnamed-chunk-23-3.png)
 
 
+
