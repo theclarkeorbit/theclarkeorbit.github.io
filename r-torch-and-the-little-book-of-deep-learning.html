@@ -743,25 +743,20 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">  </span><span class="p">)</span>
 
 <span class="c1"># Use the inbuilt learning rate finder</span>
-<span class="n">rates_and_losses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model_setup</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">lr_finder</span><span class="p">(</span><span class="n">img_datlod</span><span class="p">,</span><span class="w"> </span><span class="n">start_lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0001</span><span class="p">,</span><span class="w"> </span><span class="n">end_lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.03</span><span class="p">)</span>
+<span class="c1"># rates_and_losses &lt;- model_setup |&gt; </span>
+<span class="c1">#     lr_finder(img_datlod, start_lr = 0.0001, end_lr = 0.03)</span>
 <span class="c1"># rates_and_losses |&gt; plot()</span>
 
-<span class="n">return_max_lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">ral</span><span class="p">,</span><span class="w"> </span><span class="n">threshfrac</span><span class="p">){</span>
-<span class="w">    </span><span class="n">min_loss</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ral</span><span class="o">$</span><span class="n">loss</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">min</span><span class="p">()</span>
-<span class="w">    </span><span class="n">thresh</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">min_loss</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">threshfrac</span>
-<span class="w">    </span><span class="n">min_range</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">min_loss</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">thresh</span>
-<span class="w">    </span><span class="n">max_range</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">min_loss</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">thresh</span>
-<span class="w">    </span><span class="n">subset_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ral</span><span class="p">[</span><span class="n">ral</span><span class="o">$</span><span class="n">loss</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">min_range</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">ral</span><span class="o">$</span><span class="n">loss</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">max_range</span><span class="p">,</span><span class="w"> </span><span class="p">]</span>
-<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="nf">min</span><span class="p">(</span><span class="n">subset_df</span><span class="o">$</span><span class="n">lr</span><span class="p">))</span>
-<span class="p">}</span>
-<span class="nf">print</span><span class="p">(</span><span class="nf">return_max_lr</span><span class="p">(</span><span class="n">rates_and_losses</span><span class="p">,</span><span class="w"> </span><span class="m">0.05</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## [1] 0.01795479
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">max_lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">return_max_lr</span><span class="p">(</span><span class="n">rates_and_losses</span><span class="p">,</span><span class="w"> </span><span class="m">0.05</span><span class="p">)</span>
+<span class="c1"># return_max_lr &lt;- function(ral, threshfrac){</span>
+<span class="c1">#     min_loss &lt;- ral$loss |&gt; min()</span>
+<span class="c1">#     thresh &lt;- min_loss * threshfrac</span>
+<span class="c1">#     min_range &lt;- min_loss - thresh</span>
+<span class="c1">#     max_range &lt;- min_loss + thresh</span>
+<span class="c1">#     subset_df &lt;- ral[ral$loss &gt;= min_range &amp; ral$loss &lt;= max_range, ]</span>
+<span class="c1">#     return(min(subset_df$lr))</span>
+<span class="c1"># }</span>
+<span class="c1"># print(return_max_lr(rates_and_losses, 0.05))</span>
+<span class="n">max_lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.002</span><span class="w"> </span><span class="c1"># return_max_lr(rates_and_losses, 0.05)</span>
 
 <span class="n">num_epochs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
 

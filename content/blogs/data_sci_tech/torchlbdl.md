@@ -710,27 +710,20 @@ model_setup <- autoencoder |>
   )
 
 # Use the inbuilt learning rate finder
-rates_and_losses <- model_setup |> 
-    lr_finder(img_datlod, start_lr = 0.0001, end_lr = 0.03)
+# rates_and_losses <- model_setup |> 
+#     lr_finder(img_datlod, start_lr = 0.0001, end_lr = 0.03)
 # rates_and_losses |> plot()
 
-return_max_lr <- function(ral, threshfrac){
-    min_loss <- ral$loss |> min()
-    thresh <- min_loss * threshfrac
-    min_range <- min_loss - thresh
-    max_range <- min_loss + thresh
-    subset_df <- ral[ral$loss >= min_range & ral$loss <= max_range, ]
-    return(min(subset_df$lr))
-}
-print(return_max_lr(rates_and_losses, 0.05))
-```
-
-```
-## [1] 0.01795479
-```
-
-```r
-max_lr <- return_max_lr(rates_and_losses, 0.05)
+# return_max_lr <- function(ral, threshfrac){
+#     min_loss <- ral$loss |> min()
+#     thresh <- min_loss * threshfrac
+#     min_range <- min_loss - thresh
+#     max_range <- min_loss + thresh
+#     subset_df <- ral[ral$loss >= min_range & ral$loss <= max_range, ]
+#     return(min(subset_df$lr))
+# }
+# print(return_max_lr(rates_and_losses, 0.05))
+max_lr <- 0.002 # return_max_lr(rates_and_losses, 0.05)
 
 num_epochs <- 100
 
