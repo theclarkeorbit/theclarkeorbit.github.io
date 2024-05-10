@@ -288,7 +288,11 @@ for (i in 1:num_layers) {
 patchwork::wrap_plots(plots, ncol = 3)
 ```
 
-![center](/figures/torchlbdl/unnamed-chunk-11-1.png)
+<div class="figure">
+<img src="/figures/torchlbdl/unnamed-chunk-11-1.png" alt="center" width="10" height="10" />
+<p class="caption">center</p>
+</div>
+
 We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.
 
 

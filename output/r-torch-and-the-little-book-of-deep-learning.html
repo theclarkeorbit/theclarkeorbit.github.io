@@ -374,8 +374,12 @@ When there is too little data to properly constrain the parameters of a larger m
 <div class="highlight"><pre><span></span><code><span class="n">patchwork</span><span class="o">::</span><span class="nf">wrap_plots</span><span class="p">(</span><span class="n">plots</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-11-1.png">
-We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.</p>
+<div class="figure">
+<img src="/figures/torchlbdl/unnamed-chunk-11-1.png" alt="center" width="10" height="10" />
+<p class="caption">center</p>
+</div>
+
+<p>We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.</p>
 <h3>Architectures</h3>
 <h4>Multi Layer Perceptrons</h4>
 <p>This is a neural net that has a series of fully connected layers seperated by activations. We will illustrate an MLP using the Penguins dataset, where we try to predict the species of a penguin from some features. Example adapted from the excellent Deep Learning with R Torch <a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/">book</a>. </p>
