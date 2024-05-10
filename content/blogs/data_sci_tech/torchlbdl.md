@@ -378,7 +378,7 @@ train_ds <- torchvision::kmnist_dataset(train = TRUE,
   }
 )
 
-valid_ds <- torchvision::mnist_dataset(train = FALSE,
+valid_ds <- torchvision::kmnist_dataset(train = FALSE,
   dir,
   transform = function(x) {
     x |>

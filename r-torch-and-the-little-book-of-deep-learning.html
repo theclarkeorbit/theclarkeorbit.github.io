@@ -448,7 +448,7 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">  </span><span class="p">}</span>
 <span class="p">)</span>
 
-<span class="n">valid_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">mnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="n">valid_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">kmnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
 <span class="w">  </span><span class="n">dir</span><span class="p">,</span>
 <span class="w">  </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span>
