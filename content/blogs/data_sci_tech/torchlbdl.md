@@ -226,7 +226,6 @@ net <- nn_module(
   }
 )
 
-
 # Convert the features and labels into tensors
 features <- torch_tensor(as.matrix(data[c("x", "y")]))
 labels <- torch_tensor(as.integer(data$label))
@@ -503,14 +502,11 @@ padded_tensors <- lapply(padded_images, function(img) {
 add_noise_to_image <- function(image_tensor, noise_level = 0.1) {
   # Generate noise
   noise <- torch_rand_like(image_tensor) * noise_level
-  
   # Add noise to the image
   noisy_image <- image_tensor + noise
-  
   # Ensure the noisy image is still within the valid range [0, 1] if normalized or [0, 255] if not
   # Assuming the image tensor is normalized between 0 and 1
   # noisy_image <- torch_clamp(noisy_image, min = 0, max = 1)
-  
   return(noisy_image)
 }
 
@@ -520,7 +516,6 @@ plot_tensor_as_image <- function(tensor) {
   imgg |> plot()
   # return(imgg)
 }
-
 
 # Plot the first tensor
 plot_tensor_as_image(padded_tensors[[1]])
@@ -548,11 +543,9 @@ paired_dataset <- dataset(
     self$x <- inputs
     self$y <- targets
   },
-
   .getitem = function(i) {
     list(input = self$x[[i]], target = self$y[[i]])
   },
-
   .length = function() {
     length(self$x)
   }
@@ -606,7 +599,6 @@ autoencoder <- nn_module(
     x
   }
 )
-
 
 # Setup the model with luz
 model_a <- autoencoder() 

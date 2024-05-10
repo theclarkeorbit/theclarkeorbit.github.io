@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-05-09T21:18:26+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"R, Torch, and the little book of deep learning"</title><link href="https://theclarkeorbit.github.io/r-torch-and-the-little-book-of-deep-learning.html" rel="alternate"></link><published>2024-04-29T00:00:00+02:00</published><updated>2024-05-09T21:18:26+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-04-29:/r-torch-and-the-little-book-of-deep-learning.html</id><summary type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-05-10T18:21:02+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"R, Torch, and the little book of deep learning"</title><link href="https://theclarkeorbit.github.io/r-torch-and-the-little-book-of-deep-learning.html" rel="alternate"></link><published>2024-04-29T00:00:00+02:00</published><updated>2024-05-10T18:21:02+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-04-29:/r-torch-and-the-little-book-of-deep-learning.html</id><summary type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
 &lt;p&gt;You'll need to have the book with you to understand these notes, but …&lt;/p&gt;</summary><content type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
 &lt;p&gt;You'll need to have the book with you to understand these notes, but since it is available freely, that ought not to be an issue.&lt;/p&gt;
 &lt;h3&gt;Basis function regression&lt;/h3&gt;
@@ -182,7 +182,6 @@ When there is too little data to properly constrain the parameters of a larger m
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
-
 
 &lt;span class="c1"&gt;# Convert the features and labels into tensors&lt;/span&gt;
 &lt;span class="n"&gt;features&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;torch_tensor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;as.matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)]))&lt;/span&gt;
@@ -419,14 +418,11 @@ Instead of the paper, read &lt;a href="https://magazine.sebastianraschka.com/p/u
 &lt;span class="n"&gt;add_noise_to_image&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_tensor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;noise_level&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Generate noise&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;noise&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;torch_rand_like&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image_tensor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;noise_level&lt;/span&gt;
-
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Add noise to the image&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;noisy_image&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;image_tensor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;noise&lt;/span&gt;
-
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Ensure the noisy image is still within the valid range [0, 1] if normalized or [0, 255] if not&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# Assuming the image tensor is normalized between 0 and 1&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# noisy_image &amp;lt;- torch_clamp(noisy_image, min = 0, max = 1)&lt;/span&gt;
-
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;noisy_image&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 
@@ -436,7 +432,6 @@ Instead of the paper, read &lt;a href="https://magazine.sebastianraschka.com/p/u
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;imgg&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# return(imgg)&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
-
 
 &lt;span class="c1"&gt;# Plot the first tensor&lt;/span&gt;
 &lt;span class="nf"&gt;plot_tensor_as_image&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;padded_tensors&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
@@ -460,11 +455,9 @@ Instead of the paper, read &lt;a href="https://magazine.sebastianraschka.com/p/u
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;inputs&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;targets&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
-
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;.getitem&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nf"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
-
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;.length&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nf"&gt;length&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
@@ -515,7 +508,6 @@ Instead of the paper, read &lt;a href="https://magazine.sebastianraschka.com/p/u
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
-
 
 &lt;span class="c1"&gt;# Setup the model with luz&lt;/span&gt;
 &lt;span class="n"&gt;model_a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;autoencoder&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;

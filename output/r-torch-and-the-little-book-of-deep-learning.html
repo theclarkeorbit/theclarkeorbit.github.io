@@ -320,7 +320,6 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">  </span><span class="p">}</span>
 <span class="p">)</span>
 
-
 <span class="c1"># Convert the features and labels into tensors</span>
 <span class="n">features</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">)]))</span>
 <span class="n">labels</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_tensor</span><span class="p">(</span><span class="nf">as.integer</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">label</span><span class="p">))</span>
@@ -556,14 +555,11 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <span class="n">add_noise_to_image</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">image_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">noise_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="c1"># Generate noise</span>
 <span class="w">  </span><span class="n">noise</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">torch_rand_like</span><span class="p">(</span><span class="n">image_tensor</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">noise_level</span>
-
 <span class="w">  </span><span class="c1"># Add noise to the image</span>
 <span class="w">  </span><span class="n">noisy_image</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">image_tensor</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span>
-
 <span class="w">  </span><span class="c1"># Ensure the noisy image is still within the valid range [0, 1] if normalized or [0, 255] if not</span>
 <span class="w">  </span><span class="c1"># Assuming the image tensor is normalized between 0 and 1</span>
 <span class="w">  </span><span class="c1"># noisy_image &lt;- torch_clamp(noisy_image, min = 0, max = 1)</span>
-
 <span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">)</span>
 <span class="p">}</span>
 
@@ -573,7 +569,6 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <span class="w">  </span><span class="n">imgg</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">plot</span><span class="p">()</span>
 <span class="w">  </span><span class="c1"># return(imgg)</span>
 <span class="p">}</span>
-
 
 <span class="c1"># Plot the first tensor</span>
 <span class="nf">plot_tensor_as_image</span><span class="p">(</span><span class="n">padded_tensors</span><span class="p">[[</span><span class="m">1</span><span class="p">]])</span>
@@ -597,11 +592,9 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">inputs</span>
 <span class="w">    </span><span class="n">self</span><span class="o">$</span><span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">targets</span>
 <span class="w">  </span><span class="p">},</span>
-
 <span class="w">  </span><span class="n">.getitem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nf">list</span><span class="p">(</span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="n">x</span><span class="p">[[</span><span class="n">i</span><span class="p">]],</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">$</span><span class="n">y</span><span class="p">[[</span><span class="n">i</span><span class="p">]])</span>
 <span class="w">  </span><span class="p">},</span>
-
 <span class="w">  </span><span class="n">.length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nf">length</span><span class="p">(</span><span class="n">self</span><span class="o">$</span><span class="n">x</span><span class="p">)</span>
 <span class="w">  </span><span class="p">}</span>
@@ -652,7 +645,6 @@ Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/unde
 <span class="w">    </span><span class="n">x</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">)</span>
-
 
 <span class="c1"># Setup the model with luz</span>
 <span class="n">model_a</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">autoencoder</span><span class="p">()</span><span class="w"> </span>

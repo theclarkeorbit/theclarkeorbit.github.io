@@ -120,7 +120,6 @@ ggplot() +
   theme(element_text(size = 30)) +
   ggtitle("Original and Fitted Semi-Circle, 50 points and 10 weights, basis functions") +
   theme_tufte()
-
 ```
 
 **Underfitting** 
@@ -140,7 +139,6 @@ y <- sqrt(1 - x^2)
 
 # Plotting the original semi-circle with randomly distributed x
 data <- data.frame(x = x, y = y)
-
 centers <- seq(-1, 1, length.out = 5)
 
 # Initial random weights
@@ -149,12 +147,9 @@ weightss <- torch_randn(length(centers), requires_grad = TRUE)
 # Gradient descent loop
 for (epoch in 1:5000) {
   y_pred <- model_y(x)
-  
   op <- nnf_mse_loss(y_pred, torch_tensor(y))
-  
   # Backpropagation
   op$backward()
-  
   # Update weights
   with_no_grad({
     weightss$sub_(lr * weightss$grad)
@@ -193,7 +188,6 @@ y <- sqrt(1 - x^2)
 
 # Plotting the original semi-circle with randomly distributed x
 data <- data.frame(x = x, y = y)
-
 centers <- seq(-1, 1, length.out = 10)
 
 # Initial random weights
@@ -202,9 +196,8 @@ weightss <- torch_randn(length(centers), requires_grad = TRUE)
 # Gradient descent loop
 for (epoch in 1:5000) {
   y_pred <- model_y(x)
-  
   op <- nnf_mse_loss(y_pred, torch_tensor(y))
-  
+
   # Backpropagation
   op$backward()
   
@@ -234,7 +227,6 @@ ggplot() +
 Let us generate data that looks similar to that shown in section 3.5 of the book. 
 
 ```{r}
-
 # Function to generate C-shaped data
 generate_c_data <- function(n, x_offset, y_offset, y_scale, label, xflipaxis) {
   theta <- runif(n, pi/2, 3*pi/2)  # Angle for C shape
@@ -305,7 +297,6 @@ net <- nn_module(
     x
   }
 )
-
 
 # Convert the features and labels into tensors
 features <- torch_tensor(as.matrix(data[c("x", "y")]))
@@ -596,8 +587,8 @@ dc <- setNames(seq_along(sorted_words), sorted_words)
 print(dc)
 
 # Convert sentence words to indices using the dictionary
-sentence_int <- sapply(strsplit(str_replace_all("first eat short dessert", "[[:punct:]]", " "), " +")[[1]], function(x) dc[x])
-
+sentence_int <- sapply(strsplit(str_replace_all("first eat short dessert", "[[:punct:]]", " "), " +")[[1]], 
+                       function(x) dc[x])
 
 # Create a torch tensor from the indices
 sentence_tensor <- torch_tensor(sentence_int, dtype = torch_long())
@@ -664,14 +655,11 @@ padded_tensors <- lapply(padded_images, function(img) {
 add_noise_to_image <- function(image_tensor, noise_level = 0.1) {
   # Generate noise
   noise <- torch_rand_like(image_tensor) * noise_level
-  
   # Add noise to the image
   noisy_image <- image_tensor + noise
-  
   # Ensure the noisy image is still within the valid range [0, 1] if normalized or [0, 255] if not
   # Assuming the image tensor is normalized between 0 and 1
   # noisy_image <- torch_clamp(noisy_image, min = 0, max = 1)
-  
   return(noisy_image)
 }
 
@@ -682,10 +670,8 @@ plot_tensor_as_image <- function(tensor) {
   # return(imgg)
 }
 
-
 # Plot the first tensor
 plot_tensor_as_image(padded_tensors[[1]])
-
 
 padded_tensors[[1]] |> 
   add_noise_to_image(noise_level = 0.5) -> nimgg
@@ -702,11 +688,9 @@ paired_dataset <- dataset(
     self$x <- inputs
     self$y <- targets
   },
-
   .getitem = function(i) {
     list(input = self$x[[i]], target = self$y[[i]])
   },
-
   .length = function() {
     length(self$x)
   }
@@ -759,7 +743,6 @@ autoencoder <- nn_module(
     x
   }
 )
-
 
 # Setup the model with luz
 model_a <- autoencoder() 
