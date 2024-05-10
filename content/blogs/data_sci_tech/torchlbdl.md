@@ -273,23 +273,11 @@ for (i in 1:num_layers) {
     labs(title = paste("Layer ", i), x = "X", y = "Y") +
     theme_tufte()
 }
-```
-
-```
-## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if
-## `.name_repair` is omitted as of tibble 2.0.0.
-## ℹ Using compatibility `.name_repair`.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
-```
-
-```r
 patchwork::wrap_plots(plots, ncol = 3)
 ```
 
 <div class="figure">
-<img src="/figures/torchlbdl/unnamed-chunk-11-1.png" alt="center" width="10" height="10" />
+<img src="/figures/torchlbdl/unnamed-chunk-11-1.png" alt="center" width="3" height="3" />
 <p class="caption">center</p>
 </div>
 

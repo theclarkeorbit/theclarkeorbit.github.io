@@ -358,7 +358,7 @@ ggplot(test_data, aes(x, y, color = as.factor(label), shape = as.factor(predicti
 
 The activations for the forward model are stored in `model$model$activations`.
 
-```{r, out.height=10, out.width=10}
+```{r, out.height=3, out.width=3, warning=FALSE}
 plots <- list()
 test_data$label <- test_data$label |> as.factor()
 plots[[1]] <- ggplot(test_data) +
