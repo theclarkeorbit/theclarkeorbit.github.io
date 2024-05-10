@@ -358,12 +358,13 @@ ggplot(test_data, aes(x, y, color = as.factor(label), shape = as.factor(predicti
 
 The activations for the forward model are stored in `model$model$activations`.
 
-```{r, out.height=3, out.width=3, warning=FALSE}
+```{r, warning=FALSE}
 plots <- list()
 test_data$label <- test_data$label |> as.factor()
 plots[[1]] <- ggplot(test_data) +
   geom_point(aes(x, y, colour = label), alpha = 0.5) +
   labs(title = "Original", x = "X", y = "Y") +
+  theme(aspect.ratio = 1) +
   theme_tufte()
 
 # do a forward pass on the points
@@ -376,6 +377,7 @@ for (i in 1:num_layers) {
   plots[[i+1]] <- ggplot(df_temp) +
     geom_point(aes(x = V1, y = V2, colour = label), alpha = 0.5) +
     labs(title = paste("Layer ", i), x = "X", y = "Y") +
+    theme(aspect.ratio = 1) +
     theme_tufte()
 }
 patchwork::wrap_plots(plots, ncol = 3)

@@ -259,6 +259,7 @@ test_data$label <- test_data$label |> as.factor()
 plots[[1]] <- ggplot(test_data) +
   geom_point(aes(x, y, colour = label), alpha = 0.5) +
   labs(title = "Original", x = "X", y = "Y") +
+  theme(aspect.ratio = 1) +
   theme_tufte()
 
 # do a forward pass on the points
@@ -271,15 +272,13 @@ for (i in 1:num_layers) {
   plots[[i+1]] <- ggplot(df_temp) +
     geom_point(aes(x = V1, y = V2, colour = label), alpha = 0.5) +
     labs(title = paste("Layer ", i), x = "X", y = "Y") +
+    theme(aspect.ratio = 1) +
     theme_tufte()
 }
 patchwork::wrap_plots(plots, ncol = 3)
 ```
 
-<div class="figure">
-<img src="/figures/torchlbdl/unnamed-chunk-11-1.png" alt="center" width="3" height="3" />
-<p class="caption">center</p>
-</div>
+![center](/figures/torchlbdl/unnamed-chunk-11-1.png)
 
 We can see how the linear layers modify space so that the points which are initially in interlocking C shapes become spatially seperated each subsequent layer.
 
