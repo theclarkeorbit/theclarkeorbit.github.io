@@ -654,7 +654,7 @@ Some simple example code based on the topics mentioned in the little book of dee
 
 First, we want to generate some noisy images, we use some sample images. First, we would like to load and see these images in memory.
 
-```{r}
+```{r, fig.asp=1}
 image_dir <- "./sample_photos/"
 image_files <- list.files(image_dir, pattern = "\\.jpg$", full.names = TRUE)
 images <- lapply(image_files, image_read)
@@ -672,13 +672,10 @@ padded_images <- lapply(images, function(img) {
 padded_tensors <- lapply(padded_images, function(img) {
   # Extract pixel data as array
   array <- as.integer(image_data(img))
-
   # Convert the array to a tensor and normalize it
   tensor <- torch::torch_tensor(array, dtype = torch_float32()) / 255
-
   # Permute dimensions to have channel as the first dimension (if needed)
   tensor <- tensor$permute(c(3, 1, 2))
-
   return(tensor)
 })
 
@@ -703,9 +700,9 @@ plot_tensor_as_image <- function(tensor) {
 }
 
 # Plot the first tensor
-plot_tensor_as_image(padded_tensors[[1]])
+plot_tensor_as_image(padded_tensors[[4]])
 
-padded_tensors[[1]] |> 
+padded_tensors[[4]] |> 
   add_noise_to_image(noise_level = 0.5) -> nimgg
 plot_tensor_as_image(nimgg)
 
@@ -743,41 +740,43 @@ autoencoder <- nn_module(
   "DenoisingAutoencoder",
   initialize = function() {
     # Encoder layers
-    self$enc_conv1 <- nn_conv2d(in_channels = 3, out_channels = 16, 
-                                kernel_size = 3, stride = 1, padding = 0) 
+    self$enc_conv1 <- nn_conv2d(in_channels = 3, out_channels = 4, 
+                                kernel_size = 7, stride = 1, padding = 0) 
     self$enc_relu1 <- nn_relu() 
-    self$enc_conv2 <- nn_conv2d(in_channels = 16, out_channels = 32, 
-                                kernel_size = 3, stride = 1, padding = 0)
+    self$enc_conv2 <- nn_conv2d(in_channels = 4, out_channels = 2, 
+                                kernel_size = 7, stride = 1, padding = 0)
     self$enc_relu2 <- nn_relu() 
     
     # Decoder layers
-    self$dec_conv1 <- nn_conv_transpose2d(in_channels = 32, out_channels = 16, 
-                                          kernel_size = 3, stride = 1, padding = 0, output_padding = 0)
+    self$dec_conv1 <- nn_conv_transpose2d(in_channels = 2, out_channels = 4, 
+                                          kernel_size = 7, stride = 1, padding = 0, output_padding = 0)
     self$dec_relu1 <- nn_relu()
-    self$dec_conv2 <- nn_conv_transpose2d(in_channels = 16, out_channels = 3, 
-                                          kernel_size = 3, stride = 1, padding = 0, output_padding = 0)
+    self$dec_conv2 <- nn_conv_transpose2d(in_channels = 4, out_channels = 3, 
+                                          kernel_size = 7, stride = 1, padding = 0, output_padding = 0)
     self$dec_sigmoid <- nn_sigmoid()  
   },
   
   forward = function(x) {
     # Encoder
-    x <- x |> # 3  939 1560
-      self$enc_conv1() |> # 16 469 779
-      self$enc_relu1() |> #16 469 779
-      self$enc_conv2() |> # 32 234 389 
-      self$enc_relu2() # 32 234 389
+    x <- x |> # 3 1536 1560
+      self$enc_conv1() |> # 4 1530 1554
+      self$enc_relu1() |> # 4 1530 1554
+      self$enc_conv2() |> # 2 1524 1548
+      self$enc_relu2() # 2 1524 1548
     # Decoder
-    x <- x |> 
-      self$dec_conv1() |> # 16 469 779
-      self$dec_relu1() |> # 16 470 780
-      self$dec_conv2() |> # 3  939 1559
-      self$dec_sigmoid() # 3  939 1559
+    x <- x |>
+      self$dec_conv1() |> # 4 1530 1554
+      self$dec_relu1() |> # 4 1530 1554
+      self$dec_conv2() |> # 3 1536 1560
+      self$dec_sigmoid() # 3 1536 1560
     x
   }
 )
 
-# Setup the model with luz
 model_a <- autoencoder() 
+model_a$forward(noisy_padded_tensors[[1]]) |> dim()
+
+# Setup the model with luz
 model_setup <- autoencoder |> 
   setup(
     loss = nn_mse_loss(),
@@ -787,11 +786,76 @@ model_setup <- autoencoder |>
     )
   )
 
-# model_a$forward(noisy_padded_tensors[[1]]) |> dim()
+# Use the inbuilt learning rate finder
+rates_and_losses <- model_setup |> 
+    lr_finder(img_datlod, start_lr = 0.0001, end_lr = 0.3)
+# rates_and_losses |> plot()
 
-fitted_model <- model_setup |>
-  fit(data = img_datlod, epochs = 5)
+return_max_lr <- function(ral, threshfrac){
+    min_loss <- ral$loss |> min()
+    thresh <- min_loss * threshfrac
+    min_range <- min_loss - thresh
+    max_range <- min_loss + thresh
+    subset_df <- ral[ral$loss >= min_range & ral$loss <= max_range, ]
+    return(min(subset_df$lr))
+}
+print(return_max_lr(rates_and_losses, 0.05))
+max_lr <- return_max_lr(rates_and_losses, 0.05)
+
+num_epochs <- 50
+
+# fit the model and stop when improvements stop
+fitted_model <- model_setup |> 
+    fit(img_datlod, epoch = num_epochs, 
+        valid_data = img_datlod,
+        callbacks = list(
+            luz_callback_early_stopping(
+                monitor = "valid_loss",
+                patience = 5,  # Number of epochs with no improvement after which training will be stopped
+                min_delta = 0.001,  # Minimum change to qualify as an improvement
+                mode = "min"  # 'min' mode means training will stop when the quantity monitored has stopped decreasing
+                ),
+            luz_callback_lr_scheduler(
+                lr_one_cycle,
+                max_lr = max_lr,
+                epochs = num_epochs,
+                steps_per_epoch = length(train_dl),
+                call_on = "on_batch_end"
+            )
+            )
+        )
 ```
+Now, let us see how the model does on the test photos. First, let us get the test images and add noise to them.
 
+```{r}
+test_image_dir <- "./test_photos/"
+test_image_files <- list.files(test_image_dir, pattern = "\\.jpg$", full.names = TRUE)
+test_images <- lapply(test_image_files, image_read)
+test_padded_images <- lapply(test_images, function(img) {
+  image_background(image_resize(img, paste(max_width, 'x', max_height, '!')), "white")
+})
+test_padded_tensors <- lapply(test_padded_images, function(img) {
+  # Extract pixel data as array
+  array <- as.integer(image_data(img))
+  # Convert the array to a tensor and normalize it
+  tensor <- torch::torch_tensor(array, dtype = torch_float32()) / 255
+  # Permute dimensions to have channel as the first dimension (if needed)
+  tensor <- tensor$permute(c(3, 1, 2))
+  return(tensor)
+})
+img_num <- 3
+plot_tensor_as_image(test_padded_tensors[[img_num]])
+
+test_noisy_padded_tensors <- sapply(X = test_padded_tensors, FUN = add_noise_to_image, noise_level = 0.5)
+
+test_padded_tensors[[img_num]] |> 
+  add_noise_to_image(noise_level = 0.5) -> test_nimgg
+plot_tensor_as_image(test_nimgg)
+
+test_img_dat <- paired_dataset(test_noisy_padded_tensors, test_padded_tensors)
+test_img_datlod <- dataloader(test_img_dat, batch_size = 1, shuffle = TRUE)
+
+fitted_model$model$forward(test_padded_tensors[[img_num]]) |> plot_tensor_as_image()
+```
 
 
