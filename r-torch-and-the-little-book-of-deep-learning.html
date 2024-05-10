@@ -596,7 +596,11 @@ When there is too little data to properly constrain the parameters of a larger m
 
 <h4>Attention and transformers</h4>
 <p>It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" <a href="https://arxiv.org/abs/1706.03762">paper</a>. </p>
-<p><img alt="" src="attention.png"></p>
+<div class="figure">
+<img src="/attention.png" alt="center" width="100%" />
+<p class="caption">center</p>
+</div>
+
 <p>Instead of the paper, read <a href="https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention">this</a> excellent article by <a href="https://sebastianraschka.com/">Sebastian Raschka</a>. Transformers and Attention deserve a seperate article, but for now, it is worth mentioning that the inbuilt modules <code>torch::nn_embedding</code> and <code>torch::nn_multihead_attention</code> can be used to build out a simple transformer. Further topics mentioned in LBDL, the post above:
 1. Causal self attention (nothing to do with causality in the Judea Pearl sense, just a condition on not letting tokens later in the sequence influence tokens that came before them).
 2. Generative Pre-trained Transformer (GPT)
