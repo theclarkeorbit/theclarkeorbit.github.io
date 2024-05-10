@@ -542,10 +542,7 @@ print(model_eval)
 
 It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
 
-<div class="figure">
-<img src="/attention.png" alt="center" width="100%" />
-<p class="caption">center</p>
-</div>
+![center](/attention.png)
 
 Instead of the paper, read [this](https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention) excellent article by [Sebastian Raschka](https://sebastianraschka.com/). Transformers and Attention deserve a seperate article, but for now, it is worth mentioning that the inbuilt modules `torch::nn_embedding` and `torch::nn_multihead_attention` can be used to build out a simple transformer. Further topics mentioned in LBDL, the post above:
 1. Causal self attention (nothing to do with causality in the Judea Pearl sense, just a condition on not letting tokens later in the sequence influence tokens that came before them).
@@ -617,7 +614,7 @@ plot_tensor_as_image <- function(tensor) {
 plot_tensor_as_image(padded_tensors[[1]])
 ```
 
-![center](/figures/torchlbdl/unnamed-chunk-20-1.png)
+![center](/figures/torchlbdl/unnamed-chunk-21-1.png)
 
 ```r
 padded_tensors[[1]] |> 
@@ -625,7 +622,7 @@ padded_tensors[[1]] |>
 plot_tensor_as_image(nimgg)
 ```
 
-![center](/figures/torchlbdl/unnamed-chunk-20-2.png)
+![center](/figures/torchlbdl/unnamed-chunk-21-2.png)
 
 ```r
 noisy_padded_tensors <- sapply(X = padded_tensors, FUN = add_noise_to_image, noise_level = 0.5)

@@ -592,7 +592,7 @@ print(model_eval)
 
 It seems to be a rule that any text on the internet mentioning these words must have this graphic from the original "Attention is all you need" [paper](https://arxiv.org/abs/1706.03762). 
 
-```{r pressure, echo=FALSE, out.width = '100%'}
+```{r, echo=FALSE}
 knitr::include_graphics("attention.png")
 ```
 
