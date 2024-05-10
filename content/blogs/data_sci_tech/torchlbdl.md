@@ -794,7 +794,8 @@ plot_tensor_as_image(test_nimgg)
 test_img_dat <- paired_dataset(test_noisy_padded_tensors, test_padded_tensors)
 test_img_datlod <- dataloader(test_img_dat, batch_size = 1, shuffle = TRUE)
 
-fitted_model$model$forward(test_padded_tensors[[img_num]]) |> plot_tensor_as_image()
+fitted_model$model$forward(test_padded_tensors[[img_num]]) -> clean_test_nimgg
+plot_tensor_as_image(clean_test_nimgg)
 ```
 
 ![center](/figures/torchlbdl/unnamed-chunk-23-3.png)
