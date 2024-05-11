@@ -858,6 +858,6 @@ test_img_datlod <- dataloader(test_img_dat, batch_size = 1, shuffle = TRUE)
 fitted_model$model$forward(test_padded_tensors[[img_num]]) -> clean_test_nimgg
 plot_tensor_as_image(clean_test_nimgg)
 ```
-
+Even this small network trained on just 10 images is able to denoise fairly well.
 
 
