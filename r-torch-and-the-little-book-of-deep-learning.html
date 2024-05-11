@@ -819,18 +819,22 @@ When there is too little data to properly constrain the parameters of a larger m
 </code></pre></div>
 
 <p><img alt="center" src="/figures/torchlbdl/unnamed-chunk-23-3.png"></p>
-<p>Even this small network trained on just 10 images is able to de-noise fairly well. Flavours of convolutional networks are used for some of the other applications mentioned in the book like:
-1. Object detection
-2. Semantic segmentation</p>
+<p>Even this small network trained on just 10 images is able to de-noise fairly well. Flavours of convolutional networks are used for some of the other applications mentioned in the book like:  </p>
+<ol>
+<li>Object detection  </li>
+<li>Semantic segmentation  </li>
+</ol>
 <p>On the other hand, encoder-decoder type architectures are used for applications like speech to text and image to text, where the encoder generates a representation of the speech or the image, and the decoder samples from text based on this representation after being trained. </p>
 <p>Reinforcement learning algorithms train to maximize future reward by optimising a policy for choosing actions in the current state, under the markov assumption. The setup requires an "environemnt" that defines the states, rewards and actions possible in each state. </p>
 <p>Diffusion based image generation is wild - first take images and slowly add noise until it is close to a simple normal or other analytical distribution, the image is gone. Train on these sequences and teach the network to de-noise, which means the network hallycinates images out of white noise. To have text influenced de-noising, try to decrease the distance between the text given and estimated image description by adding a bias to the denoising process. </p>
-<p>Not covered in LBDL: 
-1. <a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/time_series.html">RNNs</a>
-2. <a href="https://mlverse.github.io/torchbook_materials/gans.html">GANs</a> [TODO: this repo seems archived, so the code needs to be verified]
-3. <a href="https://mlverse.github.io/torchbook_materials/vaes.html">VAEs</a> [TODO: this repo seems archived, so the code needs to be verified]
-4. <a href="https://lightning.ai/docs/pytorch/stable/notebooks/course_UvA-DL/06-graph-neural-networks.html">GNNs</a>
-5. <a href="https://www.ibm.com/topics/self-supervised-learning">Self supervised learning</a></p>
+<p>Not covered in LBDL:  </p>
+<ol>
+<li><a href="https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/time_series.html">RNNs</a>  </li>
+<li><a href="https://mlverse.github.io/torchbook_materials/gans.html">GANs</a> [TODO: this repo seems archived, so the code needs to be verified]  </li>
+<li><a href="https://mlverse.github.io/torchbook_materials/vaes.html">VAEs</a> [TODO: this repo seems archived, so the code needs to be verified]  </li>
+<li><a href="https://lightning.ai/docs/pytorch/stable/notebooks/course_UvA-DL/06-graph-neural-networks.html">GNNs</a>  </li>
+<li><a href="https://www.ibm.com/topics/self-supervised-learning">Self supervised learning</a>  </li>
+</ol>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
