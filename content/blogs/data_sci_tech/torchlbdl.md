@@ -792,6 +792,21 @@ plot_tensor_as_image(clean_test_nimgg)
 ```
 
 ![center](/figures/torchlbdl/unnamed-chunk-23-3.png)
-Even this small network trained on just 10 images is able to denoise fairly well.
+Even this small network trained on just 10 images is able to de-noise fairly well. Flavours of convolutional networks are used for some of the other applications mentioned in the book like:
+1. Object detection
+2. Semantic segmentation
+
+On the other hand, encoder-decoder type architectures are used for applications like speech to text and image to text, where the encoder generates a representation of the speech or the image, and the decoder samples from text based on this representation after being trained. 
+
+Reinforcement learning algorithms train to maximize future reward by optimising a policy for choosing actions in the current state, under the markov assumption. The setup requires an "environemnt" that defines the states, rewards and actions possible in each state. 
+
+Diffusion based image generation is wild - first take images and slowly add noise until it is close to a simple normal or other analytical distribution, the image is gone. Train on these sequences and teach the network to de-noise, which means the network hallycinates images out of white noise. To have text influenced de-noising, try to decrease the distance between the text given and estimated image description by adding a bias to the denoising process. 
+
+Not covered in LBDL: 
+1. [RNNs](https://skeydan.github.io/Deep-Learning-and-Scientific-Computing-with-R-torch/time_series.html)
+2. [GANs](https://mlverse.github.io/torchbook_materials/gans.html) [TODO: this repo seems archived, so the code needs to be verified]
+3. [VAEs](https://mlverse.github.io/torchbook_materials/vaes.html) [TODO: this repo seems archived, so the code needs to be verified]
+4. [GNNs](https://lightning.ai/docs/pytorch/stable/notebooks/course_UvA-DL/06-graph-neural-networks.html)
+5. [Self supervised learning](https://www.ibm.com/topics/self-supervised-learning)
 
 
