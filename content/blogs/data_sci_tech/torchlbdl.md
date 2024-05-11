@@ -792,6 +792,7 @@ plot_tensor_as_image(clean_test_nimgg)
 ```
 
 ![center](/figures/torchlbdl/unnamed-chunk-23-3.png)
+
 Even this small network trained on just 10 images is able to de-noise fairly well. Flavours of convolutional networks are used for some of the other applications mentioned in the book like:
 1. Object detection
 2. Semantic segmentation
