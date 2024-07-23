@@ -6,7 +6,7 @@ output:
     df_print: paged
 ---
 
-```{r setup}
+```{r setup, include=FALSE, warning=FALSE}
 library(tidymodels)
 library(WDI)
 library(tidyverse)
@@ -39,7 +39,7 @@ We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/in
 ```
 Let us glance at the 4 files of data we have here:
 
-```{r}
+```{r, include=FALSE, warning=FALSE}
 read_csv("~/.datasets/india_trade_data/2010_2021_HS2_export.csv") -> df_hs2_exp
 read_csv("~/.datasets/india_trade_data/2010_2021_HS2_import.csv") -> df_hs2_imp
 read_csv("~/.datasets/india_trade_data/2018-2010_export.csv") -> df_exp
