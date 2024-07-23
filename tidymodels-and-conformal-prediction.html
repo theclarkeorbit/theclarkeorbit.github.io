@@ -232,21 +232,49 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country          year trade_direction  value      gdp population</span>
-<span class="c1">##    &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Greece           2015 export           336.   1.96e11   10820883</span>
-<span class="c1">##  2 Gabon            2016 import            69.5  1.40e10    2086206</span>
-<span class="c1">##  3 Tanzania         2012 import           753.   3.97e10   47786137</span>
-<span class="c1">##  4 Italy            2010 import          4256.   2.14e12   59277417</span>
-<span class="c1">##  5 Ireland          2012 export           387.   2.25e11    4599533</span>
-<span class="c1">##  6 Finland          2011 export           314.   2.76e11    5388272</span>
-<span class="c1">##  7 North Macedonia  2017 export            17.4  1.13e10    1898657</span>
-<span class="c1">##  8 Cuba             2021 import             1   NA         11256372</span>
-<span class="c1">##  9 Fiji             2015 export            44.1  4.68e 9     917200</span>
-<span class="c1">## 10 Greece           2020 import           143.   1.88e11   10698599</span>
+<span class="c1">##    country               year trade_direction    value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Cameroon              2010 import            138.   2.75e10   19878036</span>
+<span class="c1">##  2 Eritrea               2010 export             24.5  1.59e 9    3147727</span>
+<span class="c1">##  3 Belarus               2011 export            122.   6.18e10    9461643</span>
+<span class="c1">##  4 United Arab Emirates  2016 import          21510.   3.69e11    8994263</span>
+<span class="c1">##  5 New Zealand           2019 import            522.   2.13e11    4979200</span>
+<span class="c1">##  6 Palau                 2010 import              0.01 1.88e 8      18540</span>
+<span class="c1">##  7 Japan                 2020 import          10925.   5.06e12  126261000</span>
+<span class="c1">##  8 Honduras              2011 export             91.6  1.77e10    8622504</span>
+<span class="c1">##  9 Israel                2017 export           3364.   3.58e11    8713300</span>
+<span class="c1">## 10 Algeria               2011 import           2111.   2.18e11   36543541</span>
 </code></pre></div>
 
+<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">50</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_x_log10</span><span class="p">()</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-3-1.png"></p>
 <h3>Tidy modeling in R</h3>
+<p>Since the quantitative columns like <code>value</code>, <code>gdp</code> and <code>population</code> vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="w"> </span><span class="n">gdp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">gdp</span><span class="p">),</span><span class="w"> </span><span class="n">population</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">population</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_modeling</span>
+</code></pre></div>
+
+<p>Now we split the data into training and test using built in functions from the <code>rsample</code> package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. </p>
+<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+
+<span class="n">trade_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">(</span><span class="n">df_modeling</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="n">trade_split</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## &lt;Training/Validation/Testing/Total&gt;
+## &lt;2856/952/952/4760&gt;
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">train_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">training</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
+<span class="n">val_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">validation</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
+<span class="n">test_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
+</code></pre></div>
             </div>
             <!-- /.entry-content -->
         </article>

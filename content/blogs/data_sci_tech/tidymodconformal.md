@@ -124,20 +124,58 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country          year trade_direction  value      gdp population
-##    <chr>           <int> <chr>            <dbl>    <dbl>      <dbl>
-##  1 Greece           2015 export           336.   1.96e11   10820883
-##  2 Gabon            2016 import            69.5  1.40e10    2086206
-##  3 Tanzania         2012 import           753.   3.97e10   47786137
-##  4 Italy            2010 import          4256.   2.14e12   59277417
-##  5 Ireland          2012 export           387.   2.25e11    4599533
-##  6 Finland          2011 export           314.   2.76e11    5388272
-##  7 North Macedonia  2017 export            17.4  1.13e10    1898657
-##  8 Cuba             2021 import             1   NA         11256372
-##  9 Fiji             2015 export            44.1  4.68e 9     917200
-## 10 Greece           2020 import           143.   1.88e11   10698599
+##    country               year trade_direction    value     gdp population
+##    <chr>                <int> <chr>              <dbl>   <dbl>      <dbl>
+##  1 Cameroon              2010 import            138.   2.75e10   19878036
+##  2 Eritrea               2010 export             24.5  1.59e 9    3147727
+##  3 Belarus               2011 export            122.   6.18e10    9461643
+##  4 United Arab Emirates  2016 import          21510.   3.69e11    8994263
+##  5 New Zealand           2019 import            522.   2.13e11    4979200
+##  6 Palau                 2010 import              0.01 1.88e 8      18540
+##  7 Japan                 2020 import          10925.   5.06e12  126261000
+##  8 Honduras              2011 export             91.6  1.77e10    8622504
+##  9 Israel                2017 export           3364.   3.58e11    8713300
+## 10 Algeria               2011 import           2111.   2.18e11   36543541
 ```
 
+``` r
+ggplot({df |> na.omit()}, aes(x = value, fill = trade_direction)) +
+  geom_histogram(bins = 50, col = "white", alpha = 0.5) +
+  scale_x_log10() +
+  theme_tufte()
+```
+
+![center](/figures/tidymodconformal/unnamed-chunk-3-1.png)
 
 ### Tidy modeling in R
+
+Since the quantitative columns like `value`, `gdp` and `population` vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing.
+
+
+``` r
+df |> 
+  na.omit() |> 
+  mutate(value = log(value), gdp = log(gdp), population = log(population)) -> df_modeling
+```
+
+Now we split the data into training and test using built in functions from the `rsample` package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. 
+
+
+``` r
+set.seed(1)
+
+trade_split <- initial_validation_split(df_modeling, prop = c(0.6, 0.2), strata = value)
+trade_split |> print()
+```
+
+```
+## <Training/Validation/Testing/Total>
+## <2856/952/952/4760>
+```
+
+``` r
+train_df <- training(trade_split)
+val_df <- validation(trade_split)
+test_df <- testing(trade_split)
+```
 
