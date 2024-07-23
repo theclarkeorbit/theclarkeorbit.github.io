@@ -28,7 +28,7 @@ library(countries)
 
 ### Getting some data
 
-We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted on Kaggle for the purposes of illustrating the tidy modeling techniques, without focussing too much on exploring the data.
+We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted on Kaggle for the purposes of illustrating the tidy modeling techniques, without focusing too much on exploring the data.
 
 ```{bash}
 <!-- pip install kaggle -->
@@ -37,23 +37,12 @@ We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/in
 <!-- mv india-trade-data.zip ~/.datasets/india_trade_data/ -->
 <!-- unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip  -->
 ```
-Let us glance at the 4 files of data we have here:
+
 
 ```{r, include=FALSE, warning=FALSE}
 read_csv("~/.datasets/india_trade_data/2010_2021_HS2_export.csv") -> df_hs2_exp
 read_csv("~/.datasets/india_trade_data/2010_2021_HS2_import.csv") -> df_hs2_imp
-read_csv("~/.datasets/india_trade_data/2018-2010_export.csv") -> df_exp
-read_csv("~/.datasets/india_trade_data/2018-2010_import.csv") -> df_imp
 
-df_hs2_exp |> head()
-df_hs2_imp |> head()
-df_exp |> head()
-df_imp |> head()
-```
-
-Just for simplicity, we will stick to the HS2 files (2010-2021), and ignore the other two (HS trade data) files that run from 2010-2018. We will combine the two files into a single dataframe with an added column indicating direction of trade. We also interpret NAs in the `value` column to mean that there was no trade, and replace those with 0.
-
-```{r}
 df_hs2_exp |> mutate(trade_direction = "export") -> df_hs2_exp
 df_hs2_imp |> mutate(trade_direction = "import") -> df_hs2_imp
 
@@ -69,42 +58,32 @@ df_hs2 <- bind_rows(list(df_hs2_exp, df_hs2_imp)) |>
     TRUE ~ country
   ))
 
-df_hs2 |> sample_n(5)
-```
-
-To make this something of a modelling challenge, we will enhance the data with some information about the countries India is trading with, like the GDP. We downloaded GDP data from the World Bank with the `wbstats` package.
-
-```{r}
 indicators <- c("gdp" = "NY.GDP.MKTP.CD", # GDP in current dollars
                 "population" = "SP.POP.TOTL", # population
                 "land_area" = "EN.LAND.TOTL" # total land
                 )
 WDI(indicator = indicators, start = 2010, end = 2021) -> wb_df
 
-wb_df |> sample_n(10)
-```
-
-Now, we will do a left join onto the Indian trade data on country and yeay, by first converting the countries in the Indian trade to their ISO3 codes via the `countries` package.
-
-```{r}
 df_hs2 |> mutate(iso3c = country_name(x = country, to="ISO3")) -> df_hs2
 
-df_hs2[is.na(df_hs2$iso3c),]$country |> unique()
-```
- There are a few countries for which we could not find the ISO3 codes, but these seem minor, so no matter. 
- 
- Now, we construct our modelling data frame, where we will try to predict Indias export and imports to a given country based on somebasic characteristics. 
-```{r}
 df <- left_join(df_hs2, wb_df, by = c("iso3c", "year")) |> 
   select(Commodity, value, country = country.y, year, trade_direction, iso3c, gdp, population) |> 
   group_by(country, year, trade_direction) |> 
-  summarise(value = sum(value), gdp = gdp[1], population = population[1], .groups = "drop") |> 
-  select(-country)
-
-df |> sample_n(10)
+  summarise(value = sum(value), gdp = gdp[1], population = population[1], .groups = "drop")
 
 rm(df_exp, df_hs2, df_hs2_exp, df_hs2_imp, df_imp, wb_df)
 ```
- 
+
+Just for simplicity, we will stick to the HS2 files (2010-2021), and ignore the other two (HS trade data) files that run from 2010-2018. We will combine the two files into a single data frame with an added column indicating direction of trade. We also interpret NAs in the `value` column to mean that there was no trade, and replace those with 0.
+
+To make this something of a modelling challenge, we have enhanced the data with some information about the countries India is trading with, like the GDP. We downloaded GDP data from the World Bank with the `WDI` package. Then, we did a left join onto the Indian trade data on country and year, by first converting the countries in the Indian trade to their ISO3 codes via the `countries` package.
+
+The data frame we now have will serve as the basis for us to explore tidy modeling and conformal prediction in R.
+
+```{r}
+df |> sample_n(10)
+```
+
+
 ### Tidy modeling in R
 

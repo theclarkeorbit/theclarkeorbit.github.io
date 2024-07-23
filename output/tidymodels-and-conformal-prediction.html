@@ -148,7 +148,7 @@
 <li><a href="https://github.com/herbps10/AdaptiveConformal">The package</a> of <a href="https://arxiv.org/abs/2312.00448">Sussman et al.</a></li>
 </ol>
 <h3>Getting some data</h3>
-<p>We will look at <a href="https://www.kaggle.com/datasets/lakshyaag/india-trade-data">Indian trade data</a> hosted on Kaggle for the purposes of illustrating the tidy modeling techniques, without focussing too much on exploring the data.</p>
+<p>We will look at <a href="https://www.kaggle.com/datasets/lakshyaag/india-trade-data">Indian trade data</a> hosted on Kaggle for the purposes of illustrating the tidy modeling techniques, without focusing too much on exploring the data.</p>
 <div class="highlight"><pre><span></span><code>&lt;!--<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>kaggle<span class="w"> </span>--&gt;
 &lt;!--<span class="w"> </span>mkdir<span class="w"> </span>~/.datasets/india_trade_data<span class="w"> </span>--&gt;
 &lt;!--<span class="w"> </span>kaggle<span class="w"> </span>datasets<span class="w"> </span>download<span class="w"> </span>-d<span class="w"> </span>lakshyaag/india-trade-data<span class="w"> </span>--&gt;
@@ -160,138 +160,25 @@
 <span class="cp">## bash: -c: line 1: `&lt;!-- pip install kaggle --&gt;&#39;</span>
 </code></pre></div>
 
-<p>Let us glance at the 4 files of data we have here:</p>
-<p>Just for simplicity, we will stick to the HS2 files (2010-2021), and ignore the other two (HS trade data) files that run from 2010-2018. We will combine the two files into a single dataframe with an added column indicating direction of trade. We also interpret NAs in the <code>value</code> column to mean that there was no trade, and replace those with 0.</p>
-<div class="highlight"><pre><span></span><code><span class="n">df_hs2_exp</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">trade_direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;export&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_hs2_exp</span>
-<span class="n">df_hs2_imp</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">trade_direction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;import&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_hs2_imp</span>
-
-<span class="n">df_hs2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_rows</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">df_hs2_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_imp</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
-<span class="w">    </span><span class="nf">is.na</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
-<span class="w">    </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">value</span>
-<span class="w">  </span><span class="p">),</span>
-<span class="w">  </span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">year</span><span class="p">),</span>
-<span class="w">  </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
-<span class="w">    </span><span class="n">country</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;U S A&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;United states of America&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">country</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;U K&quot;</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;United Kingdom&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="kc">TRUE</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">country</span>
-<span class="w">  </span><span class="p">))</span>
-
-<span class="n">df_hs2</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
+<p>Just for simplicity, we will stick to the HS2 files (2010-2021), and ignore the other two (HS trade data) files that run from 2010-2018. We will combine the two files into a single data frame with an added column indicating direction of trade. We also interpret NAs in the <code>value</code> column to mean that there was no trade, and replace those with 0.</p>
+<p>To make this something of a modelling challenge, we have enhanced the data with some information about the countries India is trading with, like the GDP. We downloaded GDP data from the World Bank with the <code>WDI</code> package. Then, we did a left join onto the Indian trade data on country and year, by first converting the countries in the Indian trade to their ISO3 codes via the <code>countries</code> package.</p>
+<p>The data frame we now have will serve as the basis for us to explore tidy modeling and conformal prediction in R.</p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 5 × 6</span>
-<span class="c1">##   HSCode Commodity                           value country  year trade_direction</span>
-<span class="c1">##   &lt;chr&gt;  &lt;chr&gt;                               &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;          </span>
-<span class="c1">## 1 55     MAN-MADE STAPLE FIBRES.              5.22 HONG K…  2015 export         </span>
-<span class="c1">## 2 03     FISH AND CRUSTACEANS, MOLLUSCS AND… 36.0  KUWAIT   2015 export         </span>
-<span class="c1">## 3 48     PAPER AND PAPERBOARD; ARTICLES OF …  0.13 TANZAN…  2010 import         </span>
-<span class="c1">## 4 13     LAC; GUMS, RESINS AND OTHER VEGETA…  0.31 ISRAEL   2020 import         </span>
-<span class="c1">## 5 30     PHARMACEUTICAL PRODUCTS              0    JAMAICA  2021 import</span>
-</code></pre></div>
-
-<p>To make this something of a modelling challenge, we will enhance the data with some information about the countries India is trading with, like the GDP. We downloaded GDP data from the World Bank with the <code>wbstats</code> package.</p>
-<div class="highlight"><pre><span></span><code><span class="n">indicators</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;gdp&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;NY.GDP.MKTP.CD&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1"># GDP in current dollars</span>
-<span class="w">                </span><span class="s">&quot;population&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SP.POP.TOTL&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1"># population</span>
-<span class="w">                </span><span class="s">&quot;land_area&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;EN.LAND.TOTL&quot;</span><span class="w"> </span><span class="c1"># total land</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="nf">WDI</span><span class="p">(</span><span class="n">indicator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indicators</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2010</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2021</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">wb_df</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## Warning in WDI(indicator = indicators, start = 2010, end = 2021): The following indicators could not be downloaded: EN.LAND.TOTL.</span>
-<span class="c1">## </span>
-<span class="c1">## Please make sure that you are running the latest version of the `WDI` package, and that the arguments you are using in the `WDI()` function are valid.</span>
-<span class="c1">## </span>
-<span class="c1">## Sometimes, downloads will suddenly stop working, even if nothing has changed in the R code of the WDI package. (&quot;The same WDI package version worked yesterday!&quot;) In those cases, the problem is almost certainly related to the World Bank servers or to your internet connection.</span>
-<span class="c1">## </span>
-<span class="c1">## You can check if the World Bank web API is currently serving the indicator(s) of interest by typing a URL of this form in your web browser:</span>
-<span class="c1">## </span>
-<span class="c1">## https://api.worldbank.org/v2/en/country/all/indicator/EN.LAND.TOTL?format=json&amp;date=:&amp;per_page=32500&amp;page=1</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">wb_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>##                                       country iso2c iso3c year          gdp
-## 1                                       China    CN   CHN 2017 1.231049e+13
-## 2                                      France    FR   FRA 2012 2.683672e+12
-## 3                    St. Martin (French part)    MF   MAF 2011 7.758757e+08
-## 4                  Middle East &amp; North Africa    ZQ   MEA 2014 3.627618e+12
-## 5                                     Lesotho    LS   LSO 2016 2.114426e+09
-## 6                          Sub-Saharan Africa    ZG   SSF 2019 1.830461e+12
-## 7                                      Uganda    UG   UGA 2018 3.292703e+10
-## 8                                    Cambodia    KH   KHM 2015 1.804995e+10
-## 9                                       Samoa    WS   WSM 2018 8.784484e+08
-## 10 East Asia &amp; Pacific (IDA &amp; IBRD countries)    T4   TEA 2014 1.278447e+13
-##    population
-## 1  1396215000
-## 2    65662240
-## 3       36350
-## 4   431664579
-## 5     2143872
-## 6  1121549049
-## 7    41515395
-## 8    15417523
-## 9      209701
-## 10 2009149689
-</code></pre></div>
-
-<p>Now, we will do a left join onto the Indian trade data on country and yeay, by first converting the countries in the Indian trade to their ISO3 codes via the <code>countries</code> package.</p>
-<div class="highlight"><pre><span></span><code><span class="n">df_hs2</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">iso3c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">country_name</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="o">=</span><span class="s">&quot;ISO3&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_hs2</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Some country IDs have no match in one or more of the requested country naming conventions, NA returned.
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Multiple country IDs have been matched to the same country name.
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## There is low confidence on the matching of some country names, NA returned.
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span>
-##<span class="w"> </span><span class="nv">Set</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">verbose</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">TRUE</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">more</span><span class="w"> </span><span class="nv">details</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">df_hs2</span><span class="p">[</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df_hs2</span><span class="o">$</span><span class="n">iso3c</span><span class="p">),]</span><span class="o">$</span><span class="n">country</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">unique</span><span class="p">()</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>##  [1] &quot;C AFRI REP&quot;                   &quot;CANARY IS&quot;                   
-##  [3] &quot;FR GUIANA&quot;                    &quot;FR POLYNESIA&quot;                
-##  [5] &quot;FR S ANT TR&quot;                  &quot;N. MARIANA IS.&quot;              
-##  [7] &quot;NETHERLANDANTIL&quot;              &quot;PACIFIC IS&quot;                  
-##  [9] &quot;UNION OF SERBIA &amp; MONTENEGRO&quot; &quot;UNSPECIFIED&quot;                 
-## [11] &quot;CHANNEL IS&quot;                   &quot;NEUTRAL ZONE&quot;                
-## [13] &quot;US MINOR OUTLYING ISLANDS&quot;
-</code></pre></div>
-
-<p>There are a few countries for which we could not find the ISO3 codes, but these seem minor, so no matter. </p>
-<p>Now, we construct our modelling data frame, where we will try to predict Indias export and imports to a given country based on somebasic characteristics. </p>
-<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">left_join</span><span class="p">(</span><span class="n">df_hs2</span><span class="p">,</span><span class="w"> </span><span class="n">wb_df</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;iso3c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;year&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">Commodity</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country.y</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">,</span><span class="w"> </span><span class="n">iso3c</span><span class="p">,</span><span class="w"> </span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="w"> </span><span class="n">gdp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gdp</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">population</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">)</span>
-
-<span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 5</span>
-<span class="c1">##     year trade_direction    value      gdp population</span>
-<span class="c1">##    &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1  2011 import          11999.    6.23e12  127833000</span>
-<span class="c1">##  2  2010 import            125.    3.71e10    3097282</span>
-<span class="c1">##  3  2016 import            908.    3.96e11    8736668</span>
-<span class="c1">##  4  2017 export              7.41 NA          3396933</span>
-<span class="c1">##  5  2012 import              0     3.93e 7      10854</span>
-<span class="c1">##  6  2011 import             40.9   1.22e10   12317730</span>
-<span class="c1">##  7  2021 export          11150.    4.34e11    5453566</span>
-<span class="c1">##  8  2017 import              9.65  9.17e 9     270810</span>
-<span class="c1">##  9  2010 import              0.08  6.87e 8      29726</span>
-<span class="c1">## 10  2020 import          12773.    1.64e12   51836239</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">rm</span><span class="p">(</span><span class="n">df_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_imp</span><span class="p">,</span><span class="w"> </span><span class="n">df_imp</span><span class="p">,</span><span class="w"> </span><span class="n">wb_df</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
+<span class="c1">##    country                year trade_direction   value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;                 &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Mongolia               2020 export            18.9  1.33e10    3294335</span>
+<span class="c1">##  2 Solomon Islands        2018 export             2.56 1.62e 9     659249</span>
+<span class="c1">##  3 Belize                 2021 export            15.2  2.42e 9     400031</span>
+<span class="c1">##  4 Macao SAR, China       2010 export             1.42 2.82e10     557297</span>
+<span class="c1">##  5 Brazil                 2013 export          5552.   2.47e12  201721767</span>
+<span class="c1">##  6 Czechia                2013 export           387.   2.12e11   10514272</span>
+<span class="c1">##  7 Sao Tome and Principe  2011 export             0.75 2.26e 8     186044</span>
+<span class="c1">##  8 Guam                   2012 import             0    5.27e 9     166392</span>
+<span class="c1">##  9 Spain                  2017 import          1663.   1.31e12   46593236</span>
+<span class="c1">## 10 Madagascar             2020 export           324.   1.31e10   28225177</span>
 </code></pre></div>
 
 <h3>Tidy modeling in R</h3>
