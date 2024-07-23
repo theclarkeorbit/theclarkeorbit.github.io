@@ -127,7 +127,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2024-04-29T00:00:00+02:00"> Mo 29 April 2024</time>
+        <i class="fa fa-calendar"></i><time datetime="2024-04-29T00:00:00+02:00"> Mon 29 April 2024</time>
     </span>
 
 
@@ -147,18 +147,7 @@
 <span class="c1"># Randomly distributed x values from -1 to 1</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span><span class="w"> </span><span class="c1"># for reproducibility</span>
 <span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">-1</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
-<span class="err">##</span><span class="w"> </span><span class="nx">Attaching</span><span class="w"> </span><span class="kn">package</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">stats</span><span class="err">&#39;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">objects</span><span class="w"> </span><span class="nx">are</span><span class="w"> </span><span class="nx">masked</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="err">&#39;</span><span class="kn">package</span><span class="p">:</span><span class="nx">dplyr</span><span class="err">&#39;</span><span class="p">:</span>
-<span class="err">##</span><span class="w"> </span>
-<span class="err">##</span><span class="w">     </span><span class="nx">filter</span><span class="p">,</span><span class="w"> </span><span class="nx">lag</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1"># Sorting for plotting purposes</span>
+<span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1"># Sorting for plotting purposes</span>
 
 <span class="c1"># y values as the semi-circle</span>
 <span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
@@ -503,8 +492,13 @@ When there is too little data to properly constrain the parameters of a larger m
 <span class="w">      </span><span class="nf">transform_to_tensor</span><span class="p">()</span><span class="w"> </span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">)</span>
+</code></pre></div>
 
-<span class="n">valid_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">kmnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code>## Processing...
+## Done!
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">valid_ds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">torchvision</span><span class="o">::</span><span class="nf">kmnist_dataset</span><span class="p">(</span><span class="n">train</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
 <span class="w">  </span><span class="n">dir</span><span class="p">,</span>
 <span class="w">  </span><span class="n">transform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -923,11 +917,11 @@ When there is too little data to properly constrain the parameters of a larger m
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
     <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
     <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
     <li class="list-group-item"><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></li>
     <li class="list-group-item"><a href="./the-invisible-hand.html">"The Invisible Hand"</a></li>
-    <li class="list-group-item"><a href="./greta-playground.html">"greta playground"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
