@@ -124,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country              year trade_direction   value           gdp population
-##    <chr>               <int> <chr>             <dbl>         <dbl>      <dbl>
-##  1 Burundi              2019 import             3.82   2576518880.   11874838
-##  2 Trinidad and Tobago  2018 export            83.7   24569079488.    1504709
-##  3 Belarus              2016 export            40.2   47723545321.    9469379
-##  4 Romania              2020 export           372.   251362514350.   19265250
-##  5 Bulgaria             2020 export           170.    70368758395.    6934015
-##  6 North Macedonia      2019 export            22.6   12606338449.    1876262
-##  7 Timor-Leste          2016 export             2.31   1652603700     1224562
-##  8 Singapore            2013 import          6762.   307576360585.    5399162
-##  9 Gambia, The          2010 import            14.7    1543294927.    1937275
-## 10 Cote d'Ivoire        2011 import           466.    36693710801.   21562914
+##    country                year trade_direction   value     gdp population
+##    <chr>                 <int> <chr>             <dbl>   <dbl>      <dbl>
+##  1 Iceland                2013 export            19.8  1.61e10     323764
+##  2 American Samoa         2012 export             0.37 6.40e 8      53691
+##  3 Lao PDR                2018 export            39.4  1.81e10    7105006
+##  4 Croatia                2020 export           142.   5.82e10    4047680
+##  5 Singapore              2010 export          9825.   2.40e11    5076732
+##  6 Luxembourg             2021 import            67.4  8.56e10     640064
+##  7 Bolivia                2015 export            74.4  3.30e10   11090085
+##  8 Sao Tome and Principe  2016 import             0.02 2.92e 8     204632
+##  9 Korea, Rep.            2017 export          4461.   1.62e12   51361911
+## 10 Maldives               2015 import             4.31 4.13e 9     435582
 ```
 
 ``` r
@@ -149,37 +149,34 @@ ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
 
 ### Tidy modeling in R
 
-Since the quantitative columns like `value`, `gdp` and `population` vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing.
-
-
-``` r
-df |> 
-  na.omit() |> 
-  mutate(value = log(value+1), gdp = log(gdp+1), population = log(population+1)) -> df_modeling
-```
-
-Now we split the data into training and test using built in functions from the `rsample` package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. 
+Since the quantitative columns like `value`, `gdp` and `population` vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing. Now we split the data into training and test using built in functions from the `rsample` package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. 
 
 
 ``` r
 set.seed(1)
 
-trade_split <- initial_validation_split({df_modeling |> 
-    mutate(year = as.numeric(year)) |> 
-    select(-country)}, 
-    prop = c(0.6, 0.2), strata = value)
+trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
 ```
 
 ```
 ## <Training/Validation/Testing/Total>
-## <2856/952/952/4760>
+## <2944/981/984/4909>
 ```
 
 ``` r
 train_df <- training(trade_split)
 val_df <- validation(trade_split)
 test_df <- testing(trade_split)
+
+
+trade_simple_regression <- 
+  recipe(value ~ ., data = {train_df |> 
+      select(-country)}) |> 
+  step_naomit() |> 
+  step_log(gdp, population) |> 
+  step_dummy(all_nominal_predictors()) |> 
+  step_normalize(gdp, population)
 ```
 
 #### Linear model
@@ -188,48 +185,69 @@ As a first baseline, always best ton begin with a simple, interpretable linear m
 
 
 ``` r
-linear_fit <- linear_reg() |> 
-  set_engine("lm") |> 
-  fit(value ~ ., data = train_df)
+linear_model <- linear_reg() |> 
+  set_engine("lm") 
+
+linear_workflow <- workflow() |>
+  add_recipe(trade_simple_regression) |> 
+  add_model(linear_model)
+
+linear_fit <- fit(linear_workflow, train_df)
 
 linear_fit |> tidy()
 ```
 
 ```
-## # A tibble: 5 × 5
-##   term                  estimate std.error statistic   p.value
-##   <chr>                    <dbl>     <dbl>     <dbl>     <dbl>
-## 1 (Intercept)           -47.8     16.0         -2.98 2.91e-  3
-## 2 year                    0.0152   0.00796      1.91 5.66e-  2
-## 3 trade_directionimport  -0.469    0.0545      -8.62 1.11e- 17
-## 4 gdp                     0.666    0.0195      34.1  2.07e-214
-## 5 population              0.396    0.0198      20.0  1.09e- 83
+## # A tibble: 15 × 5
+##    term                   estimate std.error statistic   p.value
+##    <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
+##  1 (Intercept)              4.86      0.102     47.8   0        
+##  2 gdp                      1.61      0.0471    34.2   3.32e-215
+##  3 population               0.906     0.0475    19.1   1.39e- 76
+##  4 year_X2011               0.119     0.136      0.872 3.83e-  1
+##  5 year_X2012               0.155     0.138      1.12  2.64e-  1
+##  6 year_X2013              -0.0318    0.138     -0.231 8.18e-  1
+##  7 year_X2014               0.0517    0.137      0.378 7.06e-  1
+##  8 year_X2015               0.157     0.138      1.14  2.54e-  1
+##  9 year_X2016               0.0436    0.141      0.309 7.57e-  1
+## 10 year_X2017               0.201     0.138      1.46  1.46e-  1
+## 11 year_X2018               0.135     0.138      0.977 3.29e-  1
+## 12 year_X2019               0.0980    0.137      0.715 4.75e-  1
+## 13 year_X2020               0.0755    0.138      0.545 5.86e-  1
+## 14 year_X2021               0.346     0.136      2.55  1.09e-  2
+## 15 trade_direction_import  -0.488     0.0558    -8.75  3.46e- 18
 ```
 
 Now, let us make some predictions on the validation data.
 
 
 ``` r
-val_df |> 
-  select(value) |> 
-  bind_cols(predict(linear_fit, val_df)) |> 
-  bind_cols(predict(linear_fit, val_df, type = "pred_int")) |> # 95% prediction intervals
-  mutate(linear_preds = .pred, 
-         linear_pred_lower = .pred_lower,
-         linear_pred_upper = .pred_upper) |> 
-  select(-.pred, -.pred_lower, -.pred_upper) |> 
-  mutate(linear_residuals = value - linear_preds) |> 
-  bind_cols({val_df |> select(-value)}) -> results_df
-
-ggplot(results_df) +
-  geom_point(aes(x = value, y = linear_preds, colour = trade_direction)) +
-  geom_smooth(aes(x = value, y = linear_preds, colour = trade_direction), method="lm") +
-  theme_tufte()
+linear_fit_last <- last_fit(linear_workflow, trade_split) 
+collect_metrics(linear_fit_last) -> linear_metrics
+collect_predictions(linear_fit_last) -> linear_preds
+linear_preds |> sample_n(5)
 ```
 
 ```
-## `geom_smooth()` using formula = 'y ~ x'
+## # A tibble: 5 × 5
+##    .pred id                .row value .config             
+##    <dbl> <chr>            <int> <dbl> <chr>               
+## 1  5.35  train/test split  1797  7.51 Preprocessor1_Model1
+## 2  5.12  train/test split     1  6.05 Preprocessor1_Model1
+## 3  6.03  train/test split  2852  5.83 Preprocessor1_Model1
+## 4 -0.276 train/test split  1852  0    Preprocessor1_Model1
+## 5  4.78  train/test split  3060  3.34 Preprocessor1_Model1
 ```
 
-![center](/figures/tidymodconformal/unnamed-chunk-7-1.png)
+``` r
+linear_metrics
+```
+
+```
+## # A tibble: 2 × 4
+##   .metric .estimator .estimate .config             
+##   <chr>   <chr>          <dbl> <chr>               
+## 1 rmse    standard       1.42  Preprocessor1_Model1
+## 2 rsq     standard       0.739 Preprocessor1_Model1
+```
 

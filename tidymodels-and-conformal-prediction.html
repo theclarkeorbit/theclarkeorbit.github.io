@@ -232,18 +232,18 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country              year trade_direction   value           gdp population</span>
-<span class="c1">##    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Burundi              2019 import             3.82   2576518880.   11874838</span>
-<span class="c1">##  2 Trinidad and Tobago  2018 export            83.7   24569079488.    1504709</span>
-<span class="c1">##  3 Belarus              2016 export            40.2   47723545321.    9469379</span>
-<span class="c1">##  4 Romania              2020 export           372.   251362514350.   19265250</span>
-<span class="c1">##  5 Bulgaria             2020 export           170.    70368758395.    6934015</span>
-<span class="c1">##  6 North Macedonia      2019 export            22.6   12606338449.    1876262</span>
-<span class="c1">##  7 Timor-Leste          2016 export             2.31   1652603700     1224562</span>
-<span class="c1">##  8 Singapore            2013 import          6762.   307576360585.    5399162</span>
-<span class="c1">##  9 Gambia, The          2010 import            14.7    1543294927.    1937275</span>
-<span class="c1">## 10 Cote d&#39;Ivoire        2011 import           466.    36693710801.   21562914</span>
+<span class="c1">##    country                year trade_direction   value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;                 &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Iceland                2013 export            19.8  1.61e10     323764</span>
+<span class="c1">##  2 American Samoa         2012 export             0.37 6.40e 8      53691</span>
+<span class="c1">##  3 Lao PDR                2018 export            39.4  1.81e10    7105006</span>
+<span class="c1">##  4 Croatia                2020 export           142.   5.82e10    4047680</span>
+<span class="c1">##  5 Singapore              2010 export          9825.   2.40e11    5076732</span>
+<span class="c1">##  6 Luxembourg             2021 import            67.4  8.56e10     640064</span>
+<span class="c1">##  7 Bolivia                2015 export            74.4  3.30e10   11090085</span>
+<span class="c1">##  8 Sao Tome and Principe  2016 import             0.02 2.92e 8     204632</span>
+<span class="c1">##  9 Korea, Rep.            2017 export          4461.   1.62e12   51361911</span>
+<span class="c1">## 10 Maldives               2015 import             4.31 4.13e 9     435582</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -254,72 +254,91 @@
 
 <p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-3-1.png"></p>
 <h3>Tidy modeling in R</h3>
-<p>Since the quantitative columns like <code>value</code>, <code>gdp</code> and <code>population</code> vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing.</p>
-<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">value</span><span class="m">+1</span><span class="p">),</span><span class="w"> </span><span class="n">gdp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">gdp</span><span class="m">+1</span><span class="p">),</span><span class="w"> </span><span class="n">population</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">population</span><span class="m">+1</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_modeling</span>
-</code></pre></div>
-
-<p>Now we split the data into training and test using built in functions from the <code>rsample</code> package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. </p>
+<p>Since the quantitative columns like <code>value</code>, <code>gdp</code> and <code>population</code> vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing. Now we split the data into training and test using built in functions from the <code>rsample</code> package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. </p>
 <div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
 
-<span class="n">trade_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">({</span><span class="n">df_modeling</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">year</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">)},</span><span class="w"> </span>
-<span class="w">    </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="n">trade_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">year</span><span class="p">),</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">value</span><span class="m">+1</span><span class="p">))},</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
 <span class="n">trade_split</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>## &lt;Training/Validation/Testing/Total&gt;
-## &lt;2856/952/952/4760&gt;
+## &lt;2944/981/984/4909&gt;
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">train_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">training</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
 <span class="n">val_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">validation</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
 <span class="n">test_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
+
+
+<span class="n">trade_simple_regression</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">recipe</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">train_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">      </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">)})</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">step_naomit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">step_log</span><span class="p">(</span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">step_dummy</span><span class="p">(</span><span class="nf">all_nominal_predictors</span><span class="p">())</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">step_normalize</span><span class="p">(</span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span>
 </code></pre></div>
 
 <h4>Linear model</h4>
 <p>As a first baseline, always best ton begin with a simple, interpretable linear model.</p>
-<div class="highlight"><pre><span></span><code><span class="n">linear_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">linear_reg</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">set_engine</span><span class="p">(</span><span class="s">&quot;lm&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_df</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">linear_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">linear_reg</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">set_engine</span><span class="p">(</span><span class="s">&quot;lm&quot;</span><span class="p">)</span><span class="w"> </span>
+
+<span class="n">linear_workflow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">workflow</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">add_recipe</span><span class="p">(</span><span class="n">trade_simple_regression</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">add_model</span><span class="p">(</span><span class="n">linear_model</span><span class="p">)</span>
+
+<span class="n">linear_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">linear_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">train_df</span><span class="p">)</span>
 
 <span class="n">linear_fit</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tidy</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 5 × 5</span>
-<span class="c1">##   term                  estimate std.error statistic   p.value</span>
-<span class="c1">##   &lt;chr&gt;                    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="c1">## 1 (Intercept)           -47.8     16.0         -2.98 2.91e-  3</span>
-<span class="c1">## 2 year                    0.0152   0.00796      1.91 5.66e-  2</span>
-<span class="c1">## 3 trade_directionimport  -0.469    0.0545      -8.62 1.11e- 17</span>
-<span class="c1">## 4 gdp                     0.666    0.0195      34.1  2.07e-214</span>
-<span class="c1">## 5 population              0.396    0.0198      20.0  1.09e- 83</span>
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 15 × 5
+<span class="gu">##</span>    term                   estimate std.error statistic   p.value
+<span class="gu">##</span>    &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+<span class="gu">##</span>  1 (Intercept)              4.86      0.102     47.8   0        
+<span class="gu">##</span>  2 gdp                      1.61      0.0471    34.2   3.32e-215
+<span class="gu">##</span>  3 population               0.906     0.0475    19.1   1.39e- 76
+<span class="gu">##</span>  4 year_X2011               0.119     0.136      0.872 3.83e-  1
+<span class="gu">##</span>  5 year_X2012               0.155     0.138      1.12  2.64e-  1
+<span class="gu">##</span>  6 year_X2013              -0.0318    0.138     -0.231 8.18e-  1
+<span class="gu">##</span>  7 year_X2014               0.0517    0.137      0.378 7.06e-  1
+<span class="gu">##</span>  8 year_X2015               0.157     0.138      1.14  2.54e-  1
+<span class="gu">##</span>  9 year_X2016               0.0436    0.141      0.309 7.57e-  1
+<span class="gu">##</span> 10 year_X2017               0.201     0.138      1.46  1.46e-  1
+<span class="gu">##</span> 11 year_X2018               0.135     0.138      0.977 3.29e-  1
+<span class="gu">##</span> 12 year_X2019               0.0980    0.137      0.715 4.75e-  1
+<span class="gu">##</span> 13 year_X2020               0.0755    0.138      0.545 5.86e-  1
+<span class="gu">##</span> 14 year_X2021               0.346     0.136      2.55  1.09e-  2
+<span class="gu">##</span> 15 trade_direction_import  -0.488     0.0558    -8.75  3.46e- 18
 </code></pre></div>
 
 <p>Now, let us make some predictions on the validation data.</p>
-<div class="highlight"><pre><span></span><code><span class="n">val_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="nf">predict</span><span class="p">(</span><span class="n">linear_fit</span><span class="p">,</span><span class="w"> </span><span class="n">val_df</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="nf">predict</span><span class="p">(</span><span class="n">linear_fit</span><span class="p">,</span><span class="w"> </span><span class="n">val_df</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pred_int&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># 95% prediction intervals</span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">linear_preds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">,</span><span class="w"> </span>
-<span class="w">         </span><span class="n">linear_pred_lower</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_lower</span><span class="p">,</span>
-<span class="w">         </span><span class="n">linear_pred_upper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="m">-.</span><span class="n">pred</span><span class="p">,</span><span class="w"> </span><span class="m">-.</span><span class="n">pred_lower</span><span class="p">,</span><span class="w"> </span><span class="m">-.</span><span class="n">pred_upper</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">linear_residuals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">linear_preds</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">bind_cols</span><span class="p">({</span><span class="n">val_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">value</span><span class="p">)})</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">results_df</span>
-
-<span class="nf">ggplot</span><span class="p">(</span><span class="n">results_df</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linear_preds</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">linear_preds</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">),</span><span class="w"> </span><span class="n">method</span><span class="o">=</span><span class="s">&quot;lm&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">linear_fit_last</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">last_fit</span><span class="p">(</span><span class="n">linear_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">trade_split</span><span class="p">)</span><span class="w"> </span>
+<span class="nf">collect_metrics</span><span class="p">(</span><span class="n">linear_fit_last</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">linear_metrics</span>
+<span class="nf">collect_predictions</span><span class="p">(</span><span class="n">linear_fit_last</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">linear_preds</span>
+<span class="n">linear_preds</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using formula = &#39;y ~ x&#39;
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 5 × 5
+<span class="gu">##</span>    .pred id                .row value .config             
+<span class="gu">##</span>    &lt;dbl&gt; &lt;chr&gt;            &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;               
+<span class="gu">##</span> 1  5.35  train/test split  1797  7.51 Preprocessor1_Model1
+<span class="gu">##</span> 2  5.12  train/test split     1  6.05 Preprocessor1_Model1
+<span class="gu">##</span> 3  6.03  train/test split  2852  5.83 Preprocessor1_Model1
+<span class="gu">##</span> 4 -0.276 train/test split  1852  0    Preprocessor1_Model1
+<span class="gu">##</span> 5  4.78  train/test split  3060  3.34 Preprocessor1_Model1
 </code></pre></div>
 
-<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-7-1.png"></p>
+<div class="highlight"><pre><span></span><code><span class="n">linear_metrics</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 2 × 4
+<span class="gu">##</span>   .metric .estimator .estimate .config             
+<span class="gu">##</span>   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+<span class="gu">##</span> 1 rmse    standard       1.42  Preprocessor1_Model1
+<span class="gu">##</span> 2 rsq     standard       0.739 Preprocessor1_Model1
+</code></pre></div>
             </div>
             <!-- /.entry-content -->
         </article>
