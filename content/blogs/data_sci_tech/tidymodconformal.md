@@ -39,6 +39,77 @@ We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/in
 
 
 
+``` r
+read_csv("~/.datasets/india_trade_data/2010_2021_HS2_export.csv") -> df_hs2_exp
+```
+
+```
+## Rows: 184755 Columns: 5
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (3): HSCode, Commodity, country
+## dbl (2): value, year
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+read_csv("~/.datasets/india_trade_data/2010_2021_HS2_import.csv") -> df_hs2_imp
+```
+
+```
+## Rows: 101051 Columns: 5
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (3): HSCode, Commodity, country
+## dbl (2): value, year
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+``` r
+df_hs2_exp |> mutate(trade_direction = "export") -> df_hs2_exp
+df_hs2_imp |> mutate(trade_direction = "import") -> df_hs2_imp
+
+df_hs2 <- bind_rows(list(df_hs2_exp, df_hs2_imp)) |> 
+  mutate(value = case_when(
+    is.na(value) ~ 0,
+    TRUE ~ value
+  ),
+  year = as.integer(year),
+  country = case_when(
+    country == "U S A" ~ "United states of America",
+    country == "U K" ~ "United Kingdom",
+    TRUE ~ country
+  ))
+
+indicators <- c("gdp" = "NY.GDP.MKTP.CD", # GDP in current dollars
+                "population" = "SP.POP.TOTL", # population
+                "land_area" = "EN.LAND.TOTL" # total land
+                )
+WDI(indicator = indicators, start = 2010, end = 2021) -> wb_df
+
+df_hs2 |> mutate(iso3c = country_name(x = country, to="ISO3")) -> df_hs2
+```
+
+```
+## Some country IDs have no match in one or more of the requested country naming conventions, NA returned.
+## Multiple country IDs have been matched to the same country name.
+## There is low confidence on the matching of some country names, NA returned.
+## 
+## Set - verbose - to TRUE for more details
+```
+
+``` r
+df <- left_join(df_hs2, wb_df, by = c("iso3c", "year")) |> 
+  select(Commodity, value, country = country.y, year, trade_direction, iso3c, gdp, population) |> 
+  group_by(country, year, trade_direction) |> 
+  summarise(value = sum(value), gdp = gdp[1], population = population[1], .groups = "drop")
+
+rm(df_exp, df_hs2, df_hs2_exp, df_hs2_imp, df_imp, wb_df)
+```
 
 Just for simplicity, we will stick to the HS2 files (2010-2021), and ignore the other two (HS trade data) files that run from 2010-2018. We will combine the two files into a single data frame with an added column indicating direction of trade. We also interpret NAs in the `value` column to mean that there was no trade, and replace those with 0.
 
@@ -53,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                year trade_direction   value     gdp population
-##    <chr>                 <int> <chr>             <dbl>   <dbl>      <dbl>
-##  1 Mongolia               2020 export            18.9  1.33e10    3294335
-##  2 Solomon Islands        2018 export             2.56 1.62e 9     659249
-##  3 Belize                 2021 export            15.2  2.42e 9     400031
-##  4 Macao SAR, China       2010 export             1.42 2.82e10     557297
-##  5 Brazil                 2013 export          5552.   2.47e12  201721767
-##  6 Czechia                2013 export           387.   2.12e11   10514272
-##  7 Sao Tome and Principe  2011 export             0.75 2.26e 8     186044
-##  8 Guam                   2012 import             0    5.27e 9     166392
-##  9 Spain                  2017 import          1663.   1.31e12   46593236
-## 10 Madagascar             2020 export           324.   1.31e10   28225177
+##    country          year trade_direction  value      gdp population
+##    <chr>           <int> <chr>            <dbl>    <dbl>      <dbl>
+##  1 Greece           2015 export           336.   1.96e11   10820883
+##  2 Gabon            2016 import            69.5  1.40e10    2086206
+##  3 Tanzania         2012 import           753.   3.97e10   47786137
+##  4 Italy            2010 import          4256.   2.14e12   59277417
+##  5 Ireland          2012 export           387.   2.25e11    4599533
+##  6 Finland          2011 export           314.   2.76e11    5388272
+##  7 North Macedonia  2017 export            17.4  1.13e10    1898657
+##  8 Cuba             2021 import             1   NA         11256372
+##  9 Fiji             2015 export            44.1  4.68e 9     917200
+## 10 Greece           2020 import           143.   1.88e11   10698599
 ```
 
 
