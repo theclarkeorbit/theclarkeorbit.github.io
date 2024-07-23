@@ -124,23 +124,23 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country               year trade_direction    value     gdp population
-##    <chr>                <int> <chr>              <dbl>   <dbl>      <dbl>
-##  1 Cameroon              2010 import            138.   2.75e10   19878036
-##  2 Eritrea               2010 export             24.5  1.59e 9    3147727
-##  3 Belarus               2011 export            122.   6.18e10    9461643
-##  4 United Arab Emirates  2016 import          21510.   3.69e11    8994263
-##  5 New Zealand           2019 import            522.   2.13e11    4979200
-##  6 Palau                 2010 import              0.01 1.88e 8      18540
-##  7 Japan                 2020 import          10925.   5.06e12  126261000
-##  8 Honduras              2011 export             91.6  1.77e10    8622504
-##  9 Israel                2017 export           3364.   3.58e11    8713300
-## 10 Algeria               2011 import           2111.   2.18e11   36543541
+##    country              year trade_direction   value           gdp population
+##    <chr>               <int> <chr>             <dbl>         <dbl>      <dbl>
+##  1 Burundi              2019 import             3.82   2576518880.   11874838
+##  2 Trinidad and Tobago  2018 export            83.7   24569079488.    1504709
+##  3 Belarus              2016 export            40.2   47723545321.    9469379
+##  4 Romania              2020 export           372.   251362514350.   19265250
+##  5 Bulgaria             2020 export           170.    70368758395.    6934015
+##  6 North Macedonia      2019 export            22.6   12606338449.    1876262
+##  7 Timor-Leste          2016 export             2.31   1652603700     1224562
+##  8 Singapore            2013 import          6762.   307576360585.    5399162
+##  9 Gambia, The          2010 import            14.7    1543294927.    1937275
+## 10 Cote d'Ivoire        2011 import           466.    36693710801.   21562914
 ```
 
 ``` r
-ggplot({df |> na.omit()}, aes(x = value, fill = trade_direction)) +
-  geom_histogram(bins = 50, col = "white", alpha = 0.5) +
+ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
+  geom_histogram(bins = 50, col = "white", alpha = 0.25, position = "identity") +
   scale_x_log10() +
   theme_tufte()
 ```
@@ -155,7 +155,7 @@ Since the quantitative columns like `value`, `gdp` and `population` vary by orde
 ``` r
 df |> 
   na.omit() |> 
-  mutate(value = log(value), gdp = log(gdp), population = log(population)) -> df_modeling
+  mutate(value = log(value+1), gdp = log(gdp+1), population = log(population+1)) -> df_modeling
 ```
 
 Now we split the data into training and test using built in functions from the `rsample` package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. 
@@ -164,7 +164,10 @@ Now we split the data into training and test using built in functions from the `
 ``` r
 set.seed(1)
 
-trade_split <- initial_validation_split(df_modeling, prop = c(0.6, 0.2), strata = value)
+trade_split <- initial_validation_split({df_modeling |> 
+    mutate(year = as.numeric(year)) |> 
+    select(-country)}, 
+    prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
 ```
 
@@ -178,4 +181,55 @@ train_df <- training(trade_split)
 val_df <- validation(trade_split)
 test_df <- testing(trade_split)
 ```
+
+#### Linear model
+
+As a first baseline, always best ton begin with a simple, interpretable linear model.
+
+
+``` r
+linear_fit <- linear_reg() |> 
+  set_engine("lm") |> 
+  fit(value ~ ., data = train_df)
+
+linear_fit |> tidy()
+```
+
+```
+## # A tibble: 5 × 5
+##   term                  estimate std.error statistic   p.value
+##   <chr>                    <dbl>     <dbl>     <dbl>     <dbl>
+## 1 (Intercept)           -47.8     16.0         -2.98 2.91e-  3
+## 2 year                    0.0152   0.00796      1.91 5.66e-  2
+## 3 trade_directionimport  -0.469    0.0545      -8.62 1.11e- 17
+## 4 gdp                     0.666    0.0195      34.1  2.07e-214
+## 5 population              0.396    0.0198      20.0  1.09e- 83
+```
+
+Now, let us make some predictions on the validation data.
+
+
+``` r
+val_df |> 
+  select(value) |> 
+  bind_cols(predict(linear_fit, val_df)) |> 
+  bind_cols(predict(linear_fit, val_df, type = "pred_int")) |> # 95% prediction intervals
+  mutate(linear_preds = .pred, 
+         linear_pred_lower = .pred_lower,
+         linear_pred_upper = .pred_upper) |> 
+  select(-.pred, -.pred_lower, -.pred_upper) |> 
+  mutate(linear_residuals = value - linear_preds) |> 
+  bind_cols({val_df |> select(-value)}) -> results_df
+
+ggplot(results_df) +
+  geom_point(aes(x = value, y = linear_preds, colour = trade_direction)) +
+  geom_smooth(aes(x = value, y = linear_preds, colour = trade_direction), method="lm") +
+  theme_tufte()
+```
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+![center](/figures/tidymodconformal/unnamed-chunk-7-1.png)
 
