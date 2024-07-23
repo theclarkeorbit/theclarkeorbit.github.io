@@ -1,6 +1,6 @@
 ---
 title: "Tidymodels and conformal prediction"
-Date: 29 Apr 2024
+Date: 22 Jul 2024
 output:
   html_document:
     df_print: paged
