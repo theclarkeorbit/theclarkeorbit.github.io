@@ -124,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                year trade_direction   value     gdp population
-##    <chr>                 <int> <chr>             <dbl>   <dbl>      <dbl>
-##  1 Iceland                2013 export            19.8  1.61e10     323764
-##  2 American Samoa         2012 export             0.37 6.40e 8      53691
-##  3 Lao PDR                2018 export            39.4  1.81e10    7105006
-##  4 Croatia                2020 export           142.   5.82e10    4047680
-##  5 Singapore              2010 export          9825.   2.40e11    5076732
-##  6 Luxembourg             2021 import            67.4  8.56e10     640064
-##  7 Bolivia                2015 export            74.4  3.30e10   11090085
-##  8 Sao Tome and Principe  2016 import             0.02 2.92e 8     204632
-##  9 Korea, Rep.            2017 export          4461.   1.62e12   51361911
-## 10 Maldives               2015 import             4.31 4.13e 9     435582
+##    country             year trade_direction   value     gdp population
+##    <chr>              <int> <chr>             <dbl>   <dbl>      <dbl>
+##  1 Solomon Islands     2020 export             1.64 1.54e 9     691191
+##  2 Iran, Islamic Rep.  2019 import          1397.   2.84e11   86564202
+##  3 Aruba               2016 export             7.88 2.98e 9     104874
+##  4 Palau               2010 export             0.03 1.88e 8      18540
+##  5 Malawi              2018 export           201.   9.88e 9   18367883
+##  6 Canada              2021 import          3133.   2.01e12   38239864
+##  7 Guam                2021 import             0.11 6.23e 9     170534
+##  8 Chad                2011 import            40.9  1.22e10   12317730
+##  9 Ethiopia            2015 import            61.0  6.46e10  102471895
+## 10 Seychelles          2015 export            34.1  1.43e 9      93419
 ```
 
 ``` r
@@ -223,31 +223,58 @@ Now, let us make some predictions on the validation data.
 
 ``` r
 linear_fit_last <- last_fit(linear_workflow, trade_split) 
-collect_metrics(linear_fit_last) -> linear_metrics
+trade_reg_metrics <- metric_set(rmse, rsq, mae)
 collect_predictions(linear_fit_last) -> linear_preds
-linear_preds |> sample_n(5)
+trade_reg_metrics(linear_preds, truth = value, estimate = .pred)
 ```
 
 ```
-## # A tibble: 5 × 5
-##    .pred id                .row value .config             
-##    <dbl> <chr>            <int> <dbl> <chr>               
-## 1  5.35  train/test split  1797  7.51 Preprocessor1_Model1
-## 2  5.12  train/test split     1  6.05 Preprocessor1_Model1
-## 3  6.03  train/test split  2852  5.83 Preprocessor1_Model1
-## 4 -0.276 train/test split  1852  0    Preprocessor1_Model1
-## 5  4.78  train/test split  3060  3.34 Preprocessor1_Model1
+## # A tibble: 3 × 3
+##   .metric .estimator .estimate
+##   <chr>   <chr>          <dbl>
+## 1 rmse    standard       1.42 
+## 2 rsq     standard       0.739
+## 3 mae     standard       1.10
 ```
+
+##### Regression with XGBoost
+
+We will now use the same modules of the parsnip package with XGBoost, since this is more likely to be used in production usecases. Could hardly be easier.
+
 
 ``` r
-linear_metrics
+xgb_model <- boost_tree(mtry = 3, trees = 500, min_n = 5, tree_depth = 3, learn_rate = 0.01) |> 
+  set_engine("xgboost") |> 
+  set_mode("regression")
+
+xgb_workflow <- workflow() |>
+  add_recipe(trade_simple_regression) |> 
+  add_model(xgb_model)
+
+xgb_fit <- fit(xgb_workflow, train_df)
+
+xgb_fit_last <- last_fit(xgb_workflow, trade_split) 
+xgb_trade_reg_metrics <- metric_set(rmse, rsq, mae)
+collect_predictions(xgb_fit_last) -> xgb_preds
+xgb_trade_reg_metrics(xgb_preds, truth = value, estimate = .pred)
 ```
 
 ```
-## # A tibble: 2 × 4
-##   .metric .estimator .estimate .config             
-##   <chr>   <chr>          <dbl> <chr>               
-## 1 rmse    standard       1.42  Preprocessor1_Model1
-## 2 rsq     standard       0.739 Preprocessor1_Model1
+## # A tibble: 3 × 3
+##   .metric .estimator .estimate
+##   <chr>   <chr>          <dbl>
+## 1 rmse    standard       1.36 
+## 2 rsq     standard       0.776
+## 3 mae     standard       1.06
+```
+
+#### Multiclass classification
+
+Here, we will add back the country column and widen the data frame to show value of goods imported and exported by from this country, and try to predict the country based on population, GDP, and trade with India. 
+
+
+``` r
+spread(df, key = trade_direction, value = value) |> 
+  select(-year) -> df_classification
 ```
 
