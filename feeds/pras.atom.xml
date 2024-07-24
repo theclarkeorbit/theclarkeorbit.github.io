@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-24T09:41:55+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-24T09:41:55+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h3&gt;Reading material:&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-24T11:54:12+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-24T11:54:12+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h3&gt;Reading material:&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal regression&lt;/a&gt;&lt;/li&gt;
@@ -105,18 +105,18 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    country             year trade_direction   value     gdp population&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;              &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 Solomon Islands     2020 export             1.64 1.54e 9     691191&lt;/span&gt;
-&lt;span class="c1"&gt;##  2 Iran, Islamic Rep.  2019 import          1397.   2.84e11   86564202&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 Aruba               2016 export             7.88 2.98e 9     104874&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 Palau               2010 export             0.03 1.88e 8      18540&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 Malawi              2018 export           201.   9.88e 9   18367883&lt;/span&gt;
-&lt;span class="c1"&gt;##  6 Canada              2021 import          3133.   2.01e12   38239864&lt;/span&gt;
-&lt;span class="c1"&gt;##  7 Guam                2021 import             0.11 6.23e 9     170534&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 Chad                2011 import            40.9  1.22e10   12317730&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 Ethiopia            2015 import            61.0  6.46e10  102471895&lt;/span&gt;
-&lt;span class="c1"&gt;## 10 Seychelles          2015 export            34.1  1.43e 9      93419&lt;/span&gt;
+&lt;span class="c1"&gt;##    country           year trade_direction   value     gdp population&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;            &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 Zimbabwe          2021 import             7.77 2.84e10   15993524&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 Marshall Islands  2021 import             1.18 2.58e 8      42050&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 Italy             2020 export          4736.   1.90e12   59438851&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 Japan             2020 export          4434.   5.06e12  126261000&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 Ethiopia          2017 import            47.4  8.18e10  108197950&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 Bahamas, The      2014 export           596.   1.10e10     389131&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 Malawi            2016 export           178.   7.91e 9   17405624&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 Thailand          2011 export          2961.   3.71e11   68712846&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 Estonia           2014 import           118.   2.66e10    1314545&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 Lebanon           2018 export           269.   5.49e10    5950839&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -230,8 +230,64 @@
 &lt;h4&gt;Multiclass classification&lt;/h4&gt;
 &lt;p&gt;Here, we will add back the country column and widen the data frame to show value of goods imported and exported by from this country, and try to predict the country based on population, GDP, and trade with India. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;spread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;as.factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;df_classification&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"R, Torch, and the little book of deep learning"</title><link href="https://theclarkeorbit.github.io/r-torch-and-the-little-book-of-deep-learning.html" rel="alternate"></link><published>2024-04-29T00:00:00+02:00</published><updated>2024-07-23T10:41:39+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-04-29:/r-torch-and-the-little-book-of-deep-learning.html</id><summary type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
+
+&lt;span class="n"&gt;trade_class_split&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;initial_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df_classification&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;prop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;strata&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## Warning: Too little data to stratify.
+## • Resampling will be unstratified.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;class_train_df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;training&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trade_class_split&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;class_test_df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;testing&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trade_class_split&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;trade_simple_classification&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;recipe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;country&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;class_train_df&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;step_naomit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;step_log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gdp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;population&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;step_normalize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;all_numeric_predictors&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+&lt;span class="n"&gt;xgb_class_model&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;boost_tree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mtry&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;500&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;min_n&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tree_depth&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;learn_rate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;set_engine&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;xgboost&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;set_mode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;classification&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;xgb_class_workflow&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;workflow&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;add_recipe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trade_simple_classification&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;add_model&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xgb_class_model&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;xgb_class_fit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xgb_class_workflow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;class_train_df&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;xgb_class_fit_last&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;last_fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xgb_class_workflow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_class_split&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## → A | warning: ✖ No observations were detected in `truth` for levels: China and Eritrea.&lt;/span&gt;
+&lt;span class="c1"&gt;##                ℹ Computation will proceed by ignoring those levels.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## There were issues with some computations   A: x1
+## There were issues with some computations   A: x1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;collect_predictions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xgb_class_fit_last&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;xgb_class_preds&lt;/span&gt;
+&lt;span class="nf"&gt;collect_metrics&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xgb_class_fit_last&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 3 × 4
+&lt;span class="gu"&gt;##&lt;/span&gt;   .metric     .estimator .estimate .config             
+&lt;span class="gu"&gt;##&lt;/span&gt;   &amp;lt;chr&amp;gt;       &amp;lt;chr&amp;gt;          &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;               
+&lt;span class="gu"&gt;##&lt;/span&gt; 1 accuracy    multiclass     0.521 Preprocessor1_Model1
+&lt;span class="gu"&gt;##&lt;/span&gt; 2 roc_auc     hand_till      0.977 Preprocessor1_Model1
+&lt;span class="gu"&gt;##&lt;/span&gt; 3 brier_class multiclass     0.436 Preprocessor1_Model1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Conformal prediction&lt;/h3&gt;
+&lt;p&gt;...&lt;/p&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"R, Torch, and the little book of deep learning"</title><link href="https://theclarkeorbit.github.io/r-torch-and-the-little-book-of-deep-learning.html" rel="alternate"></link><published>2024-04-29T00:00:00+02:00</published><updated>2024-07-23T10:41:39+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-04-29:/r-torch-and-the-little-book-of-deep-learning.html</id><summary type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
 &lt;p&gt;You'll need to have the book with you to understand these notes, but …&lt;/p&gt;</summary><content type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
 &lt;p&gt;You'll need to have the book with you to understand these notes, but since it is available freely, that ought not to be an issue.&lt;/p&gt;
 &lt;h3&gt;Basis function regression&lt;/h3&gt;

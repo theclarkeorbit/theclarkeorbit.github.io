@@ -169,6 +169,36 @@ Here, we will add back the country column and widen the data frame to show value
 
 ```{r}
 spread(df, key = trade_direction, value = value) |> 
+  na.omit() |> 
+  mutate(country = as.factor(country)) |> 
   select(-year) -> df_classification
+
+trade_class_split <- initial_split(df_classification, prop = c(0.6), strata = country)
+class_train_df <- training(trade_class_split)
+class_test_df <- testing(trade_class_split)
+
+trade_simple_classification <- 
+  recipe(country ~ ., data = class_train_df) |> 
+  step_naomit() |> 
+  step_log(gdp, population) |> 
+  step_normalize(all_numeric_predictors())
+
+xgb_class_model <- boost_tree(mtry = 3, trees = 500, min_n = 5, tree_depth = 3, learn_rate = 0.01) |> 
+  set_engine("xgboost") |> 
+  set_mode("classification")
+
+xgb_class_workflow <- workflow() |>
+  add_recipe(trade_simple_classification) |> 
+  add_model(xgb_class_model)
+
+xgb_class_fit <- fit(xgb_class_workflow, class_train_df)
+
+xgb_class_fit_last <- last_fit(xgb_class_workflow, trade_class_split)
+collect_predictions(xgb_class_fit_last) -> xgb_class_preds
+collect_metrics(xgb_class_fit_last)
 ```
+
+### Conformal prediction
+
+...
 

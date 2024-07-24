@@ -124,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country             year trade_direction   value     gdp population
-##    <chr>              <int> <chr>             <dbl>   <dbl>      <dbl>
-##  1 Solomon Islands     2020 export             1.64 1.54e 9     691191
-##  2 Iran, Islamic Rep.  2019 import          1397.   2.84e11   86564202
-##  3 Aruba               2016 export             7.88 2.98e 9     104874
-##  4 Palau               2010 export             0.03 1.88e 8      18540
-##  5 Malawi              2018 export           201.   9.88e 9   18367883
-##  6 Canada              2021 import          3133.   2.01e12   38239864
-##  7 Guam                2021 import             0.11 6.23e 9     170534
-##  8 Chad                2011 import            40.9  1.22e10   12317730
-##  9 Ethiopia            2015 import            61.0  6.46e10  102471895
-## 10 Seychelles          2015 export            34.1  1.43e 9      93419
+##    country           year trade_direction   value     gdp population
+##    <chr>            <int> <chr>             <dbl>   <dbl>      <dbl>
+##  1 Zimbabwe          2021 import             7.77 2.84e10   15993524
+##  2 Marshall Islands  2021 import             1.18 2.58e 8      42050
+##  3 Italy             2020 export          4736.   1.90e12   59438851
+##  4 Japan             2020 export          4434.   5.06e12  126261000
+##  5 Ethiopia          2017 import            47.4  8.18e10  108197950
+##  6 Bahamas, The      2014 export           596.   1.10e10     389131
+##  7 Malawi            2016 export           178.   7.91e 9   17405624
+##  8 Thailand          2011 export          2961.   3.71e11   68712846
+##  9 Estonia           2014 import           118.   2.66e10    1314545
+## 10 Lebanon           2018 export           269.   5.49e10    5950839
 ```
 
 ``` r
@@ -275,6 +275,70 @@ Here, we will add back the country column and widen the data frame to show value
 
 ``` r
 spread(df, key = trade_direction, value = value) |> 
+  na.omit() |> 
+  mutate(country = as.factor(country)) |> 
   select(-year) -> df_classification
+
+trade_class_split <- initial_split(df_classification, prop = c(0.6), strata = country)
 ```
+
+```
+## Warning: Too little data to stratify.
+## • Resampling will be unstratified.
+```
+
+``` r
+class_train_df <- training(trade_class_split)
+class_test_df <- testing(trade_class_split)
+
+trade_simple_classification <- 
+  recipe(country ~ ., data = class_train_df) |> 
+  step_naomit() |> 
+  step_log(gdp, population) |> 
+  step_normalize(all_numeric_predictors())
+
+xgb_class_model <- boost_tree(mtry = 3, trees = 500, min_n = 5, tree_depth = 3, learn_rate = 0.01) |> 
+  set_engine("xgboost") |> 
+  set_mode("classification")
+
+xgb_class_workflow <- workflow() |>
+  add_recipe(trade_simple_classification) |> 
+  add_model(xgb_class_model)
+
+xgb_class_fit <- fit(xgb_class_workflow, class_train_df)
+
+xgb_class_fit_last <- last_fit(xgb_class_workflow, trade_class_split)
+```
+
+```
+## → A | warning: ✖ No observations were detected in `truth` for levels: China and Eritrea.
+##                ℹ Computation will proceed by ignoring those levels.
+```
+
+```
+## There were issues with some computations   A: x1
+## There were issues with some computations   A: x1
+```
+
+```
+## 
+```
+
+``` r
+collect_predictions(xgb_class_fit_last) -> xgb_class_preds
+collect_metrics(xgb_class_fit_last)
+```
+
+```
+## # A tibble: 3 × 4
+##   .metric     .estimator .estimate .config             
+##   <chr>       <chr>          <dbl> <chr>               
+## 1 accuracy    multiclass     0.521 Preprocessor1_Model1
+## 2 roc_auc     hand_till      0.977 Preprocessor1_Model1
+## 3 brier_class multiclass     0.436 Preprocessor1_Model1
+```
+
+### Conformal prediction
+
+...
 
