@@ -124,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country        year trade_direction   value           gdp population
-##    <chr>         <int> <chr>             <dbl>         <dbl>      <dbl>
-##  1 Belgium        2019 export           5810.  535865804350.   11488980
-##  2 Estonia        2013 import            115.   25115753366.    1317997
-##  3 Hungary        2018 import            241.  160565642984.    9775564
-##  4 Venezuela, RB  2016 import           5512.            NA    30741464
-##  5 Indonesia      2012 export           5331.  917869913333.  250222695
-##  6 Kuwait         2012 import          16588.  174047695599.    3394663
-##  7 Montenegro     2015 export             26.2   4054730078.     622159
-##  8 Kuwait         2020 export           1054.  107512998447.    4360444
-##  9 Guatemala      2019 export            291.   77172317259.   16604026
-## 10 Ethiopia       2016 export            773.   74296745208.  105293228
+##    country                year trade_direction   value           gdp population
+##    <chr>                 <int> <chr>             <dbl>         <dbl>      <dbl>
+##  1 Venezuela, RB          2020 export           557.             NA    28490453
+##  2 West Bank and Gaza     2021 import             0.3   18109000000     4922749
+##  3 Azerbaijan             2015 import            77.1   53076235355.    9649341
+##  4 Egypt, Arab Rep.       2016 export          2067.   332441717791.   99784030
+##  5 Bulgaria               2011 import           101.    57737040780.    7348328
+##  6 Timor-Leste            2016 export             2.31   1652603700     1224562
+##  7 Cabo Verde             2015 import             2.77   1749857620.     552166
+##  8 Dominica               2013 export             2.36    498296296.      68819
+##  9 Virgin Islands (U.S.)  2019 export            81.4    4121000000      106669
+## 10 Netherlands            2011 export          9151.   905270626333.   16693074
 ```
 
 ``` r
@@ -340,9 +340,9 @@ The field of conformal predicton - on the other hand - uses a notion of coverage
 
 #### Conformal basics - regression
 
-So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so $X_i$ is in $\mathbf{R}^d$) where $i \in [1,n]$, each of which is associated with an outcome $Y_i$ in $\mathbf{R}$, given a new prediction vector $X_{n+1}$, we want to obtain a prediction band $\hat{C}: X \rightarrow \{\text{subset of } \mathbf{R}\}$ such that we can guarantee that the probability of $Y_{n+1}$ falling within the prediction band is greater than some threshold,
+So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so $X_i$ is in $\mathbb{R}^d$) where $i \in [1,n]$, each of which is associated with an outcome $Y_i$ in $\mathbb{R}$, given a new prediction vector $X_{n+1}$, we want to obtain a prediction band $\hat{C}: X \rightarrow \{\text{subset of } \mathbb{R}\}$ such that we can guarantee that the probability of $Y_{n+1}$ falling within the prediction band is greater than some threshold,
 $$
-\mathbf{P}(Y_{n+1} \in \hat{C}(X_{n+1})) \geq 1-\alpha,
+\mathbb{P}(Y_{n+1} \in \hat{C}(X_{n+1})) \geq 1-\alpha,
 $$
 for a particular $\alpha \in (0,1)$. 
 
@@ -354,7 +354,16 @@ There are many ways to construct the prediction band, or to extend a point predi
 
 #### Split conformal prediction
 
-
-
-
+First we note a basic property of a series of numbers $[Y_1, .., Y_n]$ drawn from some distribution. If another number $Y_{n+1}$ is drawn from the same distribution, 
+$$
+\mathbb{P}\left(Y_{n+1}\text{ is among the smallest } \lceil (1-\alpha)(n+1) \rceil\text{ numbers in }[Y_1,..,Y_n]\right) \geq (1-\alpha),
+$$
+which gives us a way to order a finite list of numbers such that another similar number has a certain probability $(1-\alpha)$ of falling within the first  $\lceil (1-\alpha)(n+1) \rceil$ numbers of that list. Thus, by defining
+$$
+\hat{q_n} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } Y_1 .. Y_n,
+$$
+gives us a one sided prediction interval $(-\infty, \hat{q}_n]$ where $\mathbb{P}(Y_{n+1} \leq \hat{q}_n) \geq (1-\alpha)$. Using similar arguments to derive an upper bound, we have,
+$$
+\mathbb{P}(Y_{n+1} \leq \hat{q}_n) \in \left[1-\alpha, 1-\alpha + \frac{1}{n+1}\right).
+$$
 
