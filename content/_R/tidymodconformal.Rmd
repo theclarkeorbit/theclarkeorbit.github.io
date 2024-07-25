@@ -128,7 +128,7 @@ linear_workflow <- workflow() |>
 
 linear_fit <- fit(linear_workflow, train_df)
 
-linear_fit |> tidy()
+linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ```
 
 Now, let us make some predictions on the validation data.
