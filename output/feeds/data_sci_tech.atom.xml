@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-25T23:19:21+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-25T23:19:21+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-25T23:21:04+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-25T23:21:04+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal
@@ -130,18 +130,18 @@ tidy modeling and conformal prediction in R.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    country               year trade_direction    value           gdp population&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;                &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;              &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 Haiti                 2020 export            108.    14508222518.   11306801&lt;/span&gt;
-&lt;span class="c1"&gt;##  2 Hong Kong SAR, China  2021 export          10985.   368954169749.    7413100&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 New Caledonia         2019 export             15.2    9475655325.     271240&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 Zambia                2010 import             32.1   20265559484.   13792086&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 Niger                 2014 export             78.2   10862943544.   19372014&lt;/span&gt;
-&lt;span class="c1"&gt;##  6 Maldives              2021 import             68.9    5254366312.     521457&lt;/span&gt;
-&lt;span class="c1"&gt;##  7 Yemen, Rep.           2020 export            785.             NA    32284046&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 Iceland               2018 export             30.8   26260850582.     352721&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 Burundi               2013 import              0.18   2451606632.   10149577&lt;/span&gt;
-&lt;span class="c1"&gt;## 10 Ireland               2021 import           1136.   513391778883.    5033164&lt;/span&gt;
+&lt;span class="c1"&gt;##    country             year trade_direction   value      gdp population&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;              &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 Viet Nam            2015 export          5266.    2.39e11   92191398&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 Iran, Islamic Rep.  2020 export          1775.    2.40e11   87290193&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 Cayman Islands      2016 import             0.02  4.91e 9      62255&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 Spain               2021 export          4725.    1.45e12   47415794&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 Portugal            2011 export           525.    2.45e11   10557560&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 &amp;lt;NA&amp;gt;                2019 import          4217.   NA               NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 Cuba                2020 import            69.4   1.07e11   11300698&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 Saudi Arabia        2018 export          5562.    8.47e11   35018133&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 Burundi             2017 import            16.5   2.72e 9   11155593&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 Georgia             2013 import            23.8   1.75e10    3717668&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -159,7 +159,7 @@ omit rows which have any data missing. Now we split the data into
 training and test using built in functions from the &lt;code&gt;rsample&lt;/code&gt; package,
 making sure that the distribution of the value column is similar in all
 our data splits using the strata argument.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;set.seed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;set.seed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;trade_split&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;initial_validation_split&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;as.factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="m"&gt;+1&lt;/span&gt;&lt;span class="p"&gt;))},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;prop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0.6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.2&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;strata&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;trade_split&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -201,11 +201,11 @@ linear model.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 5 × 5&lt;/span&gt;
 &lt;span class="c1"&gt;##   term                   estimate std.error statistic   p.value&lt;/span&gt;
 &lt;span class="c1"&gt;##   &amp;lt;chr&amp;gt;                     &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;## 1 (Intercept)               4.74     0.0999     47.5  0        &lt;/span&gt;
-&lt;span class="c1"&gt;## 2 gdp                       1.62     0.0459     35.3  8.08e-227&lt;/span&gt;
-&lt;span class="c1"&gt;## 3 population                0.877    0.0464     18.9  4.47e- 75&lt;/span&gt;
-&lt;span class="c1"&gt;## 4 trade_direction_import   -0.508    0.0549     -9.25 4.11e- 20&lt;/span&gt;
-&lt;span class="c1"&gt;## 5 year_X2017                0.412    0.135       3.06 2.24e-  3&lt;/span&gt;
+&lt;span class="c1"&gt;## 1 (Intercept)               4.82     0.0989     48.8  0        &lt;/span&gt;
+&lt;span class="c1"&gt;## 2 gdp                       1.65     0.0465     35.5  7.14e-229&lt;/span&gt;
+&lt;span class="c1"&gt;## 3 population                0.850    0.0470     18.1  2.84e- 69&lt;/span&gt;
+&lt;span class="c1"&gt;## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17&lt;/span&gt;
+&lt;span class="c1"&gt;## 5 year_X2017                0.233    0.136       1.71 8.73e-  2&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Now, let us make some predictions on the validation data.&lt;/p&gt;
@@ -244,9 +244,9 @@ hardly be easier.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 3 × 3
 &lt;span class="gu"&gt;##&lt;/span&gt;   metric linear_model_test xgb_model_test
 &lt;span class="gu"&gt;##&lt;/span&gt;   &amp;lt;chr&amp;gt;              &amp;lt;dbl&amp;gt;          &amp;lt;dbl&amp;gt;
-&lt;span class="gu"&gt;##&lt;/span&gt; 1 rmse               1.50           1.22 
-&lt;span class="gu"&gt;##&lt;/span&gt; 2 rsq                0.715          0.813
-&lt;span class="gu"&gt;##&lt;/span&gt; 3 mae                1.13           0.905
+&lt;span class="gu"&gt;##&lt;/span&gt; 1 rmse               1.43           1.15 
+&lt;span class="gu"&gt;##&lt;/span&gt; 2 rsq                0.744          0.838
+&lt;span class="gu"&gt;##&lt;/span&gt; 3 mae                1.09           0.873
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;Multiclass classification&lt;/h3&gt;
@@ -295,8 +295,8 @@ to predict the country based on population, GDP, and trade with India.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 2 × 2
 &lt;span class="gu"&gt;##&lt;/span&gt;   metric   xgb_class_validation
 &lt;span class="gu"&gt;##&lt;/span&gt;   &amp;lt;chr&amp;gt;                   &amp;lt;dbl&amp;gt;
-&lt;span class="gu"&gt;##&lt;/span&gt; 1 accuracy                0.602
-&lt;span class="gu"&gt;##&lt;/span&gt; 2 mcc                     0.601
+&lt;span class="gu"&gt;##&lt;/span&gt; 1 accuracy                0.595
+&lt;span class="gu"&gt;##&lt;/span&gt; 2 mcc                     0.594
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;An accuracy of 60% for a messy classification problem with 208 classes
@@ -446,7 +446,7 @@ The interpretation that conformal prediction gives us for our prediction interva
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## # A tibble: 1 × 1
 ##   coverage
 ##      &amp;lt;dbl&amp;gt;
-## 1     88.5
+## 1     91.6
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Excellent. &lt;/p&gt;

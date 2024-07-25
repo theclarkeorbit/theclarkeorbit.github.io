@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country               year trade_direction    value           gdp population
-##    <chr>                <int> <chr>              <dbl>         <dbl>      <dbl>
-##  1 Haiti                 2020 export            108.    14508222518.   11306801
-##  2 Hong Kong SAR, China  2021 export          10985.   368954169749.    7413100
-##  3 New Caledonia         2019 export             15.2    9475655325.     271240
-##  4 Zambia                2010 import             32.1   20265559484.   13792086
-##  5 Niger                 2014 export             78.2   10862943544.   19372014
-##  6 Maldives              2021 import             68.9    5254366312.     521457
-##  7 Yemen, Rep.           2020 export            785.             NA    32284046
-##  8 Iceland               2018 export             30.8   26260850582.     352721
-##  9 Burundi               2013 import              0.18   2451606632.   10149577
-## 10 Ireland               2021 import           1136.   513391778883.    5033164
+##    country             year trade_direction   value      gdp population
+##    <chr>              <int> <chr>             <dbl>    <dbl>      <dbl>
+##  1 Viet Nam            2015 export          5266.    2.39e11   92191398
+##  2 Iran, Islamic Rep.  2020 export          1775.    2.40e11   87290193
+##  3 Cayman Islands      2016 import             0.02  4.91e 9      62255
+##  4 Spain               2021 export          4725.    1.45e12   47415794
+##  5 Portugal            2011 export           525.    2.45e11   10557560
+##  6 <NA>                2019 import          4217.   NA               NA
+##  7 Cuba                2020 import            69.4   1.07e11   11300698
+##  8 Saudi Arabia        2018 export          5562.    8.47e11   35018133
+##  9 Burundi             2017 import            16.5   2.72e 9   11155593
+## 10 Georgia             2013 import            23.8   1.75e10    3717668
 ```
 
 ``` r
@@ -178,7 +178,7 @@ our data splits using the strata argument.
 
 
 ``` r
-set.seed(4)
+set.seed(3)
 
 trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
@@ -227,11 +227,11 @@ linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ## # A tibble: 5 × 5
 ##   term                   estimate std.error statistic   p.value
 ##   <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
-## 1 (Intercept)               4.74     0.0999     47.5  0        
-## 2 gdp                       1.62     0.0459     35.3  8.08e-227
-## 3 population                0.877    0.0464     18.9  4.47e- 75
-## 4 trade_direction_import   -0.508    0.0549     -9.25 4.11e- 20
-## 5 year_X2017                0.412    0.135       3.06 2.24e-  3
+## 1 (Intercept)               4.82     0.0989     48.8  0        
+## 2 gdp                       1.65     0.0465     35.5  7.14e-229
+## 3 population                0.850    0.0470     18.1  2.84e- 69
+## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17
+## 5 year_X2017                0.233    0.136       1.71 8.73e-  2
 ```
 
 Now, let us make some predictions on the validation data.
@@ -279,9 +279,9 @@ left_join(linear_test_perf, xgb_test_perf)
 ## # A tibble: 3 × 3
 ##   metric linear_model_test xgb_model_test
 ##   <chr>              <dbl>          <dbl>
-## 1 rmse               1.50           1.22 
-## 2 rsq                0.715          0.813
-## 3 mae                1.13           0.905
+## 1 rmse               1.43           1.15 
+## 2 rsq                0.744          0.838
+## 3 mae                1.09           0.873
 ```
 
 ### Multiclass classification
@@ -337,8 +337,8 @@ xgb_class_perf
 ## # A tibble: 2 × 2
 ##   metric   xgb_class_validation
 ##   <chr>                   <dbl>
-## 1 accuracy                0.602
-## 2 mcc                     0.601
+## 1 accuracy                0.595
+## 2 mcc                     0.594
 ```
 
 An accuracy of 60% for a messy classification problem with 208 classes
@@ -501,7 +501,7 @@ test_split_result |>
 ## # A tibble: 1 × 1
 ##   coverage
 ##      <dbl>
-## 1     88.5
+## 1     91.6
 ```
 Excellent. 
 
