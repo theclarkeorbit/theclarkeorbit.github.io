@@ -95,7 +95,7 @@ ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
 Since the quantitative columns like `value`, `gdp` and `population` vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing. Now we split the data into training and test using built in functions from the `rsample` package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. 
 
 ```{r, warning=FALSE}
-set.seed(1)
+set.seed(2)
 
 trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
