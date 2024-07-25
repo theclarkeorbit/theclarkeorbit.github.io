@@ -99,7 +99,21 @@ indicators <- c("gdp" = "NY.GDP.MKTP.CD", # GDP in current dollars
                 "land_area" = "EN.LAND.TOTL" # total land
                 )
 WDI(indicator = indicators, start = 2010, end = 2021) -> wb_df
+```
 
+```
+## Error in WDI(indicator = indicators, start = 2010, end = 2021): The following indicators could not be downloaded: NY.GDP.MKTP.CD, SP.POP.TOTL, EN.LAND.TOTL.
+## 
+## Please make sure that you are running the latest version of the `WDI` package, and that the arguments you are using in the `WDI()` function are valid.
+## 
+## Sometimes, downloads will suddenly stop working, even if nothing has changed in the R code of the WDI package. ("The same WDI package version worked yesterday!") In those cases, the problem is almost certainly related to the World Bank servers or to your internet connection.
+## 
+## You can check if the World Bank web API is currently serving the indicator(s) of interest by typing a URL of this form in your web browser:
+## 
+## https://api.worldbank.org/v2/en/country/all/indicator/NY.GDP.MKTP.CD?format=json&date=:&per_page=32500&page=1
+```
+
+``` r
 df_hs2 |> mutate(iso3c = country_name(x = country, to="ISO3")) -> df_hs2
 ```
 
@@ -116,7 +130,13 @@ df <- left_join(df_hs2, wb_df, by = c("iso3c", "year")) |>
   select(Commodity, value, country = country.y, year, trade_direction, iso3c, gdp, population) |> 
   group_by(country, year, trade_direction) |> 
   summarise(value = sum(value), gdp = gdp[1], population = population[1], .groups = "drop")
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'wb_df' not found
+```
+
+``` r
 rm(df_exp, df_hs2, df_hs2_exp, df_hs2_imp, df_imp, wb_df)
 ```
 
@@ -142,19 +162,8 @@ df |> sample_n(10)
 ```
 
 ```
-## # A tibble: 10 × 6
-##    country         year trade_direction   value     gdp population
-##    <chr>          <int> <chr>             <dbl>   <dbl>      <dbl>
-##  1 France          2020 import          4343.   2.65e12   67571107
-##  2 Honduras        2017 import            13.3  2.31e10    9626842
-##  3 Cuba            2010 import             1.11 5.96e10   11290417
-##  4 Nigeria         2020 export          3135.   4.32e11  208327405
-##  5 Malta           2012 import            42.6  9.46e 9     420028
-##  6 American Samoa  2021 export             0.77 7.5 e 8      45035
-##  7 Seychelles      2020 import             3.64 1.38e 9      98462
-##  8 Jamaica         2021 import             1.8  1.47e10    2827695
-##  9 Bangladesh      2012 export          5145.   1.33e11  152090649
-## 10 Austria         2012 export           329.   4.09e11    8429991
+## Error in `sample_n()`:
+## ! `tbl` must be a data frame, not a function.
 ```
 
 ``` r
@@ -164,7 +173,11 @@ ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
   theme_tufte()
 ```
 
-![center](/figures/tidymodconformal/unnamed-chunk-3-1.png)
+```
+## Error in `ggplot()`:
+## ! `data` cannot be a function.
+## ℹ Have you misspelled the `data` argument in `ggplot()`
+```
 
 ### Tidy modeling in R
 
@@ -181,20 +194,45 @@ our data splits using the strata argument.
 set.seed(3)
 
 trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
+```
+
+```
+## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
+```
+
+``` r
 trade_split |> print()
 ```
 
 ```
-## <Training/Validation/Testing/Total>
-## <2944/981/984/4909>
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
 ```
 
 ``` r
 train_df <- training(trade_split)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
+```
+
+``` r
 val_df <- validation(trade_split)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
+```
+
+``` r
 test_df <- testing(trade_split)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
+```
 
+``` r
 trade_simple_regression <- 
   recipe(value ~ ., data = {train_df |> 
       select(-country)}) |> 
@@ -202,6 +240,10 @@ trade_simple_regression <-
   step_log(gdp, population) |> 
   step_dummy(all_nominal_predictors()) |> 
   step_normalize(gdp, population)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'train_df' not found
 ```
 
 #### Linear model
@@ -217,21 +259,26 @@ linear_model <- linear_reg() |>
 linear_workflow <- workflow() |>
   add_recipe(trade_simple_regression) |> 
   add_model(linear_model)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_simple_regression' not found
+```
+
+``` r
 linear_fit <- fit(linear_workflow, train_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'linear_workflow' not found
+```
+
+``` r
 linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ```
 
 ```
-## # A tibble: 5 × 5
-##   term                   estimate std.error statistic   p.value
-##   <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
-## 1 (Intercept)               4.82     0.0989     48.8  0        
-## 2 gdp                       1.65     0.0465     35.5  7.14e-229
-## 3 population                0.850    0.0470     18.1  2.84e- 69
-## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17
-## 5 year_X2017                0.233    0.136       1.71 8.73e-  2
+## Error in eval(expr, envir, enclos): object 'linear_fit' not found
 ```
 
 Now, let us make some predictions on the validation data.
@@ -241,19 +288,31 @@ Now, let us make some predictions on the validation data.
 trade_reg_metrics <- metric_set(rmse, rsq, mae)
 linear_val_preds <- predict(linear_fit, new_data = val_df) |> 
   bind_cols(val_df |> select(value))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'linear_fit' not found
+```
+
+``` r
 # linear_val_preds |> head()
 trade_reg_metrics(linear_val_preds, truth = value, estimate = .pred) |> 
   transmute(metric = .metric, linear_model_validation = .estimate) -> linear_val_perf
+```
+
+```
+## Error in `metric_set()`:
+## ! Failed to compute `rmse()`.
+## Caused by error:
+## ! object 'linear_val_preds' not found
+```
+
+``` r
 linear_val_perf
 ```
 
 ```
-## # A tibble: 3 × 2
-##   metric linear_model_validation
-##   <chr>                    <dbl>
-## 1 rmse                     1.47 
-## 2 rsq                      0.721
-## 3 mae                      1.11
+## Error in eval(expr, envir, enclos): object 'linear_val_perf' not found
 ```
 
 ##### Regression with XGBoost
@@ -271,27 +330,47 @@ xgb_model <- boost_tree(mtry = 3, trees = 500, min_n = 5, tree_depth = 3, learn_
 xgb_workflow <- workflow() |>
   add_recipe(trade_simple_regression) |> 
   add_model(xgb_model)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_simple_regression' not found
+```
+
+``` r
 xgb_fit <- fit(xgb_workflow, train_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'xgb_workflow' not found
+```
+
+``` r
 xgb_val_preds <- predict(xgb_fit, new_data = val_df) |> 
   bind_cols(val_df |> select(value))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'xgb_fit' not found
+```
+
+``` r
 trade_reg_metrics(xgb_val_preds, truth = value, estimate = .pred) |> 
   transmute(metric = .metric, xgb_model_validation = .estimate) -> xgb_val_perf
+```
+
+```
+## Error in `metric_set()`:
+## ! Failed to compute `rmse()`.
+## Caused by error:
+## ! object 'xgb_val_preds' not found
+```
+
+``` r
 left_join(linear_val_perf, xgb_val_perf)
 ```
 
 ```
-## Joining with `by = join_by(metric)`
-```
-
-```
-## # A tibble: 3 × 3
-##   metric linear_model_validation xgb_model_validation
-##   <chr>                    <dbl>                <dbl>
-## 1 rmse                     1.47                 1.39 
-## 2 rsq                      0.721                0.758
-## 3 mae                      1.11                 1.06
+## Error in eval(expr, envir, enclos): object 'linear_val_perf' not found
 ```
 
 #### Multiclass classification
@@ -306,25 +385,49 @@ spread(df, key = trade_direction, value = value) |>
   na.omit() |> 
   mutate(country = as.factor(country)) |> 
   select(-year) -> df_classification
+```
 
+```
+## Error in UseMethod("spread"): no applicable method for 'spread' applied to an object of class "function"
+```
+
+``` r
 trade_class_split <- initial_split(df_classification, prop = c(0.6), strata = country)
 ```
 
 ```
-## Warning: Too little data to stratify.
-## • Resampling will be unstratified.
+## Error in eval(expr, envir, enclos): object 'df_classification' not found
 ```
 
 ``` r
 class_train_df <- training(trade_class_split)
-class_test_df <- testing(trade_class_split)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_class_split' not found
+```
+
+``` r
+class_test_df <- testing(trade_class_split)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'trade_class_split' not found
+```
+
+``` r
 trade_simple_classification <- 
   recipe(country ~ ., data = class_train_df) |> 
   step_naomit() |> 
   step_log(gdp, population) |> 
   step_normalize(all_numeric_predictors())
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'class_train_df' not found
+```
+
+``` r
 xgb_class_model <- boost_tree(mtry = 3, trees = 1000, min_n = 5, tree_depth = 5, learn_rate = 0.01) |> 
   set_engine("xgboost") |> 
   set_mode("classification")
@@ -332,23 +435,48 @@ xgb_class_model <- boost_tree(mtry = 3, trees = 1000, min_n = 5, tree_depth = 5,
 xgb_class_workflow <- workflow() |>
   add_recipe(trade_simple_classification) |> 
   add_model(xgb_class_model)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_simple_classification' not found
+```
+
+``` r
 xgb_class_fit <- fit(xgb_class_workflow, class_train_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'xgb_class_workflow' not found
+```
+
+``` r
 xgb_class_test_preds <- predict(xgb_class_fit, new_data = class_test_df) |> 
   bind_cols(class_test_df |> select(country))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'xgb_class_fit' not found
+```
+
+``` r
 class_metrics <- metric_set(accuracy, mcc)
 class_metrics(xgb_class_test_preds, truth = country, estimate = .pred_class) |> 
   transmute(metric = .metric, xgb_class_validation = .estimate) -> xgb_class_perf
+```
+
+```
+## Error in `metric_set()`:
+## ! Failed to compute `accuracy()`.
+## Caused by error:
+## ! object 'xgb_class_test_preds' not found
+```
+
+``` r
 xgb_class_perf
 ```
 
 ```
-## # A tibble: 2 × 2
-##   metric   xgb_class_validation
-##   <chr>                   <dbl>
-## 1 accuracy                0.620
-## 2 mcc                     0.619
+## Error in eval(expr, envir, enclos): object 'xgb_class_perf' not found
 ```
 
 An accuracy of 60% for a messy classification problem with 208 classes
@@ -460,5 +588,5 @@ uncertainty and coverage gurantees in regression problems.
 5.  The, the desired prediction band is given by,
     $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
     where we have a coverage guarantee, 
-    $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1)\right) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right).$$
+    $$\mathbb{P}\left(Y_{n+1}\in\hat{C}_n(X_{n+1} | D_1)\right) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right).$$
 
