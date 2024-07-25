@@ -232,18 +232,18 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country          year trade_direction  value          gdp population</span>
-<span class="c1">##    &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Cabo Verde       2018 export            1.61  2205099507.     571202</span>
-<span class="c1">##  2 Zambia           2015 import          475.   21251216799.   16248230</span>
-<span class="c1">##  3 Slovenia         2016 export          252.   44766722791.    2065042</span>
-<span class="c1">##  4 New Caledonia    2021 import            8.1  10071349664.     270390</span>
-<span class="c1">##  5 Lao PDR          2021 export           14.6  18827148531.    7425057</span>
-<span class="c1">##  6 Zimbabwe         2015 import           24.4  19963120600    14154937</span>
-<span class="c1">##  7 Kyrgyz Republic  2017 export           28.6   7702938379.    6198200</span>
-<span class="c1">##  8 Madagascar       2014 import           95.3  12522957399.   24215976</span>
-<span class="c1">##  9 Solomon Islands  2015 export            2.69  1307909888.     612660</span>
-<span class="c1">## 10 Nepal            2018 import          508.   33111525237.   28506712</span>
+<span class="c1">##    country        year trade_direction   value           gdp population</span>
+<span class="c1">##    &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Belgium        2019 export           5810.  535865804350.   11488980</span>
+<span class="c1">##  2 Estonia        2013 import            115.   25115753366.    1317997</span>
+<span class="c1">##  3 Hungary        2018 import            241.  160565642984.    9775564</span>
+<span class="c1">##  4 Venezuela, RB  2016 import           5512.            NA    30741464</span>
+<span class="c1">##  5 Indonesia      2012 export           5331.  917869913333.  250222695</span>
+<span class="c1">##  6 Kuwait         2012 import          16588.  174047695599.    3394663</span>
+<span class="c1">##  7 Montenegro     2015 export             26.2   4054730078.     622159</span>
+<span class="c1">##  8 Kuwait         2020 export           1054.  107512998447.    4360444</span>
+<span class="c1">##  9 Guatemala      2019 export            291.   77172317259.   16604026</span>
+<span class="c1">## 10 Ethiopia       2016 export            773.   74296745208.  105293228</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -410,9 +410,11 @@
 <p>The field of conformal predicton - on the other hand - uses a notion of coverage, and the goal is to enhance point predictions with sets of predictions that are guranteed (given al available data) to contain the true value with a certain probability. </p>
 <h4>Conformal basics - regression</h4>
 <p>So if we have a set of <span class="math">\(n\)</span> vectors each of <span class="math">\(d\)</span> dimensions <span class="math">\(\{X_i\}\)</span> (so <span class="math">\(X_i\)</span> is in <span class="math">\(\mathbf{R}^d\)</span>) where <span class="math">\(i \in [1,n]\)</span>, each of which is associated with an outcome <span class="math">\(Y_i\)</span> in <span class="math">\(\mathbf{R}\)</span>, given a new prediction vector <span class="math">\(X_{n+1}\)</span>, we want to obtain a prediction band <span class="math">\(\hat{C}: X \rightarrow \{\text{subset of } \mathbf{R}\}\)</span> such that we can guarantee that the probability of <span class="math">\(Y_{n+1}\)</span> falling within the prediction band is greater than some threshold,
-[
+</p>
+<div class="math">$$
 \mathbf{P}(Y_{n+1} \in \hat{C}(X_{n+1})) \geq 1-\alpha,
-]
+$$</div>
+<p>
 for a particular <span class="math">\(\alpha \in (0,1)\)</span>. </p>
 <p>We - of course - would like the prediction bands to be narrower if its "easy" to predict the <span class="math">\(Y\)</span>s from the <span class="math">\(X\)</span>s, and we would like to do this with a finite data set and not much compute. </p>
 <p>Surprisingly, this is plausible, under the assumption that the data (even the new data) are "exchangeable", which is to say that their joint distribution is invariant under permutations. This is a rather weaker assumption from the IID assumptions often made. Further more, our methods will not depend on the model parameters or reality having any specific distribution, which is a huge advantage over Bayesian techniques.</p>

@@ -124,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country          year trade_direction  value          gdp population
-##    <chr>           <int> <chr>            <dbl>        <dbl>      <dbl>
-##  1 Cabo Verde       2018 export            1.61  2205099507.     571202
-##  2 Zambia           2015 import          475.   21251216799.   16248230
-##  3 Slovenia         2016 export          252.   44766722791.    2065042
-##  4 New Caledonia    2021 import            8.1  10071349664.     270390
-##  5 Lao PDR          2021 export           14.6  18827148531.    7425057
-##  6 Zimbabwe         2015 import           24.4  19963120600    14154937
-##  7 Kyrgyz Republic  2017 export           28.6   7702938379.    6198200
-##  8 Madagascar       2014 import           95.3  12522957399.   24215976
-##  9 Solomon Islands  2015 export            2.69  1307909888.     612660
-## 10 Nepal            2018 import          508.   33111525237.   28506712
+##    country        year trade_direction   value           gdp population
+##    <chr>         <int> <chr>             <dbl>         <dbl>      <dbl>
+##  1 Belgium        2019 export           5810.  535865804350.   11488980
+##  2 Estonia        2013 import            115.   25115753366.    1317997
+##  3 Hungary        2018 import            241.  160565642984.    9775564
+##  4 Venezuela, RB  2016 import           5512.            NA    30741464
+##  5 Indonesia      2012 export           5331.  917869913333.  250222695
+##  6 Kuwait         2012 import          16588.  174047695599.    3394663
+##  7 Montenegro     2015 export             26.2   4054730078.     622159
+##  8 Kuwait         2020 export           1054.  107512998447.    4360444
+##  9 Guatemala      2019 export            291.   77172317259.   16604026
+## 10 Ethiopia       2016 export            773.   74296745208.  105293228
 ```
 
 ``` r
@@ -341,9 +341,9 @@ The field of conformal predicton - on the other hand - uses a notion of coverage
 #### Conformal basics - regression
 
 So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so $X_i$ is in $\mathbf{R}^d$) where $i \in [1,n]$, each of which is associated with an outcome $Y_i$ in $\mathbf{R}$, given a new prediction vector $X_{n+1}$, we want to obtain a prediction band $\hat{C}: X \rightarrow \{\text{subset of } \mathbf{R}\}$ such that we can guarantee that the probability of $Y_{n+1}$ falling within the prediction band is greater than some threshold,
-\[
+$$
 \mathbf{P}(Y_{n+1} \in \hat{C}(X_{n+1})) \geq 1-\alpha,
-\]
+$$
 for a particular $\alpha \in (0,1)$. 
 
 We - of course - would like the prediction bands to be narrower if its "easy" to predict the $Y$s from the $X$s, and we would like to do this with a finite data set and not much compute. 
