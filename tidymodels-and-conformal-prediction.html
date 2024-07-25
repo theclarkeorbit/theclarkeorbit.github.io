@@ -250,18 +250,18 @@ tidy modeling and conformal prediction in R.</p>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country                 year trade_direction    value      gdp population</span>
-<span class="c1">##    &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 United Arab Emirates    2016 import          21510.    3.69e11    8994263</span>
-<span class="c1">##  2 Viet Nam                2014 export           6258.    2.33e11   91235504</span>
-<span class="c1">##  3 Guyana                  2015 import             18.5   4.28e 9     755031</span>
-<span class="c1">##  4 Nepal                   2011 export           2721.    2.16e10   27266399</span>
-<span class="c1">##  5 Puerto Rico             2017 import             74.8   1.03e11    3325286</span>
-<span class="c1">##  6 &lt;NA&gt;                    2021 export           4190.   NA               NA</span>
-<span class="c1">##  7 Canada                  2012 import           2800.    1.83e12   34713395</span>
-<span class="c1">##  8 Kyrgyz Republic         2017 import             31.0   7.70e 9    6198200</span>
-<span class="c1">##  9 Bosnia and Herzegovina  2014 export             17.9   1.86e10    3571068</span>
-<span class="c1">## 10 Haiti                   2011 import              1.97  1.30e10    9954312</span>
+<span class="c1">##    country           year trade_direction    value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Solomon Islands   2015 import             67.7  1.31e 9     612660</span>
+<span class="c1">##  2 Congo, Dem. Rep.  2013 import             47.3  3.27e10   73460021</span>
+<span class="c1">##  3 St. Lucia         2012 export              1.01 1.60e 9     173124</span>
+<span class="c1">##  4 Lithuania         2020 export            164.   5.70e10    2794885</span>
+<span class="c1">##  5 Malaysia          2013 export           4198.   3.23e11   30134807</span>
+<span class="c1">##  6 Australia         2017 import          13994.   1.33e12   24592588</span>
+<span class="c1">##  7 Belarus           2015 export             35.7  5.65e10    9461076</span>
+<span class="c1">##  8 Bermuda           2014 import              0.09 6.41e 9      65138</span>
+<span class="c1">##  9 Slovenia          2012 export            274.   4.66e10    2057159</span>
+<span class="c1">## 10 Panama            2015 import             72.5  5.41e10    3957099</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -279,7 +279,7 @@ omit rows which have any data missing. Now we split the data into
 training and test using built in functions from the <code>rsample</code> package,
 making sure that the distribution of the value column is similar in all
 our data splits using the strata argument.</p>
-<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">4</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
 
 <span class="n">trade_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">year</span><span class="p">),</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">value</span><span class="m">+1</span><span class="p">))},</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
 <span class="n">trade_split</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span>
@@ -321,11 +321,11 @@ linear model.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 5 × 5</span>
 <span class="c1">##   term                   estimate std.error statistic   p.value</span>
 <span class="c1">##   &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="c1">## 1 (Intercept)               4.74     0.0999     47.5  0        </span>
-<span class="c1">## 2 gdp                       1.62     0.0459     35.3  8.08e-227</span>
-<span class="c1">## 3 population                0.877    0.0464     18.9  4.47e- 75</span>
-<span class="c1">## 4 trade_direction_import   -0.508    0.0549     -9.25 4.11e- 20</span>
-<span class="c1">## 5 year_X2017                0.412    0.135       3.06 2.24e-  3</span>
+<span class="c1">## 1 (Intercept)               4.82     0.0989     48.8  0        </span>
+<span class="c1">## 2 gdp                       1.65     0.0465     35.5  7.14e-229</span>
+<span class="c1">## 3 population                0.850    0.0470     18.1  2.84e- 69</span>
+<span class="c1">## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17</span>
+<span class="c1">## 5 year_X2017                0.233    0.136       1.71 8.73e-  2</span>
 </code></pre></div>
 
 <p>Now, let us make some predictions on the validation data.</p>
@@ -364,9 +364,9 @@ hardly be easier.</p>
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 3 × 3
 <span class="gu">##</span>   metric linear_model_test xgb_model_test
 <span class="gu">##</span>   &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;
-<span class="gu">##</span> 1 rmse               1.50           1.22 
-<span class="gu">##</span> 2 rsq                0.715          0.813
-<span class="gu">##</span> 3 mae                1.13           0.905
+<span class="gu">##</span> 1 rmse               1.43           1.15 
+<span class="gu">##</span> 2 rsq                0.744          0.838
+<span class="gu">##</span> 3 mae                1.09           0.873
 </code></pre></div>
 
 <h3>Multiclass classification</h3>
@@ -415,8 +415,8 @@ to predict the country based on population, GDP, and trade with India.</p>
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 2 × 2
 <span class="gu">##</span>   metric   xgb_class_validation
 <span class="gu">##</span>   &lt;chr&gt;                   &lt;dbl&gt;
-<span class="gu">##</span> 1 accuracy                0.602
-<span class="gu">##</span> 2 mcc                     0.601
+<span class="gu">##</span> 1 accuracy                0.595
+<span class="gu">##</span> 2 mcc                     0.594
 </code></pre></div>
 
 <p>An accuracy of 60% for a messy classification problem with 208 classes
@@ -560,7 +560,7 @@ $$</div>
 </code></pre></div>
 
 <p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-10-1.png"></p>
-<p>The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be at least 90%)</p>
+<p>The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be around 90%)</p>
 <div class="highlight"><pre><span></span><code><span class="n">test_split_result</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">within_band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">.pred_lower</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">within_band</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">)</span>
@@ -569,7 +569,7 @@ $$</div>
 <div class="highlight"><pre><span></span><code>## # A tibble: 1 × 1
 ##   coverage
 ##      &lt;dbl&gt;
-## 1     88.5
+## 1     91.6
 </code></pre></div>
 
 <p>Excellent. </p>

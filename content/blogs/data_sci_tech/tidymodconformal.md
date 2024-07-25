@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                 year trade_direction    value      gdp population
-##    <chr>                  <int> <chr>              <dbl>    <dbl>      <dbl>
-##  1 United Arab Emirates    2016 import          21510.    3.69e11    8994263
-##  2 Viet Nam                2014 export           6258.    2.33e11   91235504
-##  3 Guyana                  2015 import             18.5   4.28e 9     755031
-##  4 Nepal                   2011 export           2721.    2.16e10   27266399
-##  5 Puerto Rico             2017 import             74.8   1.03e11    3325286
-##  6 <NA>                    2021 export           4190.   NA               NA
-##  7 Canada                  2012 import           2800.    1.83e12   34713395
-##  8 Kyrgyz Republic         2017 import             31.0   7.70e 9    6198200
-##  9 Bosnia and Herzegovina  2014 export             17.9   1.86e10    3571068
-## 10 Haiti                   2011 import              1.97  1.30e10    9954312
+##    country           year trade_direction    value     gdp population
+##    <chr>            <int> <chr>              <dbl>   <dbl>      <dbl>
+##  1 Solomon Islands   2015 import             67.7  1.31e 9     612660
+##  2 Congo, Dem. Rep.  2013 import             47.3  3.27e10   73460021
+##  3 St. Lucia         2012 export              1.01 1.60e 9     173124
+##  4 Lithuania         2020 export            164.   5.70e10    2794885
+##  5 Malaysia          2013 export           4198.   3.23e11   30134807
+##  6 Australia         2017 import          13994.   1.33e12   24592588
+##  7 Belarus           2015 export             35.7  5.65e10    9461076
+##  8 Bermuda           2014 import              0.09 6.41e 9      65138
+##  9 Slovenia          2012 export            274.   4.66e10    2057159
+## 10 Panama            2015 import             72.5  5.41e10    3957099
 ```
 
 ``` r
@@ -178,7 +178,7 @@ our data splits using the strata argument.
 
 
 ``` r
-set.seed(4)
+set.seed(3)
 
 trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
@@ -227,11 +227,11 @@ linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ## # A tibble: 5 × 5
 ##   term                   estimate std.error statistic   p.value
 ##   <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
-## 1 (Intercept)               4.74     0.0999     47.5  0        
-## 2 gdp                       1.62     0.0459     35.3  8.08e-227
-## 3 population                0.877    0.0464     18.9  4.47e- 75
-## 4 trade_direction_import   -0.508    0.0549     -9.25 4.11e- 20
-## 5 year_X2017                0.412    0.135       3.06 2.24e-  3
+## 1 (Intercept)               4.82     0.0989     48.8  0        
+## 2 gdp                       1.65     0.0465     35.5  7.14e-229
+## 3 population                0.850    0.0470     18.1  2.84e- 69
+## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17
+## 5 year_X2017                0.233    0.136       1.71 8.73e-  2
 ```
 
 Now, let us make some predictions on the validation data.
@@ -279,9 +279,9 @@ left_join(linear_test_perf, xgb_test_perf)
 ## # A tibble: 3 × 3
 ##   metric linear_model_test xgb_model_test
 ##   <chr>              <dbl>          <dbl>
-## 1 rmse               1.50           1.22 
-## 2 rsq                0.715          0.813
-## 3 mae                1.13           0.905
+## 1 rmse               1.43           1.15 
+## 2 rsq                0.744          0.838
+## 3 mae                1.09           0.873
 ```
 
 ### Multiclass classification
@@ -337,8 +337,8 @@ xgb_class_perf
 ## # A tibble: 2 × 2
 ##   metric   xgb_class_validation
 ##   <chr>                   <dbl>
-## 1 accuracy                0.602
-## 2 mcc                     0.601
+## 1 accuracy                0.595
+## 2 mcc                     0.594
 ```
 
 An accuracy of 60% for a messy classification problem with 208 classes
@@ -495,7 +495,7 @@ ggplot(test_split_result) +
 
 ![center](/figures/tidymodconformal/unnamed-chunk-10-1.png)
 
-The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be at least 90%)
+The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be around 90%)
 
 ``` r
 test_split_result |> 
@@ -507,7 +507,7 @@ test_split_result |>
 ## # A tibble: 1 × 1
 ##   coverage
 ##      <dbl>
-## 1     88.5
+## 1     91.6
 ```
 Excellent. 
 
