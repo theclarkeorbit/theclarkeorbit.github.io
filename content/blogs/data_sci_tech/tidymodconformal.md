@@ -124,18 +124,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country           year trade_direction  value           gdp population
-##    <chr>            <int> <chr>            <dbl>         <dbl>      <dbl>
-##  1 Ukraine           2019 export          464.   153883047510.   44474512
-##  2 Monaco            2012 import            3.22   5742749294.      34700
-##  3 Philippines       2013 import          392.   283902828582.   99700107
-##  4 New Zealand       2021 export          487.   253644079785.    5111300
-##  5 Bermuda           2012 export            1.35   6378188000       64798
-##  6 Estonia           2021 export           62.0   36864792512.    1330932
-##  7 Lesotho           2011 export           21.2    2579409620.    2037677
-##  8 Congo, Dem. Rep.  2019 export          353.    51775829877.   89906890
-##  9 Grenada           2017 import            0.27   1125685185.     120921
-## 10 Austria           2018 export          483.   454991174096.    8840521
+##    country              year trade_direction    value           gdp population
+##    <chr>               <int> <chr>              <dbl>         <dbl>      <dbl>
+##  1 Paraguay             2011 export             66.9   33756238766.    5843939
+##  2 Cyprus               2021 import             74.3   29482912835.    1244188
+##  3 Guinea               2020 import           1631.    14177835841.   13205153
+##  4 Uruguay              2015 import             17.7   57680327999.    3402818
+##  5 Ecuador              2021 import           1012.   107435101000    17797737
+##  6 Guyana               2020 export             35.6    5471256595.     797202
+##  7 Moldova              2017 import              1.56   9514404016.    2755189
+##  8 St. Kitts and Nevis  2019 export              2.52   1107855556.      47712
+##  9 Bangladesh           2020 export           9691.   373979442653.  167420951
+## 10 Singapore            2013 export          12510.   307576360585.    5399162
 ```
 
 ``` r
@@ -334,5 +334,21 @@ xgb_class_perf
  
 ### Conformal prediction
 
-...
+In what follows, will follow the notation of Ryan Tibshirani (son of the redoubtable Rob Tibshirani), see the reading list above for a link to his notes. 
+
+#### Why conformal prediction
+
+Machine learning models making point predictions are not telling us how confident they are about those numbers, and even when we can get a confidence interval (for a linear regression), or a probability like score (for a classification), we cannot easily say (if at all) what the probability is of finding the true value of an out of set data point is, in the confidence intervals or the first few most probable values predicted by a classifier. 
+
+Very often, a decision about what to do and how to do it depends crucially on how sure we are of the prediction, and we would like very much to know how sure we can be that the prediction falls in a certain finite range. 
+
+I see the Bayesians wildly waving their hands, and I'll confess my sins and say I'm identify as a Bayesian myself. However, the selection of priors for model parameters is a shaky business, and untenable in any careful artisanal sense for a large black box model. Besides, Bayesian MCMC is computationally expensive and gets more so as model sizes increase. Furthermore, getting a prediction distribution is also expensive as we run the model forward drawing from the joint distribution of parameters to get an empirical distribution of predictions on which we can then make some probabilistic statements. 
+
+While bayesian inferences gives us a lot (especially if we are interested in what part of the parameter space seems to describe the world), it is over engineered in terms of just attaching interpretable uncertainty statements to model predictions. 
+
+The field of conformal predicton - on the other hand - uses a notion of coverage, and the goal is to enhance point predictions with sets of predictions that are guranteed (given al available data) to contain the true value with a certain probability. 
+
+#### Conformal basics - regression
+
+So if we have $n$
 

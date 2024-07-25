@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-25T12:00:52+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-25T12:00:52+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h3&gt;Reading material:&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-25T14:01:13+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-25T14:01:13+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h3&gt;Reading material:&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal regression&lt;/a&gt;&lt;/li&gt;
@@ -105,18 +105,18 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    country           year trade_direction  value           gdp population&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;            &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;            &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 Ukraine           2019 export          464.   153883047510.   44474512&lt;/span&gt;
-&lt;span class="c1"&gt;##  2 Monaco            2012 import            3.22   5742749294.      34700&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 Philippines       2013 import          392.   283902828582.   99700107&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 New Zealand       2021 export          487.   253644079785.    5111300&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 Bermuda           2012 export            1.35   6378188000       64798&lt;/span&gt;
-&lt;span class="c1"&gt;##  6 Estonia           2021 export           62.0   36864792512.    1330932&lt;/span&gt;
-&lt;span class="c1"&gt;##  7 Lesotho           2011 export           21.2    2579409620.    2037677&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 Congo, Dem. Rep.  2019 export          353.    51775829877.   89906890&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 Grenada           2017 import            0.27   1125685185.     120921&lt;/span&gt;
-&lt;span class="c1"&gt;## 10 Austria           2018 export          483.   454991174096.    8840521&lt;/span&gt;
+&lt;span class="c1"&gt;##    country              year trade_direction    value           gdp population&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;               &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;              &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 Paraguay             2011 export             66.9   33756238766.    5843939&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 Cyprus               2021 import             74.3   29482912835.    1244188&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 Guinea               2020 import           1631.    14177835841.   13205153&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 Uruguay              2015 import             17.7   57680327999.    3402818&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 Ecuador              2021 import           1012.   107435101000    17797737&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 Guyana               2020 export             35.6    5471256595.     797202&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 Moldova              2017 import              1.56   9514404016.    2755189&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 St. Kitts and Nevis  2019 export              2.52   1107855556.      47712&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 Bangladesh           2020 export           9691.   373979442653.  167420951&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 Singapore            2013 export          12510.   307576360585.    5399162&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -284,7 +284,77 @@
 
 &lt;p&gt;An accuracy of 60% for a messy classification problem with 208 classes is not too shabby at all, but adding any notion of confidence/coverage to a particular prediction is difficult (even if we have some kind of un-calibrated probability given by XGBoost), which is where conformal prediction comes it. &lt;/p&gt;
 &lt;h3&gt;Conformal prediction&lt;/h3&gt;
-&lt;p&gt;...&lt;/p&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"R, Torch, and the little book of deep learning"</title><link href="https://theclarkeorbit.github.io/r-torch-and-the-little-book-of-deep-learning.html" rel="alternate"></link><published>2024-04-29T00:00:00+02:00</published><updated>2024-07-23T10:41:39+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-04-29:/r-torch-and-the-little-book-of-deep-learning.html</id><summary type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
+&lt;p&gt;In what follows, will follow the notation of Ryan Tibshirani (son of the redoubtable Rob Tibshirani), see the reading list above for a link to his notes. &lt;/p&gt;
+&lt;h4&gt;Why conformal prediction&lt;/h4&gt;
+&lt;p&gt;Machine learning models making point predictions are not telling us how confident they are about those numbers, and even when we can get a confidence interval (for a linear regression), or a probability like score (for a classification), we cannot easily say (if at all) what the probability is of finding the true value of an out of set data point is, in the confidence intervals or the first few most probable values predicted by a classifier. &lt;/p&gt;
+&lt;p&gt;Very often, a decision about what to do and how to do it depends crucially on how sure we are of the prediction, and we would like very much to know how sure we can be that the prediction falls in a certain finite range. &lt;/p&gt;
+&lt;p&gt;I see the Bayesians wildly waving their hands, and I'll confess my sins and say I'm identify as a Bayesian myself. However, the selection of priors for model parameters is a shaky business, and untenable in any careful artisanal sense for a large black box model. Besides, Bayesian MCMC is computationally expensive and gets more so as model sizes increase. Furthermore, getting a prediction distribution is also expensive as we run the model forward drawing from the joint distribution of parameters to get an empirical distribution of predictions on which we can then make some probabilistic statements. &lt;/p&gt;
+&lt;p&gt;While bayesian inferences gives us a lot (especially if we are interested in what part of the parameter space seems to describe the world), it is over engineered in terms of just attaching interpretable uncertainty statements to model predictions. &lt;/p&gt;
+&lt;p&gt;The field of conformal predicton - on the other hand - uses a notion of coverage, and the goal is to enhance point predictions with sets of predictions that are guranteed (given al available data) to contain the true value with a certain probability. &lt;/p&gt;
+&lt;h4&gt;Conformal basics - regression&lt;/h4&gt;
+&lt;p&gt;So if we have &lt;span class="math"&gt;\(n\)&lt;/span&gt;&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"R, Torch, and the little book of deep learning"</title><link href="https://theclarkeorbit.github.io/r-torch-and-the-little-book-of-deep-learning.html" rel="alternate"></link><published>2024-04-29T00:00:00+02:00</published><updated>2024-07-23T10:41:39+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-04-29:/r-torch-and-the-little-book-of-deep-learning.html</id><summary type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
 &lt;p&gt;You'll need to have the book with you to understand these notes, but …&lt;/p&gt;</summary><content type="html">&lt;p&gt;These notes are meant to implement little examples from &lt;a href="https://fleuret.org/francois/index.html"&gt;Francois Fleuret's&lt;/a&gt; Little Book of Deep Learning (&lt;a href="https://fleuret.org/public/lbdl.pdf"&gt;pdf link&lt;/a&gt;) in r-torch. I'm writing these as a fun way to dive into torch in R while surveying DL quickly. &lt;/p&gt;
 &lt;p&gt;You'll need to have the book with you to understand these notes, but since it is available freely, that ought not to be an issue.&lt;/p&gt;
 &lt;h3&gt;Basis function regression&lt;/h3&gt;

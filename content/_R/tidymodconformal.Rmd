@@ -202,9 +202,25 @@ class_metrics(xgb_class_test_preds, truth = country, estimate = .pred_class) |>
   transmute(metric = .metric, xgb_class_validation = .estimate) -> xgb_class_perf
 xgb_class_perf
 ```
- An accuracy of 60% for a messy classification problem with 208 classes is not too shabby at all, but adding any notion of confidence/coverage to a particular prediction is difficult (even if we have some kind of un-calibrated probability given by XGBoost), which is where conformal prediction comes it. 
+ An accuracy of 60% for a messy classification problem with 208 classes is not too shabby at all, but adding any notion of confidence/coverage to a particular prediction is difficult (even if we have some kind of un-calibrated probability given by XGBoost), which is where conformal prediction comes in. 
  
 ### Conformal prediction
 
-...
+In what follows, will follow the notation of Ryan Tibshirani (son of the redoubtable Rob Tibshirani), see the reading list above for a link to his notes. 
+
+#### Why conformal prediction
+
+Machine learning models making point predictions are not telling us how confident they are about those numbers, and even when we can get a confidence interval (for a linear regression), or a probability like score (for a classification), we cannot easily say (if at all) what the probability is of finding the true value of an out of set data point is, in the confidence intervals or the first few most probable values predicted by a classifier. 
+
+Very often, a decision about what to do and how to do it depends crucially on how sure we are of the prediction, and we would like very much to know how sure we can be that the prediction falls in a certain finite range. 
+
+I see the Bayesians wildly waving their hands, and I'll confess my sins and say I'm identify as a Bayesian myself. However, the selection of priors for model parameters is a shaky business, and untenable in any careful artisanal sense for a large black box model. Besides, Bayesian MCMC is computationally expensive and gets more so as model sizes increase. Furthermore, getting a prediction distribution is also expensive as we run the model forward drawing from the joint distribution of parameters to get an empirical distribution of predictions on which we can then make some probabilistic statements. 
+
+While bayesian inferences gives us a lot (especially if we are interested in what part of the parameter space seems to describe the world), it is over engineered in terms of just attaching interpretable uncertainty statements to model predictions. 
+
+The field of conformal predicton - on the other hand - uses a notion of coverage, and the goal is to enhance point predictions with sets of predictions that are guranteed (given al available data) to contain the true value with a certain probability. 
+
+#### Conformal basics - regression
+
+So if we have $n$
 

@@ -232,18 +232,18 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country           year trade_direction  value           gdp population</span>
-<span class="c1">##    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;            &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Ukraine           2019 export          464.   153883047510.   44474512</span>
-<span class="c1">##  2 Monaco            2012 import            3.22   5742749294.      34700</span>
-<span class="c1">##  3 Philippines       2013 import          392.   283902828582.   99700107</span>
-<span class="c1">##  4 New Zealand       2021 export          487.   253644079785.    5111300</span>
-<span class="c1">##  5 Bermuda           2012 export            1.35   6378188000       64798</span>
-<span class="c1">##  6 Estonia           2021 export           62.0   36864792512.    1330932</span>
-<span class="c1">##  7 Lesotho           2011 export           21.2    2579409620.    2037677</span>
-<span class="c1">##  8 Congo, Dem. Rep.  2019 export          353.    51775829877.   89906890</span>
-<span class="c1">##  9 Grenada           2017 import            0.27   1125685185.     120921</span>
-<span class="c1">## 10 Austria           2018 export          483.   454991174096.    8840521</span>
+<span class="c1">##    country              year trade_direction    value           gdp population</span>
+<span class="c1">##    &lt;chr&gt;               &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Paraguay             2011 export             66.9   33756238766.    5843939</span>
+<span class="c1">##  2 Cyprus               2021 import             74.3   29482912835.    1244188</span>
+<span class="c1">##  3 Guinea               2020 import           1631.    14177835841.   13205153</span>
+<span class="c1">##  4 Uruguay              2015 import             17.7   57680327999.    3402818</span>
+<span class="c1">##  5 Ecuador              2021 import           1012.   107435101000    17797737</span>
+<span class="c1">##  6 Guyana               2020 export             35.6    5471256595.     797202</span>
+<span class="c1">##  7 Moldova              2017 import              1.56   9514404016.    2755189</span>
+<span class="c1">##  8 St. Kitts and Nevis  2019 export              2.52   1107855556.      47712</span>
+<span class="c1">##  9 Bangladesh           2020 export           9691.   373979442653.  167420951</span>
+<span class="c1">## 10 Singapore            2013 export          12510.   307576360585.    5399162</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -411,7 +411,77 @@
 
 <p>An accuracy of 60% for a messy classification problem with 208 classes is not too shabby at all, but adding any notion of confidence/coverage to a particular prediction is difficult (even if we have some kind of un-calibrated probability given by XGBoost), which is where conformal prediction comes it. </p>
 <h3>Conformal prediction</h3>
-<p>...</p>
+<p>In what follows, will follow the notation of Ryan Tibshirani (son of the redoubtable Rob Tibshirani), see the reading list above for a link to his notes. </p>
+<h4>Why conformal prediction</h4>
+<p>Machine learning models making point predictions are not telling us how confident they are about those numbers, and even when we can get a confidence interval (for a linear regression), or a probability like score (for a classification), we cannot easily say (if at all) what the probability is of finding the true value of an out of set data point is, in the confidence intervals or the first few most probable values predicted by a classifier. </p>
+<p>Very often, a decision about what to do and how to do it depends crucially on how sure we are of the prediction, and we would like very much to know how sure we can be that the prediction falls in a certain finite range. </p>
+<p>I see the Bayesians wildly waving their hands, and I'll confess my sins and say I'm identify as a Bayesian myself. However, the selection of priors for model parameters is a shaky business, and untenable in any careful artisanal sense for a large black box model. Besides, Bayesian MCMC is computationally expensive and gets more so as model sizes increase. Furthermore, getting a prediction distribution is also expensive as we run the model forward drawing from the joint distribution of parameters to get an empirical distribution of predictions on which we can then make some probabilistic statements. </p>
+<p>While bayesian inferences gives us a lot (especially if we are interested in what part of the parameter space seems to describe the world), it is over engineered in terms of just attaching interpretable uncertainty statements to model predictions. </p>
+<p>The field of conformal predicton - on the other hand - uses a notion of coverage, and the goal is to enhance point predictions with sets of predictions that are guranteed (given al available data) to contain the true value with a certain probability. </p>
+<h4>Conformal basics - regression</h4>
+<p>So if we have <span class="math">\(n\)</span></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </div>
             <!-- /.entry-content -->
         </article>
