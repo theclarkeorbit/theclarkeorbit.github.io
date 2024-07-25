@@ -116,7 +116,15 @@ df <- left_join(df_hs2, wb_df, by = c("iso3c", "year")) |>
   select(Commodity, value, country = country.y, year, trade_direction, iso3c, gdp, population) |> 
   group_by(country, year, trade_direction) |> 
   summarise(value = sum(value), gdp = gdp[1], population = population[1], .groups = "drop")
+```
 
+```
+## Error in `select()`:
+## ! Can't select columns with `population`.
+## ✖ `population` must be numeric or character, not a <tbl_df/tbl/data.frame> object.
+```
+
+``` r
 rm(df_exp, df_hs2, df_hs2_exp, df_hs2_imp, df_imp, wb_df)
 ```
 
@@ -142,19 +150,8 @@ df |> sample_n(10)
 ```
 
 ```
-## # A tibble: 10 × 6
-##    country             year trade_direction   value      gdp population
-##    <chr>              <int> <chr>             <dbl>    <dbl>      <dbl>
-##  1 Viet Nam            2015 export          5266.    2.39e11   92191398
-##  2 Iran, Islamic Rep.  2020 export          1775.    2.40e11   87290193
-##  3 Cayman Islands      2016 import             0.02  4.91e 9      62255
-##  4 Spain               2021 export          4725.    1.45e12   47415794
-##  5 Portugal            2011 export           525.    2.45e11   10557560
-##  6 <NA>                2019 import          4217.   NA               NA
-##  7 Cuba                2020 import            69.4   1.07e11   11300698
-##  8 Saudi Arabia        2018 export          5562.    8.47e11   35018133
-##  9 Burundi             2017 import            16.5   2.72e 9   11155593
-## 10 Georgia             2013 import            23.8   1.75e10    3717668
+## Error in `sample_n()`:
+## ! `tbl` must be a data frame, not a function.
 ```
 
 ``` r
@@ -164,7 +161,11 @@ ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
   theme_tufte()
 ```
 
-![center](/figures/tidymodconformal/unnamed-chunk-3-1.png)
+```
+## Error in `ggplot()`:
+## ! `data` cannot be a function.
+## ℹ Have you misspelled the `data` argument in `ggplot()`
+```
 
 ## Tidy modeling in R
 
@@ -181,20 +182,45 @@ our data splits using the strata argument.
 set.seed(3)
 
 trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
+```
+
+```
+## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
+```
+
+``` r
 trade_split |> print()
 ```
 
 ```
-## <Training/Validation/Testing/Total>
-## <2944/981/984/4909>
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
 ```
 
 ``` r
 train_df <- training(trade_split)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
+```
+
+``` r
 val_df <- validation(trade_split)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
+```
+
+``` r
 test_df <- testing(trade_split)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_split' not found
+```
 
+``` r
 trade_simple_regression <- 
   recipe(value ~ ., data = {train_df |> 
       select(-country)}) |> 
@@ -202,6 +228,10 @@ trade_simple_regression <-
   step_log(gdp, population) |> 
   step_dummy(all_nominal_predictors()) |> 
   step_normalize(gdp, population)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'train_df' not found
 ```
 
 ### Linear model
@@ -217,21 +247,26 @@ linear_model <- linear_reg() |>
 linear_workflow <- workflow() |>
   add_recipe(trade_simple_regression) |> 
   add_model(linear_model)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_simple_regression' not found
+```
+
+``` r
 linear_fit <- fit(linear_workflow, train_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'linear_workflow' not found
+```
+
+``` r
 linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ```
 
 ```
-## # A tibble: 5 × 5
-##   term                   estimate std.error statistic   p.value
-##   <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
-## 1 (Intercept)               4.82     0.0989     48.8  0        
-## 2 gdp                       1.65     0.0465     35.5  7.14e-229
-## 3 population                0.850    0.0470     18.1  2.84e- 69
-## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17
-## 5 year_X2017                0.233    0.136       1.71 8.73e-  2
+## Error in eval(expr, envir, enclos): object 'linear_fit' not found
 ```
 
 Now, let us make some predictions on the validation data.
@@ -241,9 +276,23 @@ Now, let us make some predictions on the validation data.
 trade_reg_metrics <- metric_set(rmse, rsq, mae)
 linear_test_preds <- predict(linear_fit, new_data = test_df) |> 
   bind_cols(test_df |> select(value))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'linear_fit' not found
+```
+
+``` r
 # linear_val_preds |> head()
 trade_reg_metrics(linear_test_preds, truth = value, estimate = .pred) |> 
   transmute(metric = .metric, linear_model_test = .estimate) -> linear_test_perf
+```
+
+```
+## Error in `metric_set()`:
+## ! Failed to compute `rmse()`.
+## Caused by error:
+## ! object 'linear_test_preds' not found
 ```
 
 ### Regression with XGBoost
@@ -261,27 +310,47 @@ xgb_model <- boost_tree(mtry = 3, trees = 5000, min_n = 7, tree_depth = 5, learn
 xgb_workflow <- workflow() |>
   add_recipe(trade_simple_regression) |> 
   add_model(xgb_model)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_simple_regression' not found
+```
+
+``` r
 xgb_fit <- fit(xgb_workflow, train_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'xgb_workflow' not found
+```
+
+``` r
 xgb_test_preds <- predict(xgb_fit, new_data = test_df) |> 
   bind_cols(test_df |> select(value))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'xgb_fit' not found
+```
+
+``` r
 trade_reg_metrics(xgb_test_preds, truth = value, estimate = .pred) |> 
   transmute(metric = .metric, xgb_model_test = .estimate) -> xgb_test_perf
+```
+
+```
+## Error in `metric_set()`:
+## ! Failed to compute `rmse()`.
+## Caused by error:
+## ! object 'xgb_test_preds' not found
+```
+
+``` r
 left_join(linear_test_perf, xgb_test_perf)
 ```
 
 ```
-## Joining with `by = join_by(metric)`
-```
-
-```
-## # A tibble: 3 × 3
-##   metric linear_model_test xgb_model_test
-##   <chr>              <dbl>          <dbl>
-## 1 rmse               1.43           1.15 
-## 2 rsq                0.744          0.838
-## 3 mae                1.09           0.873
+## Error in eval(expr, envir, enclos): object 'linear_test_perf' not found
 ```
 
 ### Multiclass classification
@@ -296,25 +365,49 @@ spread(df, key = trade_direction, value = value) |>
   na.omit() |> 
   mutate(country = as.factor(country)) |> 
   select(-year) -> df_classification
+```
 
+```
+## Error in UseMethod("spread"): no applicable method for 'spread' applied to an object of class "function"
+```
+
+``` r
 trade_class_split <- initial_split(df_classification, prop = c(0.6), strata = country)
 ```
 
 ```
-## Warning: Too little data to stratify.
-## • Resampling will be unstratified.
+## Error in eval(expr, envir, enclos): object 'df_classification' not found
 ```
 
 ``` r
 class_train_df <- training(trade_class_split)
-class_test_df <- testing(trade_class_split)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_class_split' not found
+```
+
+``` r
+class_test_df <- testing(trade_class_split)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'trade_class_split' not found
+```
+
+``` r
 trade_simple_classification <- 
   recipe(country ~ ., data = class_train_df) |> 
   step_naomit() |> 
   step_log(gdp, population) |> 
   step_normalize(all_numeric_predictors())
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'class_train_df' not found
+```
+
+``` r
 xgb_class_model <- boost_tree(mtry = 3, trees = 1000, min_n = 5, tree_depth = 5, learn_rate = 0.01) |> 
   set_engine("xgboost") |> 
   set_mode("classification")
@@ -322,23 +415,48 @@ xgb_class_model <- boost_tree(mtry = 3, trees = 1000, min_n = 5, tree_depth = 5,
 xgb_class_workflow <- workflow() |>
   add_recipe(trade_simple_classification) |> 
   add_model(xgb_class_model)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'trade_simple_classification' not found
+```
+
+``` r
 xgb_class_fit <- fit(xgb_class_workflow, class_train_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'xgb_class_workflow' not found
+```
+
+``` r
 xgb_class_test_preds <- predict(xgb_class_fit, new_data = class_test_df) |> 
   bind_cols(class_test_df |> select(country))
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'xgb_class_fit' not found
+```
+
+``` r
 class_metrics <- metric_set(accuracy, mcc)
 class_metrics(xgb_class_test_preds, truth = country, estimate = .pred_class) |> 
   transmute(metric = .metric, xgb_class_validation = .estimate) -> xgb_class_perf
+```
+
+```
+## Error in `metric_set()`:
+## ! Failed to compute `accuracy()`.
+## Caused by error:
+## ! object 'xgb_class_test_preds' not found
+```
+
+``` r
 xgb_class_perf
 ```
 
 ```
-## # A tibble: 2 × 2
-##   metric   xgb_class_validation
-##   <chr>                   <dbl>
-## 1 accuracy                0.595
-## 2 mcc                     0.594
+## Error in eval(expr, envir, enclos): object 'xgb_class_perf' not found
 ```
 
 An accuracy of 60% for a messy classification problem with 208 classes
@@ -461,19 +579,35 @@ Now, we will revisit our initial regression problem and see what conformal predi
 
 ``` r
 ggplot({bind_cols({xgb_test_preds |> select(.pred)}, test_df)}) +
-  geom_point(aes(x = value, y = .pred), alpha = 0.5) +
-  geom_abline(slope = 1, alpha = 0.5) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
   theme_tufte()
 ```
 
-![center](/figures/tidymodconformal/unnamed-chunk-9-1.png)
+```
+## Error in eval(expr, envir, enclos): object 'xgb_test_preds' not found
+```
+
 Now, we will use the `probably::int_conformal_split` function to estimate the prediction bands at the 90% level, and we will use the validation set `val_df` that we have kept aside and never used as the calibration set for this.  
 
 ``` r
 split_con  <- int_conformal_split(xgb_fit, val_df)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'xgb_fit' not found
+```
+
+``` r
 test_split_result <- predict(split_con, test_df, level = 0.9) |> 
   bind_cols(test_df)
+```
 
+```
+## Error in eval(expr, envir, enclos): object 'split_con' not found
+```
+
+``` r
 ggplot(test_split_result) +
   geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
   geom_smooth(aes(x = value, y = .pred_upper), colour = "#fcba03", se = FALSE) +
@@ -483,12 +617,9 @@ ggplot(test_split_result) +
 ```
 
 ```
-## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
-## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+## Error in eval(expr, envir, enclos): object 'test_split_result' not found
 ```
 
-![center](/figures/tidymodconformal/unnamed-chunk-10-1.png)
 The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be at least 90%)
 
 ``` r
@@ -498,10 +629,7 @@ test_split_result |>
 ```
 
 ```
-## # A tibble: 1 × 1
-##   coverage
-##      <dbl>
-## 1     91.6
+## Error in eval(expr, envir, enclos): object 'test_split_result' not found
 ```
 Excellent. 
 

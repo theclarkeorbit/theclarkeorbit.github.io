@@ -352,10 +352,11 @@ $$
 Now, we will revisit our initial regression problem and see what conformal prediction can do for us. This is what our xgboost model looks like when plotted against the test values.  
 ```{r}
 ggplot({bind_cols({xgb_test_preds |> select(.pred)}, test_df)}) +
-  geom_point(aes(x = value, y = .pred), alpha = 0.5) +
-  geom_abline(slope = 1, alpha = 0.5) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
   theme_tufte()
 ```
+
 Now, we will use the `probably::int_conformal_split` function to estimate the prediction bands at the 90% level, and we will use the validation set `val_df` that we have kept aside and never used as the calibration set for this.  
 ```{r, warning=FALSE}
 split_con  <- int_conformal_split(xgb_fit, val_df)
@@ -369,6 +370,7 @@ ggplot(test_split_result) +
   geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
   theme_tufte()
 ```
+
 The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be at least 90%)
 ```{r}
 test_split_result |> 
