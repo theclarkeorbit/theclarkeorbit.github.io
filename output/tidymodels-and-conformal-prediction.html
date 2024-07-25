@@ -250,18 +250,18 @@ tidy modeling and conformal prediction in R.</p>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country           year trade_direction    value     gdp population</span>
-<span class="c1">##    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Solomon Islands   2015 import             67.7  1.31e 9     612660</span>
-<span class="c1">##  2 Congo, Dem. Rep.  2013 import             47.3  3.27e10   73460021</span>
-<span class="c1">##  3 St. Lucia         2012 export              1.01 1.60e 9     173124</span>
-<span class="c1">##  4 Lithuania         2020 export            164.   5.70e10    2794885</span>
-<span class="c1">##  5 Malaysia          2013 export           4198.   3.23e11   30134807</span>
-<span class="c1">##  6 Australia         2017 import          13994.   1.33e12   24592588</span>
-<span class="c1">##  7 Belarus           2015 export             35.7  5.65e10    9461076</span>
-<span class="c1">##  8 Bermuda           2014 import              0.09 6.41e 9      65138</span>
-<span class="c1">##  9 Slovenia          2012 export            274.   4.66e10    2057159</span>
-<span class="c1">## 10 Panama            2015 import             72.5  5.41e10    3957099</span>
+<span class="c1">##    country               year trade_direction    value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Ireland               2016 import            526.   2.99e11    4755335</span>
+<span class="c1">##  2 Macao SAR, China      2012 import              1.49 4.32e10     582766</span>
+<span class="c1">##  3 Mongolia              2021 import              0.54 1.53e10    3347782</span>
+<span class="c1">##  4 Cameroon              2018 export            178.   4.00e10   25076747</span>
+<span class="c1">##  5 Comoros               2020 import             12.5  1.23e 9     806166</span>
+<span class="c1">##  6 Spain                 2011 export           2999.   1.48e12   46742697</span>
+<span class="c1">##  7 Guinea-Bissau         2020 export             18.1  1.52e 9    2015828</span>
+<span class="c1">##  8 Malaysia              2018 import          10818.   3.59e11   32399271</span>
+<span class="c1">##  9 Syrian Arab Republic  2017 export            153.   1.64e10   18983373</span>
+<span class="c1">## 10 Nigeria               2018 export           3005.   4.22e11  198387623</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -573,6 +573,62 @@ $$</div>
 </code></pre></div>
 
 <p>Excellent. </p>
+<p>While this is an encouraging result, there are clearly some improvements needed:</p>
+<ol>
+<li>The prediction bands are based on the calibration set which was just 20% of the training set. If we use cross validation, we could get residuals for the entire training set and use those to calibrate the prediction bands.</li>
+<li>The width of the prediction band seems constant through the entire range of values where as the points outside the range seem to occur (in this particular case) in the low and mid ranges. In general, it is reasonable to expect that the model will do better in some areas than in others, and the prediction band should reflect this, being wider in areas where the model is worse. </li>
+</ol>
+<p>We first address the first point, and deal with the slightly more complex issue of adaptive conformal prediction in a subsequent section. </p>
+<h4>Split conformal prediction with CV</h4>
+<div class="highlight"><pre><span></span><code><span class="n">ctrl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">control_resamples</span><span class="p">(</span><span class="n">save_pred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="c1"># this line ensures out of sample preds are also stored in the CV process</span>
+
+<span class="n">trade_reg_folds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vfold_cv</span><span class="p">({</span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">train_df</span><span class="p">,</span><span class="w"> </span><span class="n">val_df</span><span class="p">)},</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="c1"># 10 fold CV</span>
+
+<span class="n">xgb_resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">xgb_workflow</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">fit_resamples</span><span class="p">(</span><span class="n">trade_reg_folds</span><span class="p">,</span><span class="w"> </span><span class="n">control</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctrl</span><span class="p">)</span>
+
+<span class="nf">collect_metrics</span><span class="p">(</span><span class="n">xgb_resample</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 2 × 6
+<span class="gu">##</span>   .metric .estimator  mean     n std_err .config             
+<span class="gu">##</span>   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+<span class="gu">##</span> 1 rmse    standard   1.18     10 0.0180  Preprocessor1_Model1
+<span class="gu">##</span> 2 rsq     standard   0.824    10 0.00482 Preprocessor1_Model1
+</code></pre></div>
+
+<p>Now we again use the <code>probably</code> package to estimate the prediction band.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cv_con</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">int_conformal_cv</span><span class="p">(</span><span class="n">xgb_resample</span><span class="p">)</span>
+<span class="n">test_cv_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cv_con</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">test_cv_results</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2842b5&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_lower</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2842b5&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+</code></pre></div>
+
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-13-1.png"></p>
+<div class="highlight"><pre><span></span><code><span class="n">test_cv_results</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">within_band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">.pred_lower</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">within_band</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## # A tibble: 1 × 1
+##   coverage
+##      &lt;dbl&gt;
+## 1     90.1
+</code></pre></div>
+
+<p>Now, we address the second point.</p>
+<h4>Adaptive conformal prediction</h4>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

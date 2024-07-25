@@ -376,8 +376,47 @@ The interpretation that conformal prediction gives us for our prediction interva
 test_split_result |> 
   mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
   summarise(coverage = mean(within_band) * 100)
-  
 ```
 Excellent. 
 
+While this is an encouraging result, there are clearly some improvements needed:
 
+1. The prediction bands are based on the calibration set which was just 20% of the training set. If we use cross validation, we could get residuals for the entire training set and use those to calibrate the prediction bands.
+2. The width of the prediction band seems constant through the entire range of values where as the points outside the range seem to occur (in this particular case) in the low and mid ranges. In general, it is reasonable to expect that the model will do better in some areas than in others, and the prediction band should reflect this, being wider in areas where the model is worse. 
+
+We first address the first point, and deal with the slightly more complex issue of adaptive conformal prediction in a subsequent section. 
+
+#### Split conformal prediction with CV
+
+```{r}
+ctrl <- control_resamples(save_pred = TRUE, extract = I) # this line ensures out of sample preds are also stored in the CV process
+
+trade_reg_folds <- vfold_cv({bind_rows(train_df, val_df)}, v = 10) # 10 fold CV
+
+xgb_resample <- xgb_workflow |> 
+  fit_resamples(trade_reg_folds, control = ctrl)
+
+collect_metrics(xgb_resample)
+```
+Now we again use the `probably` package to estimate the prediction band.
+
+```{r}
+cv_con <- int_conformal_cv(xgb_resample)
+test_cv_results <- predict(cv_con, test_df, level = 0.9) |> 
+  bind_cols(test_df)
+
+ggplot(test_cv_results) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred_upper), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred_lower), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
+  theme_tufte()
+
+test_cv_results |> 
+  mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
+  summarise(coverage = mean(within_band) * 100)
+```
+
+Now, we address the second point.
+
+#### Adaptive conformal prediction

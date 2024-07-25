@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country           year trade_direction    value     gdp population
-##    <chr>            <int> <chr>              <dbl>   <dbl>      <dbl>
-##  1 Solomon Islands   2015 import             67.7  1.31e 9     612660
-##  2 Congo, Dem. Rep.  2013 import             47.3  3.27e10   73460021
-##  3 St. Lucia         2012 export              1.01 1.60e 9     173124
-##  4 Lithuania         2020 export            164.   5.70e10    2794885
-##  5 Malaysia          2013 export           4198.   3.23e11   30134807
-##  6 Australia         2017 import          13994.   1.33e12   24592588
-##  7 Belarus           2015 export             35.7  5.65e10    9461076
-##  8 Bermuda           2014 import              0.09 6.41e 9      65138
-##  9 Slovenia          2012 export            274.   4.66e10    2057159
-## 10 Panama            2015 import             72.5  5.41e10    3957099
+##    country               year trade_direction    value     gdp population
+##    <chr>                <int> <chr>              <dbl>   <dbl>      <dbl>
+##  1 Ireland               2016 import            526.   2.99e11    4755335
+##  2 Macao SAR, China      2012 import              1.49 4.32e10     582766
+##  3 Mongolia              2021 import              0.54 1.53e10    3347782
+##  4 Cameroon              2018 export            178.   4.00e10   25076747
+##  5 Comoros               2020 import             12.5  1.23e 9     806166
+##  6 Spain                 2011 export           2999.   1.48e12   46742697
+##  7 Guinea-Bissau         2020 export             18.1  1.52e 9    2015828
+##  8 Malaysia              2018 import          10818.   3.59e11   32399271
+##  9 Syrian Arab Republic  2017 export            153.   1.64e10   18983373
+## 10 Nigeria               2018 export           3005.   4.22e11  198387623
 ```
 
 ``` r
@@ -511,4 +511,71 @@ test_split_result |>
 ```
 Excellent. 
 
+While this is an encouraging result, there are clearly some improvements needed:
 
+1. The prediction bands are based on the calibration set which was just 20% of the training set. If we use cross validation, we could get residuals for the entire training set and use those to calibrate the prediction bands.
+2. The width of the prediction band seems constant through the entire range of values where as the points outside the range seem to occur (in this particular case) in the low and mid ranges. In general, it is reasonable to expect that the model will do better in some areas than in others, and the prediction band should reflect this, being wider in areas where the model is worse. 
+
+We first address the first point, and deal with the slightly more complex issue of adaptive conformal prediction in a subsequent section. 
+
+#### Split conformal prediction with CV
+
+
+``` r
+ctrl <- control_resamples(save_pred = TRUE, extract = I) # this line ensures out of sample preds are also stored in the CV process
+
+trade_reg_folds <- vfold_cv({bind_rows(train_df, val_df)}, v = 10) # 10 fold CV
+
+xgb_resample <- xgb_workflow |> 
+  fit_resamples(trade_reg_folds, control = ctrl)
+
+collect_metrics(xgb_resample)
+```
+
+```
+## # A tibble: 2 × 6
+##   .metric .estimator  mean     n std_err .config             
+##   <chr>   <chr>      <dbl> <int>   <dbl> <chr>               
+## 1 rmse    standard   1.18     10 0.0180  Preprocessor1_Model1
+## 2 rsq     standard   0.824    10 0.00482 Preprocessor1_Model1
+```
+Now we again use the `probably` package to estimate the prediction band.
+
+
+``` r
+cv_con <- int_conformal_cv(xgb_resample)
+test_cv_results <- predict(cv_con, test_df, level = 0.9) |> 
+  bind_cols(test_df)
+
+ggplot(test_cv_results) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred_upper), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred_lower), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
+  theme_tufte()
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+```
+
+![center](/figures/tidymodconformal/unnamed-chunk-13-1.png)
+
+``` r
+test_cv_results |> 
+  mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
+  summarise(coverage = mean(within_band) * 100)
+```
+
+```
+## # A tibble: 1 × 1
+##   coverage
+##      <dbl>
+## 1     90.1
+```
+
+Now, we address the second point.
+
+#### Adaptive conformal prediction
