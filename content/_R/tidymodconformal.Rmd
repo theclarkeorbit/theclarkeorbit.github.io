@@ -33,11 +33,11 @@ library(yardstick)
 We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted on Kaggle for the purposes of illustrating the tidy modeling techniques, without focusing too much on exploring the data.
 
 ```{bash}
-<!-- pip install kaggle -->
+<!-- pip install kaggle==1.6.14 -->
 <!-- mkdir ~/.datasets/india_trade_data -->
 <!-- kaggle datasets download -d lakshyaag/india-trade-data -->
 <!-- mv india-trade-data.zip ~/.datasets/india_trade_data/ -->
-<!-- unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip  -->
+<!-- unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip -->
 ```
 
 
@@ -113,7 +113,6 @@ trade_simple_regression <-
   step_log(gdp, population) |> 
   step_dummy(all_nominal_predictors()) |> 
   step_normalize(gdp, population)
-
 ```
 
 #### Linear model
@@ -136,10 +135,13 @@ linear_fit |> tidy()
 Now, let us make some predictions on the validation data.
 
 ```{r}
-linear_fit_last <- last_fit(linear_workflow, trade_split) 
 trade_reg_metrics <- metric_set(rmse, rsq, mae)
-collect_predictions(linear_fit_last) -> linear_preds
-trade_reg_metrics(linear_preds, truth = value, estimate = .pred)
+linear_val_preds <- predict(linear_fit, new_data = val_df) |> 
+  bind_cols(val_df |> select(value))
+# linear_val_preds |> head()
+trade_reg_metrics(linear_val_preds, truth = value, estimate = .pred) |> 
+  transmute(metric = .metric, linear_model_validation = .estimate) -> linear_val_perf
+linear_val_perf
 ```
 
 ##### Regression with XGBoost
@@ -157,10 +159,11 @@ xgb_workflow <- workflow() |>
 
 xgb_fit <- fit(xgb_workflow, train_df)
 
-xgb_fit_last <- last_fit(xgb_workflow, trade_split) 
-xgb_trade_reg_metrics <- metric_set(rmse, rsq, mae)
-collect_predictions(xgb_fit_last) -> xgb_preds
-xgb_trade_reg_metrics(xgb_preds, truth = value, estimate = .pred)
+xgb_val_preds <- predict(xgb_fit, new_data = val_df) |> 
+  bind_cols(val_df |> select(value))
+trade_reg_metrics(xgb_val_preds, truth = value, estimate = .pred) |> 
+  transmute(metric = .metric, xgb_model_validation = .estimate) -> xgb_val_perf
+left_join(linear_val_perf, xgb_val_perf)
 ```
 
 #### Multiclass classification
@@ -183,7 +186,7 @@ trade_simple_classification <-
   step_log(gdp, population) |> 
   step_normalize(all_numeric_predictors())
 
-xgb_class_model <- boost_tree(mtry = 3, trees = 500, min_n = 5, tree_depth = 3, learn_rate = 0.01) |> 
+xgb_class_model <- boost_tree(mtry = 3, trees = 1000, min_n = 5, tree_depth = 5, learn_rate = 0.01) |> 
   set_engine("xgboost") |> 
   set_mode("classification")
 
@@ -193,11 +196,15 @@ xgb_class_workflow <- workflow() |>
 
 xgb_class_fit <- fit(xgb_class_workflow, class_train_df)
 
-xgb_class_fit_last <- last_fit(xgb_class_workflow, trade_class_split)
-collect_predictions(xgb_class_fit_last) -> xgb_class_preds
-collect_metrics(xgb_class_fit_last)
+xgb_class_test_preds <- predict(xgb_class_fit, new_data = class_test_df) |> 
+  bind_cols(class_test_df |> select(country))
+class_metrics <- metric_set(accuracy, mcc)
+class_metrics(xgb_class_test_preds, truth = country, estimate = .pred_class) |> 
+  transmute(metric = .metric, xgb_class_validation = .estimate) -> xgb_class_perf
+xgb_class_perf
 ```
-
+ An accuracy of 60% for a messy classification problem with 208 classes is not too shabby at all, but adding any notion of confidence/coverage to a particular prediction is difficult (even if we have some kind of un-calibrated probability given by XGBoost), which is where conformal prediction comes it. 
+ 
 ### Conformal prediction
 
 ...
