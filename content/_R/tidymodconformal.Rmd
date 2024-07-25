@@ -17,6 +17,7 @@ library(ggthemes)
 library(xgboost)
 library(countries)
 library(yardstick)
+library(probably)
 ```
 
 ## Reading material:
@@ -161,12 +162,11 @@ Now, let us make some predictions on the validation data.
 
 ```{r}
 trade_reg_metrics <- metric_set(rmse, rsq, mae)
-linear_val_preds <- predict(linear_fit, new_data = val_df) |> 
-  bind_cols(val_df |> select(value))
+linear_test_preds <- predict(linear_fit, new_data = test_df) |> 
+  bind_cols(test_df |> select(value))
 # linear_val_preds |> head()
-trade_reg_metrics(linear_val_preds, truth = value, estimate = .pred) |> 
-  transmute(metric = .metric, linear_model_validation = .estimate) -> linear_val_perf
-linear_val_perf
+trade_reg_metrics(linear_test_preds, truth = value, estimate = .pred) |> 
+  transmute(metric = .metric, linear_model_test = .estimate) -> linear_test_perf
 ```
 
 ### Regression with XGBoost
@@ -176,7 +176,7 @@ since this is more likely to be used in production usecases. Could
 hardly be easier.
 
 ```{r}
-xgb_model <- boost_tree(mtry = 3, trees = 500, min_n = 5, tree_depth = 3, learn_rate = 0.01) |> 
+xgb_model <- boost_tree(mtry = 3, trees = 5000, min_n = 7, tree_depth = 5, learn_rate = 0.01) |> 
   set_engine("xgboost") |> 
   set_mode("regression")
 
@@ -186,11 +186,11 @@ xgb_workflow <- workflow() |>
 
 xgb_fit <- fit(xgb_workflow, train_df)
 
-xgb_val_preds <- predict(xgb_fit, new_data = val_df) |> 
-  bind_cols(val_df |> select(value))
-trade_reg_metrics(xgb_val_preds, truth = value, estimate = .pred) |> 
-  transmute(metric = .metric, xgb_model_validation = .estimate) -> xgb_val_perf
-left_join(linear_val_perf, xgb_val_perf)
+xgb_test_preds <- predict(xgb_fit, new_data = test_df) |> 
+  bind_cols(test_df |> select(value))
+trade_reg_metrics(xgb_test_preds, truth = value, estimate = .pred) |> 
+  transmute(metric = .metric, xgb_model_test = .estimate) -> xgb_test_perf
+left_join(linear_test_perf, xgb_test_perf)
 ```
 
 ### Multiclass classification
@@ -326,7 +326,7 @@ $$
 \mathbb{P}(Y_{n+1} \leq \hat{q}_n) \in \left[1-\alpha, 1-\alpha + \frac{1}{n+1}\right).
 $$ 
 
-##### Regression recipe
+**The recipe**
 
 We will now see how we can apply these inequalities to get some idea of
 uncertainty and coverage gurantees in regression problems.
@@ -343,4 +343,39 @@ uncertainty and coverage gurantees in regression problems.
     $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
     where we have a coverage guarantee, 
     $$\mathbb{P}\left(Y_{n+1}\in\hat{C}_n(X_{n+1} | D_1)\right) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right).$$
+
+Note that there is nothing special about residuals, we can define any negatively oriented (smaller is better) conformity score $V(D_2, \hat{f}_{n_1})$ that would work just as well to give a prediction band such that,
+$$
+\hat{C}_n(x) = \left\{ y : V(x,y,\hat{f}_{n_1}) \leq  \lceil (1-\alpha)(n+1) \rceil \text{ smallest of the } \{V(D_2, \hat{f}_{n_1})\}\right\}.
+$$
+
+Now, we will revisit our initial regression problem and see what conformal prediction can do for us. This is what our xgboost model looks like when plotted against the test values.  
+```{r}
+ggplot({bind_cols({xgb_test_preds |> select(.pred)}, test_df)}) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.5) +
+  geom_abline(slope = 1, alpha = 0.5) +
+  theme_tufte()
+```
+Now, we will use the `probably::int_conformal_split` function to estimate the prediction bands at the 90% level, and we will use the validation set `val_df` that we have kept aside and never used as the calibration set for this.  
+```{r, warning=FALSE}
+split_con  <- int_conformal_split(xgb_fit, val_df)
+test_split_result <- predict(split_con, test_df, level = 0.9) |> 
+  bind_cols(test_df)
+
+ggplot(test_split_result) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred_upper), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred_lower), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
+  theme_tufte()
+```
+The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be at least 90%)
+```{r}
+test_split_result |> 
+  mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
+  summarise(coverage = mean(within_band) * 100)
+  
+```
+Excellent. 
+
 
