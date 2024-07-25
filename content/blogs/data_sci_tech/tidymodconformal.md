@@ -11,7 +11,7 @@ editor_options:
 
 
 
-### Reading material:
+## Reading material:
 
 1.  [The tidy modeling book](https://www.tmwr.org/)
 2.  [The tidymodels blog on conformal
@@ -26,7 +26,7 @@ editor_options:
 7.  [The package](https://github.com/herbps10/AdaptiveConformal) of
     [Sussman et al.](https://arxiv.org/abs/2312.00448)
 
-### Getting some data
+## Getting some data
 
 We will look at [Indian trade
 data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted
@@ -179,7 +179,7 @@ ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
 ## ℹ Have you misspelled the `data` argument in `ggplot()`
 ```
 
-### Tidy modeling in R
+## Tidy modeling in R
 
 Since the quantitative columns like `value`, `gdp` and `population` vary
 by orders of magnitude over the data, it probably makes sense to log
@@ -246,7 +246,7 @@ trade_simple_regression <-
 ## Error in eval(expr, envir, enclos): object 'train_df' not found
 ```
 
-#### Linear model
+### Linear model
 
 As a first baseline, always best ton begin with a simple, interpretable
 linear model.
@@ -315,7 +315,7 @@ linear_val_perf
 ## Error in eval(expr, envir, enclos): object 'linear_val_perf' not found
 ```
 
-##### Regression with XGBoost
+### Regression with XGBoost
 
 We will now use the same modules of the parsnip package with XGBoost,
 since this is more likely to be used in production usecases. Could
@@ -373,7 +373,7 @@ left_join(linear_val_perf, xgb_val_perf)
 ## Error in eval(expr, envir, enclos): object 'linear_val_perf' not found
 ```
 
-#### Multiclass classification
+### Multiclass classification
 
 Here, we will add back the country column and widen the data frame to
 show value of goods imported and exported by from this country, and try
@@ -485,13 +485,13 @@ to a particular prediction is difficult (even if we have some kind of
 un-calibrated probability given by XGBoost), which is where conformal
 prediction comes in.
 
-### Conformal prediction
+## Conformal prediction
 
 In what follows, will follow the notation of Ryan Tibshirani (son of the
 redoubtable Rob Tibshirani), see the reading list above for a link to
 his notes.
 
-#### Why conformal prediction
+### Why conformal prediction
 
 Machine learning models making point predictions are not telling us how
 confident they are about those numbers, and even when we can get a
@@ -526,7 +526,7 @@ coverage, and the goal is to enhance point predictions with sets of
 predictions that are guranteed (given al available data) to contain the
 true value with a certain probability.
 
-#### Conformal basics - regression
+### Conformal basics - regression
 
 So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so
 $X_i$ is in $\mathbb{R}^d$) where $i \in [1,n]$, each of which is
