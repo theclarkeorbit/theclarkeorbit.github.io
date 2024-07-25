@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                 year trade_direction    value     gdp population
-##    <chr>                  <int> <chr>              <dbl>   <dbl>      <dbl>
-##  1 Nicaragua               2018 export             53.8  1.30e10    6572233
-##  2 Portugal                2017 export            747.   2.21e11   10300300
-##  3 Japan                   2021 import          14400.   5.03e12  125681593
-##  4 Uganda                  2017 import             56.2  3.07e10   40127085
-##  5 Tunisia                 2018 import            138.   4.27e10   11933041
-##  6 Bosnia and Herzegovina  2017 import              8.73 1.83e10    3440027
-##  7 Libya                   2012 export            215.   9.25e10    5869870
-##  8 Bermuda                 2017 export              3.1  7.14e 9      63873
-##  9 Liechtenstein           2021 import              0.82 7.71e 9      39039
-## 10 Netherlands             2013 export           7995.   8.77e11   16804432
+##    country           year trade_direction    value           gdp population
+##    <chr>            <int> <chr>              <dbl>         <dbl>      <dbl>
+##  1 Malaysia          2016 export           5225.   301256033870.   31526418
+##  2 <NA>              2011 export          19986.             NA          NA
+##  3 Tuvalu            2010 import              0        32105408.      10550
+##  4 Palau             2021 export              0.09    229858185.      18024
+##  5 Monaco            2013 export              0.29   6555591710.      35425
+##  6 Estonia           2014 import            118.    26634083965.    1314545
+##  7 Marshall Islands  2013 export              1.17    185817017.      51352
+##  8 Kazakhstan        2014 export            251.   221415613595.   17288285
+##  9 Myanmar           2014 import           1232.    65531374200.   51072436
+## 10 Armenia           2017 export             33.2   11527458709.    2851923
 ```
 
 ``` r
@@ -444,7 +444,7 @@ $$
 \mathbb{P}(Y_{n+1} \leq \hat{q}_n) \in \left[1-\alpha, 1-\alpha + \frac{1}{n+1}\right).
 $$ 
 
-\##### Regression recipe
+##### Regression recipe
 
 We will now see how we can apply these inequalities to get some idea of
 uncertainty and coverage gurantees in regression problems.
@@ -458,6 +458,6 @@ uncertainty and coverage gurantees in regression problems.
 4.  Calculate the conformal quantile $\hat{q}_{n_2}$,
     $$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
 5.  The, the desired prediction band is given by,
-    $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],
+    $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
     where, 
     $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right)\right).$$

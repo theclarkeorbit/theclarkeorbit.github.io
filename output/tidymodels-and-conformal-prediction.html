@@ -250,18 +250,18 @@ tidy modeling and conformal prediction in R.</p>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country                 year trade_direction    value     gdp population</span>
-<span class="c1">##    &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Nicaragua               2018 export             53.8  1.30e10    6572233</span>
-<span class="c1">##  2 Portugal                2017 export            747.   2.21e11   10300300</span>
-<span class="c1">##  3 Japan                   2021 import          14400.   5.03e12  125681593</span>
-<span class="c1">##  4 Uganda                  2017 import             56.2  3.07e10   40127085</span>
-<span class="c1">##  5 Tunisia                 2018 import            138.   4.27e10   11933041</span>
-<span class="c1">##  6 Bosnia and Herzegovina  2017 import              8.73 1.83e10    3440027</span>
-<span class="c1">##  7 Libya                   2012 export            215.   9.25e10    5869870</span>
-<span class="c1">##  8 Bermuda                 2017 export              3.1  7.14e 9      63873</span>
-<span class="c1">##  9 Liechtenstein           2021 import              0.82 7.71e 9      39039</span>
-<span class="c1">## 10 Netherlands             2013 export           7995.   8.77e11   16804432</span>
+<span class="c1">##    country           year trade_direction    value           gdp population</span>
+<span class="c1">##    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Malaysia          2016 export           5225.   301256033870.   31526418</span>
+<span class="c1">##  2 &lt;NA&gt;              2011 export          19986.             NA          NA</span>
+<span class="c1">##  3 Tuvalu            2010 import              0        32105408.      10550</span>
+<span class="c1">##  4 Palau             2021 export              0.09    229858185.      18024</span>
+<span class="c1">##  5 Monaco            2013 export              0.29   6555591710.      35425</span>
+<span class="c1">##  6 Estonia           2014 import            118.    26634083965.    1314545</span>
+<span class="c1">##  7 Marshall Islands  2013 export              1.17    185817017.      51352</span>
+<span class="c1">##  8 Kazakhstan        2014 export            251.   221415613595.   17288285</span>
+<span class="c1">##  9 Myanmar           2014 import           1232.    65531374200.   51072436</span>
+<span class="c1">## 10 Armenia           2017 export             33.2   11527458709.    2851923</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -512,7 +512,7 @@ arguments to derive an upper bound, we have,
 <div class="math">$$
 \mathbb{P}(Y_{n+1} \leq \hat{q}_n) \in \left[1-\alpha, 1-\alpha + \frac{1}{n+1}\right).
 $$</div>
-<p>##### Regression recipe</p>
+<h5>Regression recipe</h5>
 <p>We will now see how we can apply these inequalities to get some idea of
 uncertainty and coverage gurantees in regression problems.</p>
 <ol>
@@ -529,9 +529,10 @@ uncertainty and coverage gurantees in regression problems.</p>
     <div class="math">$$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$</div>
 </li>
 <li>The, the desired prediction band is given by,
-    <div class="math">$$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],
+    <div class="math">$$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$</div>
     where, 
-    $$</div>\mathbb{P}\left(Y_{n+1}\in\hat{C_}<em n_1="n+1">n(X</em> \right)\right).$$} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1</li>
+    <div class="math">$$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right)\right).$$</div>
+</li>
 </ol>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
