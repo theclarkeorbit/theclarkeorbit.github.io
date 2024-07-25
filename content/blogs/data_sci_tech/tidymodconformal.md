@@ -4,24 +4,34 @@ Date: 22 Jul 2024
 output:
   html_document:
     df_print: paged
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
-
 
 
 
 ### Reading material:
 
 1.  [The tidy modeling book](https://www.tmwr.org/)
-2.  [The tidymodels blog on conformal regression](https://www.tidymodels.org/learn/models/conformal-regression/)
+2.  [The tidymodels blog on conformal
+    regression](https://www.tidymodels.org/learn/models/conformal-regression/)
 3.  [The notes of Angelopoulos](https://arxiv.org/abs/2107.07511)
-4.  [The notes of Tibshirani](https://www.stat.berkeley.edu/~ryantibs/statlearn-s23/lectures/conformal.pdf)
-5.  [The book of Christoph Molnar](https://christophmolnar.com/books/conformal-prediction/)
-6.  [The book of Valeriy Manokhin](https://maven.com/valeriy-manokhin/applied-conformal-prediction)
-7.  [The package](https://github.com/herbps10/AdaptiveConformal) of [Sussman et al.](https://arxiv.org/abs/2312.00448)
+4.  [The notes of
+    Tibshirani](https://www.stat.berkeley.edu/~ryantibs/statlearn-s23/lectures/conformal.pdf)
+5.  [The book of Christoph
+    Molnar](https://christophmolnar.com/books/conformal-prediction/)
+6.  [The book of Valeriy
+    Manokhin](https://maven.com/valeriy-manokhin/applied-conformal-prediction)
+7.  [The package](https://github.com/herbps10/AdaptiveConformal) of
+    [Sussman et al.](https://arxiv.org/abs/2312.00448)
 
 ### Getting some data
 
-We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted on Kaggle for the purposes of illustrating the tidy modeling techniques, without focusing too much on exploring the data.
+We will look at [Indian trade
+data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted
+on Kaggle for the purposes of illustrating the tidy modeling techniques,
+without focusing too much on exploring the data.
 
 
 ``` bash
@@ -36,7 +46,6 @@ We will look at [Indian trade data](https://www.kaggle.com/datasets/lakshyaag/in
 ## bash: -c: line 1: syntax error near unexpected token `newline'
 ## bash: -c: line 1: `<!-- pip install kaggle==1.6.14 -->'
 ```
-
 
 
 ``` r
@@ -111,11 +120,21 @@ df <- left_join(df_hs2, wb_df, by = c("iso3c", "year")) |>
 rm(df_exp, df_hs2, df_hs2_exp, df_hs2_imp, df_imp, wb_df)
 ```
 
-Just for simplicity, we will stick to the HS2 files (2010-2021), and ignore the other two (HS trade data) files that run from 2010-2018. We will combine the two files into a single data frame with an added column indicating direction of trade. We also interpret NAs in the `value` column to mean that there was no trade, and replace those with 0.
+Just for simplicity, we will stick to the HS2 files (2010-2021), and
+ignore the other two (HS trade data) files that run from 2010-2018. We
+will combine the two files into a single data frame with an added column
+indicating direction of trade. We also interpret NAs in the `value`
+column to mean that there was no trade, and replace those with 0.
 
-To make this something of a modelling challenge, we have enhanced the data with some information about the countries India is trading with, like the GDP. We downloaded GDP data from the World Bank with the `WDI` package. Then, we did a left join onto the Indian trade data on country and year, by first converting the countries in the Indian trade to their ISO3 codes via the `countries` package.
+To make this something of a modelling challenge, we have enhanced the
+data with some information about the countries India is trading with,
+like the GDP. We downloaded GDP data from the World Bank with the `WDI`
+package. Then, we did a left join onto the Indian trade data on country
+and year, by first converting the countries in the Indian trade to their
+ISO3 codes via the `countries` package.
 
-The data frame we now have will serve as the basis for us to explore tidy modeling and conformal prediction in R.
+The data frame we now have will serve as the basis for us to explore
+tidy modeling and conformal prediction in R.
 
 
 ``` r
@@ -124,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                year trade_direction   value           gdp population
-##    <chr>                 <int> <chr>             <dbl>         <dbl>      <dbl>
-##  1 Venezuela, RB          2020 export           557.             NA    28490453
-##  2 West Bank and Gaza     2021 import             0.3   18109000000     4922749
-##  3 Azerbaijan             2015 import            77.1   53076235355.    9649341
-##  4 Egypt, Arab Rep.       2016 export          2067.   332441717791.   99784030
-##  5 Bulgaria               2011 import           101.    57737040780.    7348328
-##  6 Timor-Leste            2016 export             2.31   1652603700     1224562
-##  7 Cabo Verde             2015 import             2.77   1749857620.     552166
-##  8 Dominica               2013 export             2.36    498296296.      68819
-##  9 Virgin Islands (U.S.)  2019 export            81.4    4121000000      106669
-## 10 Netherlands            2011 export          9151.   905270626333.   16693074
+##    country                 year trade_direction    value     gdp population
+##    <chr>                  <int> <chr>              <dbl>   <dbl>      <dbl>
+##  1 Nicaragua               2018 export             53.8  1.30e10    6572233
+##  2 Portugal                2017 export            747.   2.21e11   10300300
+##  3 Japan                   2021 import          14400.   5.03e12  125681593
+##  4 Uganda                  2017 import             56.2  3.07e10   40127085
+##  5 Tunisia                 2018 import            138.   4.27e10   11933041
+##  6 Bosnia and Herzegovina  2017 import              8.73 1.83e10    3440027
+##  7 Libya                   2012 export            215.   9.25e10    5869870
+##  8 Bermuda                 2017 export              3.1  7.14e 9      63873
+##  9 Liechtenstein           2021 import              0.82 7.71e 9      39039
+## 10 Netherlands             2013 export           7995.   8.77e11   16804432
 ```
 
 ``` r
@@ -149,7 +168,13 @@ ggplot({df |> na.omit()}, aes(x = {value}, fill = trade_direction)) +
 
 ### Tidy modeling in R
 
-Since the quantitative columns like `value`, `gdp` and `population` vary by orders of magnitude over the data, it probably makes sense to log transform them. To deal with 0 values, we add 1 to all the values, and omit rows which have any data missing. Now we split the data into training and test using built in functions from the `rsample` package, making sure that the distribution of the value column is similar in all our data splits using the strata argument. 
+Since the quantitative columns like `value`, `gdp` and `population` vary
+by orders of magnitude over the data, it probably makes sense to log
+transform them. To deal with 0 values, we add 1 to all the values, and
+omit rows which have any data missing. Now we split the data into
+training and test using built in functions from the `rsample` package,
+making sure that the distribution of the value column is similar in all
+our data splits using the strata argument.
 
 
 ``` r
@@ -181,7 +206,8 @@ trade_simple_regression <-
 
 #### Linear model
 
-As a first baseline, always best ton begin with a simple, interpretable linear model.
+As a first baseline, always best ton begin with a simple, interpretable
+linear model.
 
 
 ``` r
@@ -232,7 +258,9 @@ linear_val_perf
 
 ##### Regression with XGBoost
 
-We will now use the same modules of the parsnip package with XGBoost, since this is more likely to be used in production usecases. Could hardly be easier.
+We will now use the same modules of the parsnip package with XGBoost,
+since this is more likely to be used in production usecases. Could
+hardly be easier.
 
 
 ``` r
@@ -268,7 +296,9 @@ left_join(linear_val_perf, xgb_val_perf)
 
 #### Multiclass classification
 
-Here, we will add back the country column and widen the data frame to show value of goods imported and exported by from this country, and try to predict the country based on population, GDP, and trade with India. 
+Here, we will add back the country column and widen the data frame to
+show value of goods imported and exported by from this country, and try
+to predict the country based on population, GDP, and trade with India.
 
 
 ``` r
@@ -320,50 +350,114 @@ xgb_class_perf
 ## 1 accuracy                0.620
 ## 2 mcc                     0.619
 ```
- An accuracy of 60% for a messy classification problem with 208 classes is not too shabby at all, but adding any notion of confidence/coverage to a particular prediction is difficult (even if we have some kind of un-calibrated probability given by XGBoost), which is where conformal prediction comes in. 
- 
+
+An accuracy of 60% for a messy classification problem with 208 classes
+is not too shabby at all, but adding any notion of confidence/coverage
+to a particular prediction is difficult (even if we have some kind of
+un-calibrated probability given by XGBoost), which is where conformal
+prediction comes in.
+
 ### Conformal prediction
 
-In what follows, will follow the notation of Ryan Tibshirani (son of the redoubtable Rob Tibshirani), see the reading list above for a link to his notes. 
+In what follows, will follow the notation of Ryan Tibshirani (son of the
+redoubtable Rob Tibshirani), see the reading list above for a link to
+his notes.
 
 #### Why conformal prediction
 
-Machine learning models making point predictions are not telling us how confident they are about those numbers, and even when we can get a confidence interval (for a linear regression), or a probability like score (for a classification), we cannot easily say (if at all) what the probability is of finding the true value of an out of set data point is, in the confidence intervals or the first few most probable values predicted by a classifier. 
+Machine learning models making point predictions are not telling us how
+confident they are about those numbers, and even when we can get a
+confidence interval (for a linear regression), or a probability like
+score (for a classification), we cannot easily say (if at all) what the
+probability is of finding the true value of an out of set data point is,
+in the confidence intervals or the first few most probable values
+predicted by a classifier.
 
-Very often, a decision about what to do and how to do it depends crucially on how sure we are of the prediction, and we would like very much to know how sure we can be that the prediction falls in a certain finite range. 
+Very often, a decision about what to do and how to do it depends
+crucially on how sure we are of the prediction, and we would like very
+much to know how sure we can be that the prediction falls in a certain
+finite range.
 
-I see the Bayesians wildly waving their hands, and I'll confess my sins and say I'm identify as a Bayesian myself. However, the selection of priors for model parameters is a shaky business, and untenable in any careful artisanal sense for a large black box model. Besides, Bayesian MCMC is computationally expensive and gets more so as model sizes increase. Furthermore, getting a prediction distribution is also expensive as we run the model forward drawing from the joint distribution of parameters to get an empirical distribution of predictions on which we can then make some probabilistic statements. 
+I see the Bayesians wildly waving their hands, and I'll confess my sins
+and say I'm identify as a Bayesian myself. However, the selection of
+priors for model parameters is a shaky business, and untenable in any
+careful artisanal sense for a large black box model. Besides, Bayesian
+MCMC is computationally expensive and gets more so as model sizes
+increase. Furthermore, getting a prediction distribution is also
+expensive as we run the model forward drawing from the joint
+distribution of parameters to get an empirical distribution of
+predictions on which we can then make some probabilistic statements.
 
-While bayesian inferences gives us a lot (especially if we are interested in what part of the parameter space seems to describe the world), it is over engineered in terms of just attaching interpretable uncertainty statements to model predictions. 
+While bayesian inferences gives us a lot (especially if we are
+interested in what part of the parameter space seems to describe the
+world), it is over engineered in terms of just attaching interpretable
+uncertainty statements to model predictions.
 
-The field of conformal predicton - on the other hand - uses a notion of coverage, and the goal is to enhance point predictions with sets of predictions that are guranteed (given al available data) to contain the true value with a certain probability. 
+The field of conformal predicton - on the other hand - uses a notion of
+coverage, and the goal is to enhance point predictions with sets of
+predictions that are guranteed (given al available data) to contain the
+true value with a certain probability.
 
 #### Conformal basics - regression
 
-So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so $X_i$ is in $\mathbb{R}^d$) where $i \in [1,n]$, each of which is associated with an outcome $Y_i$ in $\mathbb{R}$, given a new prediction vector $X_{n+1}$, we want to obtain a prediction band $\hat{C}: X \rightarrow \{\text{subset of } \mathbb{R}\}$ such that we can guarantee that the probability of $Y_{n+1}$ falling within the prediction band is greater than some threshold,
-$$
+So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so
+$X_i$ is in $\mathbb{R}^d$) where $i \in [1,n]$, each of which is
+associated with an outcome $Y_i$ in $\mathbb{R}$, given a new prediction
+vector $X_{n+1}$, we want to obtain a prediction band
+$\hat{C}: X \rightarrow \{\text{subset of } \mathbb{R}\}$ such that we
+can guarantee that the probability of $Y_{n+1}$ falling within the
+prediction band is greater than some threshold, $$
 \mathbb{P}(Y_{n+1} \in \hat{C}(X_{n+1})) \geq 1-\alpha,
-$$
-for a particular $\alpha \in (0,1)$. 
+$$ for a particular $\alpha \in (0,1)$.
 
-We - of course - would like the prediction bands to be narrower if its "easy" to predict the $Y$s from the $X$s, and we would like to do this with a finite data set and not much compute. 
+We - of course - would like the prediction bands to be narrower if its
+"easy" to predict the $Y$s from the $X$s, and we would like to do this
+with a finite data set and not much compute.
 
-Surprisingly, this is plausible, under the assumption that the data (even the new data) are "exchangeable", which is to say that their joint distribution is invariant under permutations. This is a rather weaker assumption from the IID assumptions often made. Further more, our methods will not depend on the model parameters or reality having any specific distribution, which is a huge advantage over Bayesian techniques.
+Surprisingly, this is plausible, under the assumption that the data
+(even the new data) are "exchangeable", which is to say that their joint
+distribution is invariant under permutations. This is a rather weaker
+assumption from the IID assumptions often made. Further more, our
+methods will not depend on the model parameters or reality having any
+specific distribution, which is a huge advantage over Bayesian
+techniques.
 
-There are many ways to construct the prediction band, or to extend a point prediction to a prediction band, we will now discuss the simplest of these in the context of regression.
+There are many ways to construct the prediction band, or to extend a
+point prediction to a prediction band, we will now discuss the simplest
+of these in the context of regression.
 
 #### Split conformal prediction
 
-First we note a basic property of a series of numbers $[Y_1, .., Y_n]$ drawn from some distribution. If another number $Y_{n+1}$ is drawn from the same distribution, 
-$$
+First we note a basic property of a series of numbers $[Y_1, .., Y_n]$
+drawn from some distribution. If another number $Y_{n+1}$ is drawn from
+the same distribution, $$
 \mathbb{P}\left(Y_{n+1}\text{ is among the smallest } \lceil (1-\alpha)(n+1) \rceil\text{ numbers in }[Y_1,..,Y_n]\right) \geq (1-\alpha),
-$$
-which gives us a way to order a finite list of numbers such that another similar number has a certain probability $(1-\alpha)$ of falling within the first  $\lceil (1-\alpha)(n+1) \rceil$ numbers of that list. Thus, by defining
-$$
+$$ which gives us a way to order a finite list of numbers such that
+another similar number has a certain probability $(1-\alpha)$ of falling
+within the first $\lceil (1-\alpha)(n+1) \rceil$ numbers of that list.
+Thus, by defining $$
 \hat{q_n} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } Y_1 .. Y_n,
-$$
-gives us a one sided prediction interval $(-\infty, \hat{q}_n]$ where $\mathbb{P}(Y_{n+1} \leq \hat{q}_n) \geq (1-\alpha)$. Using similar arguments to derive an upper bound, we have,
+$$ gives us a one sided prediction interval $(-\infty, \hat{q}_n]$ where
+$\mathbb{P}(Y_{n+1} \leq \hat{q}_n) \geq (1-\alpha)$. Using similar
+arguments to derive an upper bound, we have, 
 $$
 \mathbb{P}(Y_{n+1} \leq \hat{q}_n) \in \left[1-\alpha, 1-\alpha + \frac{1}{n+1}\right).
-$$
+$$ 
 
+\##### Regression recipe
+
+We will now see how we can apply these inequalities to get some idea of
+uncertainty and coverage gurantees in regression problems.
+
+1.  Split the training set ($n$ rows) into two sets:
+    1.  The *proper* training set $D_1$ with $n_1$ rows
+    2.  The *calibration* set $D_2$ with $n_2 = n-n_1$ rows
+2.  Train a point prediction model/function $\hat{f}_{n_1}$ on $D_1$.
+3.  Calculate the residuals $R$ on the calibration set,
+    $$R_i = |Y_i - \hat{f}_{n1}(X_i)|, \text{    }i \in D_2.$$
+4.  Calculate the conformal quantile $\hat{q}_{n_2}$,
+    $$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
+5.  The, the desired prediction band is given by,
+    $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],
+    where, 
+    $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right)\right).$$
