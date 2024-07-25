@@ -250,18 +250,18 @@ tidy modeling and conformal prediction in R.</p>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country           year trade_direction    value           gdp population</span>
-<span class="c1">##    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Malaysia          2016 export           5225.   301256033870.   31526418</span>
-<span class="c1">##  2 &lt;NA&gt;              2011 export          19986.             NA          NA</span>
-<span class="c1">##  3 Tuvalu            2010 import              0        32105408.      10550</span>
-<span class="c1">##  4 Palau             2021 export              0.09    229858185.      18024</span>
-<span class="c1">##  5 Monaco            2013 export              0.29   6555591710.      35425</span>
-<span class="c1">##  6 Estonia           2014 import            118.    26634083965.    1314545</span>
-<span class="c1">##  7 Marshall Islands  2013 export              1.17    185817017.      51352</span>
-<span class="c1">##  8 Kazakhstan        2014 export            251.   221415613595.   17288285</span>
-<span class="c1">##  9 Myanmar           2014 import           1232.    65531374200.   51072436</span>
-<span class="c1">## 10 Armenia           2017 export             33.2   11527458709.    2851923</span>
+<span class="c1">##    country         year trade_direction   value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 France          2020 import          4343.   2.65e12   67571107</span>
+<span class="c1">##  2 Honduras        2017 import            13.3  2.31e10    9626842</span>
+<span class="c1">##  3 Cuba            2010 import             1.11 5.96e10   11290417</span>
+<span class="c1">##  4 Nigeria         2020 export          3135.   4.32e11  208327405</span>
+<span class="c1">##  5 Malta           2012 import            42.6  9.46e 9     420028</span>
+<span class="c1">##  6 American Samoa  2021 export             0.77 7.5 e 8      45035</span>
+<span class="c1">##  7 Seychelles      2020 import             3.64 1.38e 9      98462</span>
+<span class="c1">##  8 Jamaica         2021 import             1.8  1.47e10    2827695</span>
+<span class="c1">##  9 Bangladesh      2012 export          5145.   1.33e11  152090649</span>
+<span class="c1">## 10 Austria         2012 export           329.   4.09e11    8429991</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -530,8 +530,8 @@ uncertainty and coverage gurantees in regression problems.</p>
 </li>
 <li>The, the desired prediction band is given by,
     <div class="math">$$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$</div>
-    where, 
-    <div class="math">$$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right)\right).$$</div>
+    where we have a coverage guarantee, 
+    <div class="math">$$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1)\right) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right).$$</div>
 </li>
 </ol>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {

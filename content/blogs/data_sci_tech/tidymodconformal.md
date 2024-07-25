@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country           year trade_direction    value           gdp population
-##    <chr>            <int> <chr>              <dbl>         <dbl>      <dbl>
-##  1 Malaysia          2016 export           5225.   301256033870.   31526418
-##  2 <NA>              2011 export          19986.             NA          NA
-##  3 Tuvalu            2010 import              0        32105408.      10550
-##  4 Palau             2021 export              0.09    229858185.      18024
-##  5 Monaco            2013 export              0.29   6555591710.      35425
-##  6 Estonia           2014 import            118.    26634083965.    1314545
-##  7 Marshall Islands  2013 export              1.17    185817017.      51352
-##  8 Kazakhstan        2014 export            251.   221415613595.   17288285
-##  9 Myanmar           2014 import           1232.    65531374200.   51072436
-## 10 Armenia           2017 export             33.2   11527458709.    2851923
+##    country         year trade_direction   value     gdp population
+##    <chr>          <int> <chr>             <dbl>   <dbl>      <dbl>
+##  1 France          2020 import          4343.   2.65e12   67571107
+##  2 Honduras        2017 import            13.3  2.31e10    9626842
+##  3 Cuba            2010 import             1.11 5.96e10   11290417
+##  4 Nigeria         2020 export          3135.   4.32e11  208327405
+##  5 Malta           2012 import            42.6  9.46e 9     420028
+##  6 American Samoa  2021 export             0.77 7.5 e 8      45035
+##  7 Seychelles      2020 import             3.64 1.38e 9      98462
+##  8 Jamaica         2021 import             1.8  1.47e10    2827695
+##  9 Bangladesh      2012 export          5145.   1.33e11  152090649
+## 10 Austria         2012 export           329.   4.09e11    8429991
 ```
 
 ``` r
@@ -459,5 +459,6 @@ uncertainty and coverage gurantees in regression problems.
     $$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
 5.  The, the desired prediction band is given by,
     $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
-    where, 
-    $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right)\right).$$
+    where we have a coverage guarantee, 
+    $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1)\right) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right).$$
+

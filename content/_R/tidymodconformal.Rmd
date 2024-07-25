@@ -341,5 +341,6 @@ uncertainty and coverage gurantees in regression problems.
     $$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
 5.  The, the desired prediction band is given by,
     $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
-    where, 
-    $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right)\right).$$
+    where we have a coverage guarantee, 
+    $$\mathbb{P}\left(Y_{n+1}\in\hat{C_}_n(X_{n+1} | D_1)\right) \in \left[1-\alpha, 1-\alpha+\frac{1}{n_2+1} \right).$$
+
