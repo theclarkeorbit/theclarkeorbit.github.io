@@ -250,18 +250,18 @@ tidy modeling and conformal prediction in R.</p>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country               year trade_direction    value     gdp population</span>
-<span class="c1">##    &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Kazakhstan            2010 import            138.   1.48e11   16321872</span>
-<span class="c1">##  2 Morocco               2020 export            508.   1.21e11   36688772</span>
-<span class="c1">##  3 Botswana              2015 export             52.3  1.35e10    2305171</span>
-<span class="c1">##  4 Chad                  2019 export             58.7  1.13e10   16126866</span>
-<span class="c1">##  5 Russian Federation    2012 export           2296.   2.21e12  143378447</span>
-<span class="c1">##  6 Hong Kong SAR, China  2019 import          16935.   3.63e11    7507900</span>
-<span class="c1">##  7 Honduras              2019 export            185.   2.49e10    9958829</span>
-<span class="c1">##  8 Thailand              2014 import           5866.   4.07e11   69960943</span>
-<span class="c1">##  9 Spain                 2011 export           2999.   1.48e12   46742697</span>
-<span class="c1">## 10 Aruba                 2015 export              6.92 2.96e 9     104257</span>
+<span class="c1">##    country                       year trade_direction  value      gdp population</span>
+<span class="c1">##    &lt;chr&gt;                        &lt;int&gt; &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Korea, Dem. People&#39;s Rep.     2013 import          1.25e1 NA         25001819</span>
+<span class="c1">##  2 Mauritius                     2010 export          8.54e2  1.00e10    1250400</span>
+<span class="c1">##  3 Netherlands                   2015 export          4.72e3  7.66e11   16939923</span>
+<span class="c1">##  4 Senegal                       2012 export          4.90e2  1.77e10   13231833</span>
+<span class="c1">##  5 Cote d&#39;Ivoire                 2020 export          5.86e2  6.30e10   26811790</span>
+<span class="c1">##  6 Djibouti                      2021 export          7.13e2  3.39e 9    1105557</span>
+<span class="c1">##  7 Ecuador                       2014 export          2.25e2  1.03e11   15957994</span>
+<span class="c1">##  8 St. Vincent and the Grenadi…  2013 export          1.81e0  7.65e 8     107450</span>
+<span class="c1">##  9 Costa Rica                    2014 export          9.58e1  5.20e10    4844288</span>
+<span class="c1">## 10 Brazil                        2017 import          5.50e3  2.06e12  208504960</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -774,7 +774,7 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 <div class="highlight"><pre><span></span><code>## [1] 19.10148
 </code></pre></div>
 
-<p>Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of 17.6!</p>
+<p>Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of close to 20!</p>
 <p>That concludes our romp through the basics of conformal predcition.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

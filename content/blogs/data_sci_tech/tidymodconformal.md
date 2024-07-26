@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country               year trade_direction    value     gdp population
-##    <chr>                <int> <chr>              <dbl>   <dbl>      <dbl>
-##  1 Kazakhstan            2010 import            138.   1.48e11   16321872
-##  2 Morocco               2020 export            508.   1.21e11   36688772
-##  3 Botswana              2015 export             52.3  1.35e10    2305171
-##  4 Chad                  2019 export             58.7  1.13e10   16126866
-##  5 Russian Federation    2012 export           2296.   2.21e12  143378447
-##  6 Hong Kong SAR, China  2019 import          16935.   3.63e11    7507900
-##  7 Honduras              2019 export            185.   2.49e10    9958829
-##  8 Thailand              2014 import           5866.   4.07e11   69960943
-##  9 Spain                 2011 export           2999.   1.48e12   46742697
-## 10 Aruba                 2015 export              6.92 2.96e 9     104257
+##    country                       year trade_direction  value      gdp population
+##    <chr>                        <int> <chr>            <dbl>    <dbl>      <dbl>
+##  1 Korea, Dem. People's Rep.     2013 import          1.25e1 NA         25001819
+##  2 Mauritius                     2010 export          8.54e2  1.00e10    1250400
+##  3 Netherlands                   2015 export          4.72e3  7.66e11   16939923
+##  4 Senegal                       2012 export          4.90e2  1.77e10   13231833
+##  5 Cote d'Ivoire                 2020 export          5.86e2  6.30e10   26811790
+##  6 Djibouti                      2021 export          7.13e2  3.39e 9    1105557
+##  7 Ecuador                       2014 export          2.25e2  1.03e11   15957994
+##  8 St. Vincent and the Grenadi…  2013 export          1.81e0  7.65e 8     107450
+##  9 Costa Rica                    2014 export          9.58e1  5.20e10    4844288
+## 10 Brazil                        2017 import          5.50e3  2.06e12  208504960
 ```
 
 ``` r
@@ -740,6 +740,6 @@ prediction_set_sizes$prediction_set_length |> mean()
 ```
 ## [1] 19.10148
 ```
-Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of 17.6!
+Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of close to 20!
 
 That concludes our romp through the basics of conformal predcition.

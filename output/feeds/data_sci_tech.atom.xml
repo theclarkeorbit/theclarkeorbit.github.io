@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-26T16:16:50+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-26T16:16:50+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-26T16:21:11+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-26T16:21:11+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal
@@ -130,18 +130,18 @@ tidy modeling and conformal prediction in R.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    country               year trade_direction    value     gdp population&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;                &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;              &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 Kazakhstan            2010 import            138.   1.48e11   16321872&lt;/span&gt;
-&lt;span class="c1"&gt;##  2 Morocco               2020 export            508.   1.21e11   36688772&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 Botswana              2015 export             52.3  1.35e10    2305171&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 Chad                  2019 export             58.7  1.13e10   16126866&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 Russian Federation    2012 export           2296.   2.21e12  143378447&lt;/span&gt;
-&lt;span class="c1"&gt;##  6 Hong Kong SAR, China  2019 import          16935.   3.63e11    7507900&lt;/span&gt;
-&lt;span class="c1"&gt;##  7 Honduras              2019 export            185.   2.49e10    9958829&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 Thailand              2014 import           5866.   4.07e11   69960943&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 Spain                 2011 export           2999.   1.48e12   46742697&lt;/span&gt;
-&lt;span class="c1"&gt;## 10 Aruba                 2015 export              6.92 2.96e 9     104257&lt;/span&gt;
+&lt;span class="c1"&gt;##    country                       year trade_direction  value      gdp population&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;                        &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;            &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 Korea, Dem. People&amp;#39;s Rep.     2013 import          1.25e1 NA         25001819&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 Mauritius                     2010 export          8.54e2  1.00e10    1250400&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 Netherlands                   2015 export          4.72e3  7.66e11   16939923&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 Senegal                       2012 export          4.90e2  1.77e10   13231833&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 Cote d&amp;#39;Ivoire                 2020 export          5.86e2  6.30e10   26811790&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 Djibouti                      2021 export          7.13e2  3.39e 9    1105557&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 Ecuador                       2014 export          2.25e2  1.03e11   15957994&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 St. Vincent and the Grenadi…  2013 export          1.81e0  7.65e 8     107450&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 Costa Rica                    2014 export          9.58e1  5.20e10    4844288&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 Brazil                        2017 import          5.50e3  2.06e12  208504960&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -654,7 +654,7 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## [1] 19.10148
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of 17.6!&lt;/p&gt;
+&lt;p&gt;Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of close to 20!&lt;/p&gt;
 &lt;p&gt;That concludes our romp through the basics of conformal predcition.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

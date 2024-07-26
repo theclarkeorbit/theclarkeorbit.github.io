@@ -556,6 +556,6 @@ process_test_results(xgb_class_test_prob_preds, qn) |>
 
 prediction_set_sizes$prediction_set_length |> mean()
 ```
-Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of 17.6!
+Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of close to 20!
 
 That concludes our romp through the basics of conformal predcition.
