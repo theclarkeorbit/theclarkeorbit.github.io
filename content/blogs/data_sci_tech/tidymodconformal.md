@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                       year trade_direction  value      gdp population
-##    <chr>                        <int> <chr>            <dbl>    <dbl>      <dbl>
-##  1 Korea, Dem. People's Rep.     2013 import          1.25e1 NA         25001819
-##  2 Mauritius                     2010 export          8.54e2  1.00e10    1250400
-##  3 Netherlands                   2015 export          4.72e3  7.66e11   16939923
-##  4 Senegal                       2012 export          4.90e2  1.77e10   13231833
-##  5 Cote d'Ivoire                 2020 export          5.86e2  6.30e10   26811790
-##  6 Djibouti                      2021 export          7.13e2  3.39e 9    1105557
-##  7 Ecuador                       2014 export          2.25e2  1.03e11   15957994
-##  8 St. Vincent and the Grenadi…  2013 export          1.81e0  7.65e 8     107450
-##  9 Costa Rica                    2014 export          9.58e1  5.20e10    4844288
-## 10 Brazil                        2017 import          5.50e3  2.06e12  208504960
+##    country      year trade_direction   value          gdp population
+##    <chr>       <int> <chr>             <dbl>        <dbl>      <dbl>
+##  1 Andorra      2019 export             0.07  3155149348.      76343
+##  2 Latvia       2021 import           135.   39443126174.    1884490
+##  3 Zimbabwe     2018 import             7.81 34156069918.   15052184
+##  4 Georgia      2017 import            27.0  16473125375.    3728004
+##  5 Senegal      2020 export           699.   24530513038.   16436120
+##  6 Burundi      2021 import             0.04  2775798697.   12551213
+##  7 Cambodia     2013 export           141.   15227991395.   14999683
+##  8 Namibia      2013 export           212.   12043307277.    2204510
+##  9 Jordan       2018 import          1116.   43370860704.   10459865
+## 10 South Sudan  2014 import            66.2  13962212847.   11213284
 ```
 
 ``` r
@@ -249,7 +249,7 @@ trade_reg_metrics(linear_test_preds, truth = value, estimate = .pred) |>
 ### Regression with XGBoost
 
 We will now use the same modules of the parsnip package with XGBoost,
-since this is more likely to be used in production usecases. Could
+since this is more likely to be used in production use-cases. Could
 hardly be easier.
 
 
@@ -381,14 +381,14 @@ expensive as we run the model forward drawing from the joint
 distribution of parameters to get an empirical distribution of
 predictions on which we can then make some probabilistic statements.
 
-While bayesian inferences gives us a lot (especially if we are
+While Bayesian inferences gives us a lot (especially if we are
 interested in what part of the parameter space seems to describe the
 world), it is over engineered in terms of just attaching interpretable
 uncertainty statements to model predictions.
 
-The field of conformal predicton - on the other hand - uses a notion of
+The field of conformal prediction - on the other hand - uses a notion of
 coverage, and the goal is to enhance point predictions with sets of
-predictions that are guranteed (given al available data) to contain the
+predictions that are guaranteed (given all available data) to contain the
 true value with a certain probability.
 
 ### Conformal basics - regression
@@ -440,7 +440,7 @@ $$
 **The recipe**
 
 We will now see how we can apply these inequalities to get some idea of
-uncertainty and coverage gurantees in regression problems.
+uncertainty and coverage guarantees in regression problems.
 
 1.  Split the training set ($n$ rows) into two sets:
     1.  The *proper* training set $D_1$ with $n_1$ rows
@@ -593,7 +593,7 @@ Keeping this aside, now, we address the second point raised earlier, that of ada
 
 #### Adaptive conformal prediction
 
-To obtain adaptive prediction bands, we use a method called Conformalized Quantile Regression (CQR). Usually (for example, when minimising RMSE) we are estimating the expected value of the response variable given predictors. Quantile regression ([see the package `quantreg`](https://cran.r-project.org/web/packages/quantreg/vignettes/rq.pdf)) tries to estimate a particular quantile $\tau$ of the response variable instead of the mean, given some predictors. We denote a model estimating the $\tau$ quantile of the outcome variable by $\hat{f}^{\tau}_n$ where $n$ is the number of examples in the training set. 
+To obtain adaptive prediction bands, we use a method called Conformalized Quantile Regression (CQR). Usually (for example, when minimizing RMSE) we are estimating the expected value of the response variable given predictors. Quantile regression ([see the package `quantreg`](https://cran.r-project.org/web/packages/quantreg/vignettes/rq.pdf)) tries to estimate a particular quantile $\tau$ of the response variable instead of the mean, given some predictors. We denote a model estimating the $\tau$ quantile of the outcome variable by $\hat{f}^{\tau}_n$ where $n$ is the number of examples in the training set. 
 
 **CQR recipe**
 
@@ -662,7 +662,7 @@ We will outline a scheme called Adaptive Predictive Sets (APS).
 2. As before, we define $\hat{q}_{n_2} = \lceil(1-\alpha)(n_2+1)\rceil$ smallest of the $R_i, \text{ } i\in D_2$.
 3. This gives us the prediction set, to be all classes (ordered in descending order of probability estimated by model) that need to be included for the sum of their probabilities to be at least $\hat{q}_{n_2}$.
 
-Let us take a look at this in the context of the classification probllem we already dealt with. 
+Let us take a look at this in the context of the classification problem we already dealt with. 
 
 It seems like the `probably` package does not implement APS out of the box, so we will quickly do an implementation ourselves following the recipe above. 
 
@@ -740,6 +740,6 @@ prediction_set_sizes$prediction_set_length |> mean()
 ```
 ## [1] 19.10148
 ```
-Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of close to 20!
+Now we can see how bad we are at predicting the country. Just to have a 70% guarantee of having the correct country in the set, we have a mean prediction set length of close to 20!
 
-That concludes our romp through the basics of conformal predcition.
+That concludes our romp through the basics of conformal prediction.

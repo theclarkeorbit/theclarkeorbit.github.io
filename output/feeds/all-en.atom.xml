@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-26T16:21:11+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-26T16:21:11+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-26T17:00:44+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-26T17:00:44+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal
@@ -130,18 +130,18 @@ tidy modeling and conformal prediction in R.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    country                       year trade_direction  value      gdp population&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;                        &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;            &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 Korea, Dem. People&amp;#39;s Rep.     2013 import          1.25e1 NA         25001819&lt;/span&gt;
-&lt;span class="c1"&gt;##  2 Mauritius                     2010 export          8.54e2  1.00e10    1250400&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 Netherlands                   2015 export          4.72e3  7.66e11   16939923&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 Senegal                       2012 export          4.90e2  1.77e10   13231833&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 Cote d&amp;#39;Ivoire                 2020 export          5.86e2  6.30e10   26811790&lt;/span&gt;
-&lt;span class="c1"&gt;##  6 Djibouti                      2021 export          7.13e2  3.39e 9    1105557&lt;/span&gt;
-&lt;span class="c1"&gt;##  7 Ecuador                       2014 export          2.25e2  1.03e11   15957994&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 St. Vincent and the Grenadi…  2013 export          1.81e0  7.65e 8     107450&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 Costa Rica                    2014 export          9.58e1  5.20e10    4844288&lt;/span&gt;
-&lt;span class="c1"&gt;## 10 Brazil                        2017 import          5.50e3  2.06e12  208504960&lt;/span&gt;
+&lt;span class="c1"&gt;##    country      year trade_direction   value          gdp population&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;       &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 Andorra      2019 export             0.07  3155149348.      76343&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 Latvia       2021 import           135.   39443126174.    1884490&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 Zimbabwe     2018 import             7.81 34156069918.   15052184&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 Georgia      2017 import            27.0  16473125375.    3728004&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 Senegal      2020 export           699.   24530513038.   16436120&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 Burundi      2021 import             0.04  2775798697.   12551213&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 Cambodia     2013 export           141.   15227991395.   14999683&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 Namibia      2013 export           212.   12043307277.    2204510&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 Jordan       2018 import          1116.   43370860704.   10459865&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 South Sudan  2014 import            66.2  13962212847.   11213284&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -219,7 +219,7 @@ linear model.&lt;/p&gt;
 
 &lt;h3&gt;Regression with XGBoost&lt;/h3&gt;
 &lt;p&gt;We will now use the same modules of the parsnip package with XGBoost,
-since this is more likely to be used in production usecases. Could
+since this is more likely to be used in production use-cases. Could
 hardly be easier.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;xgb_model&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;boost_tree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mtry&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;5000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;min_n&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tree_depth&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;learn_rate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;set_engine&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;xgboost&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
@@ -332,13 +332,13 @@ increase. Furthermore, getting a prediction distribution is also
 expensive as we run the model forward drawing from the joint
 distribution of parameters to get an empirical distribution of
 predictions on which we can then make some probabilistic statements.&lt;/p&gt;
-&lt;p&gt;While bayesian inferences gives us a lot (especially if we are
+&lt;p&gt;While Bayesian inferences gives us a lot (especially if we are
 interested in what part of the parameter space seems to describe the
 world), it is over engineered in terms of just attaching interpretable
 uncertainty statements to model predictions.&lt;/p&gt;
-&lt;p&gt;The field of conformal predicton - on the other hand - uses a notion of
+&lt;p&gt;The field of conformal prediction - on the other hand - uses a notion of
 coverage, and the goal is to enhance point predictions with sets of
-predictions that are guranteed (given al available data) to contain the
+predictions that are guaranteed (given all available data) to contain the
 true value with a certain probability.&lt;/p&gt;
 &lt;h3&gt;Conformal basics - regression&lt;/h3&gt;
 &lt;p&gt;So if we have a set of &lt;span class="math"&gt;\(n\)&lt;/span&gt; vectors each of &lt;span class="math"&gt;\(d\)&lt;/span&gt; dimensions &lt;span class="math"&gt;\(\{X_i\}\)&lt;/span&gt; (so
@@ -388,7 +388,7 @@ arguments to derive an upper bound, we have,
 $$&lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;The recipe&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;We will now see how we can apply these inequalities to get some idea of
-uncertainty and coverage gurantees in regression problems.&lt;/p&gt;
+uncertainty and coverage guarantees in regression problems.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Split the training set (&lt;span class="math"&gt;\(n\)&lt;/span&gt; rows) into two sets:&lt;ol&gt;
 &lt;li&gt;The &lt;em&gt;proper&lt;/em&gt; training set &lt;span class="math"&gt;\(D_1\)&lt;/span&gt; with &lt;span class="math"&gt;\(n_1\)&lt;/span&gt; rows&lt;/li&gt;
@@ -521,7 +521,7 @@ Its clear that it is extremely computationally expensive (and hopelessly impract
 &lt;/ol&gt;
 &lt;p&gt;Keeping this aside, now, we address the second point raised earlier, that of adaptive prediction bands.&lt;/p&gt;
 &lt;h4&gt;Adaptive conformal prediction&lt;/h4&gt;
-&lt;p&gt;To obtain adaptive prediction bands, we use a method called Conformalized Quantile Regression (CQR). Usually (for example, when minimising RMSE) we are estimating the expected value of the response variable given predictors. Quantile regression (&lt;a href="https://cran.r-project.org/web/packages/quantreg/vignettes/rq.pdf"&gt;see the package &lt;code&gt;quantreg&lt;/code&gt;&lt;/a&gt;) tries to estimate a particular quantile &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; of the response variable instead of the mean, given some predictors. We denote a model estimating the &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; quantile of the outcome variable by &lt;span class="math"&gt;\(\hat{f}^{\tau}_n\)&lt;/span&gt; where &lt;span class="math"&gt;\(n\)&lt;/span&gt; is the number of examples in the training set. &lt;/p&gt;
+&lt;p&gt;To obtain adaptive prediction bands, we use a method called Conformalized Quantile Regression (CQR). Usually (for example, when minimizing RMSE) we are estimating the expected value of the response variable given predictors. Quantile regression (&lt;a href="https://cran.r-project.org/web/packages/quantreg/vignettes/rq.pdf"&gt;see the package &lt;code&gt;quantreg&lt;/code&gt;&lt;/a&gt;) tries to estimate a particular quantile &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; of the response variable instead of the mean, given some predictors. We denote a model estimating the &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; quantile of the outcome variable by &lt;span class="math"&gt;\(\hat{f}^{\tau}_n\)&lt;/span&gt; where &lt;span class="math"&gt;\(n\)&lt;/span&gt; is the number of examples in the training set. &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;CQR recipe&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;On the proper training set &lt;span class="math"&gt;\(D_1\)&lt;/span&gt; with &lt;span class="math"&gt;\(n_1\)&lt;/span&gt; examples as before, we train two quantile regression models &lt;span class="math"&gt;\(\hat{f}^{\alpha/2}_{n_1}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\hat{f}^{1-\alpha/2}_{n_1}\)&lt;/span&gt;. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of &lt;span class="math"&gt;\((1-\alpha)\)&lt;/span&gt;, which means &lt;span class="math"&gt;\(\alpha/2\)&lt;/span&gt; from below and &lt;span class="math"&gt;\(1-\alpha/2\)&lt;/span&gt; from above are excluded).&lt;/li&gt;
@@ -580,7 +580,7 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 &lt;li&gt;As before, we define &lt;span class="math"&gt;\(\hat{q}_{n_2} = \lceil(1-\alpha)(n_2+1)\rceil\)&lt;/span&gt; smallest of the &lt;span class="math"&gt;\(R_i, \text{ } i\in D_2\)&lt;/span&gt;.&lt;/li&gt;
 &lt;li&gt;This gives us the prediction set, to be all classes (ordered in descending order of probability estimated by model) that need to be included for the sum of their probabilities to be at least &lt;span class="math"&gt;\(\hat{q}_{n_2}\)&lt;/span&gt;.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Let us take a look at this in the context of the classification probllem we already dealt with. &lt;/p&gt;
+&lt;p&gt;Let us take a look at this in the context of the classification problem we already dealt with. &lt;/p&gt;
 &lt;p&gt;It seems like the &lt;code&gt;probably&lt;/code&gt; package does not implement APS out of the box, so we will quickly do an implementation ourselves following the recipe above. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# calculating the probability scores for validation set&lt;/span&gt;
 &lt;span class="n"&gt;xgb_class_val_preds&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xgb_class_fit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;new_data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;class_val_df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;#39;prob&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
@@ -654,8 +654,8 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## [1] 19.10148
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of close to 20!&lt;/p&gt;
-&lt;p&gt;That concludes our romp through the basics of conformal predcition.&lt;/p&gt;
+&lt;p&gt;Now we can see how bad we are at predicting the country. Just to have a 70% guarantee of having the correct country in the set, we have a mean prediction set length of close to 20!&lt;/p&gt;
+&lt;p&gt;That concludes our romp through the basics of conformal prediction.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
