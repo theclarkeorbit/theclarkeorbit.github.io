@@ -123,7 +123,7 @@ our data splits using the strata argument.
 ```{r, warning=FALSE}
 set.seed(3)
 
-trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
+trade_split <- initial_validation_split({df |> na.omit() |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
 
 train_df <- training(trade_split)
@@ -338,7 +338,7 @@ uncertainty and coverage gurantees in regression problems.
 3.  Calculate the residuals $R$ on the calibration set,
     $$R_i = |Y_i - \hat{f}_{n1}(X_i)|, \text{    }i \in D_2.$$
 4.  Calculate the conformal quantile $\hat{q}_{n_2}$,
-    $$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
+    $$\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
 5.  The, the desired prediction band is given by,
     $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
     where we have a coverage guarantee, 
@@ -417,6 +417,55 @@ test_cv_results |>
   summarise(coverage = mean(within_band) * 100)
 ```
 
-Now, we address the second point.
+#### Full conformal prediction
+
+Full conformal prediction is a delightfully simple and computationally impossible (except in some rare cases that I have been assured do exist) idea that is worth glancing at. 
+
+1. Use the entire training set (the proper training set as well as the calibration set are included) $D_n  = D_{1}\cup D_{2}$ such that $(X_i, Y_i) \in D_n$.  
+2. When there is a new predictor $x \in \mathbb{R}^d$ available, evaluate a possible outcome $y \in \mathbb{R}$ by training the model on $D_n$ augmented with $(x,y)$, to get $\hat{f}_{D_n\cup(x,y)}$, and calculating the residual $R^{x,y} = |y - \hat{f}_{D_n\cup(x,y)}(x)|$.
+3. We do this (augment the training set with one point $(x,y)$, and train the model on this, and calculate the residual) **for all possible $y\in \mathbb{R}$**, and then define the prediction band to be,
+$$\hat{C}(x) = \left\{y: R^{(x,y)} \leq \lceil(1-\alpha)(n+1\rceil) \text{ smallest of } \underbrace{R_1, .. R_n}_{\text{training set residuals}}   \right\}. $$
+Its clear that it is extremely computationally expensive (and hopelessly impractical) to search through the space of all possible $y$ and to train the model on each one. 
+
+Keeping this aside, now, we address the second point raised earlier, that of adaptive prediction bands.
 
 #### Adaptive conformal prediction
+
+To obtain adaptive prediction bands, we use a method called Conformalized Quantile Regression (CQR). Usually (for example, when minimising RMSE) we are estimating the expected value of the response variable given predictors. Quantile regression ([see the package `quantreg`](https://cran.r-project.org/web/packages/quantreg/vignettes/rq.pdf)) tries to estimate a particular quantile $\tau$ of the response variable instead of the mean, given some predictors. We denote a model estimating the $\tau$ quantile of the outcome variable by $\hat{f}^{\tau}_n$ where $n$ is the number of examples in the training set. 
+
+**CQR recipe**
+
+1. On the proper training set $D_1$ with $n_1$ examples as before, we train two quantile regression models $\hat{f}^{\alpha/2}_{n_1}$ and $\hat{f}^{1-\alpha/2}_{n_1}$. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of $(1-\alpha)$, which means $\alpha/2$ from below and $1-\alpha/2$ from above are excluded).
+2. The calibration test scores are defined by,
+$$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$  
+3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2 $, and the prediction band is given by,
+$$\hat{C}_n(x) = \left[ \hat{f}^{\alpha/2}_{n_1}(x) - \hat{q}_{n_2},  \hat{f}^{1-\alpha/2}_{n_1}(x)+\hat{q}_{n_2} \right].$$
+The adaptivity of the prediction interval comes the estimates of the quantiles by the quantile regression model. 
+
+Lets see an example of CQR in action using the `probably` package using the training and calibration sets, which uses quantile regression forests which are expected to be spectacularly bad for extrapolated data, but should do well otherwise.
+```{r}
+cqr <- int_conformal_quantile(
+  xgb_fit,
+  train_data = train_df,
+  cal_data = val_df,
+  level = 0.9,
+  ntree = 1000
+)
+
+test_cqr_results <- predict(cqr, test_df) |> 
+  bind_cols(test_df)
+
+ggplot(test_cqr_results) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred_upper), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred_lower), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
+  theme_tufte()
+
+test_cqr_results |> 
+  mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
+  summarise(coverage = mean(within_band) * 100)
+```
+Honestly, for our data at least, that looks **so much worse** than just simple CV based split conformal prediction. Need to look into finding / implementing a better CQR method. **[TODO]** Quantile regression with XGBoost
+
+

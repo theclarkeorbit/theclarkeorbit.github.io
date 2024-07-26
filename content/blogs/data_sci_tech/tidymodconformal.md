@@ -143,18 +143,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country               year trade_direction    value     gdp population
-##    <chr>                <int> <chr>              <dbl>   <dbl>      <dbl>
-##  1 Ireland               2016 import            526.   2.99e11    4755335
-##  2 Macao SAR, China      2012 import              1.49 4.32e10     582766
-##  3 Mongolia              2021 import              0.54 1.53e10    3347782
-##  4 Cameroon              2018 export            178.   4.00e10   25076747
-##  5 Comoros               2020 import             12.5  1.23e 9     806166
-##  6 Spain                 2011 export           2999.   1.48e12   46742697
-##  7 Guinea-Bissau         2020 export             18.1  1.52e 9    2015828
-##  8 Malaysia              2018 import          10818.   3.59e11   32399271
-##  9 Syrian Arab Republic  2017 export            153.   1.64e10   18983373
-## 10 Nigeria               2018 export           3005.   4.22e11  198387623
+##    country             year trade_direction   value           gdp population
+##    <chr>              <int> <chr>             <dbl>         <dbl>      <dbl>
+##  1 Honduras            2017 export           146.    23136247991.    9626842
+##  2 West Bank and Gaza  2020 import             0.15  15531700000     4803269
+##  3 Maldives            2017 export           217.     4816426257.     472442
+##  4 Cote d'Ivoire       2017 export           512.    52512343997.   24848016
+##  5 Kyrgyz Republic     2015 import             1.78   6678177512.    5956900
+##  6 Faroe Islands       2019 export             0.91   3266432734.      51681
+##  7 Sri Lanka           2016 export          3913.    88012282206.   21425494
+##  8 Gibraltar           2012 import             0.09           NA       32160
+##  9 Namibia             2016 export            89.9   10722018732.    2323352
+## 10 Iran, Islamic Rep.  2021 import           463.   359096907772.   87923432
 ```
 
 ``` r
@@ -180,13 +180,13 @@ our data splits using the strata argument.
 ``` r
 set.seed(3)
 
-trade_split <- initial_validation_split({df |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
+trade_split <- initial_validation_split({df |> na.omit() |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
 ```
 
 ```
 ## <Training/Validation/Testing/Total>
-## <2944/981/984/4909>
+## <2856/952/952/4760>
 ```
 
 ``` r
@@ -228,10 +228,10 @@ linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ##   term                   estimate std.error statistic   p.value
 ##   <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
 ## 1 (Intercept)               4.82     0.0989     48.8  0        
-## 2 gdp                       1.65     0.0465     35.5  7.14e-229
-## 3 population                0.850    0.0470     18.1  2.84e- 69
-## 4 trade_direction_import   -0.471    0.0559     -8.42 5.67e- 17
-## 5 year_X2017                0.233    0.136       1.71 8.73e-  2
+## 2 gdp                       1.67     0.0472     35.5  1.30e-228
+## 3 population                0.826    0.0471     17.5  1.63e- 65
+## 4 trade_direction_import   -0.417    0.0557     -7.49 9.33e- 14
+## 5 year_X2021                0.278    0.136       2.05 4.03e-  2
 ```
 
 Now, let us make some predictions on the validation data.
@@ -279,9 +279,9 @@ left_join(linear_test_perf, xgb_test_perf)
 ## # A tibble: 3 × 3
 ##   metric linear_model_test xgb_model_test
 ##   <chr>              <dbl>          <dbl>
-## 1 rmse               1.43           1.15 
-## 2 rsq                0.744          0.838
-## 3 mae                1.09           0.873
+## 1 rmse               1.48           1.18 
+## 2 rsq                0.720          0.821
+## 3 mae                1.13           0.874
 ```
 
 ### Multiclass classification
@@ -337,8 +337,8 @@ xgb_class_perf
 ## # A tibble: 2 × 2
 ##   metric   xgb_class_validation
 ##   <chr>                   <dbl>
-## 1 accuracy                0.595
-## 2 mcc                     0.594
+## 1 accuracy                0.598
+## 2 mcc                     0.597
 ```
 
 An accuracy of 60% for a messy classification problem with 208 classes
@@ -446,7 +446,7 @@ uncertainty and coverage gurantees in regression problems.
 3.  Calculate the residuals $R$ on the calibration set,
     $$R_i = |Y_i - \hat{f}_{n1}(X_i)|, \text{    }i \in D_2.$$
 4.  Calculate the conformal quantile $\hat{q}_{n_2}$,
-    $$\hat{q}_{n_2} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
+    $$\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2. $$
 5.  The, the desired prediction band is given by,
     $$\hat{C}_n(x) = [\hat{f}_{n_1} - \hat{q}_{n_2}, \hat{f}_{n_1} + \hat{q}_{n_2}],$$
     where we have a coverage guarantee, 
@@ -507,7 +507,7 @@ test_split_result |>
 ## # A tibble: 1 × 1
 ##   coverage
 ##      <dbl>
-## 1     91.6
+## 1     89.9
 ```
 Excellent. 
 
@@ -536,8 +536,8 @@ collect_metrics(xgb_resample)
 ## # A tibble: 2 × 6
 ##   .metric .estimator  mean     n std_err .config             
 ##   <chr>   <chr>      <dbl> <int>   <dbl> <chr>               
-## 1 rmse    standard   1.18     10 0.0180  Preprocessor1_Model1
-## 2 rsq     standard   0.824    10 0.00482 Preprocessor1_Model1
+## 1 rmse    standard   1.15     10 0.0181  Preprocessor1_Model1
+## 2 rsq     standard   0.833    10 0.00620 Preprocessor1_Model1
 ```
 Now we again use the `probably` package to estimate the prediction band.
 
@@ -573,9 +573,82 @@ test_cv_results |>
 ## # A tibble: 1 × 1
 ##   coverage
 ##      <dbl>
-## 1     90.1
+## 1     89.6
 ```
 
-Now, we address the second point.
+#### Full conformal prediction
+
+Full conformal prediction is a delightfully simple and computationally impossible (except in some rare cases that I have been assured do exist) idea that is worth glancing at. 
+
+1. Use the entire training set (the proper training set as well as the calibration set are included) $D_n  = D_{1}\cup D_{2}$ such that $(X_i, Y_i) \in D_n$.  
+2. When there is a new predictor $x \in \mathbb{R}^d$ available, evaluate a possible outcome $y \in \mathbb{R}$ by training the model on $D_n$ augmented with $(x,y)$, to get $\hat{f}_{D_n\cup(x,y)}$, and calculating the residual $R^{x,y} = |y - \hat{f}_{D_n\cup(x,y)}(x)|$.
+3. We do this (augment the training set with one point $(x,y)$, and train the model on this, and calculate the residual) **for all possible $y\in \mathbb{R}$**, and then define the prediction band to be,
+$$\hat{C}(x) = \left\{y: R^{(x,y)} \leq \lceil(1-\alpha)(n+1\rceil) \text{ smallest of } \underbrace{R_1, .. R_n}_{\text{training set residuals}}   \right\}. $$
+Its clear that it is extremely computationally expensive (and hopelessly impractical) to search through the space of all possible $y$ and to train the model on each one. 
+
+Keeping this aside, now, we address the second point raised earlier, that of adaptive prediction bands.
 
 #### Adaptive conformal prediction
+
+To obtain adaptive prediction bands, we use a method called Conformalized Quantile Regression (CQR). Usually (for example, when minimising RMSE) we are estimating the expected value of the response variable given predictors. Quantile regression ([see the package `quantreg`](https://cran.r-project.org/web/packages/quantreg/vignettes/rq.pdf)) tries to estimate a particular quantile $\tau$ of the response variable instead of the mean, given some predictors. We denote a model estimating the $\tau$ quantile of the outcome variable by $\hat{f}^{\tau}_n$ where $n$ is the number of examples in the training set. 
+
+**CQR recipe**
+
+1. On the proper training set $D_1$ with $n_1$ examples as before, we train two quantile regression models $\hat{f}^{\alpha/2}_{n_1}$ and $\hat{f}^{1-\alpha/2}_{n_1}$. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of $(1-\alpha)$, which means $\alpha/2$ from below and $1-\alpha/2$ from above are excluded).
+2. The calibration test scores are defined by,
+$$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$  
+3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2 $, and the prediction band is given by,
+$$\hat{C}_n(x) = \left[ \hat{f}^{\alpha/2}_{n_1}(x) - \hat{q}_{n_2},  \hat{f}^{1-\alpha/2}_{n_1}(x)+\hat{q}_{n_2} \right].$$
+The adaptivity of the prediction interval comes the estimates of the quantiles by the quantile regression model. 
+
+Lets see an example of CQR in action using the `probably` package using the training and calibration sets, which uses quantile regression forests which are expected to be spectacularly bad for extrapolated data, but should do well otherwise.
+
+``` r
+cqr <- int_conformal_quantile(
+  xgb_fit,
+  train_data = train_df,
+  cal_data = val_df,
+  level = 0.9,
+  ntree = 1000
+)
+```
+
+```
+## Error in `quant_train()`:
+## ! The package "quantregForest" is required to compute quantiles
+```
+
+``` r
+test_cqr_results <- predict(cqr, test_df) |> 
+  bind_cols(test_df)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'cqr' not found
+```
+
+``` r
+ggplot(test_cqr_results) +
+  geom_point(aes(x = value, y = .pred), alpha = 0.25, colour = "#2842b5") +
+  geom_smooth(aes(x = value, y = .pred_upper), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred_lower), colour = "#fcba03", se = FALSE) +
+  geom_smooth(aes(x = value, y = .pred), alpha = 0.1, colour = "#2842b5", se = FALSE) +
+  theme_tufte()
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'test_cqr_results' not found
+```
+
+``` r
+test_cqr_results |> 
+  mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
+  summarise(coverage = mean(within_band) * 100)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'test_cqr_results' not found
+```
+Honestly, for our data at least, that looks **so much worse** than just simple CV based split conformal prediction. Need to look into finding / implementing a better CQR method. **[TODO]** Quantile regression with XGBoost
+
+
