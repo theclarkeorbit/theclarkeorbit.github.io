@@ -449,7 +449,7 @@ cqr <- int_conformal_quantile(
   train_data = train_df,
   cal_data = val_df,
   level = 0.9,
-  ntree = 2000
+  ntree = 2200
 )
 
 test_cqr_results <- predict(cqr, test_df) |> 
