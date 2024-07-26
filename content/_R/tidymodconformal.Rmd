@@ -205,9 +205,10 @@ spread(df, key = trade_direction, value = value) |>
   mutate(country = as.factor(country)) |> 
   select(-year) -> df_classification
 
-trade_class_split <- initial_split(df_classification, prop = c(0.6), strata = country)
+trade_class_split <- initial_validation_split(df_classification, prop = c(0.5,0.3), strata = country)
 class_train_df <- training(trade_class_split)
 class_test_df <- testing(trade_class_split)
+class_val_df <- validation(trade_class_split)
 
 trade_simple_classification <- 
   recipe(country ~ ., data = class_train_df) |> 
@@ -215,7 +216,7 @@ trade_simple_classification <-
   step_log(gdp, population) |> 
   step_normalize(all_numeric_predictors())
 
-xgb_class_model <- boost_tree(mtry = 3, trees = 1000, min_n = 5, tree_depth = 5, learn_rate = 0.01) |> 
+xgb_class_model <- boost_tree(mtry = 3, trees = 2000, min_n = 5, tree_depth = 5, learn_rate = 0.01) |> 
   set_engine("xgboost") |> 
   set_mode("classification")
 
@@ -233,7 +234,7 @@ class_metrics(xgb_class_test_preds, truth = country, estimate = .pred_class) |>
 xgb_class_perf
 ```
 
-An accuracy of 60% for a messy classification problem with 208 classes
+An accuracy of 40% for a messy classification problem with limited data and 208 classes
 is not too shabby at all, but adding any notion of confidence/coverage
 to a particular prediction is difficult (even if we have some kind of
 un-calibrated probability given by XGBoost), which is where conformal
@@ -466,6 +467,95 @@ test_cqr_results |>
   mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
   summarise(coverage = mean(within_band) * 100)
 ```
-Honestly, for our data at least, that looks **so much worse** than just simple CV based split conformal prediction. Need to look into finding / implementing a better CQR method. **[TODO]** Quantile regression with XGBoost
+Honestly, for our data at least, that looks **so much worse** than just simple CV based split conformal prediction. Need to look into finding / implementing a better CQR method. 
 
+**[TODO]** Quantile regression with XGBoost and self implemented CQR scheme to see if that works better than this, also see/track these issues: [quantile reg with rq in parsnip](https://github.com/tidymodels/parsnip/issues/465), [quantile reg with xgb in parsnip](https://github.com/tidymodels/parsnip/issues/1143). 
 
+### Conformal basics - classification
+
+For classification problems what we want is a set of classes that is guaranteed to include the true class with a certain probability. As such most schemes for conformal prediction on classification problems use the predicted probabilities given by the model. 
+
+Keeping the same notation as before, we assume that the model $\hat{f}_{n_1}$ trained on the proper training set $D_1$ gives us $K$ probabilities, one for each of the $K$ classes given the predictors $x$. 
+
+We will outline a scheme called Adaptive Predictive Sets (APS). 
+
+1. For each example in the calibration set $D_2$, calculate the conformity score as the sum of all probabilities greater than and including the probability assigned to the true class, which is to say we add up the probabilities of all classes which the model thought were *at least as likely* as the true class. This gives us the $R_i, \text{ } i \in D_2$. 
+2. As before, we define $\hat{q}_{n_2} = \lceil(1-\alpha)(n_2+1)\rceil$ smallest of the $R_i, \text{ } i\in D_2$.
+3. This gives us the prediction set, to be all classes (ordered in descending order of probability estimated by model) that need to be included for the sum of their probabilities to be at least $\hat{q}_{n_2}$.
+
+Let us take a look at this in the context of the classification probllem we already dealt with. 
+
+It seems like the `probably` package does not implement APS out of the box, so we will quickly do an implementation ourselves following the recipe above. 
+
+```{r}
+# calculating the probability scores for validation set
+xgb_class_val_preds <- predict(xgb_class_fit, new_data = class_val_df, type = 'prob') |> 
+  bind_cols(class_val_df |> select(country))
+
+compute_conformity_scores <- function(data, alpha) {
+  n_2 <- nrow(data)
+  
+  result <- data |> 
+    rowwise() |> 
+    mutate(
+      p_i = get(paste0(".pred_", country))
+    ) |>
+    mutate(
+      r_i = sum(c_across(starts_with(".pred_"))[c_across(starts_with(".pred_")) >= p_i])
+    ) |> 
+    ungroup() |> 
+    select(conformity_score = r_i)
+  
+  q <- result |> 
+    pull(conformity_score) |> 
+    sort(decreasing = TRUE) |> 
+    nth(ceiling((1 - alpha) * (n_2 + 1)) )
+  
+  list(conformity_scores = result, q = q)
+}
+
+compute_conformity_scores(xgb_class_val_preds, 0.7) -> conformity_scores
+qn <- conformity_scores$q
+
+process_test_results <- function(test_data, q) {
+  test_data |> 
+    rowwise() |> 
+    mutate(
+      prediction_set = list({
+        # Get all probability columns
+        prob_cols <- grep("^\\.pred_", names(test_data), value = TRUE)
+        
+        # Create a named vector of probabilities
+        probs <- c_across(starts_with(".pred_"))
+        names(probs) <- prob_cols
+        
+        # Order probabilities in descending order
+        sorted_probs <- sort(probs, decreasing = TRUE)
+        
+        # Sum probabilities until >= q
+        cumsum_probs <- cumsum(sorted_probs)
+        n_countries <- which(cumsum_probs >= q)[1]
+        
+        # Get country names for the summed probabilities
+        country_names <- names(sorted_probs)[1:n_countries]
+        
+        # Remove ".pred_" prefix from country names
+        str_remove(country_names, "^\\.pred_")
+      })
+    ) |> 
+    ungroup() |> 
+    select(prediction_set)
+}
+
+xgb_class_test_prob_preds <- predict(xgb_class_fit, new_data = class_test_df, type = 'prob') |> 
+  bind_cols(class_test_df |> select(country))
+
+process_test_results(xgb_class_test_prob_preds, qn) |> 
+  bind_cols(class_test_df |> select(country)) |> 
+  mutate(prediction_set_length = map_int(prediction_set, length)) -> prediction_set_sizes
+
+prediction_set_sizes$prediction_set_length |> mean()
+```
+Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of 17.6!
+
+That concludes our romp through the basics of conformal predcition.
