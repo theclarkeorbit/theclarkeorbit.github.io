@@ -563,4 +563,4 @@ prediction_set_sizes$prediction_set_length |> mean()
 ```
 Now we can see how bad we are at predicting the country. Just to have a 70% guarantee of having the correct country in the set, we have a mean prediction set length of close to 20!
 
-That concludes our romp through the basics of conformal prediction.
+That concludes our romp through the basics of conformal prediction. We have not dealt with time series models and time series conformal prediction in this post.. next time.
