@@ -214,20 +214,8 @@ without focusing too much on exploring the data.</p>
 <span class="w">                </span><span class="s">&quot;land_area&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;EN.LAND.TOTL&quot;</span><span class="w"> </span><span class="c1"># total land</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="nf">WDI</span><span class="p">(</span><span class="n">indicator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indicators</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2010</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2021</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">wb_df</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in WDI(indicator = indicators, start = 2010, end = 2021): The following indicators could not be downloaded: NY.GDP.MKTP.CD, SP.POP.TOTL, EN.LAND.TOTL.</span>
-<span class="c1">## </span>
-<span class="c1">## Please make sure that you are running the latest version of the `WDI` package, and that the arguments you are using in the `WDI()` function are valid.</span>
-<span class="c1">## </span>
-<span class="c1">## Sometimes, downloads will suddenly stop working, even if nothing has changed in the R code of the WDI package. (&quot;The same WDI package version worked yesterday!&quot;) In those cases, the problem is almost certainly related to the World Bank servers or to your internet connection.</span>
-<span class="c1">## </span>
-<span class="c1">## You can check if the World Bank web API is currently serving the indicator(s) of interest by typing a URL of this form in your web browser:</span>
-<span class="c1">## </span>
-<span class="c1">## https://api.worldbank.org/v2/en/country/all/indicator/NY.GDP.MKTP.CD?format=json&amp;date=:&amp;per_page=32500&amp;page=1</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">df_hs2</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">iso3c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">country_name</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="o">=</span><span class="s">&quot;ISO3&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_hs2</span>
+<span class="n">df_hs2</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">iso3c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">country_name</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="o">=</span><span class="s">&quot;ISO3&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_hs2</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Some</span><span class="w"> </span><span class="nv">country</span><span class="w"> </span><span class="nv">IDs</span><span class="w"> </span><span class="nv">have</span><span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">match</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">one</span><span class="w"> </span><span class="nv">or</span><span class="w"> </span><span class="nv">more</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">the</span><span class="w"> </span><span class="nv">requested</span><span class="w"> </span><span class="nv">country</span><span class="w"> </span><span class="nv">naming</span><span class="w"> </span><span class="nv">conventions</span>,<span class="w"> </span><span class="nv">NA</span><span class="w"> </span><span class="nv">returned</span>.
@@ -241,12 +229,8 @@ without focusing too much on exploring the data.</p>
 <span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">Commodity</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country.y</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">,</span><span class="w"> </span><span class="n">iso3c</span><span class="p">,</span><span class="w"> </span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">value</span><span class="p">),</span><span class="w"> </span><span class="n">gdp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gdp</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">population</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">population</span><span class="p">[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;wb_df&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">rm</span><span class="p">(</span><span class="n">df_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_imp</span><span class="p">,</span><span class="w"> </span><span class="n">df_imp</span><span class="p">,</span><span class="w"> </span><span class="n">wb_df</span><span class="p">)</span>
+<span class="nf">rm</span><span class="p">(</span><span class="n">df_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_exp</span><span class="p">,</span><span class="w"> </span><span class="n">df_hs2_imp</span><span class="p">,</span><span class="w"> </span><span class="n">df_imp</span><span class="p">,</span><span class="w"> </span><span class="n">wb_df</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Just for simplicity, we will stick to the HS2 files (2010-2021), and
@@ -265,8 +249,19 @@ tidy modeling and conformal prediction in R.</p>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">sample_n</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in `sample_n()`:</span>
-<span class="c1">## ! `tbl` must be a data frame, not a function.</span>
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
+<span class="c1">##    country               year trade_direction    value     gdp population</span>
+<span class="c1">##    &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;              &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Kazakhstan            2010 import            138.   1.48e11   16321872</span>
+<span class="c1">##  2 Morocco               2020 export            508.   1.21e11   36688772</span>
+<span class="c1">##  3 Botswana              2015 export             52.3  1.35e10    2305171</span>
+<span class="c1">##  4 Chad                  2019 export             58.7  1.13e10   16126866</span>
+<span class="c1">##  5 Russian Federation    2012 export           2296.   2.21e12  143378447</span>
+<span class="c1">##  6 Hong Kong SAR, China  2019 import          16935.   3.63e11    7507900</span>
+<span class="c1">##  7 Honduras              2019 export            185.   2.49e10    9958829</span>
+<span class="c1">##  8 Thailand              2014 import           5866.   4.07e11   69960943</span>
+<span class="c1">##  9 Spain                 2011 export           2999.   1.48e12   46742697</span>
+<span class="c1">## 10 Aruba                 2015 export              6.92 2.96e 9     104257</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -275,11 +270,7 @@ tidy modeling and conformal prediction in R.</p>
 <span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## Error in `ggplot()`:</span>
-<span class="c1">## ! `data` cannot be a function.</span>
-<span class="c1">## ℹ Have you misspelled the `data` argument in `ggplot()`</span>
-</code></pre></div>
-
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-3-1.png"></p>
 <h2>Tidy modeling in R</h2>
 <p>Since the quantitative columns like <code>value</code>, <code>gdp</code> and <code>population</code> vary
 by orders of magnitude over the data, it probably makes sense to log
@@ -288,48 +279,28 @@ omit rows which have any data missing. Now we split the data into
 training and test using built in functions from the <code>rsample</code> package,
 making sure that the distribution of the value column is similar in all
 our data splits using the strata argument.</p>
-<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
 
 <span class="n">trade_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">year</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">year</span><span class="p">),</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">value</span><span class="m">+1</span><span class="p">))},</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="m">0.2</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+<span class="n">trade_split</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;mutate&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;mutate&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">trade_split</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_split&#39; not found
+<div class="highlight"><pre><span></span><code>## &lt;Training/Validation/Testing/Total&gt;
+## &lt;2856/952/952/4760&gt;
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">train_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">training</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
-</code></pre></div>
+<span class="n">val_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">validation</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
+<span class="n">test_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_split&#39; not found
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">val_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">validation</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_split&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">test_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">trade_split</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_split&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">trade_simple_regression</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span>
+<span class="n">trade_simple_regression</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">recipe</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">train_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">      </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">country</span><span class="p">)})</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_naomit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_log</span><span class="p">(</span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_dummy</span><span class="p">(</span><span class="nf">all_nominal_predictors</span><span class="p">())</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_normalize</span><span class="p">(</span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;train_df&#39; not found
 </code></pre></div>
 
 <h3>Linear model</h3>
@@ -341,41 +312,29 @@ linear model.</p>
 <span class="n">linear_workflow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">workflow</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">add_recipe</span><span class="p">(</span><span class="n">trade_simple_regression</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">add_model</span><span class="p">(</span><span class="n">linear_model</span><span class="p">)</span>
+
+<span class="n">linear_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">linear_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">train_df</span><span class="p">)</span>
+
+<span class="n">linear_fit</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tidy</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">arrange</span><span class="p">(</span><span class="n">p.value</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Error</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">eval</span><span class="p">(</span><span class="nx">expr</span><span class="p">,</span><span class="w"> </span><span class="nx">envir</span><span class="p">,</span><span class="w"> </span><span class="nx">enclos</span><span class="p">):</span><span class="w"> </span><span class="nx">object</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">trade_simple_regression</span><span class="err">&#39;</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">found</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">linear_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">linear_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">train_df</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;linear_workflow&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">linear_fit</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tidy</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">arrange</span><span class="p">(</span><span class="n">p.value</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;linear_fit&#39; not found
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 5 × 5</span>
+<span class="c1">##   term                   estimate std.error statistic   p.value</span>
+<span class="c1">##   &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="c1">## 1 (Intercept)               4.82     0.100      48.1  0        </span>
+<span class="c1">## 2 gdp                       1.58     0.0463     34.1  5.37e-214</span>
+<span class="c1">## 3 population                0.925    0.0463     20.0  2.49e- 83</span>
+<span class="c1">## 4 trade_direction_import   -0.469    0.0545     -8.61 1.21e- 17</span>
+<span class="c1">## 5 year_X2021                0.308    0.136       2.26 2.37e-  2</span>
 </code></pre></div>
 
 <p>Now, let us make some predictions on the validation data.</p>
 <div class="highlight"><pre><span></span><code><span class="n">trade_reg_metrics</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">metric_set</span><span class="p">(</span><span class="n">rmse</span><span class="p">,</span><span class="w"> </span><span class="n">rsq</span><span class="p">,</span><span class="w"> </span><span class="n">mae</span><span class="p">)</span>
 <span class="n">linear_test_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">linear_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">test_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;linear_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># linear_val_preds |&gt; head()</span>
+<span class="c1"># linear_val_preds |&gt; head()</span>
 <span class="nf">trade_reg_metrics</span><span class="p">(</span><span class="n">linear_test_preds</span><span class="p">,</span><span class="w"> </span><span class="n">truth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">transmute</span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.metric</span><span class="p">,</span><span class="w"> </span><span class="n">linear_model_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.estimate</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">linear_test_perf</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `metric_set()`:
-<span class="gu">##</span> ! Failed to compute `rmse()`.
-<span class="gu">##</span> Caused by error:
-<span class="gu">##</span> ! object &#39;linear_test_preds&#39; not found
 </code></pre></div>
 
 <h3>Regression with XGBoost</h3>
@@ -389,38 +348,25 @@ hardly be easier.</p>
 <span class="n">xgb_workflow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">workflow</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">add_recipe</span><span class="p">(</span><span class="n">trade_simple_regression</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">add_model</span><span class="p">(</span><span class="n">xgb_model</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Error</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">eval</span><span class="p">(</span><span class="nx">expr</span><span class="p">,</span><span class="w"> </span><span class="nx">envir</span><span class="p">,</span><span class="w"> </span><span class="nx">enclos</span><span class="p">):</span><span class="w"> </span><span class="nx">object</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">trade_simple_regression</span><span class="err">&#39;</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">found</span>
-</code></pre></div>
+<span class="n">xgb_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">xgb_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">train_df</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="n">xgb_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">xgb_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">train_df</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_workflow&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">xgb_test_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">xgb_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">xgb_test_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">xgb_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">test_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">trade_reg_metrics</span><span class="p">(</span><span class="n">xgb_test_preds</span><span class="p">,</span><span class="w"> </span><span class="n">truth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="nf">trade_reg_metrics</span><span class="p">(</span><span class="n">xgb_test_preds</span><span class="p">,</span><span class="w"> </span><span class="n">truth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">transmute</span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.metric</span><span class="p">,</span><span class="w"> </span><span class="n">xgb_model_test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.estimate</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">xgb_test_perf</span>
+<span class="nf">left_join</span><span class="p">(</span><span class="n">linear_test_perf</span><span class="p">,</span><span class="w"> </span><span class="n">xgb_test_perf</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `metric_set()`:
-<span class="gu">##</span> ! Failed to compute `rmse()`.
-<span class="gu">##</span> Caused by error:
-<span class="gu">##</span> ! object &#39;xgb_test_preds&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Joining with `by = join_by(metric)`
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">left_join</span><span class="p">(</span><span class="n">linear_test_perf</span><span class="p">,</span><span class="w"> </span><span class="n">xgb_test_perf</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;linear_test_perf&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 3 × 3
+<span class="gu">##</span>   metric linear_model_test xgb_model_test
+<span class="gu">##</span>   &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt;
+<span class="gu">##</span> 1 rmse               1.49           1.17 
+<span class="gu">##</span> 2 rsq                0.723          0.830
+<span class="gu">##</span> 3 mae                1.12           0.858
 </code></pre></div>
 
 <h3>Multiclass classification</h3>
@@ -431,85 +377,49 @@ to predict the country based on population, GDP, and trade with India.</p>
 <span class="w">  </span><span class="nf">na.omit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">country</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.factor</span><span class="p">(</span><span class="n">country</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_classification</span>
+
+<span class="n">trade_class_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">(</span><span class="n">df_classification</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="m">0.3</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;spread&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;spread&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">trade_class_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_validation_split</span><span class="p">(</span><span class="n">df_classification</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.5</span><span class="p">,</span><span class="m">0.3</span><span class="p">),</span><span class="w"> </span><span class="n">strata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;df_classification&#39; not found
+<div class="highlight"><pre><span></span><code>## Warning: Too little data to stratify.
+## • Resampling will be unstratified.
+## Too little data to stratify.
+## • Resampling will be unstratified.
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">class_train_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">training</span><span class="p">(</span><span class="n">trade_class_split</span><span class="p">)</span>
-</code></pre></div>
+<span class="n">class_test_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">trade_class_split</span><span class="p">)</span>
+<span class="n">class_val_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">validation</span><span class="p">(</span><span class="n">trade_class_split</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_class_split&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">class_test_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">trade_class_split</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_class_split&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">class_val_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">validation</span><span class="p">(</span><span class="n">trade_class_split</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;trade_class_split&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">trade_simple_classification</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span>
+<span class="n">trade_simple_classification</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">recipe</span><span class="p">(</span><span class="n">country</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_train_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_naomit</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_log</span><span class="p">(</span><span class="n">gdp</span><span class="p">,</span><span class="w"> </span><span class="n">population</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">step_normalize</span><span class="p">(</span><span class="nf">all_numeric_predictors</span><span class="p">())</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;class_train_df&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">xgb_class_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">boost_tree</span><span class="p">(</span><span class="n">mtry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">trees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2000</span><span class="p">,</span><span class="w"> </span><span class="n">min_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">tree_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">learn_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">xgb_class_model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">boost_tree</span><span class="p">(</span><span class="n">mtry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">trees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2000</span><span class="p">,</span><span class="w"> </span><span class="n">min_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">tree_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">learn_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.01</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">set_engine</span><span class="p">(</span><span class="s">&quot;xgboost&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">set_mode</span><span class="p">(</span><span class="s">&quot;classification&quot;</span><span class="p">)</span>
 
 <span class="n">xgb_class_workflow</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">workflow</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">add_recipe</span><span class="p">(</span><span class="n">trade_simple_classification</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">add_model</span><span class="p">(</span><span class="n">xgb_class_model</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Error</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">eval</span><span class="p">(</span><span class="nx">expr</span><span class="p">,</span><span class="w"> </span><span class="nx">envir</span><span class="p">,</span><span class="w"> </span><span class="nx">enclos</span><span class="p">):</span><span class="w"> </span><span class="nx">object</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">trade_simple_classification</span><span class="err">&#39;</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">found</span>
-</code></pre></div>
+<span class="n">xgb_class_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">xgb_class_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">class_train_df</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="n">xgb_class_fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">xgb_class_workflow</span><span class="p">,</span><span class="w"> </span><span class="n">class_train_df</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_workflow&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">xgb_class_test_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">xgb_class_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">xgb_class_test_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">xgb_class_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">class_test_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">country</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">class_metrics</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">metric_set</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span><span class="w"> </span><span class="n">mcc</span><span class="p">)</span>
+<span class="n">class_metrics</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">metric_set</span><span class="p">(</span><span class="n">accuracy</span><span class="p">,</span><span class="w"> </span><span class="n">mcc</span><span class="p">)</span>
 <span class="nf">class_metrics</span><span class="p">(</span><span class="n">xgb_class_test_preds</span><span class="p">,</span><span class="w"> </span><span class="n">truth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_class</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">transmute</span><span class="p">(</span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.metric</span><span class="p">,</span><span class="w"> </span><span class="n">xgb_class_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.estimate</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">xgb_class_perf</span>
+<span class="n">xgb_class_perf</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `metric_set()`:
-<span class="gu">##</span> ! Failed to compute `accuracy()`.
-<span class="gu">##</span> Caused by error:
-<span class="gu">##</span> ! object &#39;xgb_class_test_preds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">xgb_class_perf</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_perf&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 2 × 2
+<span class="gu">##</span>   metric   xgb_class_validation
+<span class="gu">##</span>   &lt;chr&gt;                   &lt;dbl&gt;
+<span class="gu">##</span> 1 accuracy                0.448
+<span class="gu">##</span> 2 mcc                     0.447
 </code></pre></div>
 
 <p>An accuracy of 40% for a messy classification problem with limited data and 208 classes
@@ -630,24 +540,16 @@ $$</div>
 <span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_test_preds&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
 </code></pre></div>
 
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-9-1.png"></p>
 <p>Now, we will use the <code>probably::int_conformal_split</code> function to estimate the prediction bands at the 90% level, and we will use the validation set <code>val_df</code> that we have kept aside and never used as the calibration set for this.  </p>
 <div class="highlight"><pre><span></span><code><span class="n">split_con</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">int_conformal_split</span><span class="p">(</span><span class="n">xgb_fit</span><span class="p">,</span><span class="w"> </span><span class="n">val_df</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">test_split_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">split_con</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">test_split_result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">split_con</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;split_con&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">test_split_result</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">test_split_result</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2842b5&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_lower</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
@@ -655,16 +557,22 @@ $$</div>
 <span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_split_result&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
 </code></pre></div>
 
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-10-1.png"></p>
 <p>The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be around 90%)</p>
 <div class="highlight"><pre><span></span><code><span class="n">test_split_result</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">within_band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">.pred_lower</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">within_band</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_split_result&#39; not found
+<div class="highlight"><pre><span></span><code>## # A tibble: 1 × 1
+##   coverage
+##      &lt;dbl&gt;
+## 1     92.3
 </code></pre></div>
 
 <p>Excellent. </p>
@@ -678,39 +586,26 @@ $$</div>
 <div class="highlight"><pre><span></span><code><span class="n">ctrl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">control_resamples</span><span class="p">(</span><span class="n">save_pred</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">I</span><span class="p">)</span><span class="w"> </span><span class="c1"># this line ensures out of sample preds are also stored in the CV process</span>
 
 <span class="n">trade_reg_folds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">vfold_cv</span><span class="p">({</span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">train_df</span><span class="p">,</span><span class="w"> </span><span class="n">val_df</span><span class="p">)},</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="c1"># 10 fold CV</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;train_df&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">xgb_resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">xgb_workflow</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">xgb_resample</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">xgb_workflow</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">fit_resamples</span><span class="p">(</span><span class="n">trade_reg_folds</span><span class="p">,</span><span class="w"> </span><span class="n">control</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctrl</span><span class="p">)</span>
+
+<span class="nf">collect_metrics</span><span class="p">(</span><span class="n">xgb_resample</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_workflow&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">collect_metrics</span><span class="p">(</span><span class="n">xgb_resample</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_resample&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 2 × 6
+<span class="gu">##</span>   .metric .estimator  mean     n std_err .config             
+<span class="gu">##</span>   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+<span class="gu">##</span> 1 rmse    standard   1.16     10 0.0125  Preprocessor1_Model1
+<span class="gu">##</span> 2 rsq     standard   0.829    10 0.00393 Preprocessor1_Model1
 </code></pre></div>
 
 <p>Now we again use the <code>probably</code> package to estimate the prediction band.</p>
 <div class="highlight"><pre><span></span><code><span class="n">cv_con</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">int_conformal_cv</span><span class="p">(</span><span class="n">xgb_resample</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_resample&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">test_cv_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cv_con</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">test_cv_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cv_con</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;cv_con&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">test_cv_results</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">test_cv_results</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2842b5&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_lower</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
@@ -718,15 +613,21 @@ $$</div>
 <span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_cv_results&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
 </code></pre></div>
 
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-13-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="n">test_cv_results</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">within_band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">.pred_lower</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">within_band</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_cv_results&#39; not found
+<div class="highlight"><pre><span></span><code>## # A tibble: 1 × 1
+##   coverage
+##      &lt;dbl&gt;
+## 1     90.9
 </code></pre></div>
 
 <h4>Full conformal prediction</h4>
@@ -759,19 +660,11 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 <span class="w">  </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">,</span>
 <span class="w">  </span><span class="n">ntree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2200</span>
 <span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">test_cqr_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cqr</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="n">test_cqr_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cqr</span><span class="p">,</span><span class="w"> </span><span class="n">test_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error in eval(expr, envir, enclos): object &#39;cqr&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">test_cqr_results</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">test_cqr_results</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2842b5&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.pred_lower</span><span class="p">),</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#fcba03&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
@@ -779,15 +672,21 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 <span class="w">  </span><span class="nf">theme_tufte</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_cqr_results&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
+<span class="gu">##</span> `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;
 </code></pre></div>
 
+<p><img alt="center" src="/figures/tidymodconformal/unnamed-chunk-14-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="n">test_cqr_results</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">within_band</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">.pred_lower</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">.pred_upper</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">coverage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">within_band</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;test_cqr_results&#39; not found
+<div class="highlight"><pre><span></span><code>## # A tibble: 1 × 1
+##   coverage
+##      &lt;dbl&gt;
+## 1     89.7
 </code></pre></div>
 
 <p>Honestly, for our data at least, that looks <strong>so much worse</strong> than just simple CV based split conformal prediction. Need to look into finding / implementing a better CQR method. </p>
@@ -806,12 +705,8 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 <div class="highlight"><pre><span></span><code><span class="c1"># calculating the probability scores for validation set</span>
 <span class="n">xgb_class_val_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">xgb_class_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_val_df</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;prob&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">class_val_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">country</span><span class="p">))</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">compute_conformity_scores</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="n">compute_conformity_scores</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">n_2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
 <span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
@@ -834,18 +729,9 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 <span class="p">}</span>
 
 <span class="nf">compute_conformity_scores</span><span class="p">(</span><span class="n">xgb_class_val_preds</span><span class="p">,</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">conformity_scores</span>
-</code></pre></div>
+<span class="n">qn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">conformity_scores</span><span class="o">$</span><span class="n">q</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_val_preds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">qn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">conformity_scores</span><span class="o">$</span><span class="n">q</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;conformity_scores&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">process_test_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="n">process_test_results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="n">test_data</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">    </span><span class="nf">rowwise</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">    </span><span class="nf">mutate</span><span class="p">(</span>
@@ -877,23 +763,15 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 
 <span class="n">xgb_class_test_prob_preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">xgb_class_fit</span><span class="p">,</span><span class="w"> </span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class_test_df</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;prob&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">class_test_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">country</span><span class="p">))</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_fit&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">process_test_results</span><span class="p">(</span><span class="n">xgb_class_test_prob_preds</span><span class="p">,</span><span class="w"> </span><span class="n">qn</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="nf">process_test_results</span><span class="p">(</span><span class="n">xgb_class_test_prob_preds</span><span class="p">,</span><span class="w"> </span><span class="n">qn</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">class_test_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">country</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">prediction_set_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">map_int</span><span class="p">(</span><span class="n">prediction_set</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">prediction_set_sizes</span>
+
+<span class="n">prediction_set_sizes</span><span class="o">$</span><span class="n">prediction_set_length</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;xgb_class_test_prob_preds&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">prediction_set_sizes</span><span class="o">$</span><span class="n">prediction_set_length</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mean</span><span class="p">()</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(expr, envir, enclos): object &#39;prediction_set_sizes&#39; not found
+<div class="highlight"><pre><span></span><code>## [1] 19.10148
 </code></pre></div>
 
 <p>Now we can see how bad we are at predicting the country. Just to have a 70% gurantee of having the correct country in the set, we have a mean prediction set length of 17.6!</p>

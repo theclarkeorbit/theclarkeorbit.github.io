@@ -121,7 +121,7 @@ making sure that the distribution of the value column is similar in all
 our data splits using the strata argument.
 
 ```{r, warning=FALSE}
-set.seed(3)
+set.seed(1)
 
 trade_split <- initial_validation_split({df |> na.omit() |> mutate(year = as.factor(year), value = log(value+1))}, prop = c(0.6, 0.2), strata = value)
 trade_split |> print()
