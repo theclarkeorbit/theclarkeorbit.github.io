@@ -39,8 +39,8 @@ library(probably)
 
 We will look at [Indian trade
 data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) hosted
-on Kaggle for the purposes of illustrating the tidy modeling techniques,
-without focusing too much on exploring the data.
+on Kaggle for the purposes of illustrating tidy modeling techniques,
+without focusing too much on data exploration.
 
 ```{bash}
 <!-- pip install kaggle==1.6.14 -->
@@ -95,7 +95,7 @@ To make this something of a modelling challenge, we have enhanced the
 data with some information about the countries India is trading with,
 like the GDP. We downloaded GDP data from the World Bank with the `WDI`
 package. Then, we did a left join onto the Indian trade data on country
-and year, by first converting the countries in the Indian trade to their
+and year, by first converting the countries in the Indian trade dataset to their
 ISO3 codes via the `countries` package.
 
 The data frame we now have will serve as the basis for us to explore
@@ -142,7 +142,7 @@ trade_simple_regression <-
 
 ### Linear model
 
-As a first baseline, always best ton begin with a simple, interpretable
+As a baseline, always best to begin with a simple, interpretable
 linear model.
 
 ```{r}
@@ -158,7 +158,7 @@ linear_fit <- fit(linear_workflow, train_df)
 linear_fit |> tidy() |> arrange(p.value) |> head(5)
 ```
 
-Now, let us make some predictions on the validation data.
+Now, let us make some predictions on the test data.
 
 ```{r}
 trade_reg_metrics <- metric_set(rmse, rsq, mae)
@@ -193,10 +193,12 @@ trade_reg_metrics(xgb_test_preds, truth = value, estimate = .pred) |>
 left_join(linear_test_perf, xgb_test_perf)
 ```
 
+XGB handily beats the linear model on test data.
+
 ### Multiclass classification
 
 Here, we will add back the country column and widen the data frame to
-show value of goods imported and exported by from this country, and try
+show value of goods imported and exported by India with this country, and try
 to predict the country based on population, GDP, and trade with India.
 
 ```{r}
@@ -242,48 +244,45 @@ prediction comes in.
 
 ## Conformal prediction
 
-In what follows, will follow the notation of Ryan Tibshirani (son of the
+In what follows, we will follow the notation of Ryan Tibshirani (son of the
 redoubtable Rob Tibshirani), see the reading list above for a link to
 his notes.
 
 ### Why conformal prediction
 
-Machine learning models making point predictions are not telling us how
+Machine learning models making point predictions do not reliably indicate how
 confident they are about those numbers, and even when we can get a
 confidence interval (for a linear regression), or a probability like
-score (for a classification), we cannot easily say (if at all) what the
-probability is of finding the true value of an out of set data point is,
-in the confidence intervals or the first few most probable values
+score (for a classification), we cannot easily say (if at all) with what probability we will find 
+the true value from an out of set data point
+in the confidence interval or the first few most probable values
 predicted by a classifier.
 
 Very often, a decision about what to do and how to do it depends
-crucially on how sure we are of the prediction, and we would like very
-much to know how sure we can be that the prediction falls in a certain
-finite range.
+crucially on how sure we are of a prediction, and we would like very
+much to know how sure we can be that the true value falls within a certain finite range.
 
 I see the Bayesians wildly waving their hands, and I'll confess my sins
-and say I'm identify as a Bayesian myself. However, the selection of
+and say I identify as a Bayesian myself. However, the selection of
 priors for model parameters is a shaky business, and untenable in any
-careful artisanal sense for a large black box model. Besides, Bayesian
-MCMC is computationally expensive and gets more so as model sizes
-increase. Furthermore, getting a prediction distribution is also
-expensive as we run the model forward drawing from the joint
+careful artisanal way for a large black box model. Besides, Bayesian
+MCMC is computationally expensive and gets more so as the number of model parameters
+increase. Furthermore, getting a prediction distribution is expensive as we run the model forward drawing from the joint
 distribution of parameters to get an empirical distribution of
 predictions on which we can then make some probabilistic statements.
 
-While Bayesian inferences gives us a lot (especially if we are
-interested in what part of the parameter space seems to describe the
-world), it is over engineered in terms of just attaching interpretable
-uncertainty statements to model predictions.
+While Bayesian inference gives us a lot (especially if we are
+interested in knowing what part of the parameter space of a particular model of the world corresponds most closely to reality), it is rather overengineered and expensive in terms of effort and computation if all one wants is to attach interpretable 
+uncertainty ranges to model predictions.
 
-The field of conformal prediction - on the other hand - uses a notion of
-coverage, and the goal is to enhance point predictions with sets of
+The field of conformal prediction - on the other hand - uses the notion of
+coverage and prediction bands, and the goal is to enhance point predictions with sets of
 predictions that are guaranteed (given all available data) to contain the
 true value with a certain probability.
 
 ### Conformal basics - regression
 
-So if we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so
+If we have a set of $n$ vectors each of $d$ dimensions $\{X_i\}$ (so
 $X_i$ is in $\mathbb{R}^d$) where $i \in [1,n]$, each of which is
 associated with an outcome $Y_i$ in $\mathbb{R}$, given a new prediction
 vector $X_{n+1}$, we want to obtain a prediction band
@@ -295,12 +294,12 @@ $$ for a particular $\alpha \in (0,1)$.
 
 We - of course - would like the prediction bands to be narrower if its
 "easy" to predict the $Y$s from the $X$s, and we would like to do this
-with a finite data set and not much compute.
+with a finite data set and without much computation.
 
 Surprisingly, this is plausible, under the assumption that the data
 (even the new data) are "exchangeable", which is to say that their joint
-distribution is invariant under permutations. This is a rather weaker
-assumption from the IID assumptions often made. Further more, our
+distribution is invariant under permutations. This is a weaker
+assumption than the IID assumptions often made. Further more, our
 methods will not depend on the model parameters or reality having any
 specific distribution, which is a huge advantage over Bayesian
 techniques.
@@ -313,14 +312,18 @@ of these in the context of regression.
 
 First we note a basic property of a series of numbers $[Y_1, .., Y_n]$
 drawn from some distribution. If another number $Y_{n+1}$ is drawn from
-the same distribution, $$
+the same distribution, 
+$$
 \mathbb{P}\left(Y_{n+1}\text{ is among the smallest } \lceil (1-\alpha)(n+1) \rceil\text{ numbers in }[Y_1,..,Y_n]\right) \geq (1-\alpha),
-$$ which gives us a way to order a finite list of numbers such that
+$$ 
+which gives us a way to order a finite list of numbers such that
 another similar number has a certain probability $(1-\alpha)$ of falling
 within the first $\lceil (1-\alpha)(n+1) \rceil$ numbers of that list.
-Thus, by defining $$
+Thus, defining 
+$$
 \hat{q_n} = \lceil (1-\alpha)(n+1) \rceil \text{ smallest of } Y_1 .. Y_n,
-$$ gives us a one sided prediction interval $(-\infty, \hat{q}_n]$ where
+$$ 
+gives us a one sided prediction interval $(-\infty, \hat{q}_n]$ where
 $\mathbb{P}(Y_{n+1} \leq \hat{q}_n) \geq (1-\alpha)$. Using similar
 arguments to derive an upper bound, we have, 
 $$
@@ -372,7 +375,7 @@ ggplot(test_split_result) +
   theme_tufte()
 ```
 
-The interpretation that conformal prediction gives us for our prediction interval is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be around 90%)
+The interpretation of our prediction band within the framework of conformal prediction is that we would expect 90% (since that is the level we chose) of actual values to be within the interval computed based on our calibration set. Let us see how we do on coverage on our test set (we would expect it to be around 90%)
 ```{r}
 test_split_result |> 
   mutate(within_band = (.pred_lower <= value) & (value <= .pred_upper)) |> 
@@ -385,7 +388,7 @@ While this is an encouraging result, there are clearly some improvements needed:
 1. The prediction bands are based on the calibration set which was just 20% of the training set. If we use cross validation, we could get residuals for the entire training set and use those to calibrate the prediction bands.
 2. The width of the prediction band seems constant through the entire range of values where as the points outside the range seem to occur (in this particular case) in the low and mid ranges. In general, it is reasonable to expect that the model will do better in some areas than in others, and the prediction band should reflect this, being wider in areas where the model is worse. 
 
-We first address the first point, and deal with the slightly more complex issue of adaptive conformal prediction in a subsequent section. 
+We now address the first point, and deal with the slightly more complex issue of adaptive conformal prediction in a subsequent section. 
 
 #### Split conformal prediction with CV
 
@@ -420,7 +423,7 @@ test_cv_results |>
 
 #### Full conformal prediction
 
-Full conformal prediction is a delightfully simple and computationally impossible (except in some rare cases that I have been assured do exist) idea that is worth glancing at. 
+Full conformal prediction is a delightfully simple and computationally impossible (except in some rare cases (that I have been assured do actually exist)) idea that is worth glancing at. 
 
 1. Use the entire training set (the proper training set as well as the calibration set are included) $D_n  = D_{1}\cup D_{2}$ such that $(X_i, Y_i) \in D_n$.  
 2. When there is a new predictor $x \in \mathbb{R}^d$ available, evaluate a possible outcome $y \in \mathbb{R}$ by training the model on $D_n$ augmented with $(x,y)$, to get $\hat{f}_{D_n\cup(x,y)}$, and calculating the residual $R^{x,y} = |y - \hat{f}_{D_n\cup(x,y)}(x)|$.
@@ -436,7 +439,7 @@ To obtain adaptive prediction bands, we use a method called Conformalized Quanti
 
 **CQR recipe**
 
-1. On the proper training set $D_1$ with $n_1$ examples as before, we train two quantile regression models $\hat{f}^{\alpha/2}_{n_1}$ and $\hat{f}^{1-\alpha/2}_{n_1}$. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of $(1-\alpha)$, which means $\alpha/2$ from below and $1-\alpha/2$ from above are excluded).
+1. On the proper training set $D_1$ with $n_1$ examples as before, we train two quantile regression models $\hat{f}^{\alpha/2}_{n_1}$ and $\hat{f}^{1-\alpha/2}_{n_1}$. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of $(1-\alpha)$, which means everything below $\alpha/2$ and everything above $1-\alpha/2$ is excluded).
 2. The calibration test scores are defined by,
 $$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$  
 3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2 $, and the prediction band is given by,
@@ -483,15 +486,15 @@ We will outline a scheme called Adaptive Predictive Sets (APS).
 2. As before, we define $\hat{q}_{n_2} = \lceil(1-\alpha)(n_2+1)\rceil$ smallest of the $R_i, \text{ } i\in D_2$.
 3. This gives us the prediction set, to be all classes (ordered in descending order of probability estimated by model) that need to be included for the sum of their probabilities to be at least $\hat{q}_{n_2}$.
 
-Let us take a look at this in the context of the classification problem we already dealt with. 
-
-It seems like the `probably` package does not implement APS out of the box, so we will quickly do an implementation ourselves following the recipe above. 
+It looks like the `probably` package does not implement APS out of the box, so we will quickly do an implementation ourselves, following the recipe above. 
 
 ```{r}
 # calculating the probability scores for validation set
 xgb_class_val_preds <- predict(xgb_class_fit, new_data = class_val_df, type = 'prob') |> 
   bind_cols(class_val_df |> select(country))
 
+# function that computes the conformity scores and using the alpha, returns the 
+# quantile q on the basis of which prediction sets can be calculated
 compute_conformity_scores <- function(data, alpha) {
   n_2 <- nrow(data)
   
@@ -517,6 +520,8 @@ compute_conformity_scores <- function(data, alpha) {
 compute_conformity_scores(xgb_class_val_preds, 0.7) -> conformity_scores
 qn <- conformity_scores$q
 
+# this function uses the probabilities returned by the model on the test data
+# and uses the q computed by the function above to construct prediction sets
 process_test_results <- function(test_data, q) {
   test_data |> 
     rowwise() |> 
