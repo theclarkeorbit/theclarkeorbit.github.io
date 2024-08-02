@@ -138,18 +138,18 @@ df |> sample_n(10)
 
 ```
 ## # A tibble: 10 × 6
-##    country                year trade_direction   value     gdp population
-##    <chr>                 <int> <chr>             <dbl>   <dbl>      <dbl>
-##  1 Uruguay                2010 export            85.3  4.20e10    3352651
-##  2 Cabo Verde             2014 export             4.1  2.04e 9     546076
-##  3 Viet Nam               2020 import          6120.   3.47e11   96648685
-##  4 Guinea-Bissau          2011 import           236.   1.16e 9    1609017
-##  5 Poland                 2019 import           849.   5.96e11   37965475
-##  6 Guinea-Bissau          2010 import            59.5  9.40e 8    1567220
-##  7 Grenada                2016 import             0.06 1.06e 9     119966
-##  8 Guatemala              2010 import            40.2  4.07e10   14259687
-##  9 Brazil                 2021 import          5713.   1.67e12  214326223
-## 10 Virgin Islands (U.S.)  2021 import             0.43 4.44e 9     105870
+##    country        year trade_direction   value           gdp population
+##    <chr>         <int> <chr>             <dbl>         <dbl>      <dbl>
+##  1 Guinea         2010 import           103.     6853467832.   10270728
+##  2 New Caledonia  2018 import             0.21   9896402284.     271170
+##  3 Botswana       2014 import          1013.    15470088501.    2260376
+##  4 Kuwait         2019 import          9574.   138696321088.    4441100
+##  5 Pakistan       2016 export          1822.   313630000130.  213524840
+##  6 Belize         2010 export            14.3    1739070295.     322106
+##  7 Gambia, The    2014 import            36.1    1229461721.    2189019
+##  8 Cuba           2020 export            20.3  107351800000    11300698
+##  9 Puerto Rico    2012 export           106.   101564800000     3634488
+## 10 Faroe Islands  2014 import             0.07   2914012679.      48465
 ```
 
 ``` r
@@ -598,7 +598,7 @@ To obtain adaptive prediction bands, we use a method called Conformalized Quanti
 1. On the proper training set $D_1$ with $n_1$ examples as before, we train two quantile regression models $\hat{f}^{\alpha/2}_{n_1}$ and $\hat{f}^{1-\alpha/2}_{n_1}$. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of $(1-\alpha)$, which means everything below $\alpha/2$ and everything above $1-\alpha/2$ is excluded).
 2. The calibration test scores are defined by,
 $$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$  
-3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2$, and the prediction band is given by,
+3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2$ , and the prediction band is given by,
 $$\hat{C}_n(x) = \left[ \hat{f}^{\alpha/2}_{n_1}(x) - \hat{q}_{n_2},  \hat{f}^{1-\alpha/2}_{n_1}(x)+\hat{q}_{n_2} \right].$$
 The adaptivity of the prediction interval comes the estimates of the quantiles by the quantile regression model. 
 
