@@ -43,11 +43,11 @@ on Kaggle for the purposes of illustrating tidy modeling techniques,
 without focusing too much on data exploration.
 
 ```{bash}
-<!-- pip install kaggle==1.6.14 -->
-<!-- mkdir ~/.datasets/india_trade_data -->
-<!-- kaggle datasets download -d lakshyaag/india-trade-data -->
-<!-- mv india-trade-data.zip ~/.datasets/india_trade_data/ -->
-<!-- unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip -->
+# pip install kaggle==1.6.14
+# mkdir ~/.datasets/india_trade_data
+# kaggle datasets download -d lakshyaag/india-trade-data
+# mv india-trade-data.zip ~/.datasets/india_trade_data/
+# unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip
 ```
 
 ```{r, include=TRUE, warning=FALSE}
