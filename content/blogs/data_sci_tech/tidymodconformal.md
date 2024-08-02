@@ -43,8 +43,8 @@ without focusing too much on data exploration.
 ```
 
 ```
-## bash: -c: line 1: syntax error near unexpected token `newline'
-## bash: -c: line 1: `<!-- pip install kaggle==1.6.14 -->'
+## bash: -c: line 0: syntax error near unexpected token `newline'
+## bash: -c: line 0: `<!-- pip install kaggle==1.6.14 -->'
 ```
 
 
@@ -145,16 +145,16 @@ df |> sample_n(10)
 ## # A tibble: 10 × 6
 ##    country           year trade_direction   value           gdp population
 ##    <chr>            <int> <chr>             <dbl>         <dbl>      <dbl>
-##  1 Czechia           2020 import           393.   245974558654.   10697858
-##  2 Andorra           2016 export             0.13   2896610480.      72540
-##  3 Egypt, Arab Rep.  2019 export          2504.   318678815490.  105618671
-##  4 Thailand          2021 import          9332.   506256494297.   71601103
-##  5 Guyana            2020 import            11.3    5471256595.     797202
-##  6 Ecuador           2012 import           873.    87735048000    15483883
-##  7 Kyrgyz Republic   2021 import             1.79   9249133946.    6773400
-##  8 Ireland           2011 export           380.   239170638711.    4580084
-##  9 Bhutan            2014 import           150.     2057330873.     736357
-## 10 Belarus           2015 export            35.7   56454889147.    9461076
+##  1 Rwanda            2015 export            106.    8543759089.   11642959
+##  2 Czechia           2013 export            387.  211685616593.   10514272
+##  3 Zambia            2013 import            243.   28037239463.   15234976
+##  4 Ireland           2018 import            422.  386693357874.    4867316
+##  5 Ghana             2020 import           1375.   70043095504.   32180401
+##  6 Papua New Guinea  2018 import             89.0  24109780708.    9329227
+##  7 Malaysia          2013 export           4198.  323276235524.   30134807
+##  8 <NA>              2013 export          13748.            NA          NA
+##  9 Bolivia           2015 import            240.   33000198249.   11090085
+## 10 Benin             2012 export            479.   11141358116.   10014078
 ```
 
 ``` r
@@ -603,7 +603,7 @@ To obtain adaptive prediction bands, we use a method called Conformalized Quanti
 1. On the proper training set $D_1$ with $n_1$ examples as before, we train two quantile regression models $\hat{f}^{\alpha/2}_{n_1}$ and $\hat{f}^{1-\alpha/2}_{n_1}$. What we are doing here is just taking the upper and lower limits of the prediction band (remember, we define the prediction band by saying that we want to have a coverage probability of $(1-\alpha)$, which means everything below $\alpha/2$ and everything above $1-\alpha/2$ is excluded).
 2. The calibration test scores are defined by,
 $$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$  
-3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2 $, and the prediction band is given by,
+3. As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2$, and the prediction band is given by,
 $$\hat{C}_n(x) = \left[ \hat{f}^{\alpha/2}_{n_1}(x) - \hat{q}_{n_2},  \hat{f}^{1-\alpha/2}_{n_1}(x)+\hat{q}_{n_2} \right].$$
 The adaptivity of the prediction interval comes the estimates of the quantiles by the quantile regression model. 
 
