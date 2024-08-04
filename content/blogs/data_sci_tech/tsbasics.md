@@ -13,7 +13,7 @@ editor_options:
 
 ## Getting data
 
-For the purposes of this blog, we will be using the richly structured `Turbofan Engine Degradation Simulation-2` data published along with other interesting industrial datasets on NASA's [prognostics for intelligent systems web page](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/). The data is made available as a which we will need to fetch and extract. 
+For the purposes of this blog, we will be using the richly structured `Turbofan Engine Degradation Simulation-2` data published along with other interesting industrial datasets on NASA's [prognostics for intelligent systems web page](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/). The data is made available as a zip file which we will need to fetch and extract. 
 
 
 ``` bash
