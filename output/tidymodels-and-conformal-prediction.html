@@ -157,15 +157,11 @@
 data</a> hosted
 on Kaggle for the purposes of illustrating tidy modeling techniques,
 without focusing too much on data exploration.</p>
-<div class="highlight"><pre><span></span><code>&lt;!--<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">kaggle</span><span class="o">==</span><span class="m">1</span>.6.14<span class="w"> </span>--&gt;
-&lt;!--<span class="w"> </span>mkdir<span class="w"> </span>~/.datasets/india_trade_data<span class="w"> </span>--&gt;
-&lt;!--<span class="w"> </span>kaggle<span class="w"> </span>datasets<span class="w"> </span>download<span class="w"> </span>-d<span class="w"> </span>lakshyaag/india-trade-data<span class="w"> </span>--&gt;
-&lt;!--<span class="w"> </span>mv<span class="w"> </span>india-trade-data.zip<span class="w"> </span>~/.datasets/india_trade_data/<span class="w"> </span>--&gt;
-&lt;!--<span class="w"> </span>unzip<span class="w"> </span>-d<span class="w"> </span>~/.datasets/india_trade_data<span class="w"> </span>~/.datasets/india_trade_data/india-trade-data.zip<span class="w"> </span>--&gt;
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="cp">## bash: -c: line 1: syntax error near unexpected token `newline&#39;</span>
-<span class="cp">## bash: -c: line 1: `&lt;!-- pip install kaggle==1.6.14 --&gt;&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># pip install kaggle==1.6.14</span>
+<span class="c1"># mkdir ~/.datasets/india_trade_data</span>
+<span class="c1"># kaggle datasets download -d lakshyaag/india-trade-data</span>
+<span class="c1"># mv india-trade-data.zip ~/.datasets/india_trade_data/</span>
+<span class="c1"># unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/.datasets/india_trade_data/2010_2021_HS2_export.csv&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df_hs2_exp</span>
@@ -250,18 +246,18 @@ tidy modeling and conformal prediction in R.</p>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    country           year trade_direction   value           gdp population</span>
-<span class="c1">##    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
-<span class="c1">##  1 Czechia           2020 import           393.   245974558654.   10697858</span>
-<span class="c1">##  2 Andorra           2016 export             0.13   2896610480.      72540</span>
-<span class="c1">##  3 Egypt, Arab Rep.  2019 export          2504.   318678815490.  105618671</span>
-<span class="c1">##  4 Thailand          2021 import          9332.   506256494297.   71601103</span>
-<span class="c1">##  5 Guyana            2020 import            11.3    5471256595.     797202</span>
-<span class="c1">##  6 Ecuador           2012 import           873.    87735048000    15483883</span>
-<span class="c1">##  7 Kyrgyz Republic   2021 import             1.79   9249133946.    6773400</span>
-<span class="c1">##  8 Ireland           2011 export           380.   239170638711.    4580084</span>
-<span class="c1">##  9 Bhutan            2014 import           150.     2057330873.     736357</span>
-<span class="c1">## 10 Belarus           2015 export            35.7   56454889147.    9461076</span>
+<span class="c1">##    country        year trade_direction   value           gdp population</span>
+<span class="c1">##    &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">##  1 Guinea         2010 import           103.     6853467832.   10270728</span>
+<span class="c1">##  2 New Caledonia  2018 import             0.21   9896402284.     271170</span>
+<span class="c1">##  3 Botswana       2014 import          1013.    15470088501.    2260376</span>
+<span class="c1">##  4 Kuwait         2019 import          9574.   138696321088.    4441100</span>
+<span class="c1">##  5 Pakistan       2016 export          1822.   313630000130.  213524840</span>
+<span class="c1">##  6 Belize         2010 export            14.3    1739070295.     322106</span>
+<span class="c1">##  7 Gambia, The    2014 import            36.1    1229461721.    2189019</span>
+<span class="c1">##  8 Cuba           2020 export            20.3  107351800000    11300698</span>
+<span class="c1">##  9 Puerto Rico    2012 export           106.   101564800000     3634488</span>
+<span class="c1">## 10 Faroe Islands  2014 import             0.07   2914012679.      48465</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">({</span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">na.omit</span><span class="p">()},</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">value</span><span class="p">},</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trade_direction</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
@@ -650,7 +646,7 @@ Its clear that it is extremely computationally expensive (and hopelessly impract
 <li>The calibration test scores are defined by,
 <div class="math">$$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$</div>
 </li>
-<li>As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2 $, and the prediction band is given by,
+<li>As before, <span class="math">\(\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2\)</span> , and the prediction band is given by,
 <div class="math">$$\hat{C}_n(x) = \left[ \hat{f}^{\alpha/2}_{n_1}(x) - \hat{q}_{n_2},  \hat{f}^{1-\alpha/2}_{n_1}(x)+\hat{q}_{n_2} \right].$$</div>
 The adaptivity of the prediction interval comes the estimates of the quantiles by the quantile regression model. </li>
 </ol>
@@ -869,11 +865,11 @@ The adaptivity of the prediction interval comes the estimates of the quantiles b
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./basics-of-time-series-and-adaptive-conformal-inference.html">"Basics of time series, and adaptive conformal inference"</a></li>
     <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
     <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
     <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
     <li class="list-group-item"><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></li>
-    <li class="list-group-item"><a href="./the-invisible-hand.html">"The Invisible Hand"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
