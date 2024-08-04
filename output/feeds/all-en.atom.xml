@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-07-26T21:12:46+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-07-26T21:12:46+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-08-02T15:34:37+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of time series, and adaptive conformal inference"</title><link href="https://theclarkeorbit.github.io/basics-of-time-series-and-adaptive-conformal-inference.html" rel="alternate"></link><published>2024-08-01T00:00:00+02:00</published><updated>2024-08-02T14:38:08+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-08-01:/basics-of-time-series-and-adaptive-conformal-inference.html</id><summary type="html">&lt;h2&gt;Getting data&lt;/h2&gt;
+&lt;p&gt;For the purposes of this blog, we will be using the richly structured &lt;code&gt;Turbofan Engine Degradation Simulation-2&lt;/code&gt; data published along with other interesting industrial datasets on NASA's &lt;a href="https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"&gt;prognostics for intelligent systems web page&lt;/a&gt;. The data is made available as a which we will need to fetch and extract …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Getting data&lt;/h2&gt;
+&lt;p&gt;For the purposes of this blog, we will be using the richly structured &lt;code&gt;Turbofan Engine Degradation Simulation-2&lt;/code&gt; data published along with other interesting industrial datasets on NASA's &lt;a href="https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"&gt;prognostics for intelligent systems web page&lt;/a&gt;. The data is made available as a which we will need to fetch and extract. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pwd&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../../../../../datasets
+&lt;span class="c1"&gt;# mkdir turbofansimdata&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;turbofansimdata
+&lt;span class="c1"&gt;# wget https://phm-datasets.s3.amazonaws.com/NASA/17.+Turbofan+Engine+Degradation+Simulation+Data+Set+2.zip&lt;/span&gt;
+&lt;span class="c1"&gt;# for file in *; do&lt;/span&gt;
+&lt;span class="c1"&gt;#    if [ -f &amp;quot;$file&amp;quot; ]; then&lt;/span&gt;
+&lt;span class="c1"&gt;#        # Convert to lowercase, remove special chars, capitalize first letter of each word&lt;/span&gt;
+&lt;span class="c1"&gt;#        newname=$(echo &amp;quot;$file&amp;quot; | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39; | sed -e &amp;#39;s/[^a-zA-Z0-9]/ /g&amp;#39; -e &amp;#39;s/\b\(.\)/\u\1/g&amp;#39; | tr -d &amp;#39; &amp;#39;)&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;#        # Rename the file if the new name is different&lt;/span&gt;
+&lt;span class="c1"&gt;#        if [ &amp;quot;$file&amp;quot; != &amp;quot;$newname&amp;quot; ]; then&lt;/span&gt;
+&lt;span class="c1"&gt;#            mv &amp;quot;$file&amp;quot; &amp;quot;$newname&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#            echo &amp;quot;Renamed: $file -&amp;gt; $newname&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;#        fi&lt;/span&gt;
+&lt;span class="c1"&gt;#    fi&lt;/span&gt;
+&lt;span class="c1"&gt;# done&lt;/span&gt;
+&lt;span class="c1"&gt;# mv 17TurbofanEngineDegradationSimulationDataSet2Zip TurbofanEngineDegradationSimulationDataSet2.Zip&lt;/span&gt;
+&lt;span class="c1"&gt;# unzip *&lt;/span&gt;
+&lt;span class="c1"&gt;# cd 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/&lt;/span&gt;
+&lt;span class="c1"&gt;# unzip *&lt;/span&gt;
+&lt;span class="c1"&gt;# mkdir ../dataset&lt;/span&gt;
+&lt;span class="c1"&gt;# mv data_set/* ../dataset/&lt;/span&gt;
+&lt;span class="c1"&gt;# cd ..&lt;/span&gt;
+&lt;span class="c1"&gt;# rm -rf 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/&lt;/span&gt;
+ls&lt;span class="w"&gt; &lt;/span&gt;-l&lt;span class="w"&gt; &lt;/span&gt;--block-size&lt;span class="o"&gt;=&lt;/span&gt;M&lt;span class="w"&gt; &lt;/span&gt;dataset
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## total 27822M&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2741M Jan 13  2021 N-CMAPSS_DS01-005.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2337M Jan 13  2021 N-CMAPSS_DS02-006.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 3523M Jan 13  2021 N-CMAPSS_DS03-012.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 3579M Jan 13  2021 N-CMAPSS_DS04.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2479M Jan 12  2021 N-CMAPSS_DS05.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2432M Jan 13  2021 N-CMAPSS_DS06.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2589M Jan 13  2021 N-CMAPSS_DS07.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 3087M Jan 13  2021 N-CMAPSS_DS08a-009.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2302M Jan 13  2021 N-CMAPSS_DS08c-008.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2752M Jan 13  2021 N-CMAPSS_DS08d-010.h5&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna    5M Aug  1 16:30 N-CMAPSS_Example_data_loading_and_exploration.ipynb&lt;/span&gt;
+&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna    1M Jan 14  2021 Run_to_Failure_Simulation_Under_Real_Flight_Conditions_Dataset.pdf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We have about 25G of data over 10 files in h5 format. &lt;/p&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-08-02T15:34:37+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal
@@ -37,15 +83,11 @@ on Kaggle for …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Reading mate
 data&lt;/a&gt; hosted
 on Kaggle for the purposes of illustrating tidy modeling techniques,
 without focusing too much on data exploration.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;!--&lt;span class="w"&gt; &lt;/span&gt;pip&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;kaggle&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;.6.14&lt;span class="w"&gt; &lt;/span&gt;--&amp;gt;
-&amp;lt;!--&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;~/.datasets/india_trade_data&lt;span class="w"&gt; &lt;/span&gt;--&amp;gt;
-&amp;lt;!--&lt;span class="w"&gt; &lt;/span&gt;kaggle&lt;span class="w"&gt; &lt;/span&gt;datasets&lt;span class="w"&gt; &lt;/span&gt;download&lt;span class="w"&gt; &lt;/span&gt;-d&lt;span class="w"&gt; &lt;/span&gt;lakshyaag/india-trade-data&lt;span class="w"&gt; &lt;/span&gt;--&amp;gt;
-&amp;lt;!--&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;india-trade-data.zip&lt;span class="w"&gt; &lt;/span&gt;~/.datasets/india_trade_data/&lt;span class="w"&gt; &lt;/span&gt;--&amp;gt;
-&amp;lt;!--&lt;span class="w"&gt; &lt;/span&gt;unzip&lt;span class="w"&gt; &lt;/span&gt;-d&lt;span class="w"&gt; &lt;/span&gt;~/.datasets/india_trade_data&lt;span class="w"&gt; &lt;/span&gt;~/.datasets/india_trade_data/india-trade-data.zip&lt;span class="w"&gt; &lt;/span&gt;--&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="cp"&gt;## bash: -c: line 1: syntax error near unexpected token `newline&amp;#39;&lt;/span&gt;
-&lt;span class="cp"&gt;## bash: -c: line 1: `&amp;lt;!-- pip install kaggle==1.6.14 --&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pip install kaggle==1.6.14&lt;/span&gt;
+&lt;span class="c1"&gt;# mkdir ~/.datasets/india_trade_data&lt;/span&gt;
+&lt;span class="c1"&gt;# kaggle datasets download -d lakshyaag/india-trade-data&lt;/span&gt;
+&lt;span class="c1"&gt;# mv india-trade-data.zip ~/.datasets/india_trade_data/&lt;/span&gt;
+&lt;span class="c1"&gt;# unzip -d ~/.datasets/india_trade_data ~/.datasets/india_trade_data/india-trade-data.zip&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;~/.datasets/india_trade_data/2010_2021_HS2_export.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;df_hs2_exp&lt;/span&gt;
@@ -130,18 +172,18 @@ tidy modeling and conformal prediction in R.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    country           year trade_direction   value           gdp population&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;            &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 Czechia           2020 import           393.   245974558654.   10697858&lt;/span&gt;
-&lt;span class="c1"&gt;##  2 Andorra           2016 export             0.13   2896610480.      72540&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 Egypt, Arab Rep.  2019 export          2504.   318678815490.  105618671&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 Thailand          2021 import          9332.   506256494297.   71601103&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 Guyana            2020 import            11.3    5471256595.     797202&lt;/span&gt;
-&lt;span class="c1"&gt;##  6 Ecuador           2012 import           873.    87735048000    15483883&lt;/span&gt;
-&lt;span class="c1"&gt;##  7 Kyrgyz Republic   2021 import             1.79   9249133946.    6773400&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 Ireland           2011 export           380.   239170638711.    4580084&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 Bhutan            2014 import           150.     2057330873.     736357&lt;/span&gt;
-&lt;span class="c1"&gt;## 10 Belarus           2015 export            35.7   56454889147.    9461076&lt;/span&gt;
+&lt;span class="c1"&gt;##    country        year trade_direction   value           gdp population&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;         &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 Guinea         2010 import           103.     6853467832.   10270728&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 New Caledonia  2018 import             0.21   9896402284.     271170&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 Botswana       2014 import          1013.    15470088501.    2260376&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 Kuwait         2019 import          9574.   138696321088.    4441100&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 Pakistan       2016 export          1822.   313630000130.  213524840&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 Belize         2010 export            14.3    1739070295.     322106&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 Gambia, The    2014 import            36.1    1229461721.    2189019&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 Cuba           2020 export            20.3  107351800000    11300698&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 Puerto Rico    2012 export           106.   101564800000     3634488&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 Faroe Islands  2014 import             0.07   2914012679.      48465&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;na.omit&lt;/span&gt;&lt;span class="p"&gt;()},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;trade_direction&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -530,7 +572,7 @@ Its clear that it is extremely computationally expensive (and hopelessly impract
 &lt;li&gt;The calibration test scores are defined by,
 &lt;div class="math"&gt;$$R_i = \text{max}\left[\hat{f}^{\alpha/2}_{n_1}(X_i)-Y_i, Y_i - \hat{f}^{1-\alpha/2}_{n_1}(X_i)   \right], \text{ } i \in D_2.$$&lt;/div&gt;
 &lt;/li&gt;
-&lt;li&gt;As before, $\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2 $, and the prediction band is given by,
+&lt;li&gt;As before, &lt;span class="math"&gt;\(\hat{q}_{n_2} = \lceil (1-\alpha)(n_2+1) \rceil \text{ smallest of } R_i, i \in D_2\)&lt;/span&gt; , and the prediction band is given by,
 &lt;div class="math"&gt;$$\hat{C}_n(x) = \left[ \hat{f}^{\alpha/2}_{n_1}(x) - \hat{q}_{n_2},  \hat{f}^{1-\alpha/2}_{n_1}(x)+\hat{q}_{n_2} \right].$$&lt;/div&gt;
 The adaptivity of the prediction interval comes the estimates of the quantiles by the quantile regression model. &lt;/li&gt;
 &lt;/ol&gt;
