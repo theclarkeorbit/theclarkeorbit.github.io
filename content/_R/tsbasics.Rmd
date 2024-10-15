@@ -21,35 +21,9 @@ library(tidymodels)
 
 ## Getting data
 
-For the purposes of this blog, we will be using the richly structured `Turbofan Engine Degradation Simulation-2` data published along with other interesting industrial datasets on NASA's [prognostics for intelligent systems web page](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/). The data is made available as a zip file which we will need to fetch and extract. 
+For this post, we will use data from a [recent kaggle contest](https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/) on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. 
 
 ```{bash}
-# pwd
-cd ../../../../../datasets
-# mkdir turbofansimdata
-cd turbofansimdata
-# wget https://phm-datasets.s3.amazonaws.com/NASA/17.+Turbofan+Engine+Degradation+Simulation+Data+Set+2.zip
-# for file in *; do
-#    if [ -f "$file" ]; then
-#        # Convert to lowercase, remove special chars, capitalize first letter of each word
-#        newname=$(echo "$file" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-zA-Z0-9]/ /g' -e 's/\b\(.\)/\u\1/g' | tr -d ' ')
-#
-#        # Rename the file if the new name is different
-#        if [ "$file" != "$newname" ]; then
-#            mv "$file" "$newname"
-#            echo "Renamed: $file -> $newname"
-#        fi
-#    fi
-# done
-# mv 17TurbofanEngineDegradationSimulationDataSet2Zip TurbofanEngineDegradationSimulationDataSet2.Zip
-# unzip *
-# cd 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/
-# unzip *
-# mkdir ../dataset
-# mv data_set/* ../dataset/
-# cd ..
-# rm -rf 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/
-ls -l --block-size=M dataset
+kaggle competitions download -c probabilistic-forecasting-i-temperature
 ```
 
-We have about 25G of data over 10 files in h5 format. 

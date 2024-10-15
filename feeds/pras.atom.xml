@@ -1,51 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-08-04T11:50:40+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of time series, and adaptive conformal inference"</title><link href="https://theclarkeorbit.github.io/basics-of-time-series-and-adaptive-conformal-inference.html" rel="alternate"></link><published>2024-08-01T00:00:00+02:00</published><updated>2024-08-04T11:50:40+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-08-01:/basics-of-time-series-and-adaptive-conformal-inference.html</id><summary type="html">&lt;h2&gt;Getting data&lt;/h2&gt;
-&lt;p&gt;For the purposes of this blog, we will be using the richly structured &lt;code&gt;Turbofan Engine Degradation Simulation-2&lt;/code&gt; data published along with other interesting industrial datasets on NASA's &lt;a href="https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"&gt;prognostics for intelligent systems web page&lt;/a&gt;. The data is made available as a zip file which we will need to fetch …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Getting data&lt;/h2&gt;
-&lt;p&gt;For the purposes of this blog, we will be using the richly structured &lt;code&gt;Turbofan Engine Degradation Simulation-2&lt;/code&gt; data published along with other interesting industrial datasets on NASA's &lt;a href="https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"&gt;prognostics for intelligent systems web page&lt;/a&gt;. The data is made available as a zip file which we will need to fetch and extract. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pwd&lt;/span&gt;
-&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../../../../../datasets
-&lt;span class="c1"&gt;# mkdir turbofansimdata&lt;/span&gt;
-&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;turbofansimdata
-&lt;span class="c1"&gt;# wget https://phm-datasets.s3.amazonaws.com/NASA/17.+Turbofan+Engine+Degradation+Simulation+Data+Set+2.zip&lt;/span&gt;
-&lt;span class="c1"&gt;# for file in *; do&lt;/span&gt;
-&lt;span class="c1"&gt;#    if [ -f &amp;quot;$file&amp;quot; ]; then&lt;/span&gt;
-&lt;span class="c1"&gt;#        # Convert to lowercase, remove special chars, capitalize first letter of each word&lt;/span&gt;
-&lt;span class="c1"&gt;#        newname=$(echo &amp;quot;$file&amp;quot; | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39; | sed -e &amp;#39;s/[^a-zA-Z0-9]/ /g&amp;#39; -e &amp;#39;s/\b\(.\)/\u\1/g&amp;#39; | tr -d &amp;#39; &amp;#39;)&lt;/span&gt;
-&lt;span class="c1"&gt;#&lt;/span&gt;
-&lt;span class="c1"&gt;#        # Rename the file if the new name is different&lt;/span&gt;
-&lt;span class="c1"&gt;#        if [ &amp;quot;$file&amp;quot; != &amp;quot;$newname&amp;quot; ]; then&lt;/span&gt;
-&lt;span class="c1"&gt;#            mv &amp;quot;$file&amp;quot; &amp;quot;$newname&amp;quot;&lt;/span&gt;
-&lt;span class="c1"&gt;#            echo &amp;quot;Renamed: $file -&amp;gt; $newname&amp;quot;&lt;/span&gt;
-&lt;span class="c1"&gt;#        fi&lt;/span&gt;
-&lt;span class="c1"&gt;#    fi&lt;/span&gt;
-&lt;span class="c1"&gt;# done&lt;/span&gt;
-&lt;span class="c1"&gt;# mv 17TurbofanEngineDegradationSimulationDataSet2Zip TurbofanEngineDegradationSimulationDataSet2.Zip&lt;/span&gt;
-&lt;span class="c1"&gt;# unzip *&lt;/span&gt;
-&lt;span class="c1"&gt;# cd 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/&lt;/span&gt;
-&lt;span class="c1"&gt;# unzip *&lt;/span&gt;
-&lt;span class="c1"&gt;# mkdir ../dataset&lt;/span&gt;
-&lt;span class="c1"&gt;# mv data_set/* ../dataset/&lt;/span&gt;
-&lt;span class="c1"&gt;# cd ..&lt;/span&gt;
-&lt;span class="c1"&gt;# rm -rf 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/&lt;/span&gt;
-ls&lt;span class="w"&gt; &lt;/span&gt;-l&lt;span class="w"&gt; &lt;/span&gt;--block-size&lt;span class="o"&gt;=&lt;/span&gt;M&lt;span class="w"&gt; &lt;/span&gt;dataset
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-15T13:31:54+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of time series, and adaptive conformal inference"</title><link href="https://theclarkeorbit.github.io/basics-of-time-series-and-adaptive-conformal-inference.html" rel="alternate"></link><published>2024-08-01T00:00:00+02:00</published><updated>2024-10-15T13:31:54+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-08-01:/basics-of-time-series-and-adaptive-conformal-inference.html</id><content type="html">&lt;h2&gt;Getting data&lt;/h2&gt;
+&lt;p&gt;For this post, we will use data from a &lt;a href="https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/"&gt;recent kaggle contest&lt;/a&gt; on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;kaggle&lt;span class="w"&gt; &lt;/span&gt;competitions&lt;span class="w"&gt; &lt;/span&gt;download&lt;span class="w"&gt; &lt;/span&gt;-c&lt;span class="w"&gt; &lt;/span&gt;probabilistic-forecasting-i-temperature
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## total 27822M&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2741M Jan 13  2021 N-CMAPSS_DS01-005.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2337M Jan 13  2021 N-CMAPSS_DS02-006.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 3523M Jan 13  2021 N-CMAPSS_DS03-012.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 3579M Jan 13  2021 N-CMAPSS_DS04.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2479M Jan 12  2021 N-CMAPSS_DS05.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2432M Jan 13  2021 N-CMAPSS_DS06.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2589M Jan 13  2021 N-CMAPSS_DS07.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 3087M Jan 13  2021 N-CMAPSS_DS08a-009.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2302M Jan 13  2021 N-CMAPSS_DS08c-008.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna 2752M Jan 13  2021 N-CMAPSS_DS08d-010.h5&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna    5M Aug  1 16:30 N-CMAPSS_Example_data_loading_and_exploration.ipynb&lt;/span&gt;
-&lt;span class="c1"&gt;## -rw-r--r-- 1 prasanna prasanna    1M Jan 14  2021 Run_to_Failure_Simulation_Under_Real_Flight_Conditions_Dataset.pdf&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;We have about 25G of data over 10 files in h5 format. &lt;/p&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-08-02T15:34:37+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## Error in running command bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="data_sci_tech"></category></entry><entry><title>"Tidymodels and conformal prediction"</title><link href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html" rel="alternate"></link><published>2024-07-22T00:00:00+02:00</published><updated>2024-08-02T15:34:37+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-07-22:/tidymodels-and-conformal-prediction.html</id><summary type="html">&lt;h2&gt;Reading material:&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="https://www.tmwr.org/"&gt;The tidy modeling book&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.tidymodels.org/learn/models/conformal-regression/"&gt;The tidymodels blog on conformal

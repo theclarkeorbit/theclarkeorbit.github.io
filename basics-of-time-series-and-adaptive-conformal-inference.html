@@ -13,13 +13,13 @@
 <link rel="canonical" href="./basics-of-time-series-and-adaptive-conformal-inference.html">
 
         <meta name="author" content="pras" />
-        <meta name="description" content="Getting data For the purposes of this blog, we will be using the richly structured Turbofan Engine Degradation Simulation-2 data published along with other interesting industrial datasets on NASA&#39;s prognostics for intelligent systems web page. The data is made available as a zip file which we will need to fetch …" />
+        <meta name="description" content="Getting data For this post, we will use data from a recent kaggle contest on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. kaggle competitions download -c probabilistic-forecasting-i-temperature ## Error in running command bash" />
 
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;Basics of time series, and adaptive conformal inference&#34;"/>
         <meta property="og:url" content="./basics-of-time-series-and-adaptive-conformal-inference.html"/>
-        <meta property="og:description" content="Getting data For the purposes of this blog, we will be using the richly structured Turbofan Engine Degradation Simulation-2 data published along with other interesting industrial datasets on NASA&#39;s prognostics for intelligent systems web page. The data is made available as a zip file which we will need to fetch …"/>
+        <meta property="og:description" content="Getting data For this post, we will use data from a recent kaggle contest on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. kaggle competitions download -c probabilistic-forecasting-i-temperature ## Error in running command bash"/>
         <meta property="article:published_time" content="2024-08-01" />
             <meta property="article:section" content="data_sci_tech" />
             <meta property="article:author" content="pras" />
@@ -138,51 +138,12 @@
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <h2>Getting data</h2>
-<p>For the purposes of this blog, we will be using the richly structured <code>Turbofan Engine Degradation Simulation-2</code> data published along with other interesting industrial datasets on NASA's <a href="https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/">prognostics for intelligent systems web page</a>. The data is made available as a zip file which we will need to fetch and extract. </p>
-<div class="highlight"><pre><span></span><code><span class="c1"># pwd</span>
-<span class="nb">cd</span><span class="w"> </span>../../../../../datasets
-<span class="c1"># mkdir turbofansimdata</span>
-<span class="nb">cd</span><span class="w"> </span>turbofansimdata
-<span class="c1"># wget https://phm-datasets.s3.amazonaws.com/NASA/17.+Turbofan+Engine+Degradation+Simulation+Data+Set+2.zip</span>
-<span class="c1"># for file in *; do</span>
-<span class="c1">#    if [ -f &quot;$file&quot; ]; then</span>
-<span class="c1">#        # Convert to lowercase, remove special chars, capitalize first letter of each word</span>
-<span class="c1">#        newname=$(echo &quot;$file&quot; | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39; | sed -e &#39;s/[^a-zA-Z0-9]/ /g&#39; -e &#39;s/\b\(.\)/\u\1/g&#39; | tr -d &#39; &#39;)</span>
-<span class="c1">#</span>
-<span class="c1">#        # Rename the file if the new name is different</span>
-<span class="c1">#        if [ &quot;$file&quot; != &quot;$newname&quot; ]; then</span>
-<span class="c1">#            mv &quot;$file&quot; &quot;$newname&quot;</span>
-<span class="c1">#            echo &quot;Renamed: $file -&gt; $newname&quot;</span>
-<span class="c1">#        fi</span>
-<span class="c1">#    fi</span>
-<span class="c1"># done</span>
-<span class="c1"># mv 17TurbofanEngineDegradationSimulationDataSet2Zip TurbofanEngineDegradationSimulationDataSet2.Zip</span>
-<span class="c1"># unzip *</span>
-<span class="c1"># cd 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/</span>
-<span class="c1"># unzip *</span>
-<span class="c1"># mkdir ../dataset</span>
-<span class="c1"># mv data_set/* ../dataset/</span>
-<span class="c1"># cd ..</span>
-<span class="c1"># rm -rf 17.\ Turbofan\ Engine\ Degradation\ Simulation\ Data\ Set\ 2/</span>
-ls<span class="w"> </span>-l<span class="w"> </span>--block-size<span class="o">=</span>M<span class="w"> </span>dataset
+<p>For this post, we will use data from a <a href="https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/">recent kaggle contest</a> on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. </p>
+<div class="highlight"><pre><span></span><code>kaggle<span class="w"> </span>competitions<span class="w"> </span>download<span class="w"> </span>-c<span class="w"> </span>probabilistic-forecasting-i-temperature
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1">## total 27822M</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2741M Jan 13  2021 N-CMAPSS_DS01-005.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2337M Jan 13  2021 N-CMAPSS_DS02-006.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 3523M Jan 13  2021 N-CMAPSS_DS03-012.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 3579M Jan 13  2021 N-CMAPSS_DS04.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2479M Jan 12  2021 N-CMAPSS_DS05.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2432M Jan 13  2021 N-CMAPSS_DS06.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2589M Jan 13  2021 N-CMAPSS_DS07.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 3087M Jan 13  2021 N-CMAPSS_DS08a-009.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2302M Jan 13  2021 N-CMAPSS_DS08c-008.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna 2752M Jan 13  2021 N-CMAPSS_DS08d-010.h5</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna    5M Aug  1 16:30 N-CMAPSS_Example_data_loading_and_exploration.ipynb</span>
-<span class="c1">## -rw-r--r-- 1 prasanna prasanna    1M Jan 14  2021 Run_to_Failure_Simulation_Under_Real_Flight_Conditions_Dataset.pdf</span>
+<div class="highlight"><pre><span></span><code>## Error in running command bash
 </code></pre></div>
-
-<p>We have about 25G of data over 10 files in h5 format. </p>
             </div>
             <!-- /.entry-content -->
         </article>
