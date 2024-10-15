@@ -13,14 +13,7 @@ editor_options:
 
 ## Getting data
 
-For this post, we will use data from a [recent kaggle contest](https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/) on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. 
+For this post, we will use data from a [recent kaggle contest](https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/) on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli with `kaggle competitions download -c probabilistic-forecasting-i-temperature`. 
 
-
-``` bash
-kaggle competitions download -c probabilistic-forecasting-i-temperature
-```
-
-```
-## Error in running command bash
-```
+    
 
