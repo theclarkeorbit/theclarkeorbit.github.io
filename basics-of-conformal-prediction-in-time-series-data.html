@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>"Basics of conformal prediction in time series data" - p. bhogale</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href=".//images/gravtar.jpg" rel="icon">
+
+<link rel="canonical" href="./basics-of-conformal-prediction-in-time-series-data.html">
+
+        <meta name="author" content="pras" />
+        <meta name="description" content="Reading material Please read the previous blogpost for basics of conformal inference and more reading material. This post makes use of the conformalForecast package introduced in the paper published just 10 days ago by Wang and Hyndman. For a more general overview of time series forecasting, please see this excellent …" />
+
+        <meta property="og:site_name" content="p. bhogale" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="&#34;Basics of conformal prediction in time series data&#34;"/>
+        <meta property="og:url" content="./basics-of-conformal-prediction-in-time-series-data.html"/>
+        <meta property="og:description" content="Reading material Please read the previous blogpost for basics of conformal inference and more reading material. This post makes use of the conformalForecast package introduced in the paper published just 10 days ago by Wang and Hyndman. For a more general overview of time series forecasting, please see this excellent …"/>
+        <meta property="article:published_time" content="2024-08-01" />
+            <meta property="article:section" content="data_sci_tech" />
+            <meta property="article:author" content="pras" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale ATOM Feed"/>
+
+        <link href="./feeds/data_sci_tech.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale data_sci_tech ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115756026-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', UA-115756026-1);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src=".//images/gravtar.jpg" width=""/> p. bhogale            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="./pages/about.html">
+                             About
+                          </a></li>
+                        <li >
+                            <a href="./category/blog.html">Blog</a>
+                        </li>
+                        <li class="active">
+                            <a href="./category/data_sci_tech.html">Data_sci_tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<style>
+	#banner{
+	    background-image:url(".//images/banner.jpg");
+	}
+</style>
+
+<div id="banner">
+	<div class="container">
+		<div class="copy">
+			<h1>p. bhogale</h1>
+				<p class="intro">Data Sci, Quant Fin, Quant Bio.</p>
+		</div>
+	</div>
+</div><!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./basics-of-conformal-prediction-in-time-series-data.html"
+                       rel="bookmark"
+                       title="Permalink to "Basics of conformal prediction in time series data"">
+                        "Basics of conformal prediction in time series data"
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2024-08-01T00:00:00+02:00"> Thu 01 August 2024</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><strong>Reading material</strong>  </p>
+<ol>
+<li>Please read the <a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html">previous blogpost</a> for basics of conformal inference and more reading material.</li>
+<li>This post makes use of the <a href="https://github.com/xqnwang/conformalForecast/"><code>conformalForecast</code></a> package introduced in the <a href="https://robjhyndman.com/publications/cpts.html">paper</a> published just 10 days ago by Wang and Hyndman.</li>
+<li>For a more general overview of time series forecasting, please see this <a href="https://otexts.com/fpp3/">excellent book</a> by Hyndman.</li>
+<li><a href="https://x.com/frankiethull">Frank Hull's</a> R code for <a href="https://x.com/predict_addict">Valeriy Manokhin's</a> <a href="https://www.amazon.in/dp/1805122762?ref_=cm_sw_r_cp_ud_dp_H765W8M42WJ6XJVNZGD7_1">book</a>. </li>
+</ol>
+<p>Conformal prediction is a powerful, non-parametric approach to constructing prediction intervals that provide reliable coverage without requiring strong assumptions about the data distribution (see the <a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html">previous post</a> for an introduction and reading material). For time series forecasting, where data is temporally correlated, conformal prediction methods must adapt to these correlations to achieve accurate and reliable intervals.</p>
+<p>We will first generate time series data and illustrate a couple of classical forecasting techniques before moving to conformal methods.</p>
+<h3>Generating simple time series data</h3>
+<p>Let's create a synthetic dataset that mimics real-world electricity demand and temperature patterns, where demand is influenced by temperature in a U-shaped relationship (higher demand at both very low and very high temperatures):</p>
+<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">52</span><span class="o">*</span><span class="m">5</span><span class="w">  </span><span class="c1"># 5 years of weekly data</span>
+<span class="n">time</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span>
+
+<span class="c1"># Generate synthetic temperature data with seasonal pattern</span>
+<span class="n">temperature</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">sin</span><span class="p">(</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kc">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">52</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+
+<span class="c1"># Generate electricity demand influenced by temperature (U-shaped relationship)</span>
+<span class="n">temp_effect</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2000</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">temperature</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">20</span><span class="p">)</span><span class="o">^</span><span class="m">2</span>
+<span class="n">demand</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">temp_effect</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">sin</span><span class="p">(</span><span class="m">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kc">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">52</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="m">50</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">52</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="m">10</span><span class="o">*</span><span class="n">time</span><span class="p">)</span>
+
+<span class="c1"># Organize data as time series and separate into training and test sets</span>
+<span class="n">data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="nf">as.Date</span><span class="p">(</span><span class="s">&quot;2014-01-01&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;week&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">length.out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">),</span>
+<span class="w">  </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature</span><span class="p">,</span>
+<span class="w">  </span><span class="n">demand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">demand</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>Let's examine our data. First, let's look at the time series patterns:</p>
+<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Temperature&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="n">demand</span><span class="p">)[,</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">temperature</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Scaled Demand&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Temperature&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D95F5F&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Scaled Demand&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#5A8D9B&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Temperature and Scaled Electricity Demand Over Time&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Temperature (°C)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Variable&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;top&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/tsbasics/unnamed-chunk-2-1.png"></p>
+<h2>The <code>modeltime</code> workflow for time series forecasting</h2>
+<p>We will quickly show how to use the <a href="https://business-science.github.io/modeltime/index.html"><code>modeltime</code></a> package for time series forecasts. We start by converting the data to a <code>tsibble</code>, an R object for time series dataframes. </p>
+<div class="highlight"><pre><span></span><code><span class="n">data_ts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as_date</span><span class="p">(</span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">as_tsibble</span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">demand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">demand</span><span class="p">,</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temperature</span><span class="p">)</span>
+
+<span class="n">data_split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_time_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.75</span><span class="p">)</span>
+<span class="n">train_set</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">training</span><span class="p">(</span><span class="n">data_split</span><span class="p">)</span>
+<span class="n">holdout</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">testing</span><span class="p">(</span><span class="n">data_split</span><span class="p">)</span>
+<span class="n">cal_set</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_time_split</span><span class="p">(</span><span class="n">holdout</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">training</span><span class="p">()</span>
+<span class="n">test_set</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_time_split</span><span class="p">(</span><span class="n">holdout</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">testing</span><span class="p">()</span>
+</code></pre></div>
+
+<p>In order to check how well we are doing <em>ex ante</em>, we will need to forecast the temperature into the future, to understand demand. </p>
+<div class="highlight"><pre><span></span><code><span class="n">temp_model_prophet</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prophet_reg</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">set_engine</span><span class="p">(</span><span class="n">engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;prophet&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">yearly.seasonality</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">fit</span><span class="p">(</span><span class="n">temperature</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_set</span><span class="p">)</span>
+
+<span class="n">temp_model_tbl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">modeltime_table</span><span class="p">(</span><span class="n">temp_model_prophet</span><span class="p">)</span>
+
+<span class="n">temp_forecast_tbl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">temp_model_tbl</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">modeltime_forecast</span><span class="p">(</span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">holdout</span><span class="p">,</span><span class="w"> </span><span class="n">actual_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">temp_forecast_tbl</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">plot_modeltime_forecast</span><span class="p">(</span><span class="n">.legend_show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Temperature Forecast&quot;</span><span class="p">)</span>
+<span class="c1">## Error in loadNamespace(name): there is no package called &#39;webshot&#39;</span>
+</code></pre></div>
+
+<p>Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that are demandforecasts are ex ante.</p>
+<div class="highlight"><pre><span></span><code><span class="n">holdout</span><span class="o">$</span><span class="n">temperature</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="p">{</span><span class="n">temp_forecast_tbl</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">.key</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;prediction&quot;</span><span class="p">)}</span><span class="o">$</span><span class="n">.value</span>
+<span class="n">cal_set</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_time_split</span><span class="p">(</span><span class="n">holdout</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">training</span><span class="p">()</span>
+<span class="n">test_set</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">initial_time_split</span><span class="p">(</span><span class="n">holdout</span><span class="p">,</span><span class="w"> </span><span class="n">prop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">testing</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Now, we create a prophet model with temperature as an exogenous variable and calibrate it on the calibration set data.</p>
+<div class="highlight"><pre><span></span><code><span class="n">model_prophet</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">prophet_reg</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">set_engine</span><span class="p">(</span><span class="n">engine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;prophet&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">yearly.seasonality</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">fit</span><span class="p">(</span><span class="n">demand</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">date</span><span class="o">+</span><span class="n">temperature</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_set</span><span class="p">)</span>
+
+<span class="n">model_tbl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">modeltime_table</span><span class="p">(</span><span class="n">model_prophet</span><span class="p">)</span>
+
+<span class="n">calibration_tbl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model_tbl</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">modeltime_calibrate</span><span class="p">(</span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cal_set</span><span class="p">,</span><span class="w"> </span><span class="n">quiet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now, lets see what the forecast looks like with conformal intervals calculated by <code>modeltime</code>'s built in conformal inference scheme.</p>
+<div class="highlight"><pre><span></span><code><span class="n">forecast_tbl</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">calibration_tbl</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">modeltime_forecast</span><span class="p">(</span><span class="n">new_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_set</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">actual_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">conf_method</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;conformal_default&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">conf_interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.80</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                     </span><span class="n">keep_data</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="n">forecast_tbl</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">plot_modeltime_forecast</span><span class="p">(</span><span class="n">.legend_show</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Demand Forecast&quot;</span><span class="p">)</span>
+<span class="c1">## Error in loadNamespace(name): there is no package called &#39;webshot&#39;</span>
+</code></pre></div>
+
+<p>We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean, not terribly useful. </p>
+<p>The modeltime workflow does calibrate the confidence intervals on samples outside the training set, so the coverage is not terrible. </p>
+<p>In the following sections, we will address some of these aspects using conformal methods for multi timestep prediction using the <a href="https://github.com/xqnwang/conformalForecast"><code>conformalForecast</code> package</a>, and describe the <strong>AcMCP</strong> method, introduced in <a href="https://github.com/xqnwang/cpts">Wang and Hyndman’s paper</a>.</p>
+<h3>Split Conformal Inference in Time Series</h3>
+<p>In traditional split conformal inference, we:
+   - Split the data into a <strong>Training Set</strong> for model fitting and a <strong>Calibration Set</strong> to compute prediction intervals.
+   - For each point in the calibration set, we calculate a <strong>nonconformity score</strong> (typically the absolute forecast error) to quantify the forecast's deviation from the observed values.
+   - By taking a quantile of these scores, we construct prediction intervals around the forecasts.</p>
+<p>What we did above with modeltime calibrating on the test set was exactly </p>
+<p>However, <strong>time series data introduces unique challenges</strong>:
+   - Forecast uncertainty increases with the forecast horizon due to accumulated prediction errors.
+   - To adapt conformal prediction for time series, we use the <strong>sequential split</strong> approach, which respects the order of data points and maintains the temporal structure in the data.</p>
+<h4>Recipe for Split Conformal Prediction</h4>
+<ol>
+<li><strong>Select Model and Forecast Horizon</strong>:</li>
+<li>
+<p>Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon ( H ).</p>
+</li>
+<li>
+<p><strong>Split Data Sequentially</strong>:</p>
+</li>
+<li>
+<p>Divide the data sequentially into:</p>
+<ul>
+<li><strong>Training Set</strong>: for fitting the model.</li>
+<li><strong>Calibration Set</strong>: to calculate nonconformity scores.</li>
+</ul>
+</li>
+<li>
+<p><strong>Fit Model on Training Set</strong>:</p>
+</li>
+<li>
+<p>Train the model on the training set, then use it to generate predictions for points in the calibration set.</p>
+</li>
+<li>
+<p><strong>Calculate Nonconformity Scores</strong>:</p>
+</li>
+<li>
+<p>For each calibration point ( y_{t+h} ), calculate the forecast ( \hat{y}<em t_h_t="t+h|t">{t+h|t} ) and the nonconformity score:
+     [
+     s</em> = |y_{t+h} - \hat{y}_{t+h|t}|
+     ]</p>
+</li>
+<li>
+<p><strong>Construct Prediction Intervals</strong>:</p>
+</li>
+<li>Select a confidence level ( 1 - \alpha ).</li>
+<li>Find the ( (1 - \alpha) )-quantile of nonconformity scores to construct intervals for future points:
+     [
+     \hat{C}<em t_h_t="t+h|t">{t+h|t} = [\hat{y}</em> - Q_{1-\alpha}, \hat{y}<em 1-_alpha="1-\alpha">{t+h|t} + Q</em>]
+     ]</li>
+</ol>
+<p>In time series forecasting, prediction intervals ideally <strong>widen for forecasts further into the future</strong> to capture the increased uncertainty over time. Standard split conformal prediction doesn’t account for this, as it uses a single quantile of nonconformity scores for all horizons. However, various methods address this limitation by widening intervals adaptively:</p>
+<h3>Horizon-Dependent Quantiles</h3>
+<p>Using horizon-specific nonconformity quantiles, we can tailor intervals to be wider for longer forecast horizons.</p>
+<p><strong>Recipe</strong>:
+  - For each forecast horizon ( h ), calculate separate quantiles ( Q_{1-\alpha}^{(h)} ) based on the nonconformity scores for that specific horizon.
+  - Define prediction intervals that adapt to each horizon:
+    [
+    \hat{C}<em t_h_t="t+h|t">{t+h|t} = [\hat{y}</em> - Q_{1-\alpha}^{(h)}, \hat{y}<em 1-_alpha="1-\alpha">{t+h|t} + Q</em>^{(h)}]
+    ]
+  - This approach allows intervals to widen as the forecast horizon increases, reflecting higher uncertainty.</p>
+<h2>Online Conformal Inference for Multi-step Time Series Predictions</h2>
+<p>Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting ( t+1, t+2, \ldots, t+H )), each interval needs to reflect both:
+1. The growing uncertainty of further predictions.
+2. The dependencies between errors at different steps ahead.</p>
+<p>In <strong>online conformal inference</strong> for multi-step predictions, intervals are recursively updated as new observations arrive. This lets intervals adapt to shifts in data patterns, improving the long-term accuracy of coverage over time.</p>
+<h2>The AcMCP (Autocorrelated Multi-step Conformal Prediction) Method</h2>
+<p>The <strong>AcMCP method</strong> by <a href="https://github.com/xqnwang/cpts/tree/main/paper">Wang and Hyndman (2024)</a> builds on these ideas by incorporating <strong>autocorrelations</strong> in multi-step forecast errors, unlike simpler methods that treat each forecast step independently. AcMCP produces statistically efficient prediction intervals by integrating these dependencies into the interval calculations, which is crucial for time series data.</p>
+<p><strong>Recipe</strong>  </p>
+<ol>
+<li><strong>Modeling Forecast Error Structure</strong>:</li>
+<li>For an ( h )-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(( h-1 ))</strong> structure, meaning the current error depends on the past ( h-1 ) steps.</li>
+<li>
+<p>This structure is captured as:
+     [
+     e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
+     ]
+     where ( \omega_t ) is random noise and ( \theta ) terms reflect the error dependencies.</p>
+</li>
+<li>
+<p><strong>Updating Quantile Estimates</strong>:</p>
+</li>
+<li>
+<p>AcMCP updates the interval’s quantile estimate ( q_{t+h|t} ) in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.</p>
+</li>
+<li>
+<p><strong>Combining Multiple Models</strong>:</p>
+</li>
+<li>AcMCP combines:<ul>
+<li>An <strong>MA(( h-1 )) model</strong> trained on recent ( h )-step-ahead errors to capture the correlation in errors.</li>
+<li>A <strong>linear regression model</strong> that uses recent errors to forecast future errors.</li>
+</ul>
+</li>
+</ol>
+<p>This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.</p>
+<p>AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:
+   - <strong>Efficiency</strong>: AcMCP’s intervals are generally tighter and more accurate, thanks to the autocorrelation adjustments.
+   - <strong>Robustness for Long-range Forecasts</strong>: AcMCP is ideal for long-horizon forecasts, as it considers error dependencies over multiple steps.
+   - <strong>Dynamic Adjustments</strong>: By updating intervals with each new data point, AcMCP provides accurate coverage as time progresses.</p>
+<p>This method provides a robust way to build multi-step prediction intervals that are both statistically efficient and resilient to changes in the forecast horizon.</p>
+<p>Now, we illustrate the use of AcMCP using the <code>conformalForecast</code> package that accompanies the Wang and Hyndman (2024) paper. </p>
+<div class="highlight"><pre><span></span><code><span class="n">horizon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">test_set</span><span class="p">)</span>
+<span class="c1"># function that makes predictons of demand</span>
+<span class="n">demand_forecast</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">,</span><span class="w"> </span><span class="n">xreg</span><span class="p">,</span><span class="w"> </span><span class="n">newxreg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">auto.arima</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xreg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xreg</span><span class="p">)</span>
+<span class="w">    </span><span class="c1"># Forecast using future temperature values</span>
+<span class="w">    </span><span class="n">fc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">forecast</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">xreg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newxreg</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">level</span><span class="p">)</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span><span class="w">  </span><span class="c1"># Returns a forecast object</span>
+<span class="p">}</span>
+
+<span class="c1"># Generateing rolling forecast and errors on the given data</span>
+<span class="n">demand_fc</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cvforecast</span><span class="p">(</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">ts</span><span class="p">({</span><span class="nf">rbind</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span><span class="w"> </span><span class="n">cal_set</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">demand</span><span class="p">)},</span><span class="w"> </span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">52</span><span class="p">),</span>
+<span class="w">    </span><span class="n">forecastfun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">demand_forecast</span><span class="p">,</span>
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">horizon</span><span class="p">,</span>
+<span class="w">    </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">80</span><span class="p">),</span>
+<span class="w">    </span><span class="n">xreg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">matrix</span><span class="p">({</span><span class="n">data</span><span class="o">$</span><span class="n">temperature</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span><span class="o">+</span><span class="nf">nrow</span><span class="p">(</span><span class="n">cal_set</span><span class="p">)</span><span class="o">+</span><span class="n">horizon</span><span class="p">)},</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">initial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">horizon</span><span class="o">*</span><span class="m">10</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>Now, we use the forecasting function created above to generate conformal predictions.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cal_window</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">horizon</span><span class="o">*</span><span class="m">5</span><span class="p">)</span>
+<span class="n">symm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="n">roll</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">TRUE</span>
+<span class="n">Tg</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">15</span>
+<span class="n">delta</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.01</span>
+<span class="n">Csat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="kc">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nf">ceiling</span><span class="p">(</span><span class="nf">log</span><span class="p">(</span><span class="n">Tg</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">Tg</span><span class="p">))</span>
+<span class="n">KI</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span>
+<span class="n">lr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.1</span>
+
+<span class="n">acmcp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mcp</span><span class="p">(</span><span class="n">demand_fc</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">0.01</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">demand_fc</span><span class="o">$</span><span class="n">level</span><span class="p">,</span>
+<span class="w">             </span><span class="n">ncal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cal_window</span><span class="p">,</span><span class="w"> </span><span class="n">rolling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">roll</span><span class="p">,</span>
+<span class="w">             </span><span class="n">integrate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">scorecast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span>
+<span class="w">             </span><span class="n">lr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lr</span><span class="p">,</span><span class="w"> </span><span class="n">KI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KI</span><span class="p">,</span><span class="w"> </span><span class="n">Csat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Csat</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now, lets see how this compares with the forecasts from the modeltime prophet engine. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Prepare data for plotting AcMCP results</span>
+<span class="n">acmcp_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nf">nrow</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">cal_set</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">horizon</span><span class="p">})</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tail</span><span class="p">(</span><span class="n">horizon</span><span class="p">)},</span><span class="w"> </span>
+<span class="w">  </span><span class="n">demand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">demand</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nf">nrow</span><span class="p">(</span><span class="n">train_set</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">horizon</span><span class="p">})</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tail</span><span class="p">(</span><span class="n">horizon</span><span class="p">)},</span>
+<span class="w">  </span><span class="n">acmcp_lower</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acmcp</span><span class="o">$</span><span class="n">lower</span><span class="p">,</span>
+<span class="w">  </span><span class="n">acmcp_upper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acmcp</span><span class="o">$</span><span class="n">upper</span><span class="p">,</span>
+<span class="w">  </span><span class="n">acmcp_forecast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acmcp</span><span class="o">$</span><span class="n">mean</span>
+<span class="p">)</span>
+
+<span class="c1"># Combine modeltime and AcMCP results for comparison</span>
+<span class="n">forecast_comparison_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">forecast_tbl</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">.key</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;prediction&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">.value</span><span class="p">,</span><span class="w"> </span><span class="n">.conf_lo</span><span class="p">,</span><span class="w"> </span><span class="n">.conf_hi</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">rename</span><span class="p">(</span>
+<span class="w">    </span><span class="n">modeltime_forecast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.value</span><span class="p">,</span>
+<span class="w">    </span><span class="n">modeltime_lower</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.conf_lo</span><span class="p">,</span>
+<span class="w">    </span><span class="n">modeltime_upper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">.conf_hi</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">right_join</span><span class="p">(</span><span class="n">acmcp_df</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;date&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1"># Join with AcMCP results</span>
+
+<span class="nf">bind_rows</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span><span class="w"> </span><span class="n">cal_set</span><span class="p">,</span><span class="w"> </span><span class="n">forecast_comparison_df</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">tail</span><span class="p">(</span><span class="n">horizon</span><span class="o">*</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">forecast_comparison_df</span>
+
+<span class="c1"># Plotting the comparison</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">forecast_comparison_df</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">demand</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Actual Demand&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modeltime_forecast</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Modeltime Forecast&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dotted&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_ribbon</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modeltime_lower</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modeltime_upper</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Modeltime Conformal Interval&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acmcp_forecast</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;AcMCP Forecast&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dashed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.9</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_ribbon</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acmcp_lower</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acmcp_upper</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;AcMCP Conformal Interval&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Actual Demand&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Modeltime Forecast&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#5A8D9B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AcMCP Forecast&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D95F5F&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_fill_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Modeltime Conformal Interval&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#5A8D9B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;AcMCP Conformal Interval&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D95F5F&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Demand&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Confidence Interval&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Forecast Type&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bottom&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/tsbasics/unnamed-chunk-10-1.png"></p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/pbhogale"><i class="fa fa-linkedin-square fa-lg"></i> linkedin</a></li>
+    <li class="list-group-item"><a href="https://github.com/pbhogale"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
+    <li class="list-group-item"><a href="./basics-of-time-series-and-adaptive-conformal-inference.html">"Basics of time series, and adaptive conformal inference"</a></li>
+    <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
+    <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
+    <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2024 pras
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="./theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="./theme/js/respond.min.js"></script>
+
+
+    <script src="./theme/js/bodypadding.js"></script>
+
+
+</body>
+</html>

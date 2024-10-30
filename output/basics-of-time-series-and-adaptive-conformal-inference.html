@@ -13,13 +13,13 @@
 <link rel="canonical" href="./basics-of-time-series-and-adaptive-conformal-inference.html">
 
         <meta name="author" content="pras" />
-        <meta name="description" content="Getting data For this post, we will use data from a recent kaggle contest on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli with kaggle competitions download -c probabilistic-forecasting-i-temperature." />
+        <meta name="description" content="Getting data For this post, we will use data from a recent kaggle contest on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. # kaggle competitions download -c probabilistic-forecasting-i-temperature train &lt;- read_csv(&#39;probabilistic-forecasting-i-temperature/train.csv&#39;) ## Rows: 64320 Columns: 9 ## ── Column specification ──────────────────────────────────────────────────────── ## Delimiter: &#34;,&#34; ## dbl …" />
 
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;Basics of time series, and adaptive conformal inference&#34;"/>
         <meta property="og:url" content="./basics-of-time-series-and-adaptive-conformal-inference.html"/>
-        <meta property="og:description" content="Getting data For this post, we will use data from a recent kaggle contest on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli with kaggle competitions download -c probabilistic-forecasting-i-temperature."/>
+        <meta property="og:description" content="Getting data For this post, we will use data from a recent kaggle contest on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. # kaggle competitions download -c probabilistic-forecasting-i-temperature train &lt;- read_csv(&#39;probabilistic-forecasting-i-temperature/train.csv&#39;) ## Rows: 64320 Columns: 9 ## ── Column specification ──────────────────────────────────────────────────────── ## Delimiter: &#34;,&#34; ## dbl …"/>
         <meta property="article:published_time" content="2024-08-01" />
             <meta property="article:section" content="data_sci_tech" />
             <meta property="article:author" content="pras" />
@@ -138,7 +138,42 @@
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <h2>Getting data</h2>
-<p>For this post, we will use data from a <a href="https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/">recent kaggle contest</a> on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli with <code>kaggle competitions download -c probabilistic-forecasting-i-temperature</code>. </p>
+<p>For this post, we will use data from a <a href="https://www.kaggle.com/competitions/probabilistic-forecasting-i-temperature/">recent kaggle contest</a> on probabilistic time series prediction. With a free Kaggle API, the data can be downloaded via the cli. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># kaggle competitions download -c probabilistic-forecasting-i-temperature</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&#39;probabilistic-forecasting-i-temperature/train.csv&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Rows</span><span class="p">:</span><span class="w"> </span><span class="mi">64320</span><span class="w"> </span><span class="nx">Columns</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span>
+<span class="err">##</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="nx">Column</span><span class="w"> </span><span class="nx">specification</span><span class="w"> </span><span class="err">────────────────────────────────────────────────────────</span>
+<span class="err">##</span><span class="w"> </span><span class="nx">Delimiter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;,&quot;</span>
+<span class="err">##</span><span class="w"> </span><span class="nx">dbl</span><span class="w">  </span><span class="p">(</span><span class="mi">8</span><span class="p">):</span><span class="w"> </span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">feature_AA</span><span class="p">,</span><span class="w"> </span><span class="nx">feature_AB</span><span class="p">,</span><span class="w"> </span><span class="nx">feature_BA</span><span class="p">,</span><span class="w"> </span><span class="nx">feature_BB</span><span class="p">,</span><span class="w"> </span><span class="nx">feature_CA</span><span class="p">,</span><span class="w"> </span><span class="nx">fe</span><span class="o">...</span>
+<span class="err">##</span><span class="w"> </span><span class="nx">dttm</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="w"> </span><span class="nx">date</span>
+<span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">ℹ</span><span class="w"> </span><span class="nx">Use</span><span class="w"> </span><span class="err">`</span><span class="nx">spec</span><span class="p">()</span><span class="err">`</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">retrieve</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">full</span><span class="w"> </span><span class="nx">column</span><span class="w"> </span><span class="nx">specification</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span>
+<span class="err">##</span><span class="w"> </span><span class="nx">ℹ</span><span class="w"> </span><span class="nx">Specify</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">column</span><span class="w"> </span><span class="nx">types</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="err">`</span><span class="nx">show_col_types</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">FALSE</span><span class="err">`</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">quiet</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">message</span><span class="p">.</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">train</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 5 × 9</span>
+<span class="c1">##      id date                feature_AA feature_AB feature_BA feature_BB</span>
+<span class="c1">##   &lt;dbl&gt; &lt;dttm&gt;                   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="c1">## 1     0 2016-07-01 00:00:00       5.83       2.01       1.60      0.462</span>
+<span class="c1">## 2     1 2016-07-01 00:15:00       5.76       2.08       1.49      0.426</span>
+<span class="c1">## 3     2 2016-07-01 00:30:00       5.76       1.94       1.49      0.391</span>
+<span class="c1">## 4     3 2016-07-01 00:45:00       5.76       1.94       1.49      0.426</span>
+<span class="c1">## 5     4 2016-07-01 01:00:00       5.69       2.08       1.49      0.426</span>
+<span class="c1">## # ℹ 3 more variables: feature_CA &lt;dbl&gt;, feature_CB &lt;dbl&gt;, Temperature &lt;dbl&gt;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">explore</span><span class="o">::</span><span class="nf">describe</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in loadNamespace(x): there is no package called &#39;explore&#39;</span>
+</code></pre></div>
             </div>
             <!-- /.entry-content -->
         </article>
@@ -165,11 +200,11 @@
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
     <li class="list-group-item"><a href="./basics-of-time-series-and-adaptive-conformal-inference.html">"Basics of time series, and adaptive conformal inference"</a></li>
     <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
     <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
     <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
-    <li class="list-group-item"><a href="./linear-and-mixed-integer-programming.html">"Linear and mixed integer programming"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
