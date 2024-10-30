@@ -100,7 +100,7 @@ temp_forecast_tbl <- temp_model_tbl |>
 
 temp_forecast_tbl |> 
   plot_modeltime_forecast(.legend_show = FALSE, .title = "Temperature Forecast")
-## Error in loadNamespace(name): there is no package called 'webshot'
+## Error in path.expand(path): invalid 'path' argument
 ```
 
 Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that are demandforecasts are ex ante.
@@ -139,7 +139,7 @@ forecast_tbl <- calibration_tbl |>
                      keep_data  = TRUE)
 forecast_tbl |> 
   plot_modeltime_forecast(.legend_show = FALSE, .title = "Demand Forecast")
-## Error in loadNamespace(name): there is no package called 'webshot'
+## Error in path.expand(path): invalid 'path' argument
 ```
 
 We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean, not terribly useful. 
@@ -165,7 +165,7 @@ However, **time series data introduces unique challenges**:
 #### Recipe for Split Conformal Prediction
 
 1. **Select Model and Forecast Horizon**:
-   - Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon \( H \).
+   - Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon $ H $.
 
 2. **Split Data Sequentially**:
    - Divide the data sequentially into:
@@ -176,17 +176,17 @@ However, **time series data introduces unique challenges**:
    - Train the model on the training set, then use it to generate predictions for points in the calibration set.
 
 4. **Calculate Nonconformity Scores**:
-   - For each calibration point \( y_{t+h} \), calculate the forecast \( \hat{y}_{t+h|t} \) and the nonconformity score:
-     \[
+   - For each calibration point $ y_{t+h} $, calculate the forecast $ \hat{y}_{t+h|t} $ and the nonconformity score:
+     $$
      s_{t+h|t} = |y_{t+h} - \hat{y}_{t+h|t}|
-     \]
+     $$
 
 5. **Construct Prediction Intervals**:
-   - Select a confidence level \( 1 - \alpha \).
-   - Find the \( (1 - \alpha) \)-quantile of nonconformity scores to construct intervals for future points:
-     \[
+   - Select a confidence level $ 1 - \alpha $.
+   - Find the $ (1 - \alpha) $-quantile of nonconformity scores to construct intervals for future points:
+     $$
      \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}, \hat{y}_{t+h|t} + Q_{1-\alpha}]
-     \]
+     $$
 
 In time series forecasting, prediction intervals ideally **widen for forecasts further into the future** to capture the increased uncertainty over time. Standard split conformal prediction doesn’t account for this, as it uses a single quantile of nonconformity scores for all horizons. However, various methods address this limitation by widening intervals adaptively:
 
@@ -195,16 +195,16 @@ In time series forecasting, prediction intervals ideally **widen for forecasts f
 Using horizon-specific nonconformity quantiles, we can tailor intervals to be wider for longer forecast horizons.
 
 **Recipe**:
-  - For each forecast horizon \( h \), calculate separate quantiles \( Q_{1-\alpha}^{(h)} \) based on the nonconformity scores for that specific horizon.
+  - For each forecast horizon $ h $, calculate separate quantiles $ Q_{1-\alpha}^{(h)} $ based on the nonconformity scores for that specific horizon.
   - Define prediction intervals that adapt to each horizon:
-    \[
+    $$
     \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}^{(h)}, \hat{y}_{t+h|t} + Q_{1-\alpha}^{(h)}]
-    \]
+    $$
   - This approach allows intervals to widen as the forecast horizon increases, reflecting higher uncertainty.
 
 ## Online Conformal Inference for Multi-step Time Series Predictions
 
-Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting \( t+1, t+2, \ldots, t+H \)), each interval needs to reflect both:
+Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting $ t+1, t+2, \ldots, t+H $), each interval needs to reflect both:
 1. The growing uncertainty of further predictions.
 2. The dependencies between errors at different steps ahead.
 
@@ -217,19 +217,19 @@ The **AcMCP method** by [Wang and Hyndman (2024)](https://github.com/xqnwang/cpt
 **Recipe**  
 
 1. **Modeling Forecast Error Structure**:
-   - For an \( h \)-step-ahead prediction, AcMCP assumes that errors follow an **MA(\( h-1 \))** structure, meaning the current error depends on the past \( h-1 \) steps.
+   - For an $ h $-step-ahead prediction, AcMCP assumes that errors follow an **MA($ h-1 $)** structure, meaning the current error depends on the past $ h-1 $ steps.
    - This structure is captured as:
-     \[
+     $$
      e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
-     \]
-     where \( \omega_t \) is random noise and \( \theta \) terms reflect the error dependencies.
+     $$
+     where $ \omega_t $ is random noise and $ \theta $ terms reflect the error dependencies.
 
 2. **Updating Quantile Estimates**:
-   - AcMCP updates the interval’s quantile estimate \( q_{t+h|t} \) in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.
+   - AcMCP updates the interval’s quantile estimate $ q_{t+h|t} $ in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.
 
 3. **Combining Multiple Models**:
    - AcMCP combines:
-     - An **MA(\( h-1 \)) model** trained on recent \( h \)-step-ahead errors to capture the correlation in errors.
+     - An **MA($ h-1 $) model** trained on recent $ h $-step-ahead errors to capture the correlation in errors.
      - A **linear regression model** that uses recent errors to forecast future errors.
 
    This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.
