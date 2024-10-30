@@ -257,14 +257,14 @@
 </ul>
 <h4>Recipe for Split Conformal Prediction</h4>
 <ol>
-<li><strong>Select Model and Forecast Horizon</strong>: Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon<span class="math">\(H\)</span>.</li>
+<li><strong>Select Model and Forecast Horizon</strong>: Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon <span class="math">\(H\)</span>.</li>
 <li><strong>Split Data Sequentially</strong>:  </li>
 <li>Divide the data sequentially into:  </li>
 <li><strong>Training Set</strong>: for fitting the model.</li>
 <li><strong>Calibration Set</strong>: to calculate nonconformity scores.</li>
 <li><strong>Fit Model on Training Set</strong>: Train the model on the training set, then use it to generate predictions for points in the calibration set.</li>
 <li>
-<p><strong>Calculate Nonconformity Scores</strong>: For each calibration point<span class="math">\(y_{t+h}\)</span>, calculate the forecast<span class="math">\(\hat{y}_{t+h|t}\)</span>and the nonconformity score:
+<p><strong>Calculate Nonconformity Scores</strong>: For each calibration point <span class="math">\(y_{t+h}\)</span>, calculate the forecast <span class="math">\(\hat{y}_{t+h|t}\)</span> and the nonconformity score:
 <div class="math">$$s_{t+h|t} = |y_{t+h} - \hat{y}_{t+h|t}|$$</div>
 </p>
 </li>
@@ -272,9 +272,9 @@
 <p><strong>Construct Prediction Intervals</strong>:</p>
 </li>
 <li>
-<p>Select a confidence level<span class="math">\(1 - \alpha\)</span>.</p>
+<p>Select a confidence level <span class="math">\(1 - \alpha\)</span>.</p>
 </li>
-<li>Find the<span class="math">\((1 - \alpha)\)</span>-quantile of nonconformity scores to construct intervals for future points:
+<li>Find the <span class="math">\((1 - \alpha)\)</span> th quantile of nonconformity scores to construct intervals for future points:
     <div class="math">$$
      \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}, \hat{y}_{t+h|t} + Q_{1-\alpha}]
     $$</div>
@@ -285,7 +285,7 @@
 <p>Using horizon-specific nonconformity quantiles, we can tailor intervals to be wider for longer forecast horizons.</p>
 <p><strong>Recipe</strong>:</p>
 <ul>
-<li>For each forecast horizon<span class="math">\(h\)</span>, calculate separate quantiles<span class="math">\(Q_{1-\alpha}^{(h)}\)</span>based on the nonconformity scores for that specific horizon.</li>
+<li>For each forecast horizon <span class="math">\(h\)</span>, calculate separate quantiles <span class="math">\(Q_{1-\alpha}^{(h)}\)</span> based on the nonconformity scores for that specific horizon.</li>
 <li>Define prediction intervals that adapt to each horizon:
    <div class="math">$$
     \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}^{(h)}, \hat{y}_{t+h|t} + Q_{1-\alpha}^{(h)}]
@@ -294,7 +294,7 @@
 <li>This approach allows intervals to widen as the forecast horizon increases, reflecting higher uncertainty.</li>
 </ul>
 <h2>Online Conformal Inference for Multi-step Time Series Predictions</h2>
-<p>Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting<span class="math">\(t+1, t+2, \ldots, t+H\)</span>), each interval needs to reflect both:  </p>
+<p>Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting <span class="math">\(t+1, t+2, \ldots, t+H\)</span>), each interval needs to reflect both:  </p>
 <ol>
 <li>The growing uncertainty of further predictions.</li>
 <li>The dependencies between errors at different steps ahead.</li>
@@ -308,23 +308,23 @@
 <p><strong>Modeling Forecast Error Structure</strong>:</p>
 </li>
 <li>
-<p>For an<span class="math">\(h\)</span>-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(<span class="math">\(h-1\)</span>)</strong> structure, meaning the current error depends on the past<span class="math">\(h-1\)</span>steps.</p>
+<p>For an <span class="math">\(h\)</span>-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(<span class="math">\(h-1\)</span>)</strong> structure, meaning the current error depends on the past <span class="math">\(h-1\)</span> steps.</p>
 </li>
 <li>
 <p>This structure is captured as:
     <div class="math">$$
      e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
     $$</div>
-     where<span class="math">\(\omega_t\)</span>is random noise and<span class="math">\(\theta\)</span>terms reflect the error dependencies.</p>
+     where <span class="math">\(\omega_t\)</span> is random noise and <span class="math">\(\theta\)</span> terms reflect the error dependencies.</p>
 </li>
 <li>
-<p><strong>Updating Quantile Estimates</strong>: AcMCP updates the interval’s quantile estimate<span class="math">\(q_{t+h|t}\)</span>in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.</p>
+<p><strong>Updating Quantile Estimates</strong>: AcMCP updates the interval’s quantile estimate <span class="math">\(q_{t+h|t}\)</span> in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.</p>
 </li>
 <li>
 <p><strong>Combining Multiple Models</strong>  </p>
 </li>
 <li>
-<p>An <strong>MA(<span class="math">\(h-1\)</span>) model</strong> trained on recent<span class="math">\(h\)</span>-step-ahead errors to capture the correlation in errors.  </p>
+<p>An <strong>MA(<span class="math">\(h-1\)</span>) model</strong> trained on recent <span class="math">\(h\)</span>-step-ahead errors to capture the correlation in errors.  </p>
 </li>
 <li>A <strong>linear regression model</strong> that uses recent errors to forecast future errors.</li>
 </ol>
