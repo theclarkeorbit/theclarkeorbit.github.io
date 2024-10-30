@@ -214,7 +214,7 @@ The **AcMCP method** by [Wang and Hyndman (2024)](https://github.com/xqnwang/cpt
 
 **Recipe**  
 
-1. **Modeling Forecast Error Structure**:
+1. **Modeling Forecast Error Structure**:  
   - For an $h$-step-ahead prediction, AcMCP assumes that errors follow an **MA($h-1$)** structure, meaning the current error depends on the past $h-1$ steps.
   - This structure is captured as:
     $$
@@ -224,7 +224,7 @@ The **AcMCP method** by [Wang and Hyndman (2024)](https://github.com/xqnwang/cpt
 
 2. **Updating Quantile Estimates**: AcMCP updates the interval’s quantile estimate $q_{t+h|t}$ in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.
 
-3. **Combining Multiple Models**  
+3. **Combining Multiple Models**    
   - An **MA($h-1$) model** trained on recent $h$-step-ahead errors to capture the correlation in errors.  
   - A **linear regression model** that uses recent errors to forecast future errors.
 

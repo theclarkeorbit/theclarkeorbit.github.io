@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:45:56+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-10-30T00:00:00+01:00</published><updated>2024-10-31T00:45:56+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-10-30:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:47:14+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-10-30T00:00:00+01:00</published><updated>2024-10-31T00:47:14+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-10-30:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Please read the &lt;a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html"&gt;previous blogpost&lt;/a&gt; for basics of conformal inference and more reading material.&lt;/li&gt;
 &lt;li&gt;This post makes use of the &lt;a href="https://github.com/xqnwang/conformalForecast/"&gt;&lt;code&gt;conformalForecast&lt;/code&gt;&lt;/a&gt; package introduced in the &lt;a href="https://robjhyndman.com/publications/cpts.html"&gt;paper&lt;/a&gt; published just 10 days ago by Wang and Hyndman.&lt;/li&gt;
@@ -163,7 +163,7 @@
 &lt;p&gt;The &lt;strong&gt;AcMCP method&lt;/strong&gt; by &lt;a href="https://github.com/xqnwang/cpts/tree/main/paper"&gt;Wang and Hyndman (2024)&lt;/a&gt; builds on these ideas by incorporating &lt;strong&gt;autocorrelations&lt;/strong&gt; in multi-step forecast errors, unlike simpler methods that treat each forecast step independently. AcMCP produces statistically efficient prediction intervals by integrating these dependencies into the interval calculations, which is crucial for time series data.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Recipe&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Modeling Forecast Error Structure&lt;/strong&gt;:&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Modeling Forecast Error Structure&lt;/strong&gt;:  &lt;/li&gt;
 &lt;li&gt;For an &lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead prediction, AcMCP assumes that errors follow an &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;)&lt;/strong&gt; structure, meaning the current error depends on the past &lt;span class="math"&gt;\(h-1\)&lt;/span&gt; steps.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;This structure is captured as:
@@ -176,7 +176,7 @@
 &lt;p&gt;&lt;strong&gt;Updating Quantile Estimates&lt;/strong&gt;: AcMCP updates the interval’s quantile estimate &lt;span class="math"&gt;\(q_{t+h|t}\)&lt;/span&gt; in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Combining Multiple Models&lt;/strong&gt;  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Combining Multiple Models&lt;/strong&gt;    &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;An &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;) model&lt;/strong&gt; trained on recent &lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead errors to capture the correlation in errors.  &lt;/li&gt;
 &lt;li&gt;A &lt;strong&gt;linear regression model&lt;/strong&gt; that uses recent errors to forecast future errors.&lt;/li&gt;
