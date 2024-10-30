@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:03:10+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-08-01T00:00:00+02:00</published><updated>2024-10-31T00:03:10+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-08-01:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:16:10+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-08-01T00:00:00+02:00</published><updated>2024-10-31T00:16:10+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-08-01:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Please read the &lt;a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html"&gt;previous blogpost&lt;/a&gt; for basics of conformal inference and more reading material.&lt;/li&gt;
 &lt;li&gt;This post makes use of the &lt;a href="https://github.com/xqnwang/conformalForecast/"&gt;&lt;code&gt;conformalForecast&lt;/code&gt;&lt;/a&gt; package introduced in the &lt;a href="https://robjhyndman.com/publications/cpts.html"&gt;paper&lt;/a&gt; published just 10 days ago by Wang and Hyndman.&lt;/li&gt;
@@ -72,10 +72,10 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;modeltime_forecast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new_data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;holdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;actual_data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;temp_forecast_tbl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;plot_modeltime_forecast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;.legend_show&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Temperature Forecast&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;## Error in path.expand(path): invalid &amp;#39;path&amp;#39; argument&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;plot_modeltime_forecast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;.legend_show&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Temperature Forecast&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.interactive&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;&lt;img alt="center" src="/figures/tsbasics/unnamed-chunk-4-1.png"&gt;&lt;/p&gt;
 &lt;p&gt;Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that are demandforecasts are ex ante.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;holdout&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;temperature&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;temp_forecast_tbl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;.key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;prediction&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)}&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;.value&lt;/span&gt;
 &lt;span class="n"&gt;cal_set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;initial_time_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;holdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;prop&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;training&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -101,114 +101,106 @@
 &lt;span class="w"&gt;                     &lt;/span&gt;&lt;span class="n"&gt;conf_interval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.80&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="w"&gt;                     &lt;/span&gt;&lt;span class="n"&gt;keep_data&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;forecast_tbl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;plot_modeltime_forecast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;.legend_show&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Demand Forecast&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="c1"&gt;## Error in path.expand(path): invalid &amp;#39;path&amp;#39; argument&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;plot_modeltime_forecast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;.legend_show&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Demand Forecast&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.interactive&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p&gt;&lt;img alt="center" src="/figures/tsbasics/unnamed-chunk-7-1.png"&gt;&lt;/p&gt;
 &lt;p&gt;We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean, not terribly useful. &lt;/p&gt;
 &lt;p&gt;The modeltime workflow does calibrate the confidence intervals on samples outside the training set, so the coverage is not terrible. &lt;/p&gt;
 &lt;p&gt;In the following sections, we will address some of these aspects using conformal methods for multi timestep prediction using the &lt;a href="https://github.com/xqnwang/conformalForecast"&gt;&lt;code&gt;conformalForecast&lt;/code&gt; package&lt;/a&gt;, and describe the &lt;strong&gt;AcMCP&lt;/strong&gt; method, introduced in &lt;a href="https://github.com/xqnwang/cpts"&gt;Wang and Hyndman’s paper&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Split Conformal Inference in Time Series&lt;/h3&gt;
-&lt;p&gt;In traditional split conformal inference, we:
-   - Split the data into a &lt;strong&gt;Training Set&lt;/strong&gt; for model fitting and a &lt;strong&gt;Calibration Set&lt;/strong&gt; to compute prediction intervals.
-   - For each point in the calibration set, we calculate a &lt;strong&gt;nonconformity score&lt;/strong&gt; (typically the absolute forecast error) to quantify the forecast's deviation from the observed values.
-   - By taking a quantile of these scores, we construct prediction intervals around the forecasts.&lt;/p&gt;
+&lt;p&gt;In traditional split conformal inference, we:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Split the data into a &lt;strong&gt;Training Set&lt;/strong&gt; for model fitting and a &lt;strong&gt;Calibration Set&lt;/strong&gt; to compute prediction intervals.  &lt;/li&gt;
+&lt;li&gt;For each point in the calibration set, we calculate a &lt;strong&gt;nonconformity score&lt;/strong&gt; (typically the absolute forecast error) to quantify the forecast's deviation from the observed values.  &lt;/li&gt;
+&lt;li&gt;By taking a quantile of these scores, we construct prediction intervals around the forecasts.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;What we did above with modeltime calibrating on the test set was exactly &lt;/p&gt;
-&lt;p&gt;However, &lt;strong&gt;time series data introduces unique challenges&lt;/strong&gt;:
-   - Forecast uncertainty increases with the forecast horizon due to accumulated prediction errors.
-   - To adapt conformal prediction for time series, we use the &lt;strong&gt;sequential split&lt;/strong&gt; approach, which respects the order of data points and maintains the temporal structure in the data.&lt;/p&gt;
+&lt;p&gt;However, &lt;strong&gt;time series data introduces unique challenges&lt;/strong&gt;:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Forecast uncertainty increases with the forecast horizon due to accumulated prediction errors.&lt;/li&gt;
+&lt;li&gt;To adapt conformal prediction for time series, we use the &lt;strong&gt;sequential split&lt;/strong&gt; approach, which respects the order of data points and maintains the temporal structure in the data.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h4&gt;Recipe for Split Conformal Prediction&lt;/h4&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Select Model and Forecast Horizon&lt;/strong&gt;:&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon $ H $.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Split Data Sequentially&lt;/strong&gt;:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Divide the data sequentially into:&lt;/p&gt;
-&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Select Model and Forecast Horizon&lt;/strong&gt;: Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon&lt;span class="math"&gt;\(H\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Split Data Sequentially&lt;/strong&gt;:  &lt;/li&gt;
+&lt;li&gt;Divide the data sequentially into:  &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Training Set&lt;/strong&gt;: for fitting the model.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Calibration Set&lt;/strong&gt;: to calculate nonconformity scores.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fit Model on Training Set&lt;/strong&gt;: Train the model on the training set, then use it to generate predictions for points in the calibration set.&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Fit Model on Training Set&lt;/strong&gt;:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Train the model on the training set, then use it to generate predictions for points in the calibration set.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Calculate Nonconformity Scores&lt;/strong&gt;:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;For each calibration point $ y_{t+h} $, calculate the forecast $ \hat{y}_{t+h|t} $ and the nonconformity score:
-     &lt;div class="math"&gt;$$
-     s_{t+h|t} = |y_{t+h} - \hat{y}_{t+h|t}|
-     $$&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Calculate Nonconformity Scores&lt;/strong&gt;: For each calibration point&lt;span class="math"&gt;\(y_{t+h}\)&lt;/span&gt;, calculate the forecast&lt;span class="math"&gt;\(\hat{y}_{t+h|t}\)&lt;/span&gt;and the nonconformity score:
+&lt;div class="math"&gt;$$s_{t+h|t} = |y_{t+h} - \hat{y}_{t+h|t}|$$&lt;/div&gt;
 &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Construct Prediction Intervals&lt;/strong&gt;:&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;Select a confidence level $ 1 - \alpha $.&lt;/li&gt;
-&lt;li&gt;Find the $ (1 - \alpha) $-quantile of nonconformity scores to construct intervals for future points:
-     &lt;div class="math"&gt;$$
+&lt;li&gt;
+&lt;p&gt;Select a confidence level&lt;span class="math"&gt;\(1 - \alpha\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Find the&lt;span class="math"&gt;\((1 - \alpha)\)&lt;/span&gt;-quantile of nonconformity scores to construct intervals for future points:
+    &lt;div class="math"&gt;$$
      \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}, \hat{y}_{t+h|t} + Q_{1-\alpha}]
-     $$&lt;/div&gt;
+    $$&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;In time series forecasting, prediction intervals ideally &lt;strong&gt;widen for forecasts further into the future&lt;/strong&gt; to capture the increased uncertainty over time. Standard split conformal prediction doesn’t account for this, as it uses a single quantile of nonconformity scores for all horizons. However, various methods address this limitation by widening intervals adaptively:&lt;/p&gt;
 &lt;h3&gt;Horizon-Dependent Quantiles&lt;/h3&gt;
 &lt;p&gt;Using horizon-specific nonconformity quantiles, we can tailor intervals to be wider for longer forecast horizons.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Recipe&lt;/strong&gt;:
-  - For each forecast horizon $ h $, calculate separate quantiles $ Q_{1-\alpha}^{(h)} $ based on the nonconformity scores for that specific horizon.
-  - Define prediction intervals that adapt to each horizon:
-    &lt;/p&gt;
-&lt;div class="math"&gt;$$
+&lt;p&gt;&lt;strong&gt;Recipe&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For each forecast horizon&lt;span class="math"&gt;\(h\)&lt;/span&gt;, calculate separate quantiles&lt;span class="math"&gt;\(Q_{1-\alpha}^{(h)}\)&lt;/span&gt;based on the nonconformity scores for that specific horizon.&lt;/li&gt;
+&lt;li&gt;Define prediction intervals that adapt to each horizon:
+   &lt;div class="math"&gt;$$
     \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}^{(h)}, \hat{y}_{t+h|t} + Q_{1-\alpha}^{(h)}]
-    $$&lt;/div&gt;
-&lt;p&gt;
-  - This approach allows intervals to widen as the forecast horizon increases, reflecting higher uncertainty.&lt;/p&gt;
+   $$&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;This approach allows intervals to widen as the forecast horizon increases, reflecting higher uncertainty.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;Online Conformal Inference for Multi-step Time Series Predictions&lt;/h2&gt;
-&lt;p&gt;Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting $ t+1, t+2, \ldots, t+H $), each interval needs to reflect both:
-1. The growing uncertainty of further predictions.
-2. The dependencies between errors at different steps ahead.&lt;/p&gt;
+&lt;p&gt;Creating prediction intervals that account for the uncertainty in predictions is challenging in time series because data points are correlated across time, violating the data exchangeability assumptions of traditional conformal methods. In particular, for multi-step forecasting (predicting&lt;span class="math"&gt;\(t+1, t+2, \ldots, t+H\)&lt;/span&gt;), each interval needs to reflect both:  &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The growing uncertainty of further predictions.&lt;/li&gt;
+&lt;li&gt;The dependencies between errors at different steps ahead.&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;In &lt;strong&gt;online conformal inference&lt;/strong&gt; for multi-step predictions, intervals are recursively updated as new observations arrive. This lets intervals adapt to shifts in data patterns, improving the long-term accuracy of coverage over time.&lt;/p&gt;
 &lt;h2&gt;The AcMCP (Autocorrelated Multi-step Conformal Prediction) Method&lt;/h2&gt;
 &lt;p&gt;The &lt;strong&gt;AcMCP method&lt;/strong&gt; by &lt;a href="https://github.com/xqnwang/cpts/tree/main/paper"&gt;Wang and Hyndman (2024)&lt;/a&gt; builds on these ideas by incorporating &lt;strong&gt;autocorrelations&lt;/strong&gt; in multi-step forecast errors, unlike simpler methods that treat each forecast step independently. AcMCP produces statistically efficient prediction intervals by integrating these dependencies into the interval calculations, which is crucial for time series data.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Recipe&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Modeling Forecast Error Structure&lt;/strong&gt;:&lt;/li&gt;
-&lt;li&gt;For an &lt;span class="math"&gt;\( h $-step-ahead prediction, AcMCP assumes that errors follow an **MA(\)&lt;/span&gt; h-1 $)** structure, meaning the current error depends on the past $ h-1 $ steps.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Modeling Forecast Error Structure&lt;/strong&gt;:&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For an&lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead prediction, AcMCP assumes that errors follow an &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;)&lt;/strong&gt; structure, meaning the current error depends on the past&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;steps.&lt;/p&gt;
+&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;This structure is captured as:
-     &lt;div class="math"&gt;$$
+    &lt;div class="math"&gt;$$
      e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
-     $$&lt;/div&gt;
-     where $ \omega_t $ is random noise and $ \theta $ terms reflect the error dependencies.&lt;/p&gt;
+    $$&lt;/div&gt;
+     where&lt;span class="math"&gt;\(\omega_t\)&lt;/span&gt;is random noise and&lt;span class="math"&gt;\(\theta\)&lt;/span&gt;terms reflect the error dependencies.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Updating Quantile Estimates&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Updating Quantile Estimates&lt;/strong&gt;: AcMCP updates the interval’s quantile estimate&lt;span class="math"&gt;\(q_{t+h|t}\)&lt;/span&gt;in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;AcMCP updates the interval’s quantile estimate $ q_{t+h|t} $ in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Combining Multiple Models&lt;/strong&gt;  &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Combining Multiple Models&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;An &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;) model&lt;/strong&gt; trained on recent&lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead errors to capture the correlation in errors.  &lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;AcMCP combines:&lt;ul&gt;
-&lt;li&gt;An &lt;strong&gt;MA($ h-1 $) model&lt;/strong&gt; trained on recent $ h $-step-ahead errors to capture the correlation in errors.&lt;/li&gt;
 &lt;li&gt;A &lt;strong&gt;linear regression model&lt;/strong&gt; that uses recent errors to forecast future errors.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.&lt;/p&gt;
-&lt;p&gt;AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:
-   - &lt;strong&gt;Efficiency&lt;/strong&gt;: AcMCP’s intervals are generally tighter and more accurate, thanks to the autocorrelation adjustments.
-   - &lt;strong&gt;Robustness for Long-range Forecasts&lt;/strong&gt;: AcMCP is ideal for long-horizon forecasts, as it considers error dependencies over multiple steps.
-   - &lt;strong&gt;Dynamic Adjustments&lt;/strong&gt;: By updating intervals with each new data point, AcMCP provides accurate coverage as time progresses.&lt;/p&gt;
+&lt;p&gt;AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Efficiency&lt;/strong&gt;: AcMCP’s intervals are generally tighter and more accurate, thanks to the autocorrelation adjustments.  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Robustness for Long-range Forecasts&lt;/strong&gt;: AcMCP is ideal for long-horizon forecasts, as it considers error dependencies over multiple steps.  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dynamic Adjustments&lt;/strong&gt;: By updating intervals with each new data point, AcMCP provides accurate coverage as time progresses.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;This method provides a robust way to build multi-step prediction intervals that are both statistically efficient and resilient to changes in the forecast horizon.&lt;/p&gt;
 &lt;p&gt;Now, we illustrate the use of AcMCP using the &lt;code&gt;conformalForecast&lt;/code&gt; package that accompanies the Wang and Hyndman (2024) paper. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -232,7 +224,7 @@
 &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now, we use the forecasting function created above to generate conformal predictions.&lt;/p&gt;
+&lt;p&gt;We use the forecasting function created above to generate conformal predictions.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;cal_window&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;symm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;
 &lt;span class="n"&gt;roll&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;
@@ -248,18 +240,18 @@
 &lt;span class="w"&gt;             &lt;/span&gt;&lt;span class="n"&gt;lr&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;KI&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;KI&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Csat&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Csat&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now, lets see how this compares with the forecasts from the modeltime prophet engine. &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Prepare data for plotting AcMCP results&lt;/span&gt;
-&lt;span class="n"&gt;acmcp_df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;tibble&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;p&gt;Lets see how this compares with the forecasts from the modeltime prophet engine. First we need to extract the forecast from the &lt;code&gt;acmcp&lt;/code&gt; object.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;acmcp_df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;tibble&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nf"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nf"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cal_set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;tail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="p"&gt;)},&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;demand&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nf"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;demand&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nf"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="p"&gt;})&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;tail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="p"&gt;)},&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;acmcp_lower&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;acmcp&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;acmcp_upper&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;acmcp&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;upper&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;acmcp_forecast&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;acmcp&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;
 &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;span class="c1"&gt;# Combine modeltime and AcMCP results for comparison&lt;/span&gt;
-&lt;span class="n"&gt;forecast_comparison_df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;forecast_tbl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
+&lt;p&gt;Let's now compare it to the &lt;code&gt;modeltime&lt;/code&gt; conformal prediction,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;forecast_comparison_df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;forecast_tbl&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;.key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%in%&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;prediction&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.conf_lo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;.conf_hi&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;rename&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
@@ -271,7 +263,6 @@
 
 &lt;span class="nf"&gt;bind_rows&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;train_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cal_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;forecast_comparison_df&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;tail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;forecast_comparison_df&lt;/span&gt;
 
-&lt;span class="c1"&gt;# Plotting the comparison&lt;/span&gt;
 &lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;forecast_comparison_df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;geom_line&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;demand&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Actual Demand&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;geom_line&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;modeltime_forecast&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Modeltime Forecast&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;linetype&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dotted&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -290,7 +281,8 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;theme&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;legend.position&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;bottom&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img alt="center" src="/figures/tsbasics/unnamed-chunk-10-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="center" src="/figures/tsbasics/unnamed-chunk-11-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;AcMCP, for the cost of complexity and computation, does give us confidence intervals that are more adaptive and ensure coverage into the uncertain future. However, it is not clear (to me, yet) how one could incorporate this into a production workflow to make actual online conformal predictions and keep track of them over time.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
