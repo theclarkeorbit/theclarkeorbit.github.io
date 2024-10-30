@@ -330,7 +330,11 @@ ggplot(forecast_comparison_df, aes(x = date)) +
     color = "Forecast Type"
   ) +
   theme_tufte(base_size = 12) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  guides(
+    color = guide_legend(nrow = 3),
+    fill = guide_legend(nrow = 3)
+  )
 ```
 
 ![center](/figures/tsbasics/unnamed-chunk-11-1.png)
