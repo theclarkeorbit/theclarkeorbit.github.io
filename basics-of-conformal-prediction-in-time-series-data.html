@@ -258,10 +258,7 @@
 <h4>Recipe for Split Conformal Prediction</h4>
 <ol>
 <li><strong>Select Model and Forecast Horizon</strong>: Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon <span class="math">\(H\)</span>.</li>
-<li><strong>Split Data Sequentially</strong>:  </li>
-<li>Divide the data sequentially into:  </li>
-<li><strong>Training Set</strong>: for fitting the model.</li>
-<li><strong>Calibration Set</strong>: to calculate nonconformity scores.</li>
+<li><strong>Split Data Sequentially</strong>: Divide the data sequentially into a <strong>training Set</strong>: for fitting the model and a <strong>calibration Set</strong> to calculate nonconformity scores.</li>
 <li><strong>Fit Model on Training Set</strong>: Train the model on the training set, then use it to generate predictions for points in the calibration set.</li>
 <li>
 <p><strong>Calculate Nonconformity Scores</strong>: For each calibration point <span class="math">\(y_{t+h}\)</span>, calculate the forecast <span class="math">\(\hat{y}_{t+h|t}\)</span> and the nonconformity score:
@@ -269,15 +266,11 @@
 </p>
 </li>
 <li>
-<p><strong>Construct Prediction Intervals</strong>:</p>
-</li>
-<li>
-<p>Select a confidence level <span class="math">\(1 - \alpha\)</span>.</p>
-</li>
-<li>Find the <span class="math">\((1 - \alpha)\)</span> th quantile of nonconformity scores to construct intervals for future points:
+<p><strong>Construct Prediction Intervals</strong>: First select a confidence level <span class="math">\(1 - \alpha\)</span>. Then, find the <span class="math">\((1 - \alpha)\)</span> th quantile of nonconformity scores to construct intervals for future points:
     <div class="math">$$
      \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}, \hat{y}_{t+h|t} + Q_{1-\alpha}]
     $$</div>
+</p>
 </li>
 </ol>
 <p>In time series forecasting, prediction intervals ideally <strong>widen for forecasts further into the future</strong> to capture the increased uncertainty over time. Standard split conformal prediction doesn’t account for this, as it uses a single quantile of nonconformity scores for all horizons. However, various methods address this limitation by widening intervals adaptively:</p>
@@ -304,12 +297,8 @@
 <p>The <strong>AcMCP method</strong> by <a href="https://github.com/xqnwang/cpts/tree/main/paper">Wang and Hyndman (2024)</a> builds on these ideas by incorporating <strong>autocorrelations</strong> in multi-step forecast errors, unlike simpler methods that treat each forecast step independently. AcMCP produces statistically efficient prediction intervals by integrating these dependencies into the interval calculations, which is crucial for time series data.</p>
 <p><strong>Recipe</strong>  </p>
 <ol>
-<li>
-<p><strong>Modeling Forecast Error Structure</strong>:</p>
-</li>
-<li>
-<p>For an <span class="math">\(h\)</span>-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(<span class="math">\(h-1\)</span>)</strong> structure, meaning the current error depends on the past <span class="math">\(h-1\)</span> steps.</p>
-</li>
+<li><strong>Modeling Forecast Error Structure</strong>:</li>
+<li>For an <span class="math">\(h\)</span>-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(<span class="math">\(h-1\)</span>)</strong> structure, meaning the current error depends on the past <span class="math">\(h-1\)</span> steps.</li>
 <li>
 <p>This structure is captured as:
     <div class="math">$$
@@ -323,9 +312,7 @@
 <li>
 <p><strong>Combining Multiple Models</strong>  </p>
 </li>
-<li>
-<p>An <strong>MA(<span class="math">\(h-1\)</span>) model</strong> trained on recent <span class="math">\(h\)</span>-step-ahead errors to capture the correlation in errors.  </p>
-</li>
+<li>An <strong>MA(<span class="math">\(h-1\)</span>) model</strong> trained on recent <span class="math">\(h\)</span>-step-ahead errors to capture the correlation in errors.  </li>
 <li>A <strong>linear regression model</strong> that uses recent errors to forecast future errors.</li>
 </ol>
 <p>This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.</p>

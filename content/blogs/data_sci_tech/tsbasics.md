@@ -169,18 +169,12 @@ However, **time series data introduces unique challenges**:
 #### Recipe for Split Conformal Prediction
 
 1. **Select Model and Forecast Horizon**: Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon $H$.
-2. **Split Data Sequentially**:  
-- Divide the data sequentially into:  
-  - **Training Set**: for fitting the model.
-  - **Calibration Set**: to calculate nonconformity scores.
+2. **Split Data Sequentially**: Divide the data sequentially into a **training Set**: for fitting the model and a **calibration Set** to calculate nonconformity scores.
 3. **Fit Model on Training Set**: Train the model on the training set, then use it to generate predictions for points in the calibration set.
 4. **Calculate Nonconformity Scores**: For each calibration point $y_{t+h}$, calculate the forecast $\hat{y}_{t+h|t}$ and the nonconformity score:
 $$s_{t+h|t} = |y_{t+h} - \hat{y}_{t+h|t}|$$
 
-5. **Construct Prediction Intervals**:
-
-- Select a confidence level $1 - \alpha$.
-- Find the $(1 - \alpha)$ th quantile of nonconformity scores to construct intervals for future points:
+5. **Construct Prediction Intervals**: First select a confidence level $1 - \alpha$. Then, find the $(1 - \alpha)$ th quantile of nonconformity scores to construct intervals for future points:
     $$
      \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}, \hat{y}_{t+h|t} + Q_{1-\alpha}]
     $$
@@ -216,9 +210,8 @@ The **AcMCP method** by [Wang and Hyndman (2024)](https://github.com/xqnwang/cpt
 **Recipe**  
 
 1. **Modeling Forecast Error Structure**:
-
-- For an $h$-step-ahead prediction, AcMCP assumes that errors follow an **MA($h-1$)** structure, meaning the current error depends on the past $h-1$ steps.
-- This structure is captured as:
+  - For an $h$-step-ahead prediction, AcMCP assumes that errors follow an **MA($h-1$)** structure, meaning the current error depends on the past $h-1$ steps.
+  - This structure is captured as:
     $$
      e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
     $$
@@ -227,11 +220,10 @@ The **AcMCP method** by [Wang and Hyndman (2024)](https://github.com/xqnwang/cpt
 2. **Updating Quantile Estimates**: AcMCP updates the interval’s quantile estimate $q_{t+h|t}$ in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.
 
 3. **Combining Multiple Models**  
+  - An **MA($h-1$) model** trained on recent $h$-step-ahead errors to capture the correlation in errors.  
+  - A **linear regression model** that uses recent errors to forecast future errors.
 
-- An **MA($h-1$) model** trained on recent $h$-step-ahead errors to capture the correlation in errors.  
-- A **linear regression model** that uses recent errors to forecast future errors.
-
-   This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.
+This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.
 
 AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:  
 

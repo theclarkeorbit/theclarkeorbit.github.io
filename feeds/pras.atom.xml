@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:30:37+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-10-30T00:00:00+01:00</published><updated>2024-10-31T00:30:37+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-10-30:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:43:46+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-10-30T00:00:00+01:00</published><updated>2024-10-31T00:43:46+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-10-30:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Please read the &lt;a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html"&gt;previous blogpost&lt;/a&gt; for basics of conformal inference and more reading material.&lt;/li&gt;
 &lt;li&gt;This post makes use of the &lt;a href="https://github.com/xqnwang/conformalForecast/"&gt;&lt;code&gt;conformalForecast&lt;/code&gt;&lt;/a&gt; package introduced in the &lt;a href="https://robjhyndman.com/publications/cpts.html"&gt;paper&lt;/a&gt; published just 10 days ago by Wang and Hyndman.&lt;/li&gt;
@@ -124,10 +124,7 @@
 &lt;h4&gt;Recipe for Split Conformal Prediction&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Select Model and Forecast Horizon&lt;/strong&gt;: Choose a forecasting model (e.g., ARIMA, Prophet) and decide on the forecast horizon &lt;span class="math"&gt;\(H\)&lt;/span&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Split Data Sequentially&lt;/strong&gt;:  &lt;/li&gt;
-&lt;li&gt;Divide the data sequentially into:  &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Training Set&lt;/strong&gt;: for fitting the model.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Calibration Set&lt;/strong&gt;: to calculate nonconformity scores.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Split Data Sequentially&lt;/strong&gt;: Divide the data sequentially into a &lt;strong&gt;training Set&lt;/strong&gt;: for fitting the model and a &lt;strong&gt;calibration Set&lt;/strong&gt; to calculate nonconformity scores.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Fit Model on Training Set&lt;/strong&gt;: Train the model on the training set, then use it to generate predictions for points in the calibration set.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Calculate Nonconformity Scores&lt;/strong&gt;: For each calibration point &lt;span class="math"&gt;\(y_{t+h}\)&lt;/span&gt;, calculate the forecast &lt;span class="math"&gt;\(\hat{y}_{t+h|t}\)&lt;/span&gt; and the nonconformity score:
@@ -135,15 +132,11 @@
 &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Construct Prediction Intervals&lt;/strong&gt;:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Select a confidence level &lt;span class="math"&gt;\(1 - \alpha\)&lt;/span&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;Find the &lt;span class="math"&gt;\((1 - \alpha)\)&lt;/span&gt; th quantile of nonconformity scores to construct intervals for future points:
+&lt;p&gt;&lt;strong&gt;Construct Prediction Intervals&lt;/strong&gt;: First select a confidence level &lt;span class="math"&gt;\(1 - \alpha\)&lt;/span&gt;. Then, find the &lt;span class="math"&gt;\((1 - \alpha)\)&lt;/span&gt; th quantile of nonconformity scores to construct intervals for future points:
     &lt;div class="math"&gt;$$
      \hat{C}_{t+h|t} = [\hat{y}_{t+h|t} - Q_{1-\alpha}, \hat{y}_{t+h|t} + Q_{1-\alpha}]
     $$&lt;/div&gt;
+&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;In time series forecasting, prediction intervals ideally &lt;strong&gt;widen for forecasts further into the future&lt;/strong&gt; to capture the increased uncertainty over time. Standard split conformal prediction doesn’t account for this, as it uses a single quantile of nonconformity scores for all horizons. However, various methods address this limitation by widening intervals adaptively:&lt;/p&gt;
@@ -170,12 +163,8 @@
 &lt;p&gt;The &lt;strong&gt;AcMCP method&lt;/strong&gt; by &lt;a href="https://github.com/xqnwang/cpts/tree/main/paper"&gt;Wang and Hyndman (2024)&lt;/a&gt; builds on these ideas by incorporating &lt;strong&gt;autocorrelations&lt;/strong&gt; in multi-step forecast errors, unlike simpler methods that treat each forecast step independently. AcMCP produces statistically efficient prediction intervals by integrating these dependencies into the interval calculations, which is crucial for time series data.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Recipe&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Modeling Forecast Error Structure&lt;/strong&gt;:&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;For an &lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead prediction, AcMCP assumes that errors follow an &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;)&lt;/strong&gt; structure, meaning the current error depends on the past &lt;span class="math"&gt;\(h-1\)&lt;/span&gt; steps.&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Modeling Forecast Error Structure&lt;/strong&gt;:&lt;/li&gt;
+&lt;li&gt;For an &lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead prediction, AcMCP assumes that errors follow an &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;)&lt;/strong&gt; structure, meaning the current error depends on the past &lt;span class="math"&gt;\(h-1\)&lt;/span&gt; steps.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;This structure is captured as:
     &lt;div class="math"&gt;$$
@@ -189,9 +178,7 @@
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Combining Multiple Models&lt;/strong&gt;  &lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;An &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;) model&lt;/strong&gt; trained on recent &lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead errors to capture the correlation in errors.  &lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;An &lt;strong&gt;MA(&lt;span class="math"&gt;\(h-1\)&lt;/span&gt;) model&lt;/strong&gt; trained on recent &lt;span class="math"&gt;\(h\)&lt;/span&gt;-step-ahead errors to capture the correlation in errors.  &lt;/li&gt;
 &lt;li&gt;A &lt;strong&gt;linear regression model&lt;/strong&gt; that uses recent errors to forecast future errors.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.&lt;/p&gt;
