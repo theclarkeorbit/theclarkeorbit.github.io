@@ -320,13 +320,6 @@ $$</div>
 </li>
 </ol>
 <p>This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.</p>
-<p>AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:  </p>
-<ul>
-<li><strong>Efficiency</strong>: AcMCP’s intervals are generally tighter and more accurate, thanks to the autocorrelation adjustments.  </li>
-<li><strong>Robustness for Long-range Forecasts</strong>: AcMCP is ideal for long-horizon forecasts, as it considers error dependencies over multiple steps.  </li>
-<li><strong>Dynamic Adjustments</strong>: By updating intervals with each new data point, AcMCP provides accurate coverage as time progresses.</li>
-</ul>
-<p>This method provides a robust way to build multi-step prediction intervals that are both statistically efficient and resilient to changes in the forecast horizon.</p>
 <p>Now, we illustrate the use of AcMCP using the <code>conformalForecast</code> package that accompanies the Wang and Hyndman (2024) paper. </p>
 <div class="highlight"><pre><span></span><code><span class="n">horizon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">test_set</span><span class="p">)</span>
 <span class="c1"># function that makes predictons of demand</span>

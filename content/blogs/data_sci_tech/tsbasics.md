@@ -227,14 +227,6 @@ The **AcMCP method** by [Wang and Hyndman (2024)](https://github.com/xqnwang/cpt
 
 This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.
 
-AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:  
-
-- **Efficiency**: AcMCP’s intervals are generally tighter and more accurate, thanks to the autocorrelation adjustments.  
-- **Robustness for Long-range Forecasts**: AcMCP is ideal for long-horizon forecasts, as it considers error dependencies over multiple steps.  
-- **Dynamic Adjustments**: By updating intervals with each new data point, AcMCP provides accurate coverage as time progresses.
-
-This method provides a robust way to build multi-step prediction intervals that are both statistically efficient and resilient to changes in the forecast horizon.
-
 Now, we illustrate the use of AcMCP using the `conformalForecast` package that accompanies the Wang and Hyndman (2024) paper. 
  
 

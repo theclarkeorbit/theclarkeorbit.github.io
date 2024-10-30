@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:50:17+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-10-30T00:00:00+01:00</published><updated>2024-10-31T00:50:17+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-10-30:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - pras</title><link href="https://theclarkeorbit.github.io/" rel="alternate"></link><link href="https://theclarkeorbit.github.io/feeds/pras.atom.xml" rel="self"></link><id>https://theclarkeorbit.github.io/</id><updated>2024-10-31T00:53:33+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Basics of conformal prediction in time series data"</title><link href="https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html" rel="alternate"></link><published>2024-10-30T00:00:00+01:00</published><updated>2024-10-31T00:53:33+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2024-10-30:/basics-of-conformal-prediction-in-time-series-data.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Please read the &lt;a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html"&gt;previous blogpost&lt;/a&gt; for basics of conformal inference and more reading material.&lt;/li&gt;
 &lt;li&gt;This post makes use of the &lt;a href="https://github.com/xqnwang/conformalForecast/"&gt;&lt;code&gt;conformalForecast&lt;/code&gt;&lt;/a&gt; package introduced in the &lt;a href="https://robjhyndman.com/publications/cpts.html"&gt;paper&lt;/a&gt; published just 10 days ago by Wang and Hyndman.&lt;/li&gt;
@@ -186,13 +186,6 @@ $$&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.&lt;/p&gt;
-&lt;p&gt;AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:  &lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Efficiency&lt;/strong&gt;: AcMCP’s intervals are generally tighter and more accurate, thanks to the autocorrelation adjustments.  &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Robustness for Long-range Forecasts&lt;/strong&gt;: AcMCP is ideal for long-horizon forecasts, as it considers error dependencies over multiple steps.  &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Dynamic Adjustments&lt;/strong&gt;: By updating intervals with each new data point, AcMCP provides accurate coverage as time progresses.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This method provides a robust way to build multi-step prediction intervals that are both statistically efficient and resilient to changes in the forecast horizon.&lt;/p&gt;
 &lt;p&gt;Now, we illustrate the use of AcMCP using the &lt;code&gt;conformalForecast&lt;/code&gt; package that accompanies the Wang and Hyndman (2024) paper. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;horizon&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# function that makes predictons of demand&lt;/span&gt;
