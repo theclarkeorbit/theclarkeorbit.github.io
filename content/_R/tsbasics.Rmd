@@ -1,6 +1,6 @@
 ---
 title: "Basics of conformal prediction in time series data"
-Date: 01 Aug 2024
+Date: 30 October 2024
 output:
   html_document:
     df_print: paged
