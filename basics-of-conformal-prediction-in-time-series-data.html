@@ -297,23 +297,27 @@
 <p>The <strong>AcMCP method</strong> by <a href="https://github.com/xqnwang/cpts/tree/main/paper">Wang and Hyndman (2024)</a> builds on these ideas by incorporating <strong>autocorrelations</strong> in multi-step forecast errors, unlike simpler methods that treat each forecast step independently. AcMCP produces statistically efficient prediction intervals by integrating these dependencies into the interval calculations, which is crucial for time series data.</p>
 <p><strong>Recipe</strong>  </p>
 <ol>
-<li><strong>Modeling Forecast Error Structure</strong>:  </li>
-<li>For an <span class="math">\(h\)</span>-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(<span class="math">\(h-1\)</span>)</strong> structure, meaning the current error depends on the past <span class="math">\(h-1\)</span> steps.</li>
 <li>
-<p>This structure is captured as:
-    <div class="math">$$
-     e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
-    $$</div>
-     where <span class="math">\(\omega_t\)</span> is random noise and <span class="math">\(\theta\)</span> terms reflect the error dependencies.</p>
+<p><strong>Modeling Forecast Error Structure</strong>:  </p>
+<ul>
+<li>For an <span class="math">\(h\)</span>-step-ahead prediction, AcMCP assumes that errors follow an <strong>MA(<span class="math">\(h-1\)</span>)</strong> structure, meaning the current error depends on the past <span class="math">\(h-1\)</span> steps.</li>
+<li>This structure is captured as:
+<div class="math">$$
+ e_{t+h|t} = \omega_{t+h} + \theta_1 \omega_{t+h-1} + \cdots + \theta_{h-1} \omega_{t+1},
+$$</div>
+ where <span class="math">\(\omega_t\)</span> is random noise and <span class="math">\(\theta\)</span> terms reflect the error dependencies.</li>
+</ul>
 </li>
 <li>
 <p><strong>Updating Quantile Estimates</strong>: AcMCP updates the interval’s quantile estimate <span class="math">\(q_{t+h|t}\)</span> in real time, accounting for recent errors and their correlations. This update is key to keeping the interval valid over multiple steps and adapting to new information.</p>
 </li>
 <li>
 <p><strong>Combining Multiple Models</strong>    </p>
-</li>
+<ul>
 <li>An <strong>MA(<span class="math">\(h-1\)</span>) model</strong> trained on recent <span class="math">\(h\)</span>-step-ahead errors to capture the correlation in errors.  </li>
 <li>A <strong>linear regression model</strong> that uses recent errors to forecast future errors.</li>
+</ul>
+</li>
 </ol>
 <p>This combination enables AcMCP to capture both immediate and multi-step dependencies, refining prediction intervals as each new observation arrives.</p>
 <p>AcMCP has some advantages that offset the extra computation needed to include the autocorrelations in the errors while generating the conformal predictons:  </p>
