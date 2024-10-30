@@ -104,7 +104,7 @@ temp_forecast_tbl |>
 
 ![center](/figures/tsbasics/unnamed-chunk-4-1.png)
 
-Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that are demandforecasts are ex ante.
+Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that our demand forecasts are ex-ante.
 
 
 ``` r

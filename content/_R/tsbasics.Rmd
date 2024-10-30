@@ -114,7 +114,7 @@ temp_forecast_tbl |>
   plot_modeltime_forecast(.legend_show = FALSE, .title = "Temperature Forecast", .interactive = FALSE)
 ```
 
-Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that are demandforecasts are ex ante.
+Now, we will need to replace the temperatures in the holdout, calibration and test sets with our temperature forecasts to ensure that our demand forecasts are ex-ante.
 
 ```{r}
 holdout$temperature <- {temp_forecast_tbl |> filter(.key == "prediction")}$.value
