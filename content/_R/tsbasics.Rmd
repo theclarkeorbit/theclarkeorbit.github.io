@@ -327,6 +327,7 @@ ggplot(forecast_comparison_df, aes(x = date)) +
   labs(
     title = "Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP",
     y = "Demand",
+    x = "Date"
     fill = "Confidence Interval",
     color = "Forecast Type"
   ) +

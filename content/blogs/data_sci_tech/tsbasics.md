@@ -326,6 +326,7 @@ ggplot(forecast_comparison_df, aes(x = date)) +
   labs(
     title = "Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP",
     y = "Demand",
+    x = "Date"
     fill = "Confidence Interval",
     color = "Forecast Type"
   ) +
@@ -335,8 +336,10 @@ ggplot(forecast_comparison_df, aes(x = date)) +
     color = guide_legend(nrow = 3),
     fill = guide_legend(nrow = 3)
   )
+## Error: <text>:25:5: unexpected symbol
+## 24:     x = "Date"
+## 25:     fill
+##         ^
 ```
-
-![center](/figures/tsbasics/unnamed-chunk-11-1.png)
 
 AcMCP, for the cost of complexity and computation, does give us confidence intervals that are more adaptive and ensure coverage into the uncertain future. However, it is not clear (to me, yet) how one could incorporate this into a production workflow to make actual online conformal predictions and keep track of them over time.
