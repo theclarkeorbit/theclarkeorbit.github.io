@@ -144,7 +144,7 @@ forecast_tbl |>
 
 ![center](/figures/tsbasics/unnamed-chunk-7-1.png)
 
-We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean, not terribly useful. 
+We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean
 
 The modeltime workflow does calibrate the confidence intervals on samples outside the training set, so the coverage is not terrible. 
 

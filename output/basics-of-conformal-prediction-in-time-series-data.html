@@ -239,7 +239,7 @@
 </code></pre></div>
 
 <p><img alt="center" src="/figures/tsbasics/unnamed-chunk-7-1.png"></p>
-<p>We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean, not terribly useful. </p>
+<p>We see that the forecast remains equally confident far into the future which seems wrong (the regularity of the data notwithstanding), and the confidence intervals are symmetric around the mean</p>
 <p>The modeltime workflow does calibrate the confidence intervals on samples outside the training set, so the coverage is not terrible. </p>
 <p>In the following sections, we will address some of these aspects using conformal methods for multi timestep prediction using the <a href="https://github.com/xqnwang/conformalForecast"><code>conformalForecast</code> package</a>, and describe the <strong>AcMCP</strong> method, introduced in <a href="https://github.com/xqnwang/cpts">Wang and Hyndman’s paper</a>.</p>
 <h3>Split Conformal Inference in Time Series</h3>
