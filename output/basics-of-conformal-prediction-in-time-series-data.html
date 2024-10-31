@@ -148,7 +148,7 @@
 <p>We will first generate time series data and illustrate a couple of classical forecasting techniques before moving to conformal methods.</p>
 <h3>Generating simple time series data</h3>
 <p>Let's create a synthetic dataset that mimics real-world electricity demand and temperature patterns, where demand is influenced by temperature in a U-shaped relationship (higher demand at both very low and very high temperatures):</p>
-<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
 <span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">52</span><span class="o">*</span><span class="m">5</span><span class="w">  </span><span class="c1"># 5 years of weekly data</span>
 <span class="n">time</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">n</span>
 
