@@ -30,7 +30,7 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 
 
 ``` r
-set.seed(1984)
+set.seed(123)
 n <- 52*5  # 5 years of weekly data
 time <- 1:n
 
