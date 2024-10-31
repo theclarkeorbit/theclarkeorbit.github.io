@@ -30,7 +30,7 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 
 
 ``` r
-set.seed(123)
+set.seed(1984)
 n <- 52*5  # 5 years of weekly data
 time <- 1:n
 
@@ -40,7 +40,7 @@ temperature <- 20 + 10 * sin(2 * pi * time / 52) + rnorm(n, sd = 2)
 # Generate electricity demand influenced by temperature (U-shaped relationship)
 temp_effect <- 2000 + 100 * (temperature - 20)^2
 demand <- temp_effect + 500 * sin(2 * pi * time / 52) + 
-  50 * time / 52 + rnorm(n, sd = 100) + (10*time)
+  50 * time / 52 + rnorm(n, sd = 200) + (10*time)
 
 # Organize data as time series and separate into training and test sets
 data <- tibble(
@@ -59,10 +59,10 @@ ggplot(data, aes(x = date)) +
   geom_line(aes(y = scale(demand)[,1] * sd(temperature) + mean(temperature), 
                 color = "Scaled Demand")) +
   scale_color_manual(values = c("Temperature" = "#D95F5F", "Scaled Demand" = "#5A8D9B")) +
-  labs(title = "Temperature and Scaled Electricity Demand Over Time",
+  labs(title = "Temperature and Scaled Electricity Demand Over Time", x = "Date",
        y = "Temperature (°C)", color = "Variable") +
   theme_tufte(base_size = 12) +
-  theme(legend.position = "top")
+  theme(legend.position = "bottom")
 ```
 
 ![center](/figures/tsbasics/unnamed-chunk-2-1.png)
@@ -85,7 +85,7 @@ cal_set <- initial_time_split(holdout, prop = 0.8) |> training()
 test_set <- initial_time_split(holdout, prop = 0.8) |> testing()
 ```
 
-In order to check how well we are doing _ex ante_, we will need to forecast the temperature into the future, to understand demand. 
+In order to check how well we are doing _ex-ante_, we will need to forecast the temperature into the future, to understand demand. 
 
 
 ``` r
@@ -111,6 +111,7 @@ Now, we will need to replace the temperatures in the holdout, calibration and te
 holdout$temperature <- {temp_forecast_tbl |> filter(.key == "prediction")}$.value
 cal_set <- initial_time_split(holdout, prop = 0.8) |> training()
 test_set <- initial_time_split(holdout, prop = 0.8) |> testing()
+data_exante <- bind_rows(train_set, holdout)
 ```
 
 
@@ -134,12 +135,13 @@ Now, lets see what the forecast looks like with conformal intervals calculated b
 ``` r
 forecast_tbl <- calibration_tbl |> 
   modeltime_forecast(new_data = test_set, 
-                     actual_data = data,
+                     actual_data = data_exante,
                      conf_method  = "conformal_default", 
                      conf_interval = 0.80, 
                      keep_data  = TRUE)
 forecast_tbl |> 
-  plot_modeltime_forecast(.legend_show = FALSE, .title = "Demand Forecast", .interactive = FALSE)
+  tail(nrow(test_set)*4) |> 
+  plot_modeltime_forecast(.legend_show = TRUE, .title = "Demand Forecast", .interactive = FALSE)
 ```
 
 ![center](/figures/tsbasics/unnamed-chunk-7-1.png)
@@ -246,7 +248,7 @@ demand_fc <- cvforecast(
     forecastfun = demand_forecast,
     h = horizon,
     level = c(80),
-    xreg = matrix({data$temperature |> head(nrow(train_set)+nrow(cal_set)+horizon)}, ncol = 1),
+    xreg = matrix({data_exante$temperature |> head(nrow(train_set)+nrow(cal_set)+horizon)}, ncol = 1),
     initial = 10, 
     window = horizon*10
 )
@@ -258,7 +260,7 @@ We use the forecasting function created above to generate conformal predictions.
 ``` r
 cal_window <- max(10, horizon*5)
 symm <- FALSE
-roll <- TRUE
+roll <- FALSE
 Tg <- 15
 delta <- 0.01
 Csat <- 2 / pi * (ceiling(log(Tg) * delta) - 1 / log(Tg))
@@ -277,8 +279,8 @@ Lets see how this compares with the forecasts from the modeltime prophet engine.
 
 ``` r
 acmcp_df <- tibble(
-  date = {head(data$date, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)}, 
-  demand = {head(data$demand, {nrow(train_set) + horizon}) |> tail(horizon)},
+  date = {head(data_exante$date, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)}, 
+  # demand = {head(data_exante$demand, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)},
   acmcp_lower = acmcp$lower,
   acmcp_upper = acmcp$upper,
   acmcp_forecast = acmcp$mean
@@ -291,23 +293,24 @@ Let's now compare it to the `modeltime` conformal prediction,
 ``` r
 forecast_comparison_df <- forecast_tbl |>
   filter(.key %in% c("prediction")) |>
-  select(date, .value, .conf_lo, .conf_hi) |>
+  select(date, .value, .conf_lo, .conf_hi, demand) |>
   rename(
+    demand = demand,
     modeltime_forecast = .value,
     modeltime_lower = .conf_lo,
     modeltime_upper = .conf_hi
   ) |>
   right_join(acmcp_df, by = "date")  # Join with AcMCP results
 
-bind_rows(train_set, cal_set, forecast_comparison_df) |> tail(horizon*3) -> forecast_comparison_df
+bind_rows(train_set, cal_set, forecast_comparison_df) |> tail(horizon*3) -> forecast_comparison_df_2
 
-ggplot(forecast_comparison_df, aes(x = date)) +
+ggplot(forecast_comparison_df_2, aes(x = date)) +
   geom_line(aes(y = demand, color = "Actual Demand"), size = 0.7) +
   geom_line(aes(y = modeltime_forecast, color = "Modeltime Forecast"), linetype = "dotted", size = 0.7) +
   geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, fill = "Modeltime Conformal Interval"), alpha = 0.2) +
   geom_line(aes(y = acmcp_forecast, color = "AcMCP Forecast"), linetype = "dashed", size = 0.9) +
   geom_ribbon(aes(ymin = acmcp_lower, ymax = acmcp_upper, fill = "AcMCP Conformal Interval"), alpha = 0.3) +
-  scale_color_manual(values = c("Actual Demand" = "black", "Modeltime Forecast" = "#5A8D9B", "AcMCP Forecast" = "#D95F5F")) +
+  scale_color_manual(values = c("Another demand" = "green", "Actual Demand" = "black", "Modeltime Forecast" = "#5A8D9B", "AcMCP Forecast" = "#D95F5F")) +
   scale_fill_manual(values = c("Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F")) +
   labs(
     title = "Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP",
