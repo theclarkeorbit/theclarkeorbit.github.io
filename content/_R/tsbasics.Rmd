@@ -48,7 +48,7 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 
 ```{r}
 set.seed(2024)
-n <- 52*10  # 10 years of weekly data
+n <- 52*9  # 9 years of weekly data
 time <- 1:n
 holdout_prop <- 0.8
 level_conf <- 0.9
