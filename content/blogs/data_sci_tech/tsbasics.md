@@ -335,6 +335,11 @@ AcMCP, for the cost of increased complexity and computation, does give us confid
 
 ### Addendum: univariate financial time series
 
+For completeness, we will look at time series which are unlikely to have the strong seasonality of the synthetic data we examioned above. In particular, we will pull daily prices for wheat, urea and oil from yahoo, and smooth them to get weekly average prices. Then, we will forecast wheat prices with urea and oil as exogenous data, using both modeltime-arima and acmcp-arima. 
+
+
+#### Pulling and preparing the data 
+
 
 ``` r
 library(tidyverse)
@@ -358,8 +363,8 @@ fetch_single_commodity <- function(symbol, name, start_date, end_date) {
                from = start_date, 
                to = end_date, 
                auto.assign = FALSE) |>
-      as_tibble(rownames = "Date") |>
-      select(Date, adjusted = ends_with("Adjusted")) |>
+      as_tibble(rownames = "date") |>
+      select(date, adjusted = ends_with("Adjusted")) |>
       rename_with(~ name, matches("adjusted"))
   }, silent = TRUE)
   
@@ -395,13 +400,13 @@ get_commodity_prices <- function(years_back = 5) {
     ) |>
     # Extract and combine all data
     pull(data) |>
-    reduce(full_join, by = "Date")
+    reduce(full_join, by = "date")
   
   # Process and return final dataset
   price_data |>
     mutate(
-      Date = ymd(Date),
-      across(-Date, interpolate_series)
+      date = ymd(date),
+      across(-date, interpolate_series)
     ) |>
     as_tibble() |>
     structure(
@@ -416,14 +421,14 @@ get_weekly_prices <- function(daily_prices) {
     # Add a Saturday date for each row (next Saturday if not already Saturday)
     mutate(
       Week_Ending = case_when(
-        wday(Date, week_start = 1) == 6 ~ Date,
-        TRUE ~ Date + days(7 - wday(Date, week_start = 1))
+        wday(date, week_start = 1) == 6 ~ date,
+        TRUE ~ date + days(7 - wday(date, week_start = 1))
       )
     ) |>
     # Group by week and calculate means
     group_by(Week_Ending) |>
     summarise(
-      across(-Date, ~mean(., na.rm = TRUE))
+      across(-date, ~mean(., na.rm = TRUE))
     ) |>
     # Remove weeks with all NA values
     filter(
@@ -431,7 +436,7 @@ get_weekly_prices <- function(daily_prices) {
     ) |>
     # Sort by date
     arrange(Week_Ending) |> 
-    mutate(Date = Week_Ending) |> 
+    mutate(date = Week_Ending) |> 
     select(-Week_Ending)
 }
 
@@ -443,11 +448,11 @@ plot_commodity_prices <- function(df) {
   
   df |>
     pivot_longer(
-      -Date, 
+      -date, 
       names_to = "Commodity", 
       values_to = "Price"
     ) |>
-    ggplot(aes(x = Date, y = Price)) +
+    ggplot(aes(x = date, y = Price)) +
     geom_line(aes(color = Commodity)) +
     facet_wrap(~Commodity, scales = "free_y", ncol = 1) +
     scale_color_manual(
@@ -463,7 +468,7 @@ plot_commodity_prices <- function(df) {
 
 # Example usage:
 # Get 2 years of price data
-prices <- get_commodity_prices(years_back = 2)
+prices <- get_commodity_prices(years_back = 5)
 weekly_prices <- prices |> get_weekly_prices()
 # 
 # # Plot weekly prices
@@ -473,3 +478,180 @@ weekly_prices |>
 ```
 
 ![center](/figures/tsbasics/unnamed-chunk-12-1.png)
+
+Then, we build simple models for the exogenous variables and prepare the data so that our forecasts for wheat are ex-ante.
+
+
+``` r
+data_split <- initial_time_split(weekly_prices, prop = holdout_prop)
+train_set <- training(data_split)
+holdout <- testing(data_split)
+cal_set <- initial_time_split(holdout, prop = holdout_prop) |> training()
+test_set <- initial_time_split(holdout, prop = holdout_prop) |> testing()
+
+oil_model <- arima_reg() |> 
+  set_engine(engine = "auto_arima") |>  
+  fit(Oil ~ date, data = train_set)
+
+urea_model <- arima_reg() |> 
+  set_engine(engine = "auto_arima") |> 
+  fit(Urea ~ date, data = train_set)
+
+oil_model_tbl <- modeltime_table(oil_model)
+urea_model_tbl <- modeltime_table(urea_model)
+
+oil_forecast_tbl <- oil_model_tbl |> 
+  modeltime_forecast(new_data = holdout, actual_data = weekly_prices)
+
+urea_forecast_tbl <- urea_model_tbl |> 
+  modeltime_forecast(new_data = holdout, actual_data = weekly_prices)
+
+holdout$Oil <- {oil_forecast_tbl |> filter(.key == "prediction")}$.value
+holdout$Urea <- {urea_forecast_tbl |> filter(.key == "prediction")}$.value
+
+cal_set <- initial_time_split(holdout, prop = holdout_prop) |> training()
+test_set <- initial_time_split(holdout, prop = holdout_prop) |> testing()
+data_exante <- bind_rows(train_set, holdout)
+```
+
+**Modeltime forecast for wheat**
+
+
+``` r
+wheat_model <- arima_reg() |> 
+  set_engine(engine = "auto_arima") |> 
+  fit(Wheat ~ date + Oil + Urea, data = train_set)
+
+model_tbl <- modeltime_table(wheat_model)
+
+calibration_tbl <- model_tbl |> 
+  modeltime_calibrate(new_data = cal_set, quiet = FALSE)
+
+forecast_tbl <- calibration_tbl |> 
+  modeltime_forecast(
+    new_data = test_set, 
+    actual_data = data_exante,
+    conf_method = "conformal_default", 
+    conf_interval = level_conf, 
+    keep_data = TRUE
+  )
+```
+
+Now, as before, the **AcMCP forecast for wheat.**
+
+
+``` r
+horizon <- nrow(test_set)
+
+wheat_forecast <- function(y, h, level, xreg, newxreg) {
+    model <- auto.arima(y, xreg = xreg)
+    fc <- forecast(model, h = h, xreg = newxreg, level = level)
+    return(fc)
+}
+
+xreg_matrix <- cbind(
+  Oil = data_exante$Oil,
+  Urea = data_exante$Urea
+) |> head(nrow(train_set) + nrow(cal_set) + horizon)
+
+wheat_fc <- cvforecast(
+    y = ts({rbind(train_set, cal_set) |> select(Wheat)}, frequency = 52),
+    forecastfun = wheat_forecast,
+    h = horizon,
+    level = c(level_conf),
+    xreg = xreg_matrix,
+    initial = 10, 
+    window = horizon*10
+)
+
+cal_window <- max(10, horizon*5)
+symm <- FALSE
+roll <- FALSE
+Tg <- 4
+delta <- 0.01
+Csat <- 2 / pi * (ceiling(log(Tg) * delta) - 1 / log(Tg))
+KI <- 0.5
+lr <- 0.1
+
+acmcp <- mcp(wheat_fc, 
+             alpha = 1 - 0.01 * wheat_fc$level,
+             ncal = cal_window, 
+             rolling = roll,
+             integrate = TRUE, 
+             scorecast = TRUE,
+             lr = lr, 
+             KI = KI, 
+             Csat = Csat)
+```
+
+Now, we will prepare the data to compare the two conformal forecasts.
+
+
+``` r
+acmcp_df <- tibble(
+  date = {head(data_exante$date, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)}, 
+  acmcp_lower = acmcp$lower,
+  acmcp_upper = acmcp$upper,
+  acmcp_forecast = acmcp$mean
+)
+
+forecast_comparison_df <- forecast_tbl |>
+  filter(.key %in% c("prediction")) |>
+  select(date, .value, .conf_lo, .conf_hi, Wheat) |>
+  rename(
+    Wheat = Wheat,
+    modeltime_forecast = .value,
+    modeltime_lower = .conf_lo,
+    modeltime_upper = .conf_hi
+  ) |>
+  right_join(acmcp_df, by = "date")  # Join with AcMCP results
+
+# Create final plotting dataframe
+forecast_comparison_df_2 <- bind_rows(
+  train_set, 
+  cal_set, 
+  forecast_comparison_df
+) |> 
+  tail(horizon*3)
+
+# Create comparison plot
+ggplot(forecast_comparison_df_2, aes(x = date)) +
+  geom_line(aes(y = Wheat, color = "Actual Wheat Price"), size = 0.7) +
+  geom_line(aes(y = modeltime_forecast, color = "Modeltime Prophet Forecast"), 
+            linetype = "dotted", size = 0.7) +
+  geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, 
+                  fill = "Modeltime Conformal Interval"), alpha = 0.2) +
+  geom_line(aes(y = acmcp_forecast, color = "AcMCP ARIMA Forecast"), 
+            linetype = "dashed", size = 0.9) +
+  geom_ribbon(aes(ymin = acmcp_lower, ymax = acmcp_upper, 
+                  fill = "AcMCP Conformal Interval"), alpha = 0.3) +
+  scale_color_manual(
+    values = c(
+      "Actual Wheat Price" = "black","Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F"
+    )
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F"
+    )
+  ) +
+  labs(
+    title = "Wheat Price Forecasts with 90% Conformal Prediction Intervals",
+    subtitle = "Comparing Modeltime and AcMCP approaches using Oil and Urea as exogenous variables",
+    y = "Price",
+    x = "Date",
+    fill = "Confidence Interval",
+    color = "Forecast Type"
+  ) +
+  theme_tufte(base_size = 12) +
+  theme(
+    legend.position = "bottom"
+  ) +
+  guides(
+    color = guide_legend(nrow = 3),
+    fill = guide_legend(nrow = 2)
+  )
+```
+
+![center](/figures/tsbasics/unnamed-chunk-16-1.png)
+
