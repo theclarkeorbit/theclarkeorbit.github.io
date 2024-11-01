@@ -33,7 +33,7 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 set.seed(2024)
 n <- 52*6  # 6 years of weekly data
 time <- 1:n
-holdout_prop <- 0.75
+holdout_prop <- 0.8
 level_conf <- 0.9
 
 # Generate synthetic temperature data with seasonal pattern
@@ -234,11 +234,242 @@ This combination enables AcMCP to capture both immediate and multi-step dependen
 Now, we illustrate the use of AcMCP using the `conformalForecast` package that accompanies the Wang and Hyndman (2024) paper. 
  
 
+``` r
+horizon <- nrow(test_set)
+# function that makes predictons of demand
+demand_forecast <- function(y, h, level, xreg, newxreg) {
+    model <- auto.arima(y, xreg = xreg)
+    # Forecast using future temperature values
+    fc <- forecast(model, h = h, xreg = newxreg, level = level)
+    return(fc)  # Returns a forecast object
+}
+
+# Generateing rolling forecast and errors on the given data
+demand_fc <- cvforecast(
+    y = ts({rbind(train_set, cal_set) |> select(demand)}, frequency = 52),
+    forecastfun = demand_forecast,
+    h = horizon,
+    level = c(level_conf),
+    xreg = matrix({data_exante$temperature |> head(nrow(train_set)+nrow(cal_set)+horizon)}, ncol = 1),
+    initial = 10, 
+    window = horizon*10
+)
+```
+
+We use the forecasting function created above to generate conformal predictions.
 
 
+``` r
+cal_window <- max(10, horizon*5)
+symm <- FALSE
+roll <- FALSE
+Tg <- 4
+delta <- 0.01
+Csat <- 2 / pi * (ceiling(log(Tg) * delta) - 1 / log(Tg))
+KI <- 0.5
+lr <- 0.1
+
+acmcp <- mcp(demand_fc, alpha = 1 - 0.01 * demand_fc$level,
+             ncal = cal_window, rolling = roll,
+             integrate = TRUE, scorecast = TRUE,
+             lr = lr, KI = KI, Csat = Csat)
+```
 
 
+Lets see how this compares with the forecasts from the modeltime prophet engine. First we need to extract the forecast from the `acmcp` object.
 
 
+``` r
+acmcp_df <- tibble(
+  date = {head(data_exante$date, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)}, 
+  # demand = {head(data_exante$demand, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)},
+  acmcp_lower = acmcp$lower,
+  acmcp_upper = acmcp$upper,
+  acmcp_forecast = acmcp$mean
+)
+```
+
+Let's now compare it to the `modeltime` conformal prediction,
 
 
+``` r
+forecast_comparison_df <- forecast_tbl |>
+  filter(.key %in% c("prediction")) |>
+  select(date, .value, .conf_lo, .conf_hi, demand) |>
+  rename(
+    demand = demand,
+    modeltime_forecast = .value,
+    modeltime_lower = .conf_lo,
+    modeltime_upper = .conf_hi
+  ) |>
+  right_join(acmcp_df, by = "date")  # Join with AcMCP results
+
+bind_rows(train_set, cal_set, forecast_comparison_df) |> tail(horizon*3) -> forecast_comparison_df_2
+
+ggplot(forecast_comparison_df_2, aes(x = date)) +
+  geom_line(aes(y = demand, color = "Actual Demand"), size = 0.7) +
+  geom_line(aes(y = modeltime_forecast, color = "Modeltime Prophet Forecast"), linetype = "dotted", size = 0.7) +
+  geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, fill = "Modeltime Conformal Interval"), alpha = 0.2) +
+  geom_line(aes(y = acmcp_forecast, color = "AcMCP ARIMA Forecast"), linetype = "dashed", size = 0.9) +
+  geom_ribbon(aes(ymin = acmcp_lower, ymax = acmcp_upper, fill = "AcMCP Conformal Interval"), alpha = 0.3) +
+  scale_color_manual(values = c("Actual Demand" = "black", "Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F")) +
+  scale_fill_manual(values = c("Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F")) +
+  labs(
+    title = "Comparison of 90% Conformal Prediction Intervals: Modeltime vs AcMCP",
+    y = "Demand",
+    x = "Date",
+    fill = "Confidence Interval",
+    color = "Forecast Type"
+  ) +
+  theme_tufte(base_size = 12) +
+  theme(legend.position = "bottom") +
+  guides(
+    color = guide_legend(nrow = 3),
+    fill = guide_legend(nrow = 3)
+  )
+```
+
+![center](/figures/tsbasics/unnamed-chunk-11-1.png)
+
+AcMCP, for the cost of increased complexity and computation, does give us confidence intervals that are more adaptive and ensure coverage into the uncertain future. However, it is not clear (to me, yet) how one could incorporate this into a production workflow to make actual online conformal predictions and keep track of them over time.  
+
+### Addendum: univariate financial time series
+
+
+``` r
+library(tidyverse)
+library(quantmod)
+library(forecast)
+library(zoo)
+library(lubridate)
+library(ggthemes)
+library(scales)
+
+# Define commodity information
+commodity_tickers <- tibble(
+  symbol = c("ZW=F", "CL=F", "UAN"),
+  name = c("Wheat", "Oil", "Urea")
+)
+
+# Get data for a single commodity
+fetch_single_commodity <- function(symbol, name, start_date, end_date) {
+  result <- try({
+    getSymbols(symbol, src = "yahoo", 
+               from = start_date, 
+               to = end_date, 
+               auto.assign = FALSE) |>
+      as_tibble(rownames = "Date") |>
+      select(Date, adjusted = ends_with("Adjusted")) |>
+      rename_with(~ name, matches("adjusted"))
+  }, silent = TRUE)
+  
+  if (inherits(result, "try-error")) {
+    warning(str_glue("Error fetching {name}: {result}"))
+    return(NULL)
+  }
+  
+  result
+}
+
+# Interpolate missing values in a single series
+interpolate_series <- function(x) {
+  if (all(is.na(x))) return(x)
+  ts_data <- ts(x, frequency = 7)
+  na.interp(ts_data) |>
+    as.numeric()
+}
+
+# Main function to get commodity prices
+get_commodity_prices <- function(years_back = 5) {
+  # Calculate date range
+  end_date <- today()
+  start_date <- end_date - years(years_back)
+  
+  # Fetch data for all commodities
+  price_data <- commodity_tickers |>
+    mutate(
+      data = map2(
+        symbol, name,
+        ~fetch_single_commodity(.x, .y, start_date, end_date)
+      )
+    ) |>
+    # Extract and combine all data
+    pull(data) |>
+    reduce(full_join, by = "Date")
+  
+  # Process and return final dataset
+  price_data |>
+    mutate(
+      Date = ymd(Date),
+      across(-Date, interpolate_series)
+    ) |>
+    as_tibble() |>
+    structure(
+      data_source = "Yahoo Finance",
+      last_updated = now(),
+      years_covered = years_back
+    )
+}
+
+get_weekly_prices <- function(daily_prices) {
+  daily_prices |>
+    # Add a Saturday date for each row (next Saturday if not already Saturday)
+    mutate(
+      Week_Ending = case_when(
+        wday(Date, week_start = 1) == 6 ~ Date,
+        TRUE ~ Date + days(7 - wday(Date, week_start = 1))
+      )
+    ) |>
+    # Group by week and calculate means
+    group_by(Week_Ending) |>
+    summarise(
+      across(-Date, ~mean(., na.rm = TRUE))
+    ) |>
+    # Remove weeks with all NA values
+    filter(
+      if_any(-Week_Ending, ~!is.na(.))
+    ) |>
+    # Sort by date
+    arrange(Week_Ending) |> 
+    mutate(Date = Week_Ending) |> 
+    select(-Week_Ending)
+}
+
+plot_commodity_prices <- function(df) {
+  # Tufte-approved colors:
+  # - A deep rust red (#8b1a1a) - similar to ink used in historical prints
+  # - A muted indigo blue (#4a5568) - reminiscent of classic charts
+  # - A warm gray (#6b6b6b) - characteristic of engraving
+  
+  df |>
+    pivot_longer(
+      -Date, 
+      names_to = "Commodity", 
+      values_to = "Price"
+    ) |>
+    ggplot(aes(x = Date, y = Price)) +
+    geom_line(aes(color = Commodity)) +
+    facet_wrap(~Commodity, scales = "free_y", ncol = 1) +
+    scale_color_manual(
+      values = c("#8b1a1a", "#4a5568", "#6b6b6b")
+    ) +
+    theme_tufte() +
+    labs(
+      title = "Commodity Prices Over Time",
+      x = NULL,
+      y = "Price"
+    )
+}
+
+# Example usage:
+# Get 2 years of price data
+prices <- get_commodity_prices(years_back = 2)
+weekly_prices <- prices |> get_weekly_prices()
+# 
+# # Plot weekly prices
+weekly_prices |>
+  plot_commodity_prices() +
+  labs(title = "Weekly Average Commodity Prices")
+```
+
+![center](/figures/tsbasics/unnamed-chunk-12-1.png)

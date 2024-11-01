@@ -50,7 +50,7 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 set.seed(2024)
 n <- 52*6  # 6 years of weekly data
 time <- 1:n
-holdout_prop <- 0.75
+holdout_prop <- 0.8
 level_conf <- 0.9
 
 # Generate synthetic temperature data with seasonal pattern
