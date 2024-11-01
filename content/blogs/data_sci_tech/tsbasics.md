@@ -34,7 +34,7 @@ set.seed(2024)
 n <- 52*6  # 6 years of weekly data
 time <- 1:n
 holdout_prop <- 0.8
-level_conf <- 0.9
+level_conf <- 0.8
 
 # Generate synthetic temperature data with seasonal pattern
 temperature <- 20 + 10 * sin(2 * pi * time / 52) + rnorm(n, sd = 1)
@@ -315,7 +315,7 @@ ggplot(forecast_comparison_df_2, aes(x = date)) +
   scale_color_manual(values = c("Actual Demand" = "black", "Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F")) +
   scale_fill_manual(values = c("Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F")) +
   labs(
-    title = "Comparison of 90% Conformal Prediction Intervals: Modeltime vs AcMCP",
+    title = "Comparison of 80% Conformal Prediction Intervals: Modeltime vs AcMCP",
     y = "Demand",
     x = "Date",
     fill = "Confidence Interval",
@@ -325,7 +325,7 @@ ggplot(forecast_comparison_df_2, aes(x = date)) +
   theme(legend.position = "bottom") +
   guides(
     color = guide_legend(nrow = 3),
-    fill = guide_legend(nrow = 3)
+    fill = guide_legend(nrow = 2)
   )
 ```
 
@@ -350,13 +350,11 @@ library(lubridate)
 library(ggthemes)
 library(scales)
 
-# Define commodity information
 commodity_tickers <- tibble(
   symbol = c("ZW=F", "CL=F", "UAN"),
   name = c("Wheat", "Oil", "Urea")
 )
 
-# Get data for a single commodity
 fetch_single_commodity <- function(symbol, name, start_date, end_date) {
   result <- try({
     getSymbols(symbol, src = "yahoo", 
@@ -376,7 +374,6 @@ fetch_single_commodity <- function(symbol, name, start_date, end_date) {
   result
 }
 
-# Interpolate missing values in a single series
 interpolate_series <- function(x) {
   if (all(is.na(x))) return(x)
   ts_data <- ts(x, frequency = 7)
@@ -384,13 +381,10 @@ interpolate_series <- function(x) {
     as.numeric()
 }
 
-# Main function to get commodity prices
 get_commodity_prices <- function(years_back = 5) {
-  # Calculate date range
   end_date <- today()
   start_date <- end_date - years(years_back)
   
-  # Fetch data for all commodities
   price_data <- commodity_tickers |>
     mutate(
       data = map2(
@@ -398,11 +392,8 @@ get_commodity_prices <- function(years_back = 5) {
         ~fetch_single_commodity(.x, .y, start_date, end_date)
       )
     ) |>
-    # Extract and combine all data
     pull(data) |>
     reduce(full_join, by = "date")
-  
-  # Process and return final dataset
   price_data |>
     mutate(
       date = ymd(date),
@@ -418,34 +409,25 @@ get_commodity_prices <- function(years_back = 5) {
 
 get_weekly_prices <- function(daily_prices) {
   daily_prices |>
-    # Add a Saturday date for each row (next Saturday if not already Saturday)
     mutate(
       Week_Ending = case_when(
         wday(date, week_start = 1) == 6 ~ date,
         TRUE ~ date + days(7 - wday(date, week_start = 1))
       )
     ) |>
-    # Group by week and calculate means
     group_by(Week_Ending) |>
     summarise(
       across(-date, ~mean(., na.rm = TRUE))
     ) |>
-    # Remove weeks with all NA values
     filter(
       if_any(-Week_Ending, ~!is.na(.))
     ) |>
-    # Sort by date
     arrange(Week_Ending) |> 
     mutate(date = Week_Ending) |> 
     select(-Week_Ending)
 }
 
 plot_commodity_prices <- function(df) {
-  # Tufte-approved colors:
-  # - A deep rust red (#8b1a1a) - similar to ink used in historical prints
-  # - A muted indigo blue (#4a5568) - reminiscent of classic charts
-  # - A warm gray (#6b6b6b) - characteristic of engraving
-  
   df |>
     pivot_longer(
       -date, 
@@ -466,12 +448,9 @@ plot_commodity_prices <- function(df) {
     )
 }
 
-# Example usage:
-# Get 2 years of price data
 prices <- get_commodity_prices(years_back = 5)
 weekly_prices <- prices |> get_weekly_prices()
-# 
-# # Plot weekly prices
+
 weekly_prices |>
   plot_commodity_prices() +
   labs(title = "Weekly Average Commodity Prices")
@@ -604,9 +583,8 @@ forecast_comparison_df <- forecast_tbl |>
     modeltime_lower = .conf_lo,
     modeltime_upper = .conf_hi
   ) |>
-  right_join(acmcp_df, by = "date")  # Join with AcMCP results
+  right_join(acmcp_df, by = "date")  
 
-# Create final plotting dataframe
 forecast_comparison_df_2 <- bind_rows(
   train_set, 
   cal_set, 
@@ -614,7 +592,6 @@ forecast_comparison_df_2 <- bind_rows(
 ) |> 
   tail(horizon*3)
 
-# Create comparison plot
 ggplot(forecast_comparison_df_2, aes(x = date)) +
   geom_line(aes(y = Wheat, color = "Actual Wheat Price"), size = 0.7) +
   geom_line(aes(y = modeltime_forecast, color = "Modeltime Prophet Forecast"), 
@@ -636,8 +613,7 @@ ggplot(forecast_comparison_df_2, aes(x = date)) +
     )
   ) +
   labs(
-    title = "Wheat Price Forecasts with 90% Conformal Prediction Intervals",
-    subtitle = "Comparing Modeltime and AcMCP approaches using Oil and Urea as exogenous variables",
+    title = "Wheat Price Forecasts with 80% Conformal Prediction Intervals",
     y = "Price",
     x = "Date",
     fill = "Confidence Interval",
