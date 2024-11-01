@@ -51,6 +51,7 @@ set.seed(2024)
 n <- 52*10  # 10 years of weekly data
 time <- 1:n
 holdout_prop <- 0.8
+level_conf <- 0.9
 
 # Generate synthetic temperature data with seasonal pattern
 temperature <- 20 + 10 * sin(2 * pi * time / 52) + rnorm(n, sd = 1)
@@ -145,7 +146,7 @@ forecast_tbl <- calibration_tbl |>
   modeltime_forecast(new_data = test_set, 
                      actual_data = data_exante,
                      conf_method  = "conformal_default", 
-                     conf_interval = 0.80, 
+                     conf_interval = level_conf, 
                      keep_data  = TRUE)
 forecast_tbl |> 
   tail(nrow(test_set)*4) |> 
@@ -252,7 +253,7 @@ demand_fc <- cvforecast(
     y = ts({rbind(train_set, cal_set) |> select(demand)}, frequency = 52),
     forecastfun = demand_forecast,
     h = horizon,
-    level = c(80),
+    level = c(level_conf),
     xreg = matrix({data_exante$temperature |> head(nrow(train_set)+nrow(cal_set)+horizon)}, ncol = 1),
     initial = 10, 
     window = horizon*10
@@ -264,8 +265,8 @@ We use the forecasting function created above to generate conformal predictions.
 ```{r}
 cal_window <- max(10, horizon*5)
 symm <- FALSE
-roll <- TRUE
-Tg <- 15
+roll <- FALSE
+Tg <- 4
 delta <- 0.01
 Csat <- 2 / pi * (ceiling(log(Tg) * delta) - 1 / log(Tg))
 KI <- 0.5
@@ -312,7 +313,7 @@ ggplot(forecast_comparison_df_2, aes(x = date)) +
   geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, fill = "Modeltime Conformal Interval"), alpha = 0.2) +
   geom_line(aes(y = acmcp_forecast, color = "AcMCP Forecast"), linetype = "dashed", size = 0.9) +
   geom_ribbon(aes(ymin = acmcp_lower, ymax = acmcp_upper, fill = "AcMCP Conformal Interval"), alpha = 0.3) +
-  scale_color_manual(values = c("Another demand" = "green", "Actual Demand" = "black", "Modeltime Forecast" = "#5A8D9B", "AcMCP Forecast" = "#D95F5F")) +
+  scale_color_manual(values = c("Another demand" = "green", "Actual Demand" = "black", "Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F")) +
   scale_fill_manual(values = c("Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F")) +
   labs(
     title = "Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP",

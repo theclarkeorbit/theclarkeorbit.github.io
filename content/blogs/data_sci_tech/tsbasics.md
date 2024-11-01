@@ -34,6 +34,7 @@ set.seed(2024)
 n <- 52*10  # 10 years of weekly data
 time <- 1:n
 holdout_prop <- 0.8
+level_conf <- 0.9
 
 # Generate synthetic temperature data with seasonal pattern
 temperature <- 20 + 10 * sin(2 * pi * time / 52) + rnorm(n, sd = 1)
@@ -138,7 +139,7 @@ forecast_tbl <- calibration_tbl |>
   modeltime_forecast(new_data = test_set, 
                      actual_data = data_exante,
                      conf_method  = "conformal_default", 
-                     conf_interval = 0.80, 
+                     conf_interval = level_conf, 
                      keep_data  = TRUE)
 forecast_tbl |> 
   tail(nrow(test_set)*4) |> 
@@ -233,101 +234,10 @@ This combination enables AcMCP to capture both immediate and multi-step dependen
 Now, we illustrate the use of AcMCP using the `conformalForecast` package that accompanies the Wang and Hyndman (2024) paper. 
  
 
-``` r
-horizon <- nrow(test_set)
-# function that makes predictons of demand
-demand_forecast <- function(y, h, level, xreg, newxreg) {
-    model <- auto.arima(y, xreg = xreg)
-    # Forecast using future temperature values
-    fc <- forecast(model, h = h, xreg = newxreg, level = level)
-    return(fc)  # Returns a forecast object
-}
-
-# Generateing rolling forecast and errors on the given data
-demand_fc <- cvforecast(
-    y = ts({rbind(train_set, cal_set) |> select(demand)}, frequency = 52),
-    forecastfun = demand_forecast,
-    h = horizon,
-    level = c(80),
-    xreg = matrix({data_exante$temperature |> head(nrow(train_set)+nrow(cal_set)+horizon)}, ncol = 1),
-    initial = 10, 
-    window = horizon*10
-)
-```
-
-We use the forecasting function created above to generate conformal predictions.
 
 
-``` r
-cal_window <- max(10, horizon*5)
-symm <- FALSE
-roll <- TRUE
-Tg <- 15
-delta <- 0.01
-Csat <- 2 / pi * (ceiling(log(Tg) * delta) - 1 / log(Tg))
-KI <- 0.5
-lr <- 0.1
-
-acmcp <- mcp(demand_fc, alpha = 1 - 0.01 * demand_fc$level,
-             ncal = cal_window, rolling = roll,
-             integrate = TRUE, scorecast = TRUE,
-             lr = lr, KI = KI, Csat = Csat)
-```
 
 
-Lets see how this compares with the forecasts from the modeltime prophet engine. First we need to extract the forecast from the `acmcp` object.
 
 
-``` r
-acmcp_df <- tibble(
-  date = {head(data_exante$date, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)}, 
-  # demand = {head(data_exante$demand, {nrow(train_set) + nrow(cal_set) + horizon}) |> tail(horizon)},
-  acmcp_lower = acmcp$lower,
-  acmcp_upper = acmcp$upper,
-  acmcp_forecast = acmcp$mean
-)
-```
 
-Let's now compare it to the `modeltime` conformal prediction,
-
-
-``` r
-forecast_comparison_df <- forecast_tbl |>
-  filter(.key %in% c("prediction")) |>
-  select(date, .value, .conf_lo, .conf_hi, demand) |>
-  rename(
-    demand = demand,
-    modeltime_forecast = .value,
-    modeltime_lower = .conf_lo,
-    modeltime_upper = .conf_hi
-  ) |>
-  right_join(acmcp_df, by = "date")  # Join with AcMCP results
-
-bind_rows(train_set, cal_set, forecast_comparison_df) |> tail(horizon*3) -> forecast_comparison_df_2
-
-ggplot(forecast_comparison_df_2, aes(x = date)) +
-  geom_line(aes(y = demand, color = "Actual Demand"), size = 0.7) +
-  geom_line(aes(y = modeltime_forecast, color = "Modeltime Forecast"), linetype = "dotted", size = 0.7) +
-  geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, fill = "Modeltime Conformal Interval"), alpha = 0.2) +
-  geom_line(aes(y = acmcp_forecast, color = "AcMCP Forecast"), linetype = "dashed", size = 0.9) +
-  geom_ribbon(aes(ymin = acmcp_lower, ymax = acmcp_upper, fill = "AcMCP Conformal Interval"), alpha = 0.3) +
-  scale_color_manual(values = c("Another demand" = "green", "Actual Demand" = "black", "Modeltime Forecast" = "#5A8D9B", "AcMCP Forecast" = "#D95F5F")) +
-  scale_fill_manual(values = c("Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F")) +
-  labs(
-    title = "Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP",
-    y = "Demand",
-    x = "Date",
-    fill = "Confidence Interval",
-    color = "Forecast Type"
-  ) +
-  theme_tufte(base_size = 12) +
-  theme(legend.position = "bottom") +
-  guides(
-    color = guide_legend(nrow = 3),
-    fill = guide_legend(nrow = 3)
-  )
-```
-
-![center](/figures/tsbasics/unnamed-chunk-11-1.png)
-
-AcMCP, for the cost of increased complexity and computation, does give us confidence intervals that are more adaptive and ensure coverage into the uncertain future. However, it is not clear (to me, yet) how one could incorporate this into a production workflow to make actual online conformal predictions and keep track of them over time.  
