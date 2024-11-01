@@ -594,7 +594,7 @@ forecast_comparison_df_2 <- bind_rows(
 
 ggplot(forecast_comparison_df_2, aes(x = date)) +
   geom_line(aes(y = Wheat, color = "Actual Wheat Price"), size = 0.7) +
-  geom_line(aes(y = modeltime_forecast, color = "Modeltime Prophet Forecast"), 
+  geom_line(aes(y = modeltime_forecast, color = "Modeltime ARIMA Forecast"), 
             linetype = "dotted", size = 0.7) +
   geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, 
                   fill = "Modeltime Conformal Interval"), alpha = 0.2) +
@@ -604,7 +604,7 @@ ggplot(forecast_comparison_df_2, aes(x = date)) +
                   fill = "AcMCP Conformal Interval"), alpha = 0.3) +
   scale_color_manual(
     values = c(
-      "Actual Wheat Price" = "black","Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F"
+      "Actual Wheat Price" = "black","Modeltime ARIMA Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F"
     )
   ) +
   scale_fill_manual(
