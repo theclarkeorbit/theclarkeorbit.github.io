@@ -50,7 +50,7 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 set.seed(2024)
 n <- 52*6  # 6 years of weekly data
 time <- 1:n
-holdout_prop <- 0.8
+holdout_prop <- 0.75
 level_conf <- 0.9
 
 # Generate synthetic temperature data with seasonal pattern
@@ -309,14 +309,14 @@ bind_rows(train_set, cal_set, forecast_comparison_df) |> tail(horizon*3) -> fore
 
 ggplot(forecast_comparison_df_2, aes(x = date)) +
   geom_line(aes(y = demand, color = "Actual Demand"), size = 0.7) +
-  geom_line(aes(y = modeltime_forecast, color = "Modeltime Forecast"), linetype = "dotted", size = 0.7) +
+  geom_line(aes(y = modeltime_forecast, color = "Modeltime Prophet Forecast"), linetype = "dotted", size = 0.7) +
   geom_ribbon(aes(ymin = modeltime_lower, ymax = modeltime_upper, fill = "Modeltime Conformal Interval"), alpha = 0.2) +
-  geom_line(aes(y = acmcp_forecast, color = "AcMCP Forecast"), linetype = "dashed", size = 0.9) +
+  geom_line(aes(y = acmcp_forecast, color = "AcMCP ARIMA Forecast"), linetype = "dashed", size = 0.9) +
   geom_ribbon(aes(ymin = acmcp_lower, ymax = acmcp_upper, fill = "AcMCP Conformal Interval"), alpha = 0.3) +
-  scale_color_manual(values = c("Another demand" = "green", "Actual Demand" = "black", "Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F")) +
+  scale_color_manual(values = c("Actual Demand" = "black", "Modeltime Prophet Forecast" = "#5A8D9B", "AcMCP ARIMA Forecast" = "#D95F5F")) +
   scale_fill_manual(values = c("Modeltime Conformal Interval" = "#5A8D9B", "AcMCP Conformal Interval" = "#D95F5F")) +
   labs(
-    title = "Comparison of Conformal Prediction Intervals: Modeltime vs AcMCP",
+    title = "Comparison of 90% Conformal Prediction Intervals: Modeltime vs AcMCP",
     y = "Demand",
     x = "Date",
     fill = "Confidence Interval",
