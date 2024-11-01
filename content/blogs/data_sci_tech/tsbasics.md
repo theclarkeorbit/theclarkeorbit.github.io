@@ -30,17 +30,18 @@ Let's create a synthetic dataset that mimics real-world electricity demand and t
 
 
 ``` r
-set.seed(1984)
-n <- 52*5  # 5 years of weekly data
+set.seed(2024)
+n <- 52*10  # 10 years of weekly data
 time <- 1:n
+holdout_prop <- 0.8
 
 # Generate synthetic temperature data with seasonal pattern
-temperature <- 20 + 10 * sin(2 * pi * time / 52) + rnorm(n, sd = 2)
+temperature <- 20 + 10 * sin(2 * pi * time / 52) + rnorm(n, sd = 1)
 
 # Generate electricity demand influenced by temperature (U-shaped relationship)
 temp_effect <- 2000 + 100 * (temperature - 20)^2
 demand <- temp_effect + 500 * sin(2 * pi * time / 52) + 
-  50 * time / 52 + rnorm(n, sd = 200) + (10*time)
+  50 * time / 52 + rnorm(n, sd = 150) + (10*time)
 
 # Organize data as time series and separate into training and test sets
 data <- tibble(
@@ -78,11 +79,11 @@ data_ts <- data |>
   as_tsibble(index = date) |> 
   rename(demand = demand, temperature = temperature)
 
-data_split <- initial_time_split(data, prop = 0.75)
+data_split <- initial_time_split(data, prop = holdout_prop)
 train_set <- training(data_split)
 holdout <- testing(data_split)
-cal_set <- initial_time_split(holdout, prop = 0.8) |> training()
-test_set <- initial_time_split(holdout, prop = 0.8) |> testing()
+cal_set <- initial_time_split(holdout, prop = holdout_prop) |> training()
+test_set <- initial_time_split(holdout, prop = holdout_prop) |> testing()
 ```
 
 In order to check how well we are doing _ex-ante_, we will need to forecast the temperature into the future, to understand demand. 
@@ -109,8 +110,8 @@ Now, we will need to replace the temperatures in the holdout, calibration and te
 
 ``` r
 holdout$temperature <- {temp_forecast_tbl |> filter(.key == "prediction")}$.value
-cal_set <- initial_time_split(holdout, prop = 0.8) |> training()
-test_set <- initial_time_split(holdout, prop = 0.8) |> testing()
+cal_set <- initial_time_split(holdout, prop = holdout_prop) |> training()
+test_set <- initial_time_split(holdout, prop = holdout_prop) |> testing()
 data_exante <- bind_rows(train_set, holdout)
 ```
 
@@ -260,7 +261,7 @@ We use the forecasting function created above to generate conformal predictions.
 ``` r
 cal_window <- max(10, horizon*5)
 symm <- FALSE
-roll <- FALSE
+roll <- TRUE
 Tg <- 15
 delta <- 0.01
 Csat <- 2 / pi * (ceiling(log(Tg) * delta) - 1 / log(Tg))
