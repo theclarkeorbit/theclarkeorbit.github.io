@@ -1,5 +1,5 @@
 ---
-title: "Climbing Pearl's Ladder of Causation: A Hands-On Journey with R"
+title: "Climbing Pearl's Ladder of Causation"
 date: 1 October 2025
 output:
   html_document:
