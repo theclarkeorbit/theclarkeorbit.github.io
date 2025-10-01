@@ -26,7 +26,7 @@ The data-generating process works as follows. The wind $W$ exerts a direct causa
 
 After collecting observational data, the observer computes $\text{cor}(R, D)$ and finds it to be approximately zero. The naive conclusion follows: rudder angle has no relationship with boat direction, therefore the rudder is ineffective. This conclusion is incorrect.
 
-The error stems from **endogeneity**. In econometrics and causal inference, a variable is called endogenous when it is correlated with the error term or, equivalently, when it is determined by other variables in the system that also affect the outcome. Here, the rudder angle $R$ is endogenous because it is not set independently of the other factors affecting direction. Instead, $R$ is systematically determined by $W$, which is itself a common cause of both $R$ and $D$. 
+The error stems from **endogeneity**. In econometrics and causal inference, a variable is called endogenous when it is correlated with the error term or, equivalently, when it is determined by other variables in the system that also affect the outcome. Here, the rudder angle $R$ is endogenous because it is not set independently of the other factors affecting direction. Instead, $R$ is systematically determined by $W$ (via the sailor working to keep the boat's heading constant), which is itself a common cause of both $R$ and $D$. 
 
 This creates what Pearl calls **confounding**: the naive correlation $\text{cor}(R, D)$ confounds the true causal effect of $R$ on $D$ with the spurious correlation induced by their common cause $W$. The mathematical intuition is straightforward. The observed correlation can be decomposed as:
 
@@ -98,7 +98,7 @@ They look similar, but the underlying causal mechanisms are completely different
 
 ## The Three Rungs of Causation
 
-Judea Pearl argues that causal reasoning exists on three distinct levels, which he calls rungs of a ladder. Each rung requires more information than the one below it, and each rung enables us to answer questions that are impossible at lower levels.
+Judea Pearl posits that causal reasoning exists on three distinct levels, which he calls rungs of a ladder. Each rung requires more information than the one below it, and each rung enables us to answer questions that are impossible at lower levels.
 
 **Rung 1: Association** - The world of pure observation. We ask "what is?" We observe patterns and correlations. This is the domain of traditional statistics. We can compute things like P(Y|X), the probability of Y given that we observe X.
 
