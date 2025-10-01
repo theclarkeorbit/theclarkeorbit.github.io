@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>p. bhogale - pras</title><link>https://theclarkeorbit.github.io/</link><description>Data Sci, Quant Fin, Quant Bio.</description><atom:link href="https://theclarkeorbit.github.io/feeds/pras.rss.xml" rel="self"/><lastBuildDate>Wed, 01 Oct 2025 14:31:36 +0200</lastBuildDate><item><title>"Climbing Pearl's Ladder of Causation"</title><link>https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html</link><description>&lt;h2&gt;The Rudder Paradox&lt;/h2&gt;
-&lt;p&gt;Imagine you're watching a sailboat from the shore. The wind is blowing, sometimes left, sometimes right. The sailor constantly adjusts the rudder to keep the boat going straight. After an hour of careful observation, you pull out your notebook and calculate the correlation between the rudder angle …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">pras</dc:creator><pubDate>Wed, 01 Oct 2025 00:00:00 +0200</pubDate><guid>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</guid><category>data_sci_tech</category></item><item><title>"Basics of conformal prediction in time series data"</title><link>https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html</link><description>&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>p. bhogale - pras</title><link>https://theclarkeorbit.github.io/</link><description>Data Sci, Quant Fin, Quant Bio.</description><atom:link href="https://theclarkeorbit.github.io/feeds/pras.rss.xml" rel="self"/><lastBuildDate>Wed, 01 Oct 2025 14:39:42 +0200</lastBuildDate><item><title>"Climbing Pearl's Ladder of Causation"</title><link>https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html</link><description>&lt;h2&gt;The Rudder Paradox&lt;/h2&gt;
+&lt;h2&gt;The Rudder Paradox: When Correlation Lies&lt;/h2&gt;
+&lt;p&gt;Consider a dynamic system consisting of three variables: wind speed &lt;span class="math"&gt;\(W\)&lt;/span&gt;, rudder angle &lt;span class="math"&gt;\(R\)&lt;/span&gt;, and boat heading &lt;span class="math"&gt;\(D\)&lt;/span&gt; (direction). An observer on shore measures &lt;span class="math"&gt;\(R\)&lt;/span&gt; and &lt;span class="math"&gt;\(D\)&lt;/span&gt; continuously over time, with the goal of understanding whether rudder adjustments causally affect the …&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">pras</dc:creator><pubDate>Wed, 01 Oct 2025 00:00:00 +0200</pubDate><guid>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</guid><category>data_sci_tech</category></item><item><title>"Basics of conformal prediction in time series data"</title><link>https://theclarkeorbit.github.io/basics-of-conformal-prediction-in-time-series-data.html</link><description>&lt;p&gt;&lt;strong&gt;Reading material&lt;/strong&gt;  &lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Please read the &lt;a href="https://theclarkeorbit.github.io/tidymodels-and-conformal-prediction.html"&gt;previous blogpost&lt;/a&gt; for basics of conformal inference and more reading material.&lt;/li&gt;
 &lt;li&gt;This post makes use of the &lt;a href="https://github.com/xqnwang/conformalForecast/"&gt;&lt;code&gt;conformalForecast&lt;/code&gt;&lt;/a&gt; package introduced in the &lt;a href="https://robjhyndman.com/publications/cpts.html"&gt;paper&lt;/a&gt; published just 10 days ago by Wang and Hyndman.&lt;/li&gt;

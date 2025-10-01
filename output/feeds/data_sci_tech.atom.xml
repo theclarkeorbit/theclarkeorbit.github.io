@@ -1,10 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-01T14:31:36.127381+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-01T14:31:36.127381+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;h2&gt;The Rudder Paradox&lt;/h2&gt;
-&lt;p&gt;Imagine you're watching a sailboat from the shore. The wind is blowing, sometimes left, sometimes right. The sailor constantly adjusts the rudder to keep the boat going straight. After an hour of careful observation, you pull out your notebook and calculate the correlation between the rudder angle …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;The Rudder Paradox&lt;/h2&gt;
-&lt;p&gt;Imagine you're watching a sailboat from the shore. The wind is blowing, sometimes left, sometimes right. The sailor constantly adjusts the rudder to keep the boat going straight. After an hour of careful observation, you pull out your notebook and calculate the correlation between the rudder angle and the boat's direction. The result? Zero. No correlation at all.&lt;/p&gt;
-&lt;p&gt;So you conclude: the rudder is useless. It doesn't affect the boat's direction.&lt;/p&gt;
-&lt;p&gt;But of course, you're completely wrong. The rudder is doing exactly its job, which is &lt;em&gt;why&lt;/em&gt; the boat stays straight despite the changing wind. The problem isn't with the rudder. The problem is with your method of reasoning about causation from pure observation. This is what Judea Pearl calls the first rung of the ladder of causation, and it has fundamental limits.&lt;/p&gt;
-&lt;p&gt;By the end of this post, we'll understand why correlation failed us in the rudder case, and we'll climb all three rungs of Pearl's causal ladder using real data and R code. Along the way, we'll discover that identical statistical patterns can hide completely different causal stories, and we'll learn what tools we need at each level to answer progressively deeper questions about cause and effect.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-01T14:39:42.077913+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-01T14:39:42.077913+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;h2&gt;The Rudder Paradox&lt;/h2&gt;
+&lt;h2&gt;The Rudder Paradox: When Correlation Lies&lt;/h2&gt;
+&lt;p&gt;Consider a dynamic system consisting of three variables: wind speed &lt;span class="math"&gt;\(W\)&lt;/span&gt;, rudder angle &lt;span class="math"&gt;\(R\)&lt;/span&gt;, and boat heading &lt;span class="math"&gt;\(D\)&lt;/span&gt; (direction). An observer on shore measures &lt;span class="math"&gt;\(R\)&lt;/span&gt; and &lt;span class="math"&gt;\(D\)&lt;/span&gt; continuously over time, with the goal of understanding whether rudder adjustments causally affect the …&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><content type="html">&lt;h2&gt;The Rudder Paradox&lt;/h2&gt;
+&lt;h2&gt;The Rudder Paradox: When Correlation Lies&lt;/h2&gt;
+&lt;p&gt;Consider a dynamic system consisting of three variables: wind speed &lt;span class="math"&gt;\(W\)&lt;/span&gt;, rudder angle &lt;span class="math"&gt;\(R\)&lt;/span&gt;, and boat heading &lt;span class="math"&gt;\(D\)&lt;/span&gt; (direction). An observer on shore measures &lt;span class="math"&gt;\(R\)&lt;/span&gt; and &lt;span class="math"&gt;\(D\)&lt;/span&gt; continuously over time, with the goal of understanding whether rudder adjustments causally affect the boat's trajectory. The wind &lt;span class="math"&gt;\(W\)&lt;/span&gt;, however, remains unobserved.&lt;/p&gt;
+&lt;p&gt;The data-generating process works as follows. The wind &lt;span class="math"&gt;\(W\)&lt;/span&gt; exerts a direct causal influence on the boat's heading: &lt;span class="math"&gt;\(W \rightarrow D\)&lt;/span&gt;. A skilled sailor observes the wind and adjusts the rudder to compensate, creating a second causal relationship: &lt;span class="math"&gt;\(W \rightarrow R\)&lt;/span&gt;. The rudder also directly affects heading through hydrodynamic forces: &lt;span class="math"&gt;\(R \rightarrow D\)&lt;/span&gt;. Crucially, the sailor's adjustment strategy is systematic: rudder angle is set to approximately counteract the wind's effect, meaning &lt;span class="math"&gt;\(R \approx -\alpha W\)&lt;/span&gt; for some coefficient &lt;span class="math"&gt;\(\alpha &amp;gt; 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;After collecting observational data, the observer computes &lt;span class="math"&gt;\(\text{cor}(R, D)\)&lt;/span&gt; and finds it to be approximately zero. The naive conclusion follows: rudder angle has no relationship with boat direction, therefore the rudder is ineffective. This conclusion is incorrect.&lt;/p&gt;
+&lt;p&gt;The error stems from &lt;strong&gt;endogeneity&lt;/strong&gt;. In econometrics and causal inference, a variable is called endogenous when it is correlated with the error term or, equivalently, when it is determined by other variables in the system that also affect the outcome. Here, the rudder angle &lt;span class="math"&gt;\(R\)&lt;/span&gt; is endogenous because it is not set independently of the other factors affecting direction. Instead, &lt;span class="math"&gt;\(R\)&lt;/span&gt; is systematically determined by &lt;span class="math"&gt;\(W\)&lt;/span&gt;, which is itself a common cause of both &lt;span class="math"&gt;\(R\)&lt;/span&gt; and &lt;span class="math"&gt;\(D\)&lt;/span&gt;. &lt;/p&gt;
+&lt;p&gt;This creates what Pearl calls &lt;strong&gt;confounding&lt;/strong&gt;: the naive correlation &lt;span class="math"&gt;\(\text{cor}(R, D)\)&lt;/span&gt; confounds the true causal effect of &lt;span class="math"&gt;\(R\)&lt;/span&gt; on &lt;span class="math"&gt;\(D\)&lt;/span&gt; with the spurious correlation induced by their common cause &lt;span class="math"&gt;\(W\)&lt;/span&gt;. The mathematical intuition is straightforward. The observed correlation can be decomposed as:&lt;/p&gt;
+&lt;div class="math"&gt;$$\text{cor}(R, D) \approx \beta_{R \rightarrow D} + \beta_{W \rightarrow R} \times \beta_{W \rightarrow D}$$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(\beta\)&lt;/span&gt; represents the standardized strength of each causal pathway. When the sailor implements a compensatory strategy (&lt;span class="math"&gt;\(\beta_{W \rightarrow R} &amp;lt; 0\)&lt;/span&gt;) that roughly balances the direct effect (&lt;span class="math"&gt;\(\beta_{R \rightarrow D} &amp;gt; 0\)&lt;/span&gt;), these terms can cancel, producing a correlation near zero despite a genuine causal effect.&lt;/p&gt;
+&lt;p&gt;This phenomenon—where correlation dramatically understates or even reverses the sign of a causal effect due to endogeneity—is precisely what Judea Pearl identifies as a fundamental limitation of the first rung of the causal ladder. Observational association &lt;span class="math"&gt;\(P(D \mid R)\)&lt;/span&gt; can be misleading when the observed variables are not exogenous (independently determined). To recover causal effects, we need to either break the endogeneity through experimental intervention, or account for the confounding variable through appropriate conditioning, or invoke stronger assumptions about the data-generating mechanism.&lt;/p&gt;
+&lt;p&gt;By the end of this post, we will formalize this distinction by climbing all three rungs of Pearl's causal ladder. We will see how identical statistical distributions can arise from fundamentally different structural causal models, understand what mathematical objects we must add at each rung to enable progressively stronger causal inferences, and demonstrate these concepts using the causal quartet datasets in R. The rudder paradox will serve as our recurring example, showing how each level of the causal hierarchy offers different—and increasingly powerful—tools for reasoning about cause and effect in the presence of endogenous variables.&lt;/p&gt;
 &lt;h2&gt;Setup and Data&lt;/h2&gt;
 &lt;p&gt;We'll use the &lt;code&gt;quartets&lt;/code&gt; package, which contains four datasets with a beautiful property: they all have identical summary statistics, but they arise from completely different causal mechanisms. We'll also use &lt;code&gt;dagitty&lt;/code&gt; for working with directed acyclic graphs (DAGs), and our usual tidyverse tools for data manipulation and visualization.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Load required packages&lt;/span&gt;
