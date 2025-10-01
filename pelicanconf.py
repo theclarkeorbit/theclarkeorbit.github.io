@@ -12,7 +12,7 @@ SITESUBTITLE ='Data Sci, Quant Fin, Quant Bio.'# \n
 SITEDESCRIPTION = u'%s\'s home on the interwebz' % AUTHOR
 #BROWSER_COLOR = '#333333'
 PYGMENTS_STYLE = 'monokai' 
-PLUGIN_PATHS = ['/home/prasanna/pelican-plugins', '/', '.']
+PLUGIN_PATHS = ['/Users/prasanna/pelican-plugins', '/', '.']
 PLUGINS = ['render_math','i18n_subsites']
 JINJA_ENVIRONMENT = {'extensions': ['jinja2.ext.i18n']}
 SITEURL = 'https://theclarkeorbit.github.io'
@@ -28,7 +28,7 @@ I18N_TEMPLATES_LANG = 'en'
 #MENUITEMS = (('About', '/About.html'),)
 
 
-THEME = '/home/prasanna/pelican-themes/pelican-bootstrap3'
+THEME = '/Users/prasanna/pelican-themes/pelican-bootstrap3'
 #GITHUB_USER = 'pbhogale'
 SITELOGO = "/images/gravtar.jpg"# SITEURL +  u'https://en.gravatar.com/userimage/9352950/78ed70e67418f76f23b494458d53ac7d.jpg?size=400'
 DISPLAY_RECENT_POSTS_ON_SIDEBAR = True

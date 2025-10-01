@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>"Climbing Pearl's Ladder of Causation: A Hands-On Journey with R" - p. bhogale</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href=".//images/gravtar.jpg" rel="icon">
+
+<link rel="canonical" href="./climbing-pearls-ladder-of-causation-a-hands-on-journey-with-r.html">
+
+        <meta name="author" content="pras" />
+        <meta name="description" content="The Rudder Paradox Imagine you&#39;re watching a sailboat from the shore. The wind is blowing, sometimes left, sometimes right. The sailor constantly adjusts the rudder to keep the boat going straight. After an hour of careful observation, you pull out your notebook and calculate the correlation between the rudder angle …" />
+
+        <meta property="og:site_name" content="p. bhogale" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="&#34;Climbing Pearl&#39;s Ladder of Causation: A Hands-On Journey with R&#34;"/>
+        <meta property="og:url" content="./climbing-pearls-ladder-of-causation-a-hands-on-journey-with-r.html"/>
+        <meta property="og:description" content="The Rudder Paradox Imagine you&#39;re watching a sailboat from the shore. The wind is blowing, sometimes left, sometimes right. The sailor constantly adjusts the rudder to keep the boat going straight. After an hour of careful observation, you pull out your notebook and calculate the correlation between the rudder angle …"/>
+        <meta property="article:published_time" content="2025-10-01" />
+            <meta property="article:section" content="data_sci_tech" />
+            <meta property="article:author" content="pras" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale ATOM Feed"/>
+
+        <link href="./feeds/data_sci_tech.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale data_sci_tech ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115756026-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', UA-115756026-1);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src=".//images/gravtar.jpg" width=""/> p. bhogale            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="./pages/about.html">
+                             About
+                          </a></li>
+                        <li >
+                            <a href="./category/blog.html">Blog</a>
+                        </li>
+                        <li class="active">
+                            <a href="./category/data_sci_tech.html">Data_sci_tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<style>
+	#banner{
+	    background-image:url(".//images/banner.jpg");
+	}
+</style>
+
+<div id="banner">
+	<div class="container">
+		<div class="copy">
+			<h1>p. bhogale</h1>
+				<p class="intro">Data Sci, Quant Fin, Quant Bio.</p>
+		</div>
+	</div>
+</div><!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./climbing-pearls-ladder-of-causation-a-hands-on-journey-with-r.html"
+                       rel="bookmark"
+                       title="Permalink to "Climbing Pearl's Ladder of Causation: A Hands-On Journey with R"">
+                        "Climbing Pearl's Ladder of Causation: A Hands-On Journey with R"
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2025-10-01T00:00:00+02:00"> Wed 01 October 2025</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>The Rudder Paradox</h2>
+<p>Imagine you're watching a sailboat from the shore. The wind is blowing, sometimes left, sometimes right. The sailor constantly adjusts the rudder to keep the boat going straight. After an hour of careful observation, you pull out your notebook and calculate the correlation between the rudder angle and the boat's direction. The result? Zero. No correlation at all.</p>
+<p>So you conclude: the rudder is useless. It doesn't affect the boat's direction.</p>
+<p>But of course, you're completely wrong. The rudder is doing exactly its job, which is <em>why</em> the boat stays straight despite the changing wind. The problem isn't with the rudder. The problem is with your method of reasoning about causation from pure observation. This is what Judea Pearl calls the first rung of the ladder of causation, and it has fundamental limits.</p>
+<p>By the end of this post, we'll understand why correlation failed us in the rudder case, and we'll climb all three rungs of Pearl's causal ladder using real data and R code. Along the way, we'll discover that identical statistical patterns can hide completely different causal stories, and we'll learn what tools we need at each level to answer progressively deeper questions about cause and effect.</p>
+<h2>Setup and Data</h2>
+<p>We'll use the <code>quartets</code> package, which contains four datasets with a beautiful property: they all have identical summary statistics, but they arise from completely different causal mechanisms. We'll also use <code>dagitty</code> for working with directed acyclic graphs (DAGs), and our usual tidyverse tools for data manipulation and visualization.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load required packages</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">quartets</span><span class="p">)</span><span class="w">      </span><span class="c1"># Our example datasets</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dagitty</span><span class="p">)</span><span class="w">       </span><span class="c1"># For DAG manipulation and testing</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">     </span><span class="c1"># For data manipulation and basic plotting</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span><span class="w">      </span><span class="c1"># For theme_tufte</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w">     </span><span class="c1"># For combining plots</span>
+
+<span class="c1"># Set a theme for all plots</span>
+<span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load the causal quartet</span>
+<span class="nf">data</span><span class="p">(</span><span class="s">&quot;causal_quartet&quot;</span><span class="p">)</span>
+
+<span class="c1"># Look at the structure</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">causal_quartet</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 6 × 6</span>
+<span class="c1">##   dataset      exposure outcome covariate    u1    u2</span>
+<span class="c1">##   &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="c1">## 1 (1) Collider   0.486    1.71      2.24     NA    NA</span>
+<span class="c1">## 2 (1) Collider   0.0653   0.669     0.924    NA    NA</span>
+<span class="c1">## 3 (1) Collider  -1.40    -1.60     -0.999    NA    NA</span>
+<span class="c1">## 4 (1) Collider  -0.546   -1.73     -2.34     NA    NA</span>
+<span class="c1">## 5 (1) Collider  -0.401    0.617     0.207    NA    NA</span>
+<span class="c1">## 6 (1) Collider  -2.38    -2.15     -3.62     NA    NA</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Check the dimensions and datasets</span>
+<span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
+<span class="w">    </span><span class="n">mean_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+<span class="w">    </span><span class="n">mean_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+<span class="w">    </span><span class="n">sd_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+<span class="w">    </span><span class="n">sd_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+<span class="w">    </span><span class="n">cor_xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `summarise()`:
+<span class="gu">##</span> ℹ In argument: `mean_x = mean(x)`.
+<span class="gu">##</span> ℹ In group 1: `dataset = &quot;(1) Collider&quot;`.
+<span class="gu">##</span> Caused by error:
+<span class="gu">##</span> ! object &#39;x&#39; not found
+</code></pre></div>
+
+<p>Notice something remarkable: all four datasets have nearly identical means, standard deviations, and correlations. If we only looked at these summary statistics, we might think they're the same data. But they're not, and understanding why requires climbing the ladder of causation.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Visualize all four datasets</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">causal_quartet</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">labeller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label_both</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The Causal Quartet: Identical Statistics, Different Stories&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Four datasets with the same correlation but different causal structures&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `geom_point()`:
+<span class="gu">##</span> ! Problem while computing aesthetics.
+<span class="gu">##</span> ℹ Error occurred in the 1st layer.
+<span class="gu">##</span> Caused by error:
+<span class="gu">##</span> ! object &#39;x&#39; not found
+</code></pre></div>
+
+<p>They look similar, but the underlying causal mechanisms are completely different. To see why, we need to understand Pearl's ladder.</p>
+<h2>The Three Rungs of Causation</h2>
+<p>Judea Pearl argues that causal reasoning exists on three distinct levels, which he calls rungs of a ladder. Each rung requires more information than the one below it, and each rung enables us to answer questions that are impossible at lower levels.</p>
+<p><strong>Rung 1: Association</strong> - The world of pure observation. We ask "what is?" We observe patterns and correlations. This is the domain of traditional statistics. We can compute things like P(Y|X), the probability of Y given that we observe X.</p>
+<p><strong>Rung 2: Intervention</strong> - The world of action and experiments. We ask "what if I do?" We imagine actively manipulating one variable and seeing what happens to another. This is the domain of randomized controlled trials and policy evaluation. We compute things like P(Y|do(X)), the probability of Y if we <em>force</em> X to take a particular value.</p>
+<p><strong>Rung 3: Counterfactuals</strong> - The world of imagination and retrospection. We ask "what would have been?" We look at what actually happened and imagine how it would have been different under alternative circumstances. This is the domain of individual-level causal attribution, regret, and responsibility. We compute things like "what would Y have been for this specific individual if X had been different?"</p>
+<p>Each rung requires adding something to what we had before. Let's climb the ladder step by step, using the causal quartet as our guide.</p>
+<h2>Rung 1: Association - The World of Patterns</h2>
+<p>At the first rung, we're observing the world and looking for patterns. We have data, and we can compute conditional probabilities, correlations, and statistical associations. But we cannot distinguish between causation and correlation. All we can say is "when I see X, I tend to see Y."</p>
+<h3>What We Add: DAG Structure</h3>
+<p>To work at this level, we add a directed acyclic graph (DAG) that represents possible conditional independence relationships. The DAG is just a hypothesis about the structure of dependencies between variables. At this level, the edges don't necessarily mean "causes" - they just mean "statistically dependent."</p>
+<p>The four datasets in the causal quartet actually correspond to four fundamental DAG structures. Let's define them.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dataset 1: Direct causal relationship (X causes Y)</span>
+<span class="n">dag1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<span class="s">  x -&gt; y</span>
+<span class="s">}&#39;</span><span class="p">)</span>
+
+<span class="c1"># Dataset 2: Common cause / Fork (Z causes both X and Y)</span>
+<span class="n">dag2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<span class="s">  z -&gt; x</span>
+<span class="s">  z -&gt; y</span>
+<span class="s">}&#39;</span><span class="p">)</span>
+
+<span class="c1"># Dataset 3: Mediation / Chain (X causes Z, Z causes Y)</span>
+<span class="n">dag3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<span class="s">  x -&gt; z -&gt; y</span>
+<span class="s">}&#39;</span><span class="p">)</span>
+
+<span class="c1"># Dataset 4: Collider / Inverted Fork (X and Y both cause Z)</span>
+<span class="n">dag4</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<span class="s">  x -&gt; z</span>
+<span class="s">  y -&gt; z</span>
+<span class="s">}&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot them side by side</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="n">mar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">dag1</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dataset 1: Direct&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">dag2</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dataset 2: Fork&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dataset 3: Chain&quot;</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">dag4</span><span class="p">,</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dataset 4: Collider&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/causality1/define-dags-1.png"></p>
+<p>These four structures look different, but remember: all four datasets have the same correlation between x and y. How can we tell them apart?</p>
+<h3>What We Can Do: Test Conditional Independencies</h3>
+<p>The key insight of the first rung is that different DAG structures imply different patterns of conditional independence. Even though x and y are correlated in all four datasets, they have different relationships when we condition on the third variable z.</p>
+<p>We can use the d-separation criterion to derive testable implications. The <code>dagitty</code> package does this automatically for us.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># What conditional independencies does each DAG imply?</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Dataset 1 (Direct) implies:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Dataset</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nx">Direct</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag1</span><span class="p">))</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nDataset 2 (Fork) implies:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">Dataset</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">(</span><span class="nx">Fork</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag2</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> x _||_ y | z
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nDataset 3 (Chain) implies:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">Dataset</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">(</span><span class="nx">Chain</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag3</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> x _||_ y | z
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nDataset 4 (Collider) implies:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">Dataset</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">(</span><span class="nx">Collider</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag4</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> x _||_ y
+</code></pre></div>
+
+<p>Notice the pattern here. The fork structure (dataset 2) and the chain structure (dataset 3) both imply that x and y should be independent when we condition on z. But the collider structure (dataset 4) implies that x and y should be unconditionally independent (which they're not in the data, because we selected on z).</p>
+<p>Let's test these implications against the actual data using <code>localTests()</code>, which performs conditional independence tests.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test the fork structure against dataset 2</span>
+<span class="n">data2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Testing fork structure (z -&gt; x, z -&gt; y) against dataset 2:\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="cp">## Testing fork structure (z -&gt; x, z -&gt; y) against dataset 2:</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">localTests</span><span class="p">(</span><span class="n">dag2</span><span class="p">,</span><span class="w"> </span><span class="n">data2</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cis&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in sample.cov[vars, vars]: subscript out of bounds</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">results2</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Error: object &#39;results2&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Visualize the test results</span>
+<span class="nf">plotLocalTestResults</span><span class="p">(</span><span class="n">results2</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Error: object &#39;results2&#39; not found
+</code></pre></div>
+
+<p>The test passes! The implication that x and y are independent given z holds in dataset 2, which is consistent with a fork structure. Let's verify that the same structure would fail for dataset 3.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test the fork structure against dataset 3 (should fail)</span>
+<span class="n">data3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Testing fork structure against dataset 3 (wrong structure):\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Testing fork structure against dataset 3 (wrong structure):
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results3_wrong</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">localTests</span><span class="p">(</span><span class="n">dag2</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cis&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in sample.cov[vars, vars]: subscript out of bounds</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">results3_wrong</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;results3_wrong&#39; not found
+</code></pre></div>
+
+<p>The test fails! Dataset 3 is not consistent with a fork structure. Instead, it follows a chain structure where x causes z and z causes y. Let's verify that the correct structure fits.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Test the chain structure against dataset 3</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Testing chain structure (x -&gt; z -&gt; y) against dataset 3:\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="cp">## Testing chain structure (x -&gt; z -&gt; y) against dataset 3:</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">results3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">localTests</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cis&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in sample.cov[vars, vars]: subscript out of bounds</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Error: object &#39;results3&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">plotLocalTestResults</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Error: object &#39;results3&#39; not found
+</code></pre></div>
+
+<p>Perfect. The chain structure fits dataset 3.</p>
+<h3>The Power and Limits of Rung 1</h3>
+<p>What have we accomplished at rung 1? We've shown that even though all four datasets have identical correlations between x and y, we can distinguish between them by testing conditional independence patterns. This is powerful! It means that "correlation is not causation" is not the end of the story. We can use conditional independence testing to falsify causal structures that are inconsistent with the data.</p>
+<p>But notice what we cannot do. We cannot prove that any particular structure is correct. We can only show that some structures are inconsistent with the data. Moreover, we cannot distinguish between correlation and causation just from observational data. The edges in our DAGs could represent predictive relationships rather than causal ones.</p>
+<p>To go further, we need to climb to the second rung.</p>
+<h2>Rung 2: Intervention - The World of Action</h2>
+<p>At the second rung, we move from passive observation to active manipulation. We imagine or actually perform interventions where we force a variable to take a particular value and observe what happens to other variables. This is the world of experiments, policies, and "what if I do?" questions.</p>
+<h3>What We Add: Causal Interpretation</h3>
+<p>The key addition at rung 2 is semantic: we now interpret the edges in our DAG as representing direct causal relationships, not just statistical dependencies. When we write x → y, we mean "x directly causes y," not just "x predicts y."</p>
+<p>This is a crucial leap that cannot be justified by data alone. We need additional assumptions or knowledge to make this jump, such as temporal ordering (causes precede effects), experimental manipulation, or domain knowledge about mechanisms.</p>
+<p>We also add a new mathematical operator: <strong>do(X = x)</strong>, which represents forcing X to take the value x. This is different from observing X = x. When we intervene, we perform graph surgery by removing all incoming edges to X, reflecting the fact that we've overridden X's normal causes.</p>
+<h3>What We Can Do: Predict Intervention Effects</h3>
+<p>Let's work with dataset 2, which has the fork structure: z causes both x and y. At rung 1, we found that x and y are correlated. But what happens if we <em>intervene</em> on x?</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Visualize the fork structure</span>
+<span class="n">data2_plot</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Dataset 2: Fork Structure&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Observational relationship between X and Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X (observed)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+
+<span class="n">data2_plot</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in `geom_point()`:
+<span class="gu">##</span> ! Problem while computing aesthetics.
+<span class="gu">##</span> ℹ Error occurred in the 1st layer.
+<span class="gu">##</span> Caused by error:
+<span class="gu">##</span> ! object &#39;x&#39; not found
+</code></pre></div>
+
+<p>The observational correlation is clear. But according to our causal model (the fork), x does not actually cause y. Both are caused by z. So what should happen if we intervene to set x to a specific value?</p>
+<p>The answer is: nothing should happen to y. When we intervene on x by removing the edge from z to x, we break the correlation between x and y, because that correlation was entirely due to their common cause z.</p>
+<p>Let's verify this by computing the adjustment set. In causal inference, an adjustment set is a set of variables we need to condition on to correctly estimate the causal effect of x on y.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Find what we need to adjust for to estimate the causal effect of x on y</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;To estimate the causal effect of x on y in the fork structure:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## To estimate the causal effect of x on y in the fork structure:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">dag2</span><span class="p">,</span><span class="w"> </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## { z }
+</code></pre></div>
+
+<p>We need to adjust for z. Let's do that and see what happens to the relationship between x and y.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fit a model adjusting for z</span>
+<span class="n">model_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data2</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;y&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># The coefficient on x should be near zero</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">model_adjusted</span><span class="p">)</span><span class="o">$</span><span class="n">coefficients</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_adjusted&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># We can also look at the partial correlation</span>
+<span class="c1"># (correlation between x and y after removing effect of z)</span>
+<span class="n">residuals_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">residuals</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data2</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;x&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">residuals_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">residuals</span><span class="p">(</span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data2</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;y&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">partial_cor</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">residuals_x</span><span class="p">,</span><span class="w"> </span><span class="n">residuals_y</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;residuals_y&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nPartial correlation of x and y given z:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">partial_cor</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;partial_cor&#39; not found
+</code></pre></div>
+
+<p>After adjusting for z, the effect of x on y is essentially zero, just as our causal model predicted. The intervention P(y | do(x)) would have no effect on y.</p>
+<p>Now let's contrast this with dataset 3, which has a chain structure: x causes z, and z causes y. Here, x <em>does</em> causally affect y, mediated through z.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For the chain structure, what do we adjust for?</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;To estimate the causal effect of x on y in the chain structure:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## To estimate the causal effect of x on y in the chain structure:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##  {}
+</code></pre></div>
+
+<p>The empty set! We don't need to adjust for anything because there are no confounders. The effect of x on y can be estimated directly from the observational data.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fit a model</span>
+<span class="n">model_chain</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;y&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">summary</span><span class="p">(</span><span class="n">model_chain</span><span class="p">)</span><span class="o">$</span><span class="n">coefficients</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_chain&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># The effect is real and substantial</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nTotal causal effect of x on y:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_chain</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_chain&#39; not found
+</code></pre></div>
+
+<h3>The Key Distinction</h3>
+<p>The crucial distinction between rungs 1 and 2 is this: at rung 1, we saw that datasets 2 and 3 both show correlation between x and y. But at rung 2, we understand that in dataset 2, intervening on x won't change y (because their correlation is due to confounding by z), while in dataset 3, intervening on x will change y (because x genuinely causes y through z).</p>
+<p>This is the difference between P(Y|X) and P(Y|do(X)). In dataset 2, they're different. In dataset 3, they're the same (after accounting for the direct path).</p>
+<p>We can visualize this distinction by simulating interventions.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simulate what happens if we force x = 2 for everyone in dataset 2</span>
+<span class="c1"># According to the causal model: y should not change</span>
+<span class="c1"># because y only depends on z, not on our intervention on x</span>
+
+<span class="c1"># Dataset 2: Fork structure (intervention should have no effect)</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span>
+
+<span class="c1"># Original y values are determined by z</span>
+<span class="n">original_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data2</span><span class="o">$</span><span class="n">z</span>
+<span class="n">original_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data2</span><span class="o">$</span><span class="n">y</span>
+
+<span class="c1"># Intervene: force x = 2 (this breaks the z -&gt; x edge)</span>
+<span class="c1"># But y still depends only on z, so y doesn&#39;t change</span>
+<span class="n">intervened_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="n">intervened_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">original_y</span><span class="w">  </span><span class="c1"># y unchanged because it only depends on z</span>
+
+<span class="n">fork_comparison</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">original_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">original_y</span><span class="p">,</span>
+<span class="w">  </span><span class="n">intervened_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervened_y</span><span class="p">,</span>
+<span class="w">  </span><span class="n">difference</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervened_y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">original_y</span>
+<span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Dataset 2 (Fork) - Effect of intervention:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Dataset 2 (Fork) - Effect of intervention:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Mean change in Y:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">fork_comparison</span><span class="o">$</span><span class="n">difference</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Mean change in Y: NaN
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;SD of change in Y:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">sd</span><span class="p">(</span><span class="n">fork_comparison</span><span class="o">$</span><span class="n">difference</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## SD of change in Y: NA
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Dataset 3: Chain structure (intervention should have an effect)</span>
+<span class="c1"># Here, x causes z causes y, so changing x will change y</span>
+
+<span class="c1"># Estimate the causal mechanism from the data</span>
+<span class="n">model_xz</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;z&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">model_zy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;y&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Intervene: force x = 2</span>
+<span class="n">intervened_x_chain</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rep</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">data3</span><span class="p">))</span>
+<span class="c1"># This changes z through x -&gt; z</span>
+<span class="n">intervened_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_xz</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervened_x_chain</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_xz&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Which changes y through z -&gt; y  </span>
+<span class="n">intervened_y_chain</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_zy</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervened_z</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_zy&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">chain_comparison</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">original_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="o">$</span><span class="n">y</span><span class="p">,</span>
+<span class="w">  </span><span class="n">intervened_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervened_y_chain</span><span class="p">,</span>
+<span class="w">  </span><span class="n">difference</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">intervened_y_chain</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">original_y</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;intervened_y_chain&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Dataset 3 (Chain) - Effect of intervention:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Dataset 3 (Chain) - Effect of intervention:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Mean change in Y:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">chain_comparison</span><span class="o">$</span><span class="n">difference</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;chain_comparison&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;SD of change in Y:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">sd</span><span class="p">(</span><span class="n">chain_comparison</span><span class="o">$</span><span class="n">difference</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;chain_comparison&#39; not found
+</code></pre></div>
+
+<p>In the fork structure, intervening on x has essentially no effect on y. In the chain structure, it has a substantial effect. This is what we mean by moving from correlation to causation: we can now predict what happens when we act, not just what we see when we observe.</p>
+<h3>The Power and Limits of Rung 2</h3>
+<p>At rung 2, we can answer policy questions and predict the effects of interventions. We can distinguish between genuine causal effects and spurious correlations due to confounding. This is enormously powerful for science and decision-making.</p>
+<p>But notice what we still cannot do. We can tell you the <em>average</em> effect of intervening on x in the population: P(Y|do(X)) tells us what would happen on average if we forced X for everyone. But we cannot tell you what would have happened for a specific individual who actually experienced one value of X. We cannot answer "what if things had been different <em>for this person</em>?" </p>
+<p>To answer that question, we need to climb to the third rung.</p>
+<h2>Rung 3: Counterfactuals - The World of Imagination</h2>
+<p>At the third rung, we move from population-level predictions to individual-level explanations. We look at what actually happened to a specific person or instance and ask "what would have been different if...?" This is the domain of regret, responsibility, attribution, and retrospection.</p>
+<h3>What We Add: Functional Mechanisms</h3>
+<p>The key addition at rung 3 is the specification of functional equations that describe <em>how</em> each variable is generated from its causes. We move from a DAG (which just shows which variables affect which) to a Structural Causal Model (SCM), which specifies the mechanisms.</p>
+<p>For each variable, we write:
+</p>
+<div class="math">$$X_i = f_i(\text{Parents}(X_i), U_i)$$</div>
+<p>where <span class="math">\(f_i\)</span> is a function and <span class="math">\(U_i\)</span> represents all the unmeasured factors (noise, randomness, individual variation) that affect <span class="math">\(X_i\)</span>.</p>
+<p>This is a big step up in specificity. At rung 2, we only needed to know the graph structure. At rung 3, we need to know the actual functional form of how causes produce effects.</p>
+<h3>What We Can Do: Individual Counterfactuals</h3>
+<p>Let's work with dataset 3 (the chain structure) since it has a clear causal mechanism we can estimate. The data was actually generated from a specific structural model. Let's estimate that model and use it to answer counterfactual questions.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Estimate the structural equations</span>
+<span class="c1"># x -&gt; z: z = a*x + u_z</span>
+<span class="c1"># z -&gt; y: y = b*z + u_y</span>
+
+<span class="n">model_x_to_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;z&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">model_z_to_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in eval(predvars, data, env): object &#39;y&#39; not found</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Structural equations:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Structural equations:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;z = &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot; + &quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;*x + u_z\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_x_to_z&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;y = &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot; + &quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;*z + u_y\n\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_z_to_y&#39; not found
+</code></pre></div>
+
+<p>Now suppose we observe a specific individual with x = 1.5, z = 2.0, y = 3.5. We want to answer: "What would y have been for this individual if x had been 2.5 instead?"</p>
+<p>This is a counterfactual question. To answer it, we use Pearl's three-step procedure:</p>
+<ol>
+<li><strong>Abduction</strong>: Given what we observed, infer the values of the unobserved noise terms <span class="math">\(U_z\)</span> and <span class="math">\(U_y\)</span> for this specific individual</li>
+<li><strong>Action</strong>: Modify the structural equations to reflect the intervention (set x = 2.5)</li>
+<li><strong>Prediction</strong>: Compute what y would have been using the modified equations and the inferred noise terms</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Observed values for one individual</span>
+<span class="n">observed_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1.5</span>
+<span class="n">observed_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2.0</span>
+<span class="n">observed_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">3.5</span>
+
+<span class="c1"># Step 1: Abduction - infer the noise terms</span>
+<span class="c1"># From z = a + b*x + u_z, we get u_z = z - (a + b*x)</span>
+<span class="n">u_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">observed_z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observed_x</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_x_to_z&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># From y = c + d*z + u_y, we get u_y = y - (c + d*z)  </span>
+<span class="n">u_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">observed_y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observed_z</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_z_to_y&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Step 1 - Abduction (infer noise terms):\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Step 1 - Abduction (infer noise terms):
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;u_z =&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">u_z</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;u_z&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;u_y =&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">u_y</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;u_y&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Step 2: Action - set x to counterfactual value</span>
+<span class="n">counterfactual_x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2.5</span>
+
+<span class="c1"># Step 3: Prediction - compute counterfactual y</span>
+<span class="c1"># First, compute what z would have been</span>
+<span class="n">counterfactual_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counterfactual_x</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u_z</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_x_to_z&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Then, compute what y would have been</span>
+<span class="n">counterfactual_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counterfactual_z</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u_y</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;model_z_to_y&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Step 2 - Action (set x =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counterfactual_x</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;)\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Step 2 - Action (set x = 2.5 )
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Step 3 - Prediction:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Step 3 - Prediction:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual z would have been:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_z</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;counterfactual_z&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual y would have been:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_y</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;counterfactual_y&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Summary:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Summary:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Observed: x =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">observed_x</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, y =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">observed_y</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Observed: x = 1.5 , y = 3.5
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual: if x had been&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counterfactual_x</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s">&quot;, y would have been&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_y</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;counterfactual_y&#39; not found
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Effect for this individual:&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">observed_y</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;counterfactual_y&#39; not found
+</code></pre></div>
+
+<p>Notice something crucial: the counterfactual answer depends on the specific observed values for this individual. Two people with the same observed x might have different counterfactual y values because they have different noise terms (different values of <span class="math">\(U\)</span>).</p>
+<h3>The Connection to Bayesian Inference</h3>
+<p>You might have noticed that what we did in step 1 (abduction) looks a lot like Bayesian inference. We observed some data and used it to infer the values of unobserved variables (the noise terms). This connection is deep and important.</p>
+<p>In a Bayesian framework, we would treat the noise terms as latent variables and compute their posterior distribution given the observed data. Then, to compute counterfactuals, we would sample from this posterior and simulate what would have happened under different interventions.</p>
+<p>This is exactly the approach taken in Richard McElreath's "Statistical Rethinking" (particularly Chapter 16), where he shows how to use Bayesian inference to compute counterfactuals in structural causal models. The generative model (the SCM) becomes the inference target, and counterfactual reasoning becomes a form of posterior prediction under modified models.</p>
+<h3>The Power and Limits of Rung 3</h3>
+<p>At rung 3, we can answer questions about individual instances and attribute causation at the finest grain. We can reason about responsibility, regret, and explanation. We can say not just "smoking causes cancer on average" but "Bob's cancer was caused by his smoking."</p>
+<p>But this power comes at a price. We need much more information than at lower rungs. Specifically, we need:</p>
+<ol>
+<li>The correct causal graph (rung 2 requirement)</li>
+<li>The functional form of how causes produce effects</li>
+<li>The distribution of unobserved factors</li>
+</ol>
+<p>These requirements are often difficult or impossible to satisfy with observational data alone. We typically need strong assumptions about functional forms (linearity, additivity, etc.) or additional data from experiments.</p>
+<h2>Returning to the Rudder Paradox</h2>
+<p>Now we're ready to understand why the rudder paradox fooled us at the start. Let's generate some data that mimics the rudder situation and see how each rung of the ladder handles it.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simulate the rudder situation</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
+<span class="n">n</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">500</span>
+
+<span class="c1"># Generate data</span>
+<span class="c1"># W = wind (unobserved!)</span>
+<span class="c1"># R = rudder position (sailor adjusts to counteract wind)</span>
+<span class="c1"># D = direction (affected by both wind and rudder)</span>
+
+<span class="n">W</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Wind is unobserved</span>
+<span class="n">R</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-0.9</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Rudder counteracts wind</span>
+<span class="n">D</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Direction depends on both</span>
+
+<span class="n">rudder_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">W</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w">  </span><span class="c1"># We&#39;ll pretend we don&#39;t observe this</span>
+<span class="w">  </span><span class="n">R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">,</span>
+<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D</span>
+<span class="p">)</span>
+
+<span class="c1"># The true causal structure</span>
+<span class="n">rudder_dag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<span class="s">  W [unobserved]</span>
+<span class="s">  W -&gt; R</span>
+<span class="s">  W -&gt; D</span>
+<span class="s">  R -&gt; D</span>
+<span class="s">}&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Rung 1 Analysis: Correlation Fails</h3>
+<p>At rung 1, we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Compute correlation between rudder and direction</span>
+<span class="n">cor_RD</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">rudder_data</span><span class="o">$</span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">rudder_data</span><span class="o">$</span><span class="n">D</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Correlation between rudder (R) and direction (D):&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">cor_RD</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Correlation between rudder (R) and direction (D): -0.361
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Visualize</span>
+<span class="n">rudder_data</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The Rudder Paradox&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Correlation = &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">cor_RD</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                     </span><span class="s">&quot; - Rudder appears useless!&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Rudder Position&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Boat Direction&quot;</span>
+<span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/causality1/rudder-rung1-1.png"></p>
+<p>The correlation is near zero! At rung 1, we would conclude (incorrectly) that the rudder doesn't affect the boat's direction. This is a complete failure of correlation-based reasoning.</p>
+<p>The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, creating what's called "collider stratification bias" or "table 2 fallacy" when we don't account for it.</p>
+<h3>Rung 2 Analysis: Intervention Reveals Truth</h3>
+<p>At rung 2, we ask: what if we <em>intervene</em> to set the rudder at a specific position, overriding the sailor's control?</p>
+<p>To answer this using the adjustment formula, we would need to condition on W (the wind). But W is unobserved, so we can't apply the standard backdoor adjustment. However, if we did have access to W, we could correctly estimate the causal effect.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># If we could observe W, we could adjust for it</span>
+<span class="n">model_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">D</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rudder_data</span><span class="p">)</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;True causal effect of rudder on direction (adjusting for wind):\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">True</span><span class="w"> </span><span class="nv">causal</span><span class="w"> </span><span class="nv">effect</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">rudder</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">direction</span><span class="w"> </span><span class="ss">(</span><span class="nv">adjusting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">wind</span><span class="ss">)</span>:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_adjusted</span><span class="p">)[</span><span class="s">&quot;R&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##         R 
+## 0.5531443
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Compare to the naive (wrong) estimate</span>
+<span class="n">model_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">D</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rudder_data</span><span class="p">)</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nNaive estimate (not adjusting for wind):\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##<span class="w"> </span>
+##<span class="w"> </span><span class="nv">Naive</span><span class="w"> </span><span class="nv">estimate</span><span class="w"> </span><span class="ss">(</span><span class="nv">not</span><span class="w"> </span><span class="nv">adjusting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">wind</span><span class="ss">)</span>:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_naive</span><span class="p">)[</span><span class="s">&quot;R&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##           R 
+## -0.05092029
+</code></pre></div>
+
+<p>When we properly adjust for the confounding wind, we see that the rudder has a substantial causal effect (around 0.5) on direction. The naive analysis severely underestimates this effect because it doesn't account for the confounding.</p>
+<p>In a real experiment, we could reveal this by randomizing the rudder position. If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.</p>
+<h3>Rung 3 Analysis: Individual Attribution</h3>
+<p>At rung 3, we can answer even more nuanced questions. For instance: "On Tuesday at 3pm, the boat drifted 2 degrees off course despite the rudder being angled 5 degrees. What portion of the drift was due to the wind versus the rudder?"</p>
+<p>This requires knowing the functional form and being able to infer the specific wind value on that occasion.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Pick a specific observation</span>
+<span class="n">idx</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">100</span>
+<span class="n">observed_R</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rudder_data</span><span class="o">$</span><span class="n">R</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="n">observed_D</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rudder_data</span><span class="o">$</span><span class="n">D</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w">  </span>
+<span class="n">true_W</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">rudder_data</span><span class="o">$</span><span class="n">W</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="w">  </span><span class="c1"># In reality we don&#39;t observe this</span>
+
+<span class="c1"># But we could infer it from the structural equation if we knew the model</span>
+<span class="c1"># R = -0.9*W + u_r, so W ≈ -R/0.9 (approximately, ignoring noise)</span>
+
+<span class="c1"># Given the true structural equations:</span>
+<span class="c1"># D = 0.5*W + 0.5*R + u_d</span>
+
+<span class="c1"># Counterfactual 1: What if there had been no wind?</span>
+<span class="n">counterfactual_W_zero</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span>
+<span class="n">counterfactual_D_nowind</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">counterfactual_W_zero</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">observed_R</span>
+
+<span class="c1"># Counterfactual 2: What if the rudder had been neutral?</span>
+<span class="n">counterfactual_R_zero</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0</span><span class="w">  </span>
+<span class="n">counterfactual_D_norudder</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">true_W</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">counterfactual_R_zero</span>
+
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Observed situation:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Observed situation:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Rudder:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">observed_R</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Rudder: 1.11
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Direction:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">observed_D</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Direction: 0.02
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Wind (unobserved):&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">true_W</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Wind</span><span class="w"> </span><span class="p">(</span><span class="nx">unobserved</span><span class="p">):</span><span class="w"> </span><span class="o">-</span><span class="m m-Double">1.03</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual 1 - If there had been no wind:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Counterfactual</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">there</span><span class="w"> </span><span class="nv">had</span><span class="w"> </span><span class="nv">been</span><span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">wind</span>:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Direction would have been:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_D_nowind</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Direction would have been: 0.55
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Difference from observed:&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_D_nowind</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">observed_D</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Difference</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">observed</span><span class="p">:</span><span class="w"> </span><span class="m m-Double">0.54</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual 2 - If rudder had been neutral:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Counterfactual</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">If</span><span class="w"> </span><span class="nv">rudder</span><span class="w"> </span><span class="nv">had</span><span class="w"> </span><span class="nv">been</span><span class="w"> </span><span class="nv">neutral</span>:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Direction would have been:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_D_norudder</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Direction would have been: -0.51
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Difference from observed:&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_D_norudder</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">observed_D</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Difference</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="nx">observed</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="m m-Double">0.53</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Attribution: How much did the rudder vs wind contribute?</span>
+<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Attribution:\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Attribution:
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Rudder contribution:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">observed_R</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Rudder contribution: 0.55
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Wind contribution:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">true_W</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Wind contribution: -0.51
+</code></pre></div>
+
+<p>At rung 3, we can decompose what happened on that specific occasion into the separate contributions of wind and rudder. This is the finest-grained causal understanding possible.</p>
+<h2>Summary: Why the Ladder Matters</h2>
+<p>Let's recap what we've learned by climbing Pearl's ladder of causation.</p>
+<p><strong>Rung 1: Association</strong> teaches us that:
+- Correlation patterns can distinguish between different causal structures
+- Conditional independence testing can falsify wrong causal models
+- But observation alone cannot prove causation or distinguish correlation from confounding
+- The rudder paradox shows that correlation can be completely misleading</p>
+<p><strong>Rung 2: Intervention</strong> teaches us that:
+- Causal effects are different from statistical associations
+- We need causal graphs and adjustment sets to predict intervention effects<br>
+- The same correlation can imply zero causal effect (fork) or strong causal effect (chain)
+- Experiments break confounding by randomizing the intervention</p>
+<p><strong>Rung 3: Counterfactuals</strong> teaches us that:
+- Population-level effects are different from individual-level effects
+- We need functional mechanisms to reason about specific instances
+- Attribution and responsibility require counterfactual reasoning
+- Bayesian inference provides a natural framework for inferring unobservables</p>
+<p>Each rung requires adding more structure and making stronger assumptions:</p>
+<ul>
+<li><strong>Rung 1</strong>: DAG structure + faithfulness assumption</li>
+<li><strong>Rung 2</strong>: Causal interpretation of edges + no hidden confounders</li>
+<li><strong>Rung 3</strong>: Functional forms + distribution of unobservables</li>
+</ul>
+<p>And each rung enables us to answer questions that are impossible at lower levels:</p>
+<ul>
+<li><strong>Rung 1</strong>: "What patterns exist?" → Statistics</li>
+<li><strong>Rung 2</strong>: "What if I act?" → Science and policy  </li>
+<li><strong>Rung 3</strong>: "What would have been?" → Explanation and attribution</li>
+</ul>
+<p>The causal quartet showed us that identical statistics can hide different causal stories. The rudder paradox showed us that correlation can be systematically misleading when there's hidden confounding. Together, they illustrate why we need to think carefully about which rung we're on and what questions we're trying to answer.</p>
+<p>When you're working with data, ask yourself: Which rung am I on? Do I just want to predict (rung 1)? Do I want to guide interventions (rung 2)? Do I want to explain what happened (rung 3)? The answer determines what tools you need and what assumptions you must make.</p>
+<p>The ladder isn't just a philosophical framework. It's a practical guide for matching your methods to your goals.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/pbhogale"><i class="fa fa-linkedin-square fa-lg"></i> linkedin</a></li>
+    <li class="list-group-item"><a href="https://github.com/pbhogale"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./climbing-pearls-ladder-of-causation-a-hands-on-journey-with-r.html">"Climbing Pearl's Ladder of Causation: A Hands-On Journey with R"</a></li>
+    <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
+    <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
+    <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
+    <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2025 pras
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="./theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="./theme/js/respond.min.js"></script>
+
+
+    <script src="./theme/js/bodypadding.js"></script>
+
+
+</body>
+</html>

@@ -10,7 +10,7 @@
 
 library(knitr)
 
-KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="/") {
+KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url = "/") {
   opts_knit$set(base.url = base.url)
   fig.path <- paste0(figsfolder, sub(".Rmd$", "", basename(input)), "/")
   cache.path <- file.path(cachefolder, sub(".Rmd$", "", basename(input)), "/")
@@ -26,14 +26,13 @@ KnitPost <- function(input, outfile, figsfolder, cachefolder, base.url="/") {
 
 knit_folder <- function(infolder, outfolder, figsfolder, cachefolder, force = F) {
   for (infile in list.files(infolder, pattern = "*.Rmd", full.names = TRUE)) {
-
     print(infile)
-    outfile = paste0(outfolder, "/", sub(".Rmd$", ".md", basename(infile)))
+    outfile <- paste0(outfolder, "/", sub(".Rmd$", ".md", basename(infile)))
     print(outfile)
 
     # knit only if the input file is the last one modified
     if (!file.exists(outfile) | file.info(infile)$mtime > file.info(outfile)$mtime) {
-        KnitPost(infile, outfile, figsfolder, cachefolder)
+      KnitPost(infile, outfile, figsfolder, cachefolder)
     }
   }
 }
