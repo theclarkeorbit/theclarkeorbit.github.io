@@ -7,7 +7,6 @@ output:
 ---
 
 
-
 This article heavily uses the `quartets` package and the [paper that introduces it](https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446) but there is also another [paper](https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf)(pdf) and associated [package](https://github.com/jhullman/causalQuartet) on a very similar theme. For analysing DAGs, we rely heavily on the wonderful `dagitty` package, and we visualize using `ggdag`. 
 
 
@@ -16,10 +15,37 @@ This article heavily uses the `quartets` package and the [paper that introduces 
 library(quartets)      # Our example datasets
 library(dagitty)       # For DAG manipulation and testing
 library(tidyverse)     # For data manipulation and basic plotting
+```
+
+```
+## ── Attaching core tidyverse packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.1     ✔ stringr   1.5.2
+## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.1.0     
+## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+```
+
+``` r
 library(ggthemes)      # For theme_tufte
 library(patchwork) 
 library(ggdag)
+```
 
+```
+## 
+## Attaching package: 'ggdag'
+## 
+## The following object is masked from 'package:stats':
+## 
+##     filter
+```
+
+``` r
 # Set a theme for all plots
 theme_set(theme_tufte(base_size = 11))
 ```
@@ -52,18 +78,18 @@ sample_n(causal_quartet,10)
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate    u1    u2
-##    <chr>             <dbl>   <dbl>     <dbl> <dbl> <dbl>
-##  1 (2) Confounder -0.849    -0.385    0.0206    NA    NA
-##  2 (3) Mediator   -0.751     0.632    0.384     NA    NA
-##  3 (3) Mediator    1.34     -0.235    0.633     NA    NA
-##  4 (3) Mediator   -1.46     -0.855   -1.18      NA    NA
-##  5 (3) Mediator   -1.66     -2.44    -1.55      NA    NA
-##  6 (1) Collider   -0.369     2.14     2.60      NA    NA
-##  7 (1) Collider   -0.00417  -0.530   -0.909     NA    NA
-##  8 (1) Collider   -0.432    -0.766   -2.44      NA    NA
-##  9 (2) Confounder -0.379    -3.30    -1.63      NA    NA
-## 10 (1) Collider    1.04      0.852    1.23      NA    NA
+##    dataset        exposure outcome covariate     u1    u2
+##    <chr>             <dbl>   <dbl>     <dbl>  <dbl> <dbl>
+##  1 (1) Collider      0.743   0.766     1.03  NA     NA   
+##  2 (1) Collider      1.25    1.23      1.25  NA     NA   
+##  3 (2) Confounder   -0.778  -1.22     -0.668 NA     NA   
+##  4 (1) Collider      1.27    1.56      1.70  NA     NA   
+##  5 (3) Mediator      0.265   1.22      0.213 NA     NA   
+##  6 (2) Confounder   -2.85   -2.82     -0.403 NA     NA   
+##  7 (3) Mediator      0.519   2.84      0.954 NA     NA   
+##  8 (2) Confounder    0.430   3.25      1.49  NA     NA   
+##  9 (4) M-Bias       -1.38   -1.02      3.76   0.232  1.06
+## 10 (1) Collider      1.04    1.80      0.218 NA     NA
 ```
 
 ``` r
@@ -315,6 +341,14 @@ cat("Testing fork structure against dataset 3 (wrong structure):\n\n")
 
 ``` r
 results3_wrong <- localTests(dag3_wrong, data3, type = "cis")
+```
+
+```
+## Warning in cov2cor(cov(data)): diag(V) had non-positive or NA entries; the
+## non-finite result may be dubious
+```
+
+``` r
 print(results3_wrong)
 ```
 
@@ -344,6 +378,14 @@ cat("Testing chain structure (x -> z -> y) against dataset 3:\n\n")
 
 ``` r
 results3 <- localTests(dag3, data3, type = "cis")
+```
+
+```
+## Warning in cov2cor(cov(data)): diag(V) had non-positive or NA entries; the
+## non-finite result may be dubious
+```
+
+``` r
 print(results3)
 ```
 
@@ -799,6 +841,10 @@ rudder_data |>
     x = "Rudder Position",
     y = "Boat Direction"
   )
+```
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
 ```
 
 ![center](/figures/causality1/rudder-rung1-1.png)

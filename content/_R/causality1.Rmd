@@ -6,15 +6,6 @@ output:
     df_print: paged
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-  message = FALSE,
-  warning = FALSE,
-  fig.width = 8,
-  fig.height = 5
-)
-```
 
 This article heavily uses the `quartets` package and the [paper that introduces it](https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446) but there is also another [paper](https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf)(pdf) and associated [package](https://github.com/jhullman/causalQuartet) on a very similar theme. For analysing DAGs, we rely heavily on the wonderful `dagitty` package, and we visualize using `ggdag`. 
 

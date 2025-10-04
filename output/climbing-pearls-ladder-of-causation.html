@@ -142,11 +142,34 @@
 <span class="nf">library</span><span class="p">(</span><span class="n">quartets</span><span class="p">)</span><span class="w">      </span><span class="c1"># Our example datasets</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">dagitty</span><span class="p">)</span><span class="w">       </span><span class="c1"># For DAG manipulation and testing</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">     </span><span class="c1"># For data manipulation and basic plotting</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span><span class="w">      </span><span class="c1"># For theme_tufte</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="nx">Attaching</span><span class="w"> </span><span class="nx">core</span><span class="w"> </span><span class="nx">tidyverse</span><span class="w"> </span><span class="nx">packages</span><span class="w"> </span><span class="err">──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span><span class="w"> </span><span class="nx">tidyverse</span><span class="w"> </span><span class="m m-Double">2.0.0</span><span class="w"> </span><span class="err">──</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">dplyr</span><span class="w">     </span><span class="m m-Double">1.1.4</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">readr</span><span class="w">     </span><span class="m m-Double">2.1.5</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">forcats</span><span class="w">   </span><span class="m m-Double">1.0.1</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">stringr</span><span class="w">   </span><span class="m m-Double">1.5.2</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">ggplot2</span><span class="w">   </span><span class="m m-Double">4.0.0</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">tibble</span><span class="w">    </span><span class="m m-Double">3.3.0</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">lubridate</span><span class="w"> </span><span class="m m-Double">1.9.4</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">tidyr</span><span class="w">     </span><span class="m m-Double">1.3.1</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">purrr</span><span class="w">     </span><span class="m m-Double">1.1.0</span><span class="w">     </span>
+<span class="err">##</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="nx">Conflicts</span><span class="w"> </span><span class="err">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span><span class="w"> </span><span class="nx">tidyverse_conflicts</span><span class="p">()</span><span class="w"> </span><span class="err">──</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✖</span><span class="w"> </span><span class="nx">dplyr</span><span class="o">::</span><span class="nx">filter</span><span class="p">()</span><span class="w"> </span><span class="nx">masks</span><span class="w"> </span><span class="nx">stats</span><span class="o">::</span><span class="nx">filter</span><span class="p">()</span>
+<span class="err">##</span><span class="w"> </span><span class="err">✖</span><span class="w"> </span><span class="nx">dplyr</span><span class="o">::</span><span class="nx">lag</span><span class="p">()</span><span class="w">    </span><span class="nx">masks</span><span class="w"> </span><span class="nx">stats</span><span class="o">::</span><span class="nx">lag</span><span class="p">()</span>
+<span class="err">##</span><span class="w"> </span><span class="nx">ℹ</span><span class="w"> </span><span class="nx">Use</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">conflicted</span><span class="w"> </span><span class="kn">package</span><span class="w"> </span><span class="p">(&lt;</span><span class="nx">http</span><span class="p">:</span><span class="c1">//conflicted.r-lib.org/&gt;) to force all conflicts to become errors</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span><span class="w">      </span><span class="c1"># For theme_tufte</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w"> </span>
 <span class="nf">library</span><span class="p">(</span><span class="n">ggdag</span><span class="p">)</span>
+</code></pre></div>
 
-<span class="c1"># Set a theme for all plots</span>
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">Attaching</span><span class="w"> </span><span class="kn">package</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">ggdag</span><span class="err">&#39;</span>
+<span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">object</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">masked</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="err">&#39;</span><span class="kn">package</span><span class="p">:</span><span class="nx">stats</span><span class="err">&#39;</span><span class="p">:</span>
+<span class="err">##</span><span class="w"> </span>
+<span class="err">##</span><span class="w">     </span><span class="nx">filter</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Set a theme for all plots</span>
 <span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">))</span>
 </code></pre></div>
 
@@ -165,18 +188,18 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate    u1    u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="c1">##  1 (2) Confounder -0.849    -0.385    0.0206    NA    NA</span>
-<span class="c1">##  2 (3) Mediator   -0.751     0.632    0.384     NA    NA</span>
-<span class="c1">##  3 (3) Mediator    1.34     -0.235    0.633     NA    NA</span>
-<span class="c1">##  4 (3) Mediator   -1.46     -0.855   -1.18      NA    NA</span>
-<span class="c1">##  5 (3) Mediator   -1.66     -2.44    -1.55      NA    NA</span>
-<span class="c1">##  6 (1) Collider   -0.369     2.14     2.60      NA    NA</span>
-<span class="c1">##  7 (1) Collider   -0.00417  -0.530   -0.909     NA    NA</span>
-<span class="c1">##  8 (1) Collider   -0.432    -0.766   -2.44      NA    NA</span>
-<span class="c1">##  9 (2) Confounder -0.379    -3.30    -1.63      NA    NA</span>
-<span class="c1">## 10 (1) Collider    1.04      0.852    1.23      NA    NA</span>
+<span class="c1">##    dataset        exposure outcome covariate     u1    u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider      0.743   0.766     1.03  NA     NA   </span>
+<span class="c1">##  2 (1) Collider      1.25    1.23      1.25  NA     NA   </span>
+<span class="c1">##  3 (2) Confounder   -0.778  -1.22     -0.668 NA     NA   </span>
+<span class="c1">##  4 (1) Collider      1.27    1.56      1.70  NA     NA   </span>
+<span class="c1">##  5 (3) Mediator      0.265   1.22      0.213 NA     NA   </span>
+<span class="c1">##  6 (2) Confounder   -2.85   -2.82     -0.403 NA     NA   </span>
+<span class="c1">##  7 (3) Mediator      0.519   2.84      0.954 NA     NA   </span>
+<span class="c1">##  8 (2) Confounder    0.430   3.25      1.49  NA     NA   </span>
+<span class="c1">##  9 (4) M-Bias       -1.38   -1.02      3.76   0.232  1.06</span>
+<span class="c1">## 10 (1) Collider      1.04    1.80      0.218 NA     NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -382,7 +405,13 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">results3_wrong</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">localTests</span><span class="p">(</span><span class="n">dag3_wrong</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cis&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">results3_wrong</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Warning in cov2cor(cov(data)): diag(V) had non-positive or NA entries; the
+## non-finite result may be dubious
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">results3_wrong</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span>                        estimate      p.value      2.5%     97.5%
@@ -403,7 +432,13 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">results3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">localTests</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cis&quot;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## Warning in cov2cor(cov(data)): diag(V) had non-positive or NA entries; the
+## non-finite result may be dubious
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span>                          estimate p.value      2.5%     97.5%
@@ -760,6 +795,9 @@ For the total effect, we don't need to control for anything:</p>
 <span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Rudder Position&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Boat Direction&quot;</span>
 <span class="w">  </span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using formula = &#39;y ~ x&#39;
 </code></pre></div>
 
 <p><img alt="center" src="/figures/causality1/rudder-rung1-1.png"></p>
