@@ -10,7 +10,7 @@
 
     <link href=".//images/gravtar.jpg" rel="icon">
 
-<link rel="canonical" href="./climbing-pearls-ladder-of-causation.html">
+<link rel="canonical" href="././climbing-pearls-ladder-of-causation.html">
 
         <meta name="author" content="pras" />
         <meta name="description" content="This article heavily uses the quartets package and the paper that introduces it but there is also another paper(pdf) and associated package on a very similar theme. For analysing DAGs, we rely heavily on the wonderful dagitty package, and we visualize using ggdag. # Load required packages library(quartets) # Our …" />
@@ -18,7 +18,7 @@
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;Climbing Pearl&#39;s Ladder of Causation&#34;"/>
-        <meta property="og:url" content="./climbing-pearls-ladder-of-causation.html"/>
+        <meta property="og:url" content="././climbing-pearls-ladder-of-causation.html"/>
         <meta property="og:description" content="This article heavily uses the quartets package and the paper that introduces it but there is also another paper(pdf) and associated package on a very similar theme. For analysing DAGs, we rely heavily on the wonderful dagitty package, and we visualize using ggdag. # Load required packages library(quartets) # Our …"/>
         <meta property="article:published_time" content="2025-10-01" />
             <meta property="article:section" content="data_sci_tech" />
@@ -77,6 +77,9 @@
                              About
                           </a></li>
                         <li >
+                            <a href="./category/_r.html">_r</a>
+                        </li>
+                        <li >
                             <a href="./category/blog.html">Blog</a>
                         </li>
                         <li class="active">
@@ -114,7 +117,7 @@
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="./climbing-pearls-ladder-of-causation.html"
+                    <a href="././climbing-pearls-ladder-of-causation.html"
                        rel="bookmark"
                        title="Permalink to "Climbing Pearl's Ladder of Causation"">
                         "Climbing Pearl's Ladder of Causation"
@@ -134,7 +137,9 @@
 
 
 
-    
+    <span class="label label-default">Lang</span>
+	<a href="././climbing-pearls-ladder-of-causation.html">en</a>
+
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>This article heavily uses the <code>quartets</code> package and the <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446">paper that introduces it</a> but there is also another <a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf">paper</a>(pdf) and associated <a href="https://github.com/jhullman/causalQuartet">package</a> on a very similar theme. For analysing DAGs, we rely heavily on the wonderful <code>dagitty</code> package, and we visualize using <code>ggdag</code>. </p>
@@ -165,18 +170,18 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset      exposure outcome covariate     u1      u2</span>
-<span class="c1">##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="c1">##  1 (1) Collider  -0.389  -0.699    -1.12   NA     NA     </span>
-<span class="c1">##  2 (3) Mediator   0.403   1.07      0.894  NA     NA     </span>
-<span class="c1">##  3 (1) Collider  -0.545  -1.75     -2.01   NA     NA     </span>
-<span class="c1">##  4 (3) Mediator  -0.0824 -1.12      0.263  NA     NA     </span>
-<span class="c1">##  5 (4) M-Bias    -0.672  -0.0826    0.0570 -0.119 -0.0740</span>
-<span class="c1">##  6 (1) Collider   0.599   2.00      1.15   NA     NA     </span>
-<span class="c1">##  7 (4) M-Bias     0.899  -0.350     5.75    0.865 -0.579 </span>
-<span class="c1">##  8 (1) Collider  -0.654   0.699    -0.453  NA     NA     </span>
-<span class="c1">##  9 (1) Collider  -0.574   0.706    -1.31   NA     NA     </span>
-<span class="c1">## 10 (3) Mediator   0.181  -0.526    -0.980  NA     NA</span>
+<span class="c1">##    dataset        exposure outcome covariate    u1     u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (2) Confounder   -0.622  1.26     -0.0181 NA    NA    </span>
+<span class="c1">##  2 (2) Confounder   -1.78  -0.609    -0.487  NA    NA    </span>
+<span class="c1">##  3 (2) Confounder   -0.584  0.229     0.604  NA    NA    </span>
+<span class="c1">##  4 (4) M-Bias       -0.799 -0.435    -7.69   -1.14  0.350</span>
+<span class="c1">##  5 (1) Collider     -1.19  -1.18     -1.17   NA    NA    </span>
+<span class="c1">##  6 (2) Confounder   -0.849 -0.385     0.0206 NA    NA    </span>
+<span class="c1">##  7 (3) Mediator      1.44  -0.0888   -0.855  NA    NA    </span>
+<span class="c1">##  8 (1) Collider      1.04   1.80      0.218  NA    NA    </span>
+<span class="c1">##  9 (2) Confounder   -2.37  -1.60     -0.815  NA    NA    </span>
+<span class="c1">## 10 (2) Confounder   -0.810 -0.497     0.419  NA    NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -889,11 +894,11 @@ For the total effect, we don't need to control for anything:</p>
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="./climbing-pearls-ladder-of-causation.html">"Climbing Pearl's Ladder of Causation"</a></li>
+    <li class="list-group-item"><a href="././climbing-pearls-ladder-of-causation.html">"Climbing Pearl's Ladder of Causation"</a></li>
+    <li class="list-group-item"><a href="././climbing-pearls-ladder-of-causation.html">Climbing Pearl’s Ladder of Causation</a></li>
     <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
     <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
     <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
-    <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
