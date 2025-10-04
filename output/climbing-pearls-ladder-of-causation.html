@@ -151,32 +151,32 @@
 </code></pre></div>
 
 <p>If you are totally new to all this causal stuff, do read <a href="https://dl.acm.org/doi/10.5555/3238230">The Book of Why</a> (no, really).</p>
-<h2>The wind/rudder problem</h2>
+<h3>The wind/rudder problem</h3>
 <p>Consider a dynamic system consisting of three variables: wind speed <span class="math">\(W\)</span>, rudder angle <span class="math">\(R\)</span>, and boat heading <span class="math">\(D\)</span> (direction). An observer on shore measures <span class="math">\(R\)</span> and <span class="math">\(D\)</span> continuously over time, with the goal of understanding whether rudder adjustments causally affect the boat's trajectory. The wind <span class="math">\(W\)</span>, however, remains unobserved.</p>
 <p>The data-generating process works as follows. The wind <span class="math">\(W\)</span> exerts a direct causal influence on the boat's heading: <span class="math">\(W \rightarrow D\)</span>. A skilled sailor observes the wind and adjusts the rudder to compensate, creating a second causal relationship: <span class="math">\(W \rightarrow R\)</span>. The rudder also directly affects heading through hydrodynamic forces: <span class="math">\(R \rightarrow D\)</span>. Crucially, the sailor's adjustment strategy is systematic: rudder angle is set to approximately counteract the wind's effect, meaning <span class="math">\(R \approx -\alpha W\)</span> for some coefficient <span class="math">\(\alpha &gt; 0\)</span>.</p>
 <p>After collecting observational data, the observer computes <span class="math">\(\text{cor}(R, D)\)</span> and finds it to be approximately zero. The naive conclusion follows: rudder angle has no relationship with boat direction, therefore the rudder is ineffective.</p>
 <p>The error stems from <strong>endogeneity</strong>. In econometrics and causal inference, a variable is called endogenous when it is correlated with the error term or, equivalently, when it is determined by other variables in the system that also affect the outcome. Here, the rudder angle <span class="math">\(R\)</span> is endogenous because it is not set independently of the other factors affecting direction, <span class="math">\(R\)</span> is systematically determined by <span class="math">\(W\)</span> (via the sailor working to keep the boat's heading constant), which is itself a common cause of both <span class="math">\(R\)</span> and <span class="math">\(D\)</span>. </p>
 <p>This creates what Pearl calls <strong>confounding</strong>: the naive correlation <span class="math">\(\text{cor}(R, D)\)</span> confounds the true causal effect of <span class="math">\(R\)</span> on <span class="math">\(D\)</span> with the spurious correlation induced by their common cause <span class="math">\(W\)</span>. This and other seemingly intractable issues like <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2343788">Simpson's paradox</a> (association between two variables changes sign when conditioned on a third) are all unravelled once we encode our knowledge of the world into causal relationships between variables and test how valid these are in light of data. </p>
 <p>At the end of this article, you should be able to do a basic causal analysis on an appropriate dataset with dagitty and have an intuition about what it is you are saying when you estimate direct and indirect causal effects.</p>
-<h2>The data.</h2>
+<h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="nf">data</span><span class="p">(</span><span class="s">&quot;causal_quartet&quot;</span><span class="p">)</span>
 <span class="nf">sample_n</span><span class="p">(</span><span class="n">causal_quartet</span><span class="p">,</span><span class="m">10</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate     u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (4) M-Bias       -4.00   -3.55     -6.89  -1.02   0.646</span>
-<span class="c1">##  2 (4) M-Bias        2.25    3.47      6.07   0.762  0.208</span>
-<span class="c1">##  3 (3) Mediator     -0.289   0.417     0.176 NA     NA    </span>
-<span class="c1">##  4 (3) Mediator      0.678  -0.209    -0.224 NA     NA    </span>
-<span class="c1">##  5 (1) Collider     -0.536  -1.45     -0.833 NA     NA    </span>
-<span class="c1">##  6 (4) M-Bias       -0.799  -0.435    -7.69  -1.14   0.350</span>
-<span class="c1">##  7 (1) Collider      1.29    3.07      3.39  NA     NA    </span>
-<span class="c1">##  8 (1) Collider      0.158  -0.817    -1.28  NA     NA    </span>
-<span class="c1">##  9 (2) Confounder   -0.896  -3.12     -1.71  NA     NA    </span>
-<span class="c1">## 10 (4) M-Bias        2.55   -1.00      7.09   1.11  -1.72</span>
+<span class="c1">##    dataset        exposure outcome covariate    u1    u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="c1">##  1 (2) Confounder -0.849    -0.385    0.0206    NA    NA</span>
+<span class="c1">##  2 (3) Mediator   -0.751     0.632    0.384     NA    NA</span>
+<span class="c1">##  3 (3) Mediator    1.34     -0.235    0.633     NA    NA</span>
+<span class="c1">##  4 (3) Mediator   -1.46     -0.855   -1.18      NA    NA</span>
+<span class="c1">##  5 (3) Mediator   -1.66     -2.44    -1.55      NA    NA</span>
+<span class="c1">##  6 (1) Collider   -0.369     2.14     2.60      NA    NA</span>
+<span class="c1">##  7 (1) Collider   -0.00417  -0.530   -0.909     NA    NA</span>
+<span class="c1">##  8 (1) Collider   -0.432    -0.766   -2.44      NA    NA</span>
+<span class="c1">##  9 (2) Confounder -0.379    -3.30    -1.63      NA    NA</span>
+<span class="c1">## 10 (1) Collider    1.04      0.852    1.23      NA    NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -216,15 +216,15 @@
 
 <p><img alt="center" src="/figures/causality1/load-data-1.png"></p>
 <p>All four datasets have nearly identical means, standard deviations, and correlations. If we only looked at these summary statistics, we might think they're the same data. They look similar, but the underlying causal mechanisms are completely different. To see why, we need to understand Pearl's ladder.</p>
-<h2>The ladder</h2>
+<h3>The ladder</h3>
 <p>Judea Pearl posits that causal reasoning exists on three distinct levels. Each rung requires more sstructure than the one below it, and each rung enables us to answer questions that are impossible at lower levels.</p>
 <p><strong>Rung 1: association</strong> - The world of pure observation. We ask "what is?" We observe patterns and correlations. This is the domain of traditional statistics. We can compute things like P(Y|X), the probability of Y given that we observe X. Remarkably, even at this rung of the ladder, causal assumptions made explicit can - sometimes - be falsified because different causal relationships result in different implications for conditional distributions between variables.</p>
 <p><strong>Rung 2: intervention</strong> - The world of action and experiments. We ask "what if I do?" We imagine actively manipulating one variable and seeing what happens to another. This is the domain of randomized controlled trials and policy evaluation. We compute things like P(Y|do(X)), the probability of Y if we <em>force</em> X to take a particular value - in other words, severe X from this causes and set it to a value we choose. In practice, this is often hard to do so the ability to reason about interventions without making them (by modifying the DAG and working out the implications) is very useful.</p>
 <p><strong>Rung 3: counterfactuals</strong> - The world of imagination and retrospection. We ask "what would have been?" We look at what actually happened and imagine how it would have been different under alternative circumstances. This is the domain of individual-level causal attribution, regret, and responsibility. We compute things like "what would Y have been for this specific individual if X had been different?". Apart from the data and the DAG, we also need to add structural equations (functional relationships) that define how each arrow of the DAG is actualized. Then, we infer something about these functions based on the real data  - treatment A failed for Patient 2 tells us something - and thus we can attempt to answer a question like "Would Patient 2 have recovered with treatment B?". </p>
 <p>Each rung requires adding something to what we had before. Let's climb the ladder step by step, using the causal quartet as our guide.</p>
-<h2>Rung 1: association</h2>
+<h3>Rung 1: association</h3>
 <p>At the first rung, we're observing the world and looking for patterns. We have data, and we can compute conditional probabilities, correlations, and statistical associations. But we cannot distinguish between causation and correlation. All we can say is "when I see X, I tend to see Y."</p>
-<h3>What we add: DAG structure</h3>
+<h4>What we add: DAG structure</h4>
 <p>To work at this level, we add a directed acyclic graph (DAG) that represents possible conditional independence relationships. The DAG is just a hypothesis about the structure of dependencies between variables. At this level, the edges don't necessarily mean "causes" - they just mean "statistically dependent."</p>
 <p>The four datasets in the causal quartet actually correspond to four simple DAG structures. Let's take a look.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Dataset 1: Collider (X causes Y, Both cause Z)</span>
@@ -293,7 +293,7 @@
 
 <p><img alt="center" src="/figures/causality1/define dags-1.png"></p>
 <p>While the headline stats are the same, the 4 data sets represent very different causal structures, seen above. </p>
-<h3>Testing DAGs against data</h3>
+<h4>Testing DAGs against data</h4>
 <p>In a typical situation, the DAG is an explicit set of assumptions about the world generated by the scientist, and these need to be tested against the data. The key insight of the first rung of causation is that different DAG structures imply different patterns of conditional independence. Even though x and y are correlated in all four datasets, they have different relationships when we condition on the third variable z.</p>
 <p>We can use the <strong>d-separation criterion</strong> (two variables are independent given your controls if no path between them can transmit information) to derive testable implications. The <code>dagitty</code> package does this automatically for us.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># What conditional independencies does each DAG imply?</span>
@@ -415,16 +415,16 @@
 
 <p><img alt="center" src="/figures/causality1/test-dag3-1.png"></p>
 <p>The chain structure fits dataset 3...</p>
-<h3>Limitations of rung 1</h3>
+<h4>Limitations of rung 1</h4>
 <p>"Correlation is not causation" is only the the beginnign of the story. We can use conditional independence testing to falsify causal structures that are inconsistent with the data.</p>
 <p>But we cannot prove that any particular structure is correct, we can only show that some structures are inconsistent with the data. Moreover, we cannot distinguish between correlation and causation just from observational data. The edges in our DAGs could represent predictive relationships rather than causal ones.</p>
 <p>To go further, we need to climb to the second rung.</p>
-<h2>Rung 2: intervention</h2>
+<h3>Rung 2: intervention</h3>
 <p>At the second rung, we move from passive observation to active manipulation. We imagine or actually perform interventions where we force a variable to take a particular value and observe what happens to other variables. This is the world of experiments, policies, and "what if I do?" questions. In pragmatic terms, we estimate the actual causal effect of changing a treatment on the outcome. </p>
-<h3>What we add: causal interpretation</h3>
+<h4>What we add: causal interpretation</h4>
 <p>The key addition at rung 2 is semantic: we now interpret the edges in our DAG as representing direct causal relationships, not just statistical dependencies. When we write <span class="math">\(x \rightarrow y\)</span>, we mean "x directly causes y," not just "x predicts y."</p>
 <p>We add a new mathematical operator: <strong>do(X = x)</strong>, which represents forcing X to take the value x. This is different from observing X = x. When we intervene, we perform graph surgery by removing all incoming edges to X, reflecting the fact that we've overridden X's normal causes.</p>
-<h3>Estimating direct and total causal effects</h3>
+<h4>Estimating direct and total causal effects</h4>
 <p>Here we estimate causal effects by asking: "What would happen to the outcome if we <em>intervened</em> to set exposure to a  specific value?"</p>
 <p>In Pearl's do-calculus notation, we write this as <span class="math">\(\mathbb{E}[Y \mid do(X = x)]\)</span> - the expected value of <span class="math">\(Y\)</span> when we set <span class="math">\(X\)</span> to <span class="math">\(x\)</span> (rather than just observe <span class="math">\(X = x\)</span>). We target <span class="math">\(\mathbb{E}[Y \mid do(X = x)]\)</span>. The total effect (ATE) is
 </p>
@@ -540,7 +540,7 @@ For the total effect, we don't need to control for anything:</p>
 ##   -0.007654     0.995610
 </code></pre></div>
 
-<h3>So much linear regression!</h3>
+<h4>So much linear regression!</h4>
 <p>While we have used <code>lm()</code> throughout, the DAG-based adjustment strategy (what to control for) remains valid regardless of the  statistical method. The DAG tells you what to adjust for, the statistical method determines how to adjust for it.</p>
 <p>When relationships between variables arenon-linear, methods like <a href="https://noamross.github.io/gams-in-r-course/">splines</a> or <a href="https://m-clark.github.io/generalized-additive-models/">generalized additive models (GAMs)</a>  via the <a href="https://cran.r-project.org/web/packages/mgcv/index.html"><code>mgcv</code> package</a> can be used.  These allow smooth, flexible relationships while remaining interpretable - one can visualize exactly how covariates affect the outcome. For example: 
 <code>gam(outcome ~ exposure + s(covariate), data = data)</code> estimates the causal effect of the exposure while relaxing the.</p>
@@ -548,20 +548,20 @@ For the total effect, we don't need to control for anything:</p>
 (matching or weighting by the probability of treatment) via packages like  <a href="https://kosukeimai.github.io/MatchIt/"><code>MatchIt</code></a> or <a href="https://ngreifer.github.io/WeightIt/"><code>WeightIt</code></a>. For a "best of both worlds"  approach, <a href="https://cran.r-project.org/web/packages/drtmle/vignettes/using_drtmle.html">doubly robust methods</a> combine outcome modeling with propensity scores—you get the correct answer if either model is right (see <a href="https://yqzhong7.github.io/AIPW/"><code>AIPW</code></a> package). This relies on balancing the groups (treated/untreated) on covariates by matching similar entities or reweighting the sample, so comparing outcomes is like comparing a randomized trial.</p>
 <p>When treatment effects vary across individuals, <a href="https://grf-labs.github.io/grf/articles/grf.html">causal forests</a>  from the <a href="https://grf-labs.github.io/grf/"><code>grf</code> package</a> use machine learning to estimate personalized treatment effects non-parametrically. See <a href="https://arxiv.org/abs/1902.07409">Athey &amp; Wager (2019)</a> for the methodology, or the <a href="https://grf-labs.github.io/grf/articles/grf_guide.html">excellent documentation</a> that comes with the <code>grf</code> package</p>
 <p>All these methods relax parametric assumptions (linearity, functional form) but cannot escape the fundamental causal  assumptions—namely, that your DAG is correct and all confounders are measured.  As Judea Pearl emphasizes: <a href="https://ftp.cs.ucla.edu/pub/stat_ser/r350.pdf">"no causes in, no causes out"</a>—no statistical technique can create causal knowledge from purely observational data if the DAG is wrong. The fanciest machine learning model with the wrong adjustment set will give worse answers than simple linear regression with the right one.</p>
-<h3>The power and limits of rung 2</h3>
+<h4>The power and limits of rung 2</h4>
 <p>At rung 2, we can answer policy questions and predict the effects of interventions. We can distinguish between genuine causal effects and spurious correlations due to confounding. This is very useful for science and decision-making.</p>
 <p>We can tell the average effect of intervening on x in the population: <span class="math">\(P(Y|do(X))\)</span> tells us what would happen on average if we forced X for everyone. But we cannot tell you what would have happened for a specific individual who actually experienced one value of X. We cannot answer "what if things had been different for this person?" </p>
 <p>To answer that question, we need to climb to the third rung.</p>
-<h2>Rung 3: counterfactuals</h2>
+<h3>Rung 3: counterfactuals</h3>
 <p>At the third rung, we move from population-level predictions to individual-level explanations. We look at what actually happened to a specific person or instance and ask "what would have been different if...?" This is the domain of regret, responsibility, attribution, and retrospection.</p>
-<h3>What we add: functional mechanisms</h3>
+<h4>What we add: functional mechanisms</h4>
 <p>The key addition at rung 3 is the specification of functional equations that describe how each variable is generated from its causes. We move from a DAG (which just shows which variables affect which) to a Structural Causal Model (SCM), which specifies the mechanisms.</p>
 <p>For each variable, we write:
 </p>
 <div class="math">$$X_i = f_i(\text{Parents}(X_i), U_i)$$</div>
 <p>where <span class="math">\(f_i\)</span> is a function and <span class="math">\(U_i\)</span> represents all the unmeasured factors (noise, randomness, individual variation) that affect <span class="math">\(X_i\)</span>.</p>
 <p>This is a big step up in specificity. At rung 2, we only needed to know the graph structure. At rung 3, we need to know the actual functional form of how causes produce effects.</p>
-<h3>What we can do: individual counterfactuals</h3>
+<h4>What we can do: individual counterfactuals</h4>
 <p>Let's work with dataset 3 (the chain structure) since it has a clear causal mechanism we can estimate. The data was actually generated from a specific structural model. Let's estimate that model and use it to answer counterfactual questions.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Estimate the structural equations</span>
 <span class="c1"># x -&gt; z: z = a*x + u_z</span>
@@ -686,10 +686,10 @@ For the total effect, we don't need to control for anything:</p>
 <div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Effect</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nv">individual</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">994</span>
 </code></pre></div>
 
-<h3>The Connection to Bayesian Inference</h3>
+<h4>The Connection to Bayesian Inference</h4>
 <p>What we did in step 1 (abduction) looks a lot like Bayesian inference. We observed some data and used it to infer the values of unobserved variables (the noise terms). In a Bayesian framework, we would treat the noise terms as latent variables and compute their posterior distribution given the observed data. Then, to compute counterfactuals, we would sample from this posterior and simulate what would have happened under different interventions.</p>
 <p>This is exactly the approach taken in <a href="https://www.youtube.com/playlist?list=PLDcUM9US4XdPz-KxHM4XHt7uUVGWWVSus">Richard McElreath's "Statistical Rethinking"</a>, where he shows how to use Bayesian inference to compute counterfactuals in structural causal models. The generative model (the SCM) becomes the inference target, and counterfactual reasoning becomes a form of posterior prediction under modified models.</p>
-<h3>The Power and Limits of Rung 3</h3>
+<h4>The Power and Limits of Rung 3</h4>
 <p>At rung 3, we can answer questions about individual instances and attribute causation at the finest grain. We can reason about responsibility, regret, and explanation. We can say not just "smoking causes cancer on average" but "Bob's cancer was caused by his smoking."</p>
 <p>But this power comes at a price. We need much more information than at lower rungs. Specifically, we need:</p>
 <ol>
@@ -698,7 +698,7 @@ For the total effect, we don't need to control for anything:</p>
 <li>The distribution of unobserved factors</li>
 </ol>
 <p>These requirements are often difficult or impossible to satisfy with observational data alone. We typically need strong assumptions about functional forms (linearity, additivity, etc.) or additional data from experiments.</p>
-<h2>Returning to the Rudder Paradox</h2>
+<h3>Returning to the Rudder Paradox</h3>
 <p>Let's generate some data that mimics the rudder situation and see how each rung of the ladder handles it.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Simulate the rudder situation</span>
 <span class="nf">set.seed</span><span class="p">(</span><span class="m">123</span><span class="p">)</span>
@@ -736,7 +736,7 @@ For the total effect, we don't need to control for anything:</p>
 </code></pre></div>
 
 <p><img alt="center" src="/figures/causality1/rudder-setup-1.png"></p>
-<h3>Rung 1 Analysis</h3>
+<h4>Rung 1 Analysis</h4>
 <p>At rung 1, we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Compute correlation between rudder and direction</span>
 <span class="n">cor_RD</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">rudder_data</span><span class="o">$</span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">rudder_data</span><span class="o">$</span><span class="n">D</span><span class="p">)</span>
@@ -764,7 +764,7 @@ For the total effect, we don't need to control for anything:</p>
 
 <p><img alt="center" src="/figures/causality1/rudder-rung1-1.png"></p>
 <p>The correlation is near zero! At rung 1, we would conclude (incorrectly) that the rudder doesn't affect the boat's direction. The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, misleading us when we don't account for it.</p>
-<h3>Rung 2 Analysis: Intervention Reveals Truth</h3>
+<h4>Rung 2 Analysis: Intervention Reveals Truth</h4>
 <p>At rung 2, we ask: what if we <em>intervene</em> to set the rudder at a specific position, overriding the sailor's control?</p>
 <p>To answer this using the adjustment formula, we would need to condition on W (the wind). But W is unobserved, so we can't apply the standard backdoor adjustment. However, if we did have access to W, we could correctly estimate the causal effect.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># If we could observe W, we could adjust for it</span>
@@ -801,6 +801,13 @@ For the total effect, we don't need to control for anything:</p>
 
 <p>When we properly adjust for the confounding wind, we see that the rudder has a substantial causal effect (around 0.5) on direction. The naive analysis severely underestimates this effect because it doesn't account for the confounding.</p>
 <p>In a real experiment, we could reveal this by randomizing the rudder position. If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.</p>
+<h4>Further reading:</h4>
+<ul>
+<li><a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">Causal Inference: What If</a> by Hernán &amp; Robins (free online textbook). </li>
+<li><a href="https://www.r-causal.org/">Causal Inference in R</a> another free online textbook. </li>
+<li><a href="https://mixtape.scunning.com/">Causal Inference: The Mixtape</a> by Cunningham (free, R and Stata code). </li>
+<li><a href="https://github.com/malcolmbarrett/causalworkshop"><code>causalworkshop</code> R package</a> with tutorials. </li>
+</ul>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
