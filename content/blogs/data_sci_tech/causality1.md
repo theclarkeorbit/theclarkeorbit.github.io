@@ -52,18 +52,18 @@ sample_n(causal_quartet,10)
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate    u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl> <dbl>  <dbl>
-##  1 (2) Confounder   -0.622  1.26     -0.0181 NA    NA    
-##  2 (2) Confounder   -1.78  -0.609    -0.487  NA    NA    
-##  3 (2) Confounder   -0.584  0.229     0.604  NA    NA    
-##  4 (4) M-Bias       -0.799 -0.435    -7.69   -1.14  0.350
-##  5 (1) Collider     -1.19  -1.18     -1.17   NA    NA    
-##  6 (2) Confounder   -0.849 -0.385     0.0206 NA    NA    
-##  7 (3) Mediator      1.44  -0.0888   -0.855  NA    NA    
-##  8 (1) Collider      1.04   1.80      0.218  NA    NA    
-##  9 (2) Confounder   -2.37  -1.60     -0.815  NA    NA    
-## 10 (2) Confounder   -0.810 -0.497     0.419  NA    NA
+##    dataset        exposure outcome covariate     u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
+##  1 (4) M-Bias       0.600   0.867      2.54   0.364 -0.362
+##  2 (4) M-Bias       2.45   -0.143      5.24   0.544 -1.35 
+##  3 (4) M-Bias       0.784   2.39       5.68   0.586  0.681
+##  4 (1) Collider     0.691   1.95       2.77  NA     NA    
+##  5 (4) M-Bias      -0.377  -1.87     -12.9   -1.58  -1.22 
+##  6 (1) Collider     0.261  -0.668     -0.749 NA     NA    
+##  7 (1) Collider     0.0472  0.0305    -0.438 NA     NA    
+##  8 (4) M-Bias      -1.57   -3.08      -6.70  -0.760 -0.840
+##  9 (3) Mediator     1.11    2.70       2.36  NA     NA    
+## 10 (2) Confounder   0.406   0.451      0.655 NA     NA
 ```
 
 ``` r

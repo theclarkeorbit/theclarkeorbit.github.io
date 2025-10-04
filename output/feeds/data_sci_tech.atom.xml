@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-04T16:58:32.579303+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/./climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-04T16:58:32.579303+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/./climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;This article heavily uses the &lt;code&gt;quartets&lt;/code&gt; package and the &lt;a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446"&gt;paper that introduces it&lt;/a&gt; but there is also another &lt;a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf"&gt;paper&lt;/a&gt;(pdf) and associated &lt;a href="https://github.com/jhullman/causalQuartet"&gt;package&lt;/a&gt; on a very similar theme. For analysing DAGs, we rely heavily on the wonderful &lt;code&gt;dagitty&lt;/code&gt; package, and we visualize using &lt;code&gt;ggdag&lt;/code&gt;. &lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-04T16:59:21.837450+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-04T16:59:21.837450+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;This article heavily uses the &lt;code&gt;quartets&lt;/code&gt; package and the &lt;a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446"&gt;paper that introduces it&lt;/a&gt; but there is also another &lt;a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf"&gt;paper&lt;/a&gt;(pdf) and associated &lt;a href="https://github.com/jhullman/causalQuartet"&gt;package&lt;/a&gt; on a very similar theme. For analysing DAGs, we rely heavily on the wonderful &lt;code&gt;dagitty&lt;/code&gt; package, and we visualize using &lt;code&gt;ggdag&lt;/code&gt;. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Load required packages&lt;/span&gt;
 &lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;quartets&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="c1"&gt;# Our …&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;This article heavily uses the &lt;code&gt;quartets&lt;/code&gt; package and the &lt;a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446"&gt;paper that introduces it&lt;/a&gt; but there is also another &lt;a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf"&gt;paper&lt;/a&gt;(pdf) and associated &lt;a href="https://github.com/jhullman/causalQuartet"&gt;package&lt;/a&gt; on a very similar theme. For analysing DAGs, we rely heavily on the wonderful &lt;code&gt;dagitty&lt;/code&gt; package, and we visualize using &lt;code&gt;ggdag&lt;/code&gt;. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Load required packages&lt;/span&gt;
@@ -29,18 +29,18 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    dataset        exposure outcome covariate    u1     u2&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 (2) Confounder   -0.622  1.26     -0.0181 NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  2 (2) Confounder   -1.78  -0.609    -0.487  NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  3 (2) Confounder   -0.584  0.229     0.604  NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  4 (4) M-Bias       -0.799 -0.435    -7.69   -1.14  0.350&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 (1) Collider     -1.19  -1.18     -1.17   NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  6 (2) Confounder   -0.849 -0.385     0.0206 NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  7 (3) Mediator      1.44  -0.0888   -0.855  NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  8 (1) Collider      1.04   1.80      0.218  NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  9 (2) Confounder   -2.37  -1.60     -0.815  NA    NA    &lt;/span&gt;
-&lt;span class="c1"&gt;## 10 (2) Confounder   -0.810 -0.497     0.419  NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##    dataset        exposure outcome covariate     u1     u2&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 (4) M-Bias       0.600   0.867      2.54   0.364 -0.362&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 (4) M-Bias       2.45   -0.143      5.24   0.544 -1.35 &lt;/span&gt;
+&lt;span class="c1"&gt;##  3 (4) M-Bias       0.784   2.39       5.68   0.586  0.681&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 (1) Collider     0.691   1.95       2.77  NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  5 (4) M-Bias      -0.377  -1.87     -12.9   -1.58  -1.22 &lt;/span&gt;
+&lt;span class="c1"&gt;##  6 (1) Collider     0.261  -0.668     -0.749 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  7 (1) Collider     0.0472  0.0305    -0.438 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  8 (4) M-Bias      -1.57   -3.08      -6.70  -0.760 -0.840&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 (3) Mediator     1.11    2.70       2.36  NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;## 10 (2) Confounder   0.406   0.451      0.655 NA     NA&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;causal_quartet&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
