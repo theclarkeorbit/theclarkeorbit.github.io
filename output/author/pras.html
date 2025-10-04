@@ -107,70 +107,9 @@
         <div class="col-sm-9">
             <article>
                 <h2><a href="../climbing-pearls-ladder-of-causation.html">"Climbing Pearl's Ladder of Causation"</a></h2>
-                <div class="summary"><h2>The Rudder Paradox</h2>
-<h2>The Rudder Paradox: When Correlation Lies</h2>
-<p>Consider a dynamic system consisting of three variables: wind speed <span class="math">\(W\)</span>, rudder angle <span class="math">\(R\)</span>, and boat heading <span class="math">\(D\)</span> (direction). An observer on shore measures <span class="math">\(R\)</span> and <span class="math">\(D\)</span> continuously over time, with the goal of understanding whether rudder adjustments causally affect the …</p><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
+                <div class="summary"><p>This article heavily uses the <code>quartets</code> package and the <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446">paper that introduces it</a> but there is also another <a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf">paper</a>(pdf) and associated <a href="https://github.com/jhullman/causalQuartet">package</a> on a very similar theme. For analysing DAGs, we rely heavily on the wonderful <code>dagitty</code> package, and we visualize using <code>ggdag</code>. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Load required packages</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">quartets</span><span class="p">)</span><span class="w">      </span><span class="c1"># Our …</span></code></pre></div>
                     <a class="btn btn-default btn-xs" href="../climbing-pearls-ladder-of-causation.html">more ...</a>
                 </div>
             </article>
