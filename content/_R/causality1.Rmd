@@ -1,6 +1,6 @@
 ---
 title: "Climbing Pearl's Ladder of Causation"
-Date: 1 October 2025
+date: 2025-10-01
 output:
   html_document:
     df_print: paged

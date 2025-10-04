@@ -1,6 +1,6 @@
 ---
 title: "Climbing Pearl's Ladder of Causation"
-Date: 1 October 2025
+date: 2025-10-01
 output:
   html_document:
     df_print: paged
@@ -52,18 +52,18 @@ sample_n(causal_quartet,10)
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate       u1      u2
-##    <chr>             <dbl>   <dbl>     <dbl>    <dbl>   <dbl>
-##  1 (3) Mediator   -0.00182 -0.0699    -0.382 NA       NA     
-##  2 (1) Collider    0.460    1.64       2.67  NA       NA     
-##  3 (3) Mediator   -0.0716  -0.597     -0.505 NA       NA     
-##  4 (4) M-Bias     -0.964   -0.304     -0.785 -0.0473   0.116 
-##  5 (3) Mediator   -0.977   -0.928     -2.06  NA       NA     
-##  6 (2) Confounder  1.99     2.94       1.27  NA       NA     
-##  7 (4) M-Bias      1.33    -0.0238    -2.94  -0.200   -0.849 
-##  8 (4) M-Bias      2.12     1.09      -0.534  0.00605 -0.0802
-##  9 (3) Mediator   -1.78    -1.31      -1.29  NA       NA     
-## 10 (3) Mediator   -1.53    -2.49      -1.85  NA       NA
+##    dataset        exposure outcome covariate     u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
+##  1 (2) Confounder   0.242   -0.647    -0.238 NA     NA    
+##  2 (3) Mediator    -1.53    -1.98     -1.81  NA     NA    
+##  3 (4) M-Bias       1.48     4.99      8.52   0.690  1.75 
+##  4 (2) Confounder  -0.810   -0.497     0.419 NA     NA    
+##  5 (2) Confounder  -0.0472   0.757    -0.762 NA     NA    
+##  6 (4) M-Bias       0.391    1.80     -6.05  -0.550  0.979
+##  7 (1) Collider    -0.749   -0.550    -0.899 NA     NA    
+##  8 (4) M-Bias      -2.69    -5.69    -19.1   -1.89  -3.19 
+##  9 (1) Collider    -0.545   -1.75     -2.01  NA     NA    
+## 10 (2) Confounder  -0.849   -1.59     -0.282 NA     NA
 ```
 
 ``` r
