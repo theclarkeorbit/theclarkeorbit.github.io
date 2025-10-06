@@ -223,7 +223,7 @@ dag3_wrong |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "black", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle(paste("The wrong DAG ")) +
   theme_dag() -> pwrong
 pwrong
