@@ -16,8 +16,8 @@ library(tidyverse)
 library(ggthemes)
 library(xgboost)
 library(countries)
-library(yardstick)
 library(probably)
+library(yardstick)
 ```
 
 ## Reading material:
