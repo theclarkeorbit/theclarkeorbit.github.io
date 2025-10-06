@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate    u1    u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="c1">##  1 (3) Mediator     -1.13  -0.381    -0.224     NA    NA</span>
-<span class="c1">##  2 (1) Collider     -0.654 -0.588     0.954     NA    NA</span>
-<span class="c1">##  3 (2) Confounder    0.493 -0.112    -0.719     NA    NA</span>
-<span class="c1">##  4 (1) Collider     -0.636  0.152    -2.20      NA    NA</span>
-<span class="c1">##  5 (1) Collider     -0.916 -0.774    -0.0874    NA    NA</span>
-<span class="c1">##  6 (2) Confounder    2.21   2.62      0.321     NA    NA</span>
-<span class="c1">##  7 (1) Collider     -1.40  -1.60     -0.999     NA    NA</span>
-<span class="c1">##  8 (1) Collider     -0.971 -0.0650   -1.20      NA    NA</span>
-<span class="c1">##  9 (3) Mediator     -1.66  -2.44     -1.55      NA    NA</span>
-<span class="c1">## 10 (1) Collider      0.599  2.00      1.15      NA    NA</span>
+<span class="c1">##    dataset        exposure outcome covariate      u1     u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (2) Confounder   -1.78  -0.609    -0.487  NA      NA    </span>
+<span class="c1">##  2 (4) M-Bias        2.89   1.64      3.58    0.505  -0.588</span>
+<span class="c1">##  3 (1) Collider     -0.664  0.0181   -1.89   NA      NA    </span>
+<span class="c1">##  4 (4) M-Bias       -1.67  -1.27      0.800  -0.0411  0.103</span>
+<span class="c1">##  5 (1) Collider      1.47   2.19      1.14   NA      NA    </span>
+<span class="c1">##  6 (1) Collider      1.25   1.23      1.25   NA      NA    </span>
+<span class="c1">##  7 (4) M-Bias        0.855 -1.85      0.796   0.351  -1.71 </span>
+<span class="c1">##  8 (4) M-Bias        0.976  0.711    -0.0476  0.0856  0.131</span>
+<span class="c1">##  9 (3) Mediator     -1.68  -3.28     -1.52   NA      NA    </span>
+<span class="c1">## 10 (2) Confounder    0.779  1.04     -0.154  NA      NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
@@ -485,27 +485,6 @@ For the total effect, we don't need to control for anything:</p>
 <span class="c1"># Then, compute what y would have been</span>
 <span class="n">counterfactual_outcome</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                           </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">covariate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counterfactual_covariate</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u_outcome</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Step 1 - Abduction (infer noise terms):
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## u_covariate = 0.626</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> u_outcome = 1.348
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Step 2 - Action (set x = 2.5 )
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Step 3 - Prediction:
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Counterfactual z would have been: 2.93
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Counterfactual y would have been: 4.494
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>## Summary:

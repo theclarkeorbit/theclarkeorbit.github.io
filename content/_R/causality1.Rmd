@@ -410,16 +410,6 @@ counterfactual_outcome <- predict(model_z_to_y,
 ```
 
 ```{r echo=FALSE}
-cat("Step 1 - Abduction (infer noise terms):\n")
-cat("u_covariate =", round(u_covariate, 3), "\n")
-cat("u_outcome =", round(u_outcome, 3), "\n\n")
-
-cat("Step 2 - Action (set x =", counterfactual_exposure, ")\n\n")
-
-cat("Step 3 - Prediction:\n")
-cat("Counterfactual z would have been:", round(counterfactual_covariate, 3), "\n")
-cat("Counterfactual y would have been:", round(counterfactual_outcome, 3), "\n\n")
-
 cat("Summary:\n")
 cat("Observed: x =", observed_exposure, ", y =", observed_outcome, "\n")
 cat("Counterfactual: if x had been", counterfactual_exposure, 

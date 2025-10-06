@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate    u1    u2
-##    <chr>             <dbl>   <dbl>     <dbl> <dbl> <dbl>
-##  1 (3) Mediator     -1.13  -0.381    -0.224     NA    NA
-##  2 (1) Collider     -0.654 -0.588     0.954     NA    NA
-##  3 (2) Confounder    0.493 -0.112    -0.719     NA    NA
-##  4 (1) Collider     -0.636  0.152    -2.20      NA    NA
-##  5 (1) Collider     -0.916 -0.774    -0.0874    NA    NA
-##  6 (2) Confounder    2.21   2.62      0.321     NA    NA
-##  7 (1) Collider     -1.40  -1.60     -0.999     NA    NA
-##  8 (1) Collider     -0.971 -0.0650   -1.20      NA    NA
-##  9 (3) Mediator     -1.66  -2.44     -1.55      NA    NA
-## 10 (1) Collider      0.599  2.00      1.15      NA    NA
+##    dataset        exposure outcome covariate      u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>   <dbl>  <dbl>
+##  1 (2) Confounder   -1.78  -0.609    -0.487  NA      NA    
+##  2 (4) M-Bias        2.89   1.64      3.58    0.505  -0.588
+##  3 (1) Collider     -0.664  0.0181   -1.89   NA      NA    
+##  4 (4) M-Bias       -1.67  -1.27      0.800  -0.0411  0.103
+##  5 (1) Collider      1.47   2.19      1.14   NA      NA    
+##  6 (1) Collider      1.25   1.23      1.25   NA      NA    
+##  7 (4) M-Bias        0.855 -1.85      0.796   0.351  -1.71 
+##  8 (4) M-Bias        0.976  0.711    -0.0476  0.0856  0.131
+##  9 (3) Mediator     -1.68  -3.28     -1.52   NA      NA    
+## 10 (2) Confounder    0.779  1.04     -0.154  NA      NA
 ```
 
 ```
@@ -476,34 +476,6 @@ counterfactual_outcome <- predict(model_z_to_y,
                            newdata = tibble(covariate = counterfactual_covariate)) + u_outcome
 ```
 
-
-```
-## Step 1 - Abduction (infer noise terms):
-```
-
-```
-## u_covariate = 0.626
-```
-
-```
-## u_outcome = 1.348
-```
-
-```
-## Step 2 - Action (set x = 2.5 )
-```
-
-```
-## Step 3 - Prediction:
-```
-
-```
-## Counterfactual z would have been: 2.93
-```
-
-```
-## Counterfactual y would have been: 4.494
-```
 
 ```
 ## Summary:
