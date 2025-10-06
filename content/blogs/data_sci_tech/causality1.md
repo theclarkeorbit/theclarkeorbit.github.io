@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate     u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
-##  1 (3) Mediator     -0.261  -0.408    -1.08  NA     NA    
-##  2 (4) M-Bias        0.899  -0.350     5.75   0.865 -0.579
-##  3 (2) Confounder    0.399   0.974     0.256 NA     NA    
-##  4 (1) Collider     -0.432  -0.766    -2.44  NA     NA    
-##  5 (2) Confounder   -0.421   0.887    -0.562 NA     NA    
-##  6 (1) Collider     -0.546  -1.73     -2.34  NA     NA    
-##  7 (4) M-Bias        0.957  -2.65      0.640  0.222 -0.899
-##  8 (4) M-Bias        1.99   -1.21      8.04   1.11  -0.601
-##  9 (3) Mediator      0.254   1.66      1.71  NA     NA    
-## 10 (4) M-Bias       -1.03    2.29     -6.84  -1.20   2.36
+##    dataset        exposure outcome covariate      u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>   <dbl>  <dbl>
+##  1 (3) Mediator     0.111    1.14      1.30  NA      NA    
+##  2 (4) M-Bias       1.89     1.49      2.39   0.476   0.194
+##  3 (2) Confounder  -1.25    -1.80      0.161 NA      NA    
+##  4 (3) Mediator    -2.11    -4.87     -3.67  NA      NA    
+##  5 (4) M-Bias      -0.0572  -1.49     -1.59  -0.0202 -0.881
+##  6 (1) Collider    -2.24    -2.34     -3.49  NA      NA    
+##  7 (1) Collider     1.27     1.56      1.70  NA      NA    
+##  8 (4) M-Bias      -0.0911  -0.239    -2.49  -0.207   0.368
+##  9 (2) Confounder   1.08     1.76      0.543 NA      NA    
+## 10 (4) M-Bias      -2.29    -6.75     -5.00  -0.289  -2.98
 ```
 
 ```
@@ -554,9 +554,9 @@ rudder_dag |>
 
 ![center](/figures/causality1/rudder-setup-1.png)
 
-#### Rung 1 Analysis
+#### Associational analysis
 
-At rung 1, we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.
+Since we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.
 
 
 ```
@@ -569,13 +569,19 @@ At rung 1, we only have observational data on R and D (we can't see the wind W).
 
 ![center](/figures/causality1/rudder-rung1-1.png)
 
-The correlation is near zero! At rung 1, we would conclude (incorrectly) that the rudder doesn't affect the boat's direction. The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, misleading us when we don't account for it.
+The correlation is near zero! We would conclude (incorrectly) that the rudder doesn't affect the boat's direction. The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, misleading us when we don't account for it.
 
-#### Rung 2 Analysis: Intervention Reveals Truth
 
-At rung 2, we ask: what if we *intervene* to set the rudder at a specific position, overriding the sailor's control?
+``` r
+adjustmentSets(rudder_dag, exposure = "R", outcome = "D",
+                             effect = "direct", type = "minimal")
+```
 
-To answer this using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.
+```
+## { W }
+```
+
+To answer this correctly using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.
 
 
 ``` r

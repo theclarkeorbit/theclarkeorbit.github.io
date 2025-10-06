@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-06T11:37:20.422587+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-06T11:37:20.422587+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all-en.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-06T11:54:19.356068+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-06T11:54:19.356068+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.&lt;/p&gt;
 &lt;p&gt;If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the &lt;a href="https://mixtape.scunning.com/"&gt;Causal Mixtape&lt;/a&gt; and &lt;a href="https://xcelab.net/rm/"&gt;Statistical Rethinking&lt;/a&gt;. If you are totally new to all this causal stuff, do read &lt;a href="https://dl.acm.org/doi/10.5555/3238230"&gt;The Book of Why&lt;/a&gt; (no, really). &lt;/p&gt;
 &lt;p&gt;This article heavily uses the &lt;code&gt;quartets&lt;/code&gt; package and the &lt;a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446"&gt;paper that introduces it&lt;/a&gt; but there is also another &lt;a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf"&gt;paper&lt;/a&gt;(pdf) and associated &lt;a href="https://github.com/jhullman/causalQuartet"&gt;package&lt;/a&gt; on a very similar theme. For analysing DAGs, we rely heavily on the wonderful &lt;code&gt;dagitty&lt;/code&gt; package, and we visualize using &lt;code&gt;ggdag&lt;/code&gt;. &lt;/p&gt;
 &lt;h3&gt;The wind/rudder problem&lt;/h3&gt;
@@ -12,18 +12,18 @@
 &lt;h3&gt;The data.&lt;/h3&gt;
 &lt;p&gt;Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    dataset        exposure outcome covariate     u1     u2&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 (3) Mediator     -0.261  -0.408    -1.08  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  2 (4) M-Bias        0.899  -0.350     5.75   0.865 -0.579&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 (2) Confounder    0.399   0.974     0.256 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  4 (1) Collider     -0.432  -0.766    -2.44  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  5 (2) Confounder   -0.421   0.887    -0.562 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  6 (1) Collider     -0.546  -1.73     -2.34  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  7 (4) M-Bias        0.957  -2.65      0.640  0.222 -0.899&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 (4) M-Bias        1.99   -1.21      8.04   1.11  -0.601&lt;/span&gt;
-&lt;span class="c1"&gt;##  9 (3) Mediator      0.254   1.66      1.71  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;## 10 (4) M-Bias       -1.03    2.29     -6.84  -1.20   2.36&lt;/span&gt;
+&lt;span class="c1"&gt;##    dataset        exposure outcome covariate      u1     u2&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 (3) Mediator     0.111    1.14      1.30  NA      NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  2 (4) M-Bias       1.89     1.49      2.39   0.476   0.194&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 (2) Confounder  -1.25    -1.80      0.161 NA      NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  4 (3) Mediator    -2.11    -4.87     -3.67  NA      NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  5 (4) M-Bias      -0.0572  -1.49     -1.59  -0.0202 -0.881&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 (1) Collider    -2.24    -2.34     -3.49  NA      NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  7 (1) Collider     1.27     1.56      1.70  NA      NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  8 (4) M-Bias      -0.0911  -0.239    -2.49  -0.207   0.368&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 (2) Confounder   1.08     1.76      0.543 NA      NA    &lt;/span&gt;
+&lt;span class="c1"&gt;## 10 (4) M-Bias      -2.29    -6.75     -5.00  -0.289  -2.98&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 4 × 7
@@ -411,8 +411,8 @@ For the total effect, we don't need to control for anything:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="center" src="/figures/causality1/rudder-setup-1.png"&gt;&lt;/p&gt;
-&lt;h4&gt;Rung 1 Analysis&lt;/h4&gt;
-&lt;p&gt;At rung 1, we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.&lt;/p&gt;
+&lt;h4&gt;Associational analysis&lt;/h4&gt;
+&lt;p&gt;Since we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## Correlation between rudder (R) and direction (D): 0.022
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -420,10 +420,15 @@ For the total effect, we don't need to control for anything:&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="center" src="/figures/causality1/rudder-rung1-1.png"&gt;&lt;/p&gt;
-&lt;p&gt;The correlation is near zero! At rung 1, we would conclude (incorrectly) that the rudder doesn't affect the boat's direction. The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, misleading us when we don't account for it.&lt;/p&gt;
-&lt;h4&gt;Rung 2 Analysis: Intervention Reveals Truth&lt;/h4&gt;
-&lt;p&gt;At rung 2, we ask: what if we &lt;em&gt;intervene&lt;/em&gt; to set the rudder at a specific position, overriding the sailor's control?&lt;/p&gt;
-&lt;p&gt;To answer this using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.&lt;/p&gt;
+&lt;p&gt;The correlation is near zero! We would conclude (incorrectly) that the rudder doesn't affect the boat's direction. The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, misleading us when we don't account for it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;adjustmentSets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rudder_dag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;exposure&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;R&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;outcome&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;D&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;                             &lt;/span&gt;&lt;span class="n"&gt;effect&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;direct&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;minimal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;## { W }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To answer this correctly using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# If we could observe W, we could adjust for it&lt;/span&gt;
 &lt;span class="n"&gt;model_adjusted&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;lm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;D&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;W&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rudder_data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# Compare to the naive (wrong) estimate&lt;/span&gt;
