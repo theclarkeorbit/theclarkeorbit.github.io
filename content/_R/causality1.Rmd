@@ -12,7 +12,8 @@ If you want to peek into how a statistician thinking carefully approaches this s
 
 This article heavily uses the `quartets` package and the [paper that introduces it](https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446) but there is also another [paper](https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf)(pdf) and associated [package](https://github.com/jhullman/causalQuartet) on a very similar theme. For analysing DAGs, we rely heavily on the wonderful `dagitty` package, and we visualize using `ggdag`. 
 
-```{r load-packages, include=FALSE}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)
 # Load required packages
 library(quartets)      # Our example datasets
 library(dagitty)       # For DAG manipulation and testing
