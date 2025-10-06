@@ -13,13 +13,13 @@
 <link rel="canonical" href="./climbing-pearls-ladder-of-causation.html">
 
         <meta name="author" content="pras" />
-        <meta name="description" content="This article heavily uses the quartets package and the paper that introduces it but there is also another paper(pdf) and associated package on a very similar theme. For analysing DAGs, we rely heavily on the wonderful dagitty package, and we visualize using ggdag. # Load required packages library(quartets) # Our …" />
+        <meta name="description" content="Disclaimer: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that …" />
 
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;Climbing Pearl&#39;s Ladder of Causation&#34;"/>
         <meta property="og:url" content="./climbing-pearls-ladder-of-causation.html"/>
-        <meta property="og:description" content="This article heavily uses the quartets package and the paper that introduces it but there is also another paper(pdf) and associated package on a very similar theme. For analysing DAGs, we rely heavily on the wonderful dagitty package, and we visualize using ggdag. # Load required packages library(quartets) # Our …"/>
+        <meta property="og:description" content="Disclaimer: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that …"/>
         <meta property="article:published_time" content="2025-10-01" />
             <meta property="article:section" content="data_sci_tech" />
             <meta property="article:author" content="pras" />
@@ -137,7 +137,8 @@
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>This article heavily uses the <code>quartets</code> package and the <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446">paper that introduces it</a> but there is also another <a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf">paper</a>(pdf) and associated <a href="https://github.com/jhullman/causalQuartet">package</a> on a very similar theme. For analysing DAGs, we rely heavily on the wonderful <code>dagitty</code> package, and we visualize using <code>ggdag</code>. </p>
+                <p><strong>Disclaimer</strong>: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.</p>
+<p>This article heavily uses the <code>quartets</code> package and the <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446">paper that introduces it</a> but there is also another <a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf">paper</a>(pdf) and associated <a href="https://github.com/jhullman/causalQuartet">package</a> on a very similar theme. For analysing DAGs, we rely heavily on the wonderful <code>dagitty</code> package, and we visualize using <code>ggdag</code>. </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Load required packages</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">quartets</span><span class="p">)</span><span class="w">      </span><span class="c1"># Our example datasets</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">dagitty</span><span class="p">)</span><span class="w">       </span><span class="c1"># For DAG manipulation and testing</span>
@@ -173,7 +174,7 @@
 <span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">))</span>
 </code></pre></div>
 
-<p>If you are totally new to all this causal stuff, do read <a href="https://dl.acm.org/doi/10.5555/3238230">The Book of Why</a> (no, really).</p>
+<p>If you are totally new to all this causal stuff, do read <a href="https://dl.acm.org/doi/10.5555/3238230">The Book of Why</a> (no, really). And if you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the <a href="https://mixtape.scunning.com/">Causal Mixtape</a>. </p>
 <h3>The wind/rudder problem</h3>
 <p>Consider a dynamic system consisting of three variables: wind speed <span class="math">\(W\)</span>, rudder angle <span class="math">\(R\)</span>, and boat heading <span class="math">\(D\)</span> (direction). An observer on shore measures <span class="math">\(R\)</span> and <span class="math">\(D\)</span> continuously over time, with the goal of understanding whether rudder adjustments causally affect the boat's trajectory. The wind <span class="math">\(W\)</span>, however, remains unobserved.</p>
 <p>The data-generating process works as follows. The wind <span class="math">\(W\)</span> exerts a direct causal influence on the boat's heading: <span class="math">\(W \rightarrow D\)</span>. A skilled sailor observes the wind and adjusts the rudder to compensate, creating a second causal relationship: <span class="math">\(W \rightarrow R\)</span>. The rudder also directly affects heading through hydrodynamic forces: <span class="math">\(R \rightarrow D\)</span>. Crucially, the sailor's adjustment strategy is systematic: rudder angle is set to approximately counteract the wind's effect, meaning <span class="math">\(R \approx -\alpha W\)</span> for some coefficient <span class="math">\(\alpha &gt; 0\)</span>.</p>
@@ -188,18 +189,18 @@
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate     u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (3) Mediator   -0.00796  -1.61     -1.60  NA     NA    </span>
-<span class="c1">##  2 (1) Collider    0.274    -0.769    -0.286 NA     NA    </span>
-<span class="c1">##  3 (3) Mediator    1.39      0.132     0.198 NA     NA    </span>
-<span class="c1">##  4 (1) Collider   -2.39     -1.68     -1.59  NA     NA    </span>
-<span class="c1">##  5 (1) Collider    1.04     -0.514     0.431 NA     NA    </span>
-<span class="c1">##  6 (4) M-Bias      0.283    -0.198     6.38   0.675 -0.461</span>
-<span class="c1">##  7 (2) Confounder  1.99      2.94      1.27  NA     NA    </span>
-<span class="c1">##  8 (1) Collider    1.09      0.969     0.774 NA     NA    </span>
-<span class="c1">##  9 (3) Mediator    0.0672   -0.140     0.130 NA     NA    </span>
-<span class="c1">## 10 (1) Collider    1.47      2.19      1.14  NA     NA</span>
+<span class="c1">##    dataset      exposure outcome covariate     u1     u2</span>
+<span class="c1">##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider   1.09     0.969     0.774 NA     NA    </span>
+<span class="c1">##  2 (3) Mediator   0.0763   2.66      1.58  NA     NA    </span>
+<span class="c1">##  3 (1) Collider   0.119   -0.405    -1.89  NA     NA    </span>
+<span class="c1">##  4 (1) Collider  -1.52    -1.47     -1.34  NA     NA    </span>
+<span class="c1">##  5 (4) M-Bias    -1.16    -2.51     -1.98  -0.124 -0.718</span>
+<span class="c1">##  6 (3) Mediator  -0.270   -1.65     -0.231 NA     NA    </span>
+<span class="c1">##  7 (1) Collider  -1.87    -0.948    -3.52  NA     NA    </span>
+<span class="c1">##  8 (1) Collider  -0.633   -0.379    -0.324 NA     NA    </span>
+<span class="c1">##  9 (1) Collider   0.728    1.46      1.83  NA     NA    </span>
+<span class="c1">## 10 (3) Mediator  -1.14     0.177    -0.227 NA     NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -318,43 +319,20 @@
 <p>While the headline stats are the same, the 4 data sets represent very different causal structures, seen above. </p>
 <h4>Testing DAGs against data</h4>
 <p>In a typical situation, the DAG is an explicit set of assumptions about the world generated by the scientist, and these need to be tested against the data. The key insight of the first rung of causation is that different DAG structures imply different patterns of conditional independence. Even though x and y are correlated in all four datasets, they have different relationships when we condition on the third variable z.</p>
-<p>We can use the <strong>d-separation criterion</strong> (two variables are independent given your controls if no path between them can transmit information) to derive testable implications. The <code>dagitty</code> package does this automatically for us.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># What conditional independencies does each DAG imply?</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;DAG 1 (Collider) implies:\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+<p>We can use the <strong>d-separation criterion</strong> (two variables are independent given your controls if no path between them can transmit information) to derive testable implications. The <code>dagitty</code> package does this automatically for us with the <code>impliedConditionalIndependencies</code> function.</p>
 <div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">DAG</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nx">Collider</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag1</span><span class="p">))</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;DAG 2 (Confounder) implies:\n&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">DAG</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">(</span><span class="nx">Confounder</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag2</span><span class="p">))</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;DAG 3 (Mediation) implies:\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">DAG</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">(</span><span class="nx">Mediation</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag3</span><span class="p">))</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> exps _||_ otcm | cvrt
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;DAG 4 (M-bias) implies:\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">DAG</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">(</span><span class="nx">M</span><span class="o">-</span><span class="nx">bias</span><span class="p">)</span><span class="w"> </span><span class="nx">implies</span><span class="p">:</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag4</span><span class="p">))</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> cvrt _||_ exps | u1
@@ -382,20 +360,8 @@
 <li><strong>Low p-value (&lt; 0.05)</strong>: We reject <span class="math">\(H_{\phi}\)</span>. The conditional independence is violated. The DAG's prediction is contradicted. The test fails.</li>
 </ul>
 <p>Passing all tests does not <em>prove</em> the DAG is correct. Multiple different DAG structures can imply the same set of conditional independencies (these are called "Markov equivalent" DAGs). What we can do is <em>falsify</em> DAG structures that make predictions contradicted by the data. This is the essence of rung 1: we can use conditional independence testing to rule out impossible causal structures, but we cannot definitively prove which structure is correct from observational data alone.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Test the fork structure against dataset 3 (should fail)</span>
-<span class="n">data3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">dataset</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;(3) Mediator&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">exposure</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="p">,</span><span class="w"> </span><span class="n">covariate</span><span class="p">,</span><span class="w"> </span><span class="n">u1</span><span class="p">,</span><span class="w"> </span><span class="n">u2</span><span class="p">)</span>
-<span class="c1"># Dataset 3: Mediation / Chain (X causes Z, Z causes Y)</span>
-<span class="n">dag3_wrong</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
-<span class="s">  exposure -&gt; outcome</span>
-<span class="s">  exposure -&gt; covariate</span>
-
-<span class="s">}&#39;</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="nf">impliedConditionalIndependencies</span><span class="p">(</span><span class="n">dag3_wrong</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> cvrt _||_ otcm | exps
+<p><img alt="center" src="/figures/causality1/test-wrong-dag-1.png"></p>
+<div class="highlight"><pre><span></span><code><span class="c1">## [1] &quot;list(X = \&quot;covariate\&quot;, Y = \&quot;outcome\&quot;, Z = \&quot;exposure\&quot;)&quot;</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Testing fork structure against dataset 3 (wrong structure):\n\n&quot;</span><span class="p">)</span>
@@ -418,37 +384,18 @@
 <span class="gu">##</span> cvrt _||_ otcm | exps 0.7605758 1.452368e-22 0.6732402 0.8750805
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># Visualize the test results</span>
-<span class="nf">plotLocalTestResults</span><span class="p">(</span><span class="n">results3_wrong</span><span class="p">)</span>
-</code></pre></div>
-
-<p><img alt="center" src="/figures/causality1/test-wrong-dag-1.png"></p>
 <p>The test fails! Dataset 3 is not consistent with a fork structure. Instead, it follows a chain structure where x causes z and z causes y. Let's verify that the correct structure fits.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Test the chain structure against dataset 3</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Testing chain structure (x -&gt; z -&gt; y) against dataset 3:\n\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="cp">## Testing chain structure (x -&gt; z -&gt; y) against dataset 3:</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">results3</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">localTests</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cis&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>## Warning in cov2cor(cov(data)): diag(V) had non-positive or NA entries; the
 ## non-finite result may be dubious
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="gu">##</span>                          estimate p.value      2.5%     97.5%
 <span class="gu">##</span> exps _||_ otcm | cvrt 0.002031441 0.98412 -0.195478 0.1993846
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">plotLocalTestResults</span><span class="p">(</span><span class="n">results3</span><span class="p">)</span>
-</code></pre></div>
-
-<p><img alt="center" src="/figures/causality1/test-dag3-1.png"></p>
 <p>The chain structure fits dataset 3...</p>
 <h4>Limitations of rung 1</h4>
 <p>"Correlation is not causation" is only the the beginnign of the story. We can use conditional independence testing to falsify causal structures that are inconsistent with the data.</p>
@@ -484,7 +431,7 @@ or as a natural direct effect (which requires stronger assumptions).</p>
 <div class="highlight"><pre><span></span><code><span class="n">p4</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/causality1/unnamed-chunk-1-1.png"></p>
+<p><img alt="center" src="/figures/causality1/unnamed-chunk-2-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="nf">paths</span><span class="p">(</span><span class="n">dag4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;exposure&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;outcome&quot;</span><span class="p">)</span>
 </code></pre></div>
 
@@ -533,7 +480,7 @@ or as a natural direct effect (which requires stronger assumptions).</p>
 <div class="highlight"><pre><span></span><code><span class="n">p3</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/causality1/unnamed-chunk-4-1.png"></p>
+<p><img alt="center" src="/figures/causality1/unnamed-chunk-5-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exposure&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;outcome&quot;</span><span class="p">,</span>
 <span class="w">                             </span><span class="n">effect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;direct&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;minimal&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -549,7 +496,7 @@ or as a natural direct effect (which requires stronger assumptions).</p>
 </code></pre></div>
 
 <p>So, to estimate the direct effect we need to condition on the covariate:</p>
-<div class="highlight"><pre><span></span><code><span class="nf">lm</span><span class="p">(</span><span class="n">outcome</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">covariate</span><span class="o">+</span><span class="n">exposure</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nf">lm</span><span class="p">(</span><span class="n">outcome</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">covariate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">exposure</span><span class="p">,</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## </span>
@@ -598,28 +545,10 @@ For the total effect, we don't need to control for anything:</p>
 <p>This is a big step up in specificity. At rung 2, we only needed to know the graph structure. At rung 3, we need to know the actual functional form of how causes produce effects.</p>
 <h4>What we can do: individual counterfactuals</h4>
 <p>Let's work with dataset 3 (the chain structure) since it has a clear causal mechanism we can estimate. The data was actually generated from a specific structural model. Let's estimate that model and use it to answer counterfactual questions.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Estimate the structural equations</span>
-<span class="c1"># x -&gt; z: z = a*x + u_z</span>
-<span class="c1"># z -&gt; y: y = b*z + u_y</span>
-
-<span class="n">model_x_to_z</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">covariate</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">exposure</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
-<span class="n">model_z_to_y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">outcome</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">covariate</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data3</span><span class="p">)</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Structural equations:\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>## Structural equations:
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;covariate = &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot; + &quot;</span><span class="p">,</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;*exposure + u_covariate\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="c1">## covariate = -0.021 + 0.93*exposure + u_covariate</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;outcome = &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">)[</span><span class="m">1</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot; + &quot;</span><span class="p">,</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">)[</span><span class="m">2</span><span class="p">],</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;*covariate + u_outcome\n\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">## outcome = 0.015 + 1.069*covariate + u_outcome</span>
@@ -641,25 +570,7 @@ For the total effect, we don't need to control for anything:</p>
 <span class="n">u_covariate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">observed_covariate</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_x_to_z</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observed_exposure</span><span class="p">))</span>
 <span class="n">u_outcome</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">observed_outcome</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">,</span><span class="w"> </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">covariate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">observed_covariate</span><span class="p">))</span>
 
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Step 1 - Abduction (infer noise terms):\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Step 1 - Abduction (infer noise terms):
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;u_covariate =&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">u_covariate</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1">## u_covariate = 0.626</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;u_outcome =&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">u_outcome</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> u_outcome = 1.348
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Step 2: Action - set x to counterfactual value</span>
+<span class="c1"># Step 2: Action - set x to counterfactual value</span>
 <span class="n">counterfactual_exposure</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">2.5</span>
 
 <span class="c1"># Step 3: Prediction - compute counterfactual y</span>
@@ -670,52 +581,36 @@ For the total effect, we don't need to control for anything:</p>
 <span class="c1"># Then, compute what y would have been</span>
 <span class="n">counterfactual_outcome</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">model_z_to_y</span><span class="p">,</span><span class="w"> </span>
 <span class="w">                           </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span><span class="n">covariate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counterfactual_covariate</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u_outcome</span>
+</code></pre></div>
 
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Step 2 - Action (set x =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counterfactual_exposure</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;)\n\n&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code>## Step 1 - Abduction (infer noise terms):
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## u_covariate = 0.626</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> u_outcome = 1.348
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>## Step 2 - Action (set x = 2.5 )
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Step 3 - Prediction:\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>## Step 3 - Prediction:
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual z would have been:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_covariate</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>## Counterfactual z would have been: 2.93
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual y would have been:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_outcome</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>## Counterfactual y would have been: 4.494
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Summary:\n&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>## Summary:
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Observed: x =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">observed_exposure</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, y =&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">observed_outcome</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>## Observed: x = 1.5 , y = 3.5
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Counterfactual: if x had been&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">counterfactual_exposure</span><span class="p">,</span><span class="w"> </span>
-<span class="w">    </span><span class="s">&quot;, y would have been&quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_outcome</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Counterfactual</span>:<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="nv">had</span><span class="w"> </span><span class="nv">been</span><span class="w"> </span><span class="mi">2</span>.<span class="mi">5</span><span class="w"> </span>,<span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="nv">would</span><span class="w"> </span><span class="nv">have</span><span class="w"> </span><span class="nv">been</span><span class="w"> </span><span class="mi">4</span>.<span class="mi">494</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Effect for this individual:&quot;</span><span class="p">,</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">counterfactual_outcome</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">observed_outcome</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Effect</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nv">individual</span>:<span class="w"> </span><span class="mi">0</span>.<span class="mi">994</span>
@@ -773,28 +668,7 @@ For the total effect, we don't need to control for anything:</p>
 <p><img alt="center" src="/figures/causality1/rudder-setup-1.png"></p>
 <h4>Rung 1 Analysis</h4>
 <p>At rung 1, we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Compute correlation between rudder and direction</span>
-<span class="n">cor_RD</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">rudder_data</span><span class="o">$</span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">rudder_data</span><span class="o">$</span><span class="n">D</span><span class="p">)</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Correlation between rudder (R) and direction (D):&quot;</span><span class="p">,</span><span class="w"> </span>
-<span class="w">    </span><span class="nf">round</span><span class="p">(</span><span class="n">cor_RD</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>## Correlation between rudder (R) and direction (D): -0.361
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Visualize</span>
-<span class="n">rudder_data</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_smooth</span><span class="p">(</span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;lm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">se</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;red&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
-<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The Rudder Paradox&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Correlation = &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">cor_RD</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span>
-<span class="w">                     </span><span class="s">&quot; - Rudder appears useless!&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Rudder Position&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Boat Direction&quot;</span>
-<span class="w">  </span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using formula = &#39;y ~ x&#39;
@@ -807,30 +681,19 @@ For the total effect, we don't need to control for anything:</p>
 <p>To answer this using the adjustment formula, we would need to condition on W (the wind). But W is unobserved, so we can't apply the standard backdoor adjustment. However, if we did have access to W, we could correctly estimate the causal effect.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># If we could observe W, we could adjust for it</span>
 <span class="n">model_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">D</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rudder_data</span><span class="p">)</span>
-
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;True causal effect of rudder on direction (adjusting for wind):\n&quot;</span><span class="p">)</span>
+<span class="c1"># Compare to the naive (wrong) estimate</span>
+<span class="n">model_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">D</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rudder_data</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">True</span><span class="w"> </span><span class="nv">causal</span><span class="w"> </span><span class="nv">effect</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">rudder</span><span class="w"> </span><span class="nv">on</span><span class="w"> </span><span class="nv">direction</span><span class="w"> </span><span class="ss">(</span><span class="nv">adjusting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">wind</span><span class="ss">)</span>:
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_adjusted</span><span class="p">)[</span><span class="s">&quot;R&quot;</span><span class="p">])</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>##         R 
 ## 0.5531443
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># Compare to the naive (wrong) estimate</span>
-<span class="n">model_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">D</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">R</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rudder_data</span><span class="p">)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\nNaive estimate (not adjusting for wind):\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code>##<span class="w"> </span>
 ##<span class="w"> </span><span class="nv">Naive</span><span class="w"> </span><span class="nv">estimate</span><span class="w"> </span><span class="ss">(</span><span class="nv">not</span><span class="w"> </span><span class="nv">adjusting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">wind</span><span class="ss">)</span>:
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="nf">coef</span><span class="p">(</span><span class="n">model_naive</span><span class="p">)[</span><span class="s">&quot;R&quot;</span><span class="p">])</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code>##           R 
