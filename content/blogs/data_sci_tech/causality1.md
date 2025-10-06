@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate    u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl> <dbl>  <dbl>
-##  1 (1) Collider      0.625 -0.0261    -0.659 NA    NA    
-##  2 (2) Confounder    1.67   3.09       2.07  NA    NA    
-##  3 (4) M-Bias       -2.53  -2.56     -12.5   -1.54 -0.355
-##  4 (1) Collider      0.743  0.766      1.03  NA    NA    
-##  5 (1) Collider     -0.653  0.0510     1.31  NA    NA    
-##  6 (1) Collider     -0.401  0.617      0.207 NA    NA    
-##  7 (3) Mediator     -0.590 -0.482     -0.170 NA    NA    
-##  8 (1) Collider     -0.451  0.267     -0.156 NA    NA    
-##  9 (1) Collider      1.97   1.54       1.85  NA    NA    
-## 10 (2) Confounder   -0.421  0.887     -0.562 NA    NA
+##    dataset        exposure outcome covariate    u1    u2
+##    <chr>             <dbl>   <dbl>     <dbl> <dbl> <dbl>
+##  1 (3) Mediator     -1.13  -0.381    -0.224     NA    NA
+##  2 (1) Collider     -0.654 -0.588     0.954     NA    NA
+##  3 (2) Confounder    0.493 -0.112    -0.719     NA    NA
+##  4 (1) Collider     -0.636  0.152    -2.20      NA    NA
+##  5 (1) Collider     -0.916 -0.774    -0.0874    NA    NA
+##  6 (2) Confounder    2.21   2.62      0.321     NA    NA
+##  7 (1) Collider     -1.40  -1.60     -0.999     NA    NA
+##  8 (1) Collider     -0.971 -0.0650   -1.20      NA    NA
+##  9 (3) Mediator     -1.66  -2.44     -1.55      NA    NA
+## 10 (1) Collider      0.599  2.00      1.15      NA    NA
 ```
 
 ```
@@ -193,15 +193,7 @@ Passing all tests does not *prove* the DAG is correct. Multiple different DAG st
 ```
 ## cvrt _||_ otcm | exps
 ```
-
-
-``` r
-cat("Testing fork structure against dataset 3 (wrong structure):\n\n")
-```
-
-```
-## Testing fork structure against dataset 3 (wrong structure):
-```
+Testing fork structure against dataset 3 (wrong structure):
 
 ``` r
 results3_wrong <- localTests(dag3_wrong, data3, type = "cis")
@@ -221,16 +213,20 @@ print(results3_wrong)
 ## cvrt _||_ otcm | exps 0.7605758 1.452368e-22 0.6732402 0.8750805
 ```
 
-The test fails! Dataset 3 is not consistent with a fork structure. Instead, it follows a chain structure where x causes z and z causes y. Let's verify that the correct structure fits.
+The test fails! Dataset 3 is not consistent with a fork structure. Instead, it follows a chain structure where x causes z and z causes y. Let's verify that the correct structure fits. Testing chain structure (x -> z -> y) against dataset 3:
 
 
-```
-## Testing chain structure (x -> z -> y) against dataset 3:
+``` r
+results3 <- localTests(dag3, data3, type = "cis")
 ```
 
 ```
 ## Warning in cov2cor(cov(data)): diag(V) had non-positive or NA entries; the
 ## non-finite result may be dubious
+```
+
+``` r
+print(results3)
 ```
 
 ```

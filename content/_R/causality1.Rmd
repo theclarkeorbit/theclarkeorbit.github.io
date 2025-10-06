@@ -230,22 +230,17 @@ pwrong
 print("The implications: ")
 print(impliedConditionalIndependencies(dag3_wrong))
 ```
-
+Testing fork structure against dataset 3 (wrong structure):
 ```{r}
-cat("Testing fork structure against dataset 3 (wrong structure):\n\n")
 results3_wrong <- localTests(dag3_wrong, data3, type = "cis")
 print(results3_wrong)
 ```
 
-The test fails! Dataset 3 is not consistent with a fork structure. Instead, it follows a chain structure where x causes z and z causes y. Let's verify that the correct structure fits.
+The test fails! Dataset 3 is not consistent with a fork structure. Instead, it follows a chain structure where x causes z and z causes y. Let's verify that the correct structure fits. Testing chain structure (x -> z -> y) against dataset 3:
 
-```{r test-dag3, echo=FALSE}
-# Test the chain structure against dataset 3
-cat("Testing chain structure (x -> z -> y) against dataset 3:\n\n")
+```{r test-dag3}
 results3 <- localTests(dag3, data3, type = "cis")
 print(results3)
-
-#plotLocalTestResults(results3)
 ```
 
 The chain structure fits dataset 3...
