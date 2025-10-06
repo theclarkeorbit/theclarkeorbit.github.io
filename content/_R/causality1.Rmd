@@ -6,7 +6,7 @@ output:
     df_print: paged
 ---
 
-**Disclaimer**: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.
+**Disclaimer**: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.
 
 If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the [Causal Mixtape](https://mixtape.scunning.com/) and [Statistical Rethinking](https://xcelab.net/rm/). If you are totally new to all this causal stuff, do read [The Book of Why](https://dl.acm.org/doi/10.5555/3238230) (no, really). 
 

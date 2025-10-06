@@ -6,7 +6,7 @@ output:
     df_print: paged
 ---
 
-**Disclaimer**: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.
+**Disclaimer**: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.
 
 If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the [Causal Mixtape](https://mixtape.scunning.com/) and [Statistical Rethinking](https://xcelab.net/rm/). If you are totally new to all this causal stuff, do read [The Book of Why](https://dl.acm.org/doi/10.5555/3238230) (no, really). 
 
@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset      exposure outcome covariate     u1     u2
-##    <chr>           <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
-##  1 (1) Collider -0.660    0.963    2.19    NA     NA    
-##  2 (3) Mediator -1.29    -1.22    -0.591   NA     NA    
-##  3 (4) M-Bias    1.01     0.101   -1.25    -0.244  0.506
-##  4 (3) Mediator -0.270   -1.65    -0.231   NA     NA    
-##  5 (3) Mediator  0.468    3.35     1.78    NA     NA    
-##  6 (1) Collider  1.27     1.56     1.70    NA     NA    
-##  7 (1) Collider  0.743    0.766    1.03    NA     NA    
-##  8 (3) Mediator  0.0878  -0.0319   0.00241 NA     NA    
-##  9 (3) Mediator -0.00183  3.43     1.38    NA     NA    
-## 10 (1) Collider  1.04     1.80     0.218   NA     NA
+##    dataset        exposure outcome covariate     u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
+##  1 (2) Confounder   -0.810  -0.497    0.419  NA     NA    
+##  2 (1) Collider      0.119  -0.405   -1.89   NA     NA    
+##  3 (4) M-Bias        0.743   1.23     9.58    1.17   1.18 
+##  4 (2) Confounder   -0.646   1.58     0.0302 NA     NA    
+##  5 (2) Confounder    1.42    1.17     0.349  NA     NA    
+##  6 (4) M-Bias        0.123  -0.888    8.23    0.852 -0.678
+##  7 (3) Mediator     -1.17    0.920    0.422  NA     NA    
+##  8 (3) Mediator     -0.483  -0.153   -0.518  NA     NA    
+##  9 (1) Collider      0.158  -0.817   -1.28   NA     NA    
+## 10 (4) M-Bias        1.60    1.94     2.92    0.474  0.846
 ```
 
 ```
