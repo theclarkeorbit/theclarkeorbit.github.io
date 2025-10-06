@@ -207,7 +207,7 @@ The null hypothesis $H_{\phi}$ is that the variables ARE conditionally independe
 - **Low p-value (< 0.05)**: We reject $H_{\phi}$. The conditional independence is violated. The DAG's prediction is contradicted. The test fails.
 
 
-Passing all tests does not *prove* the DAG is correct. Multiple different DAG structures can imply the same set of conditional independencies (these are called "Markov equivalent" DAGs). What we can do is *falsify* DAG structures that make predictions contradicted by the data. This is the essence of rung 1: we can use conditional independence testing to rule out impossible causal structures, but we cannot definitively prove which structure is correct from observational data alone.
+Passing all tests does not *prove* the DAG is correct. Multiple different DAG structures can imply the same set of conditional independencies (these are called "Markov equivalent" DAGs). What we can do is *falsify* DAG structures that make predictions contradicted by the data. On rung 1, we can use conditional independence testing to rule out impossible causal structures, but we cannot definitively prove which structure is correct from observational data alone.
 
 ```{r test-wrong-dag, echo=FALSE}
 # Test the fork structure against dataset 3 (should fail)
@@ -218,7 +218,6 @@ data3 <- causal_quartet |>
 dag3_wrong <- dagitty('dag {
   exposure -> outcome
   exposure -> covariate
-  
 }')
 dag3_wrong |> 
   tidy_dagitty() |> 

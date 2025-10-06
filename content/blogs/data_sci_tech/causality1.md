@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset      exposure outcome covariate    u1     u2
-##    <chr>           <dbl>   <dbl>     <dbl> <dbl>  <dbl>
-##  1 (3) Mediator   0.0617  -0.166    -0.147 NA    NA    
-##  2 (3) Mediator  -0.213   -0.281     0.401 NA    NA    
-##  3 (1) Collider   1.13     2.53      1.28  NA    NA    
-##  4 (3) Mediator  -1.18    -0.921    -1.06  NA    NA    
-##  5 (3) Mediator   1.55     2.83      2.25  NA    NA    
-##  6 (4) M-Bias     1.99    -1.21      8.04   1.11 -0.601
-##  7 (1) Collider  -1.52    -1.47     -1.34  NA    NA    
-##  8 (3) Mediator   0.911    2.54      2.82  NA    NA    
-##  9 (3) Mediator   1.11     2.70      2.36  NA    NA    
-## 10 (3) Mediator   0.728   -0.533    -0.199 NA    NA
+##    dataset        exposure outcome covariate    u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl> <dbl>  <dbl>
+##  1 (1) Collider      0.625 -0.0261    -0.659 NA    NA    
+##  2 (2) Confounder    1.67   3.09       2.07  NA    NA    
+##  3 (4) M-Bias       -2.53  -2.56     -12.5   -1.54 -0.355
+##  4 (1) Collider      0.743  0.766      1.03  NA    NA    
+##  5 (1) Collider     -0.653  0.0510     1.31  NA    NA    
+##  6 (1) Collider     -0.401  0.617      0.207 NA    NA    
+##  7 (3) Mediator     -0.590 -0.482     -0.170 NA    NA    
+##  8 (1) Collider     -0.451  0.267     -0.156 NA    NA    
+##  9 (1) Collider      1.97   1.54       1.85  NA    NA    
+## 10 (2) Confounder   -0.421  0.887     -0.562 NA    NA
 ```
 
 ```
@@ -182,7 +182,7 @@ The null hypothesis $H_{\phi}$ is that the variables ARE conditionally independe
 - **Low p-value (< 0.05)**: We reject $H_{\phi}$. The conditional independence is violated. The DAG's prediction is contradicted. The test fails.
 
 
-Passing all tests does not *prove* the DAG is correct. Multiple different DAG structures can imply the same set of conditional independencies (these are called "Markov equivalent" DAGs). What we can do is *falsify* DAG structures that make predictions contradicted by the data. This is the essence of rung 1: we can use conditional independence testing to rule out impossible causal structures, but we cannot definitively prove which structure is correct from observational data alone.
+Passing all tests does not *prove* the DAG is correct. Multiple different DAG structures can imply the same set of conditional independencies (these are called "Markov equivalent" DAGs). What we can do is *falsify* DAG structures that make predictions contradicted by the data. On rung 1, we can use conditional independence testing to rule out impossible causal structures, but we cannot definitively prove which structure is correct from observational data alone.
 
 ![center](/figures/causality1/test-wrong-dag-1.png)
 
