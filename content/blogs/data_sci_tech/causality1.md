@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate      u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>   <dbl>  <dbl>
-##  1 (1) Collider    -0.536   -1.45     -0.833 NA      NA    
-##  2 (1) Collider    -0.545   -1.75     -2.01  NA      NA    
-##  3 (1) Collider     0.0830   0.351     0.174 NA      NA    
-##  4 (4) M-Bias       0.283   -0.198     6.38   0.675  -0.461
-##  5 (3) Mediator    -0.0293  -0.741    -0.496 NA      NA    
-##  6 (1) Collider     0.0653   0.669     0.924 NA      NA    
-##  7 (2) Confounder  -0.484    1.79      0.934 NA      NA    
-##  8 (4) M-Bias       0.0163  -0.940     0.191 -0.0648 -1.71 
-##  9 (2) Confounder  -0.379   -1.05     -0.518 NA      NA    
-## 10 (1) Collider     3.48     2.91      4.35  NA      NA
+##    dataset        exposure outcome covariate     u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
+##  1 (3) Mediator      0.910   0.909    -0.198 NA     NA    
+##  2 (4) M-Bias        1.53   -0.487    19.7    2.40  -1.45 
+##  3 (4) M-Bias       -1.76   -1.29     -4.10  -0.363  0.730
+##  4 (1) Collider     -0.451   0.267    -0.156 NA     NA    
+##  5 (2) Confounder   -0.506  -0.747     0.719 NA     NA    
+##  6 (2) Confounder    0.445   1.08     -0.583 NA     NA    
+##  7 (2) Confounder   -0.778  -1.22     -0.668 NA     NA    
+##  8 (1) Collider      0.261  -0.668    -0.749 NA     NA    
+##  9 (2) Confounder    1.31    0.748     1.24  NA     NA    
+## 10 (2) Confounder    0.182   0.859     1.13  NA     NA
 ```
 
 ```
@@ -546,8 +546,8 @@ rudder_dag <- dagitty('dag {
 rudder_dag |> 
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(color = "#C4B5A0", size = 20, alpha = 0.4) +
-  geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
+  geom_dag_point(color = "#2D5016", size = 20, alpha = 0.4) +
+  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle(paste("Rudder problem adjustment set ", adjustmentSets(rudder_dag, exposure = "R", outcome = "D", effect = "total", type = "minimal"))) +
   theme_dag()
 ```
