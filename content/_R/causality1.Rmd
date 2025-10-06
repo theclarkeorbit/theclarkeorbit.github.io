@@ -226,7 +226,8 @@ dag3_wrong |>
   geom_dag_point(color = "#C4B5A0", size = 20, alpha = 0.4) +
   geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
   ggtitle("The wrong DAG, implications ", paste(impliedConditionalIndependencies(dag3_wrong))) +
-  theme_dag()
+  theme_dag() -> pwrong
+pwrong
 paste(impliedConditionalIndependencies(dag3_wrong))
 ```
 
