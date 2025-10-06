@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-06T11:10:24.408633+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-06T11:10:24.408633+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-10-06T11:17:31.867440+02:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-10-06T11:17:31.867440+02:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.&lt;/p&gt;
 &lt;p&gt;If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the &lt;a href="https://mixtape.scunning.com/"&gt;Causal Mixtape&lt;/a&gt; and &lt;a href="https://xcelab.net/rm/"&gt;Statistical Rethinking&lt;/a&gt;. If you are totally new to all this causal stuff, do read &lt;a href="https://dl.acm.org/doi/10.5555/3238230"&gt;The Book of Why&lt;/a&gt; (no, really). &lt;/p&gt;
 &lt;p&gt;This article heavily uses the &lt;code&gt;quartets&lt;/code&gt; package and the &lt;a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446"&gt;paper that introduces it&lt;/a&gt; but there is also another &lt;a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf"&gt;paper&lt;/a&gt;(pdf) and associated &lt;a href="https://github.com/jhullman/causalQuartet"&gt;package&lt;/a&gt; on a very similar theme. For analysing DAGs, we rely heavily on the wonderful &lt;code&gt;dagitty&lt;/code&gt; package, and we visualize using &lt;code&gt;ggdag&lt;/code&gt;. &lt;/p&gt;
 &lt;h3&gt;The wind/rudder problem&lt;/h3&gt;
@@ -12,18 +12,18 @@
 &lt;h3&gt;The data.&lt;/h3&gt;
 &lt;p&gt;Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    dataset        exposure outcome covariate     u1     u2&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 (2) Confounder    1.32  -0.188      0.209 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  2 (4) M-Bias        1.96   4.19      15.9    1.90   0.581&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 (3) Mediator     -0.640 -1.58      -0.973 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  4 (4) M-Bias        2.25   3.47       6.07   0.762  0.208&lt;/span&gt;
-&lt;span class="c1"&gt;##  5 (2) Confounder    0.406  0.451      0.655 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  6 (1) Collider     -0.664  0.0181    -1.89  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  7 (2) Confounder   -0.379 -3.30      -1.63  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  8 (3) Mediator      0.911  2.54       2.82  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  9 (3) Mediator      0.717 -0.906     -0.146 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;## 10 (4) M-Bias        1.99  -1.21       8.04   1.11  -0.601&lt;/span&gt;
+&lt;span class="c1"&gt;##    dataset        exposure  outcome covariate    u1    u2&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 (3) Mediator    0.140    0.00701     0.702    NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  2 (1) Collider   -0.389   -0.699      -1.12     NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  3 (2) Confounder  0.363    2.67        1.14     NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  4 (1) Collider   -1.05    -2.23       -3.66     NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  5 (1) Collider   -0.727   -0.480      -0.531    NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  6 (1) Collider    0.770    1.28        1.27     NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  7 (1) Collider   -0.436   -0.219       0.437    NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  8 (1) Collider   -1.37    -0.606      -0.118    NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  9 (3) Mediator   -0.0824  -1.12        0.263    NA    NA&lt;/span&gt;
+&lt;span class="c1"&gt;## 10 (3) Mediator   -0.00796 -1.61       -1.60     NA    NA&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 4 × 7
@@ -189,7 +189,7 @@ $$&lt;/div&gt;
 or as a natural direct effect (which requires stronger assumptions).&lt;/p&gt;
 &lt;p&gt;So, given a DAG, which variables should one control for to estimate &lt;span class="math"&gt;\(\mathbb{E}[Y \mid do(X)]\)&lt;/span&gt; from observational data? This is where the adjustment formula comes in, under certain conditions (backdoor criterion satisfied - set of variables blocks all backdoor paths from exposure to outcome and contains no descendants of exposure),&lt;/p&gt;
 &lt;div class="math"&gt;$$\mathbb{E}[Y \mid do(X = x)] = \sum_z \mathbb{E}[Y \mid X = x, Z = z] \cdot P(Z = z)$$&lt;/div&gt;
-&lt;p&gt;In practice with regression, if we adjust for the right &lt;span class="math"&gt;\(Z\)&lt;/span&gt;, the coefficient on &lt;span class="math"&gt;\(X\)&lt;/span&gt; estimates the causal effect.&lt;/p&gt;
+&lt;p&gt;In practice with regression, if we adjust for the right &lt;span class="math"&gt;\(Z\)&lt;/span&gt;, the coefficient on &lt;span class="math"&gt;\(X\)&lt;/span&gt; estimates the causal effect (ATE).&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;daggity&lt;/code&gt; package has several helpful functions:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;The &lt;code&gt;paths&lt;/code&gt; function lists all paths from exposure to outcome and tells us if they are open or not:&lt;/li&gt;

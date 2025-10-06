@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate     u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (2) Confounder    1.32  -0.188      0.209 NA     NA    </span>
-<span class="c1">##  2 (4) M-Bias        1.96   4.19      15.9    1.90   0.581</span>
-<span class="c1">##  3 (3) Mediator     -0.640 -1.58      -0.973 NA     NA    </span>
-<span class="c1">##  4 (4) M-Bias        2.25   3.47       6.07   0.762  0.208</span>
-<span class="c1">##  5 (2) Confounder    0.406  0.451      0.655 NA     NA    </span>
-<span class="c1">##  6 (1) Collider     -0.664  0.0181    -1.89  NA     NA    </span>
-<span class="c1">##  7 (2) Confounder   -0.379 -3.30      -1.63  NA     NA    </span>
-<span class="c1">##  8 (3) Mediator      0.911  2.54       2.82  NA     NA    </span>
-<span class="c1">##  9 (3) Mediator      0.717 -0.906     -0.146 NA     NA    </span>
-<span class="c1">## 10 (4) M-Bias        1.99  -1.21       8.04   1.11  -0.601</span>
+<span class="c1">##    dataset        exposure  outcome covariate    u1    u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="c1">##  1 (3) Mediator    0.140    0.00701     0.702    NA    NA</span>
+<span class="c1">##  2 (1) Collider   -0.389   -0.699      -1.12     NA    NA</span>
+<span class="c1">##  3 (2) Confounder  0.363    2.67        1.14     NA    NA</span>
+<span class="c1">##  4 (1) Collider   -1.05    -2.23       -3.66     NA    NA</span>
+<span class="c1">##  5 (1) Collider   -0.727   -0.480      -0.531    NA    NA</span>
+<span class="c1">##  6 (1) Collider    0.770    1.28        1.27     NA    NA</span>
+<span class="c1">##  7 (1) Collider   -0.436   -0.219       0.437    NA    NA</span>
+<span class="c1">##  8 (1) Collider   -1.37    -0.606      -0.118    NA    NA</span>
+<span class="c1">##  9 (3) Mediator   -0.0824  -1.12        0.263    NA    NA</span>
+<span class="c1">## 10 (3) Mediator   -0.00796 -1.61       -1.60     NA    NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
@@ -327,7 +327,7 @@ $$</div>
 or as a natural direct effect (which requires stronger assumptions).</p>
 <p>So, given a DAG, which variables should one control for to estimate <span class="math">\(\mathbb{E}[Y \mid do(X)]\)</span> from observational data? This is where the adjustment formula comes in, under certain conditions (backdoor criterion satisfied - set of variables blocks all backdoor paths from exposure to outcome and contains no descendants of exposure),</p>
 <div class="math">$$\mathbb{E}[Y \mid do(X = x)] = \sum_z \mathbb{E}[Y \mid X = x, Z = z] \cdot P(Z = z)$$</div>
-<p>In practice with regression, if we adjust for the right <span class="math">\(Z\)</span>, the coefficient on <span class="math">\(X\)</span> estimates the causal effect.</p>
+<p>In practice with regression, if we adjust for the right <span class="math">\(Z\)</span>, the coefficient on <span class="math">\(X\)</span> estimates the causal effect (ATE).</p>
 <p>The <code>daggity</code> package has several helpful functions:</p>
 <ol>
 <li>The <code>paths</code> function lists all paths from exposure to outcome and tells us if they are open or not:</li>

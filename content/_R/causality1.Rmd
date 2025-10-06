@@ -281,7 +281,7 @@ So, given a DAG, which variables should one control for to estimate $\mathbb{E}[
 
 $$\mathbb{E}[Y \mid do(X = x)] = \sum_z \mathbb{E}[Y \mid X = x, Z = z] \cdot P(Z = z)$$
 
-In practice with regression, if we adjust for the right $Z$, the coefficient on $X$ estimates the causal effect.
+In practice with regression, if we adjust for the right $Z$, the coefficient on $X$ estimates the causal effect (ATE).
 
 The `daggity` package has several helpful functions:
 

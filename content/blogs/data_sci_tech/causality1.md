@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate     u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
-##  1 (2) Confounder    1.32  -0.188      0.209 NA     NA    
-##  2 (4) M-Bias        1.96   4.19      15.9    1.90   0.581
-##  3 (3) Mediator     -0.640 -1.58      -0.973 NA     NA    
-##  4 (4) M-Bias        2.25   3.47       6.07   0.762  0.208
-##  5 (2) Confounder    0.406  0.451      0.655 NA     NA    
-##  6 (1) Collider     -0.664  0.0181    -1.89  NA     NA    
-##  7 (2) Confounder   -0.379 -3.30      -1.63  NA     NA    
-##  8 (3) Mediator      0.911  2.54       2.82  NA     NA    
-##  9 (3) Mediator      0.717 -0.906     -0.146 NA     NA    
-## 10 (4) M-Bias        1.99  -1.21       8.04   1.11  -0.601
+##    dataset        exposure  outcome covariate    u1    u2
+##    <chr>             <dbl>    <dbl>     <dbl> <dbl> <dbl>
+##  1 (3) Mediator    0.140    0.00701     0.702    NA    NA
+##  2 (1) Collider   -0.389   -0.699      -1.12     NA    NA
+##  3 (2) Confounder  0.363    2.67        1.14     NA    NA
+##  4 (1) Collider   -1.05    -2.23       -3.66     NA    NA
+##  5 (1) Collider   -0.727   -0.480      -0.531    NA    NA
+##  6 (1) Collider    0.770    1.28        1.27     NA    NA
+##  7 (1) Collider   -0.436   -0.219       0.437    NA    NA
+##  8 (1) Collider   -1.37    -0.606      -0.118    NA    NA
+##  9 (3) Mediator   -0.0824  -1.12        0.263    NA    NA
+## 10 (3) Mediator   -0.00796 -1.61       -1.60     NA    NA
 ```
 
 ```
@@ -272,7 +272,7 @@ So, given a DAG, which variables should one control for to estimate $\mathbb{E}[
 
 $$\mathbb{E}[Y \mid do(X = x)] = \sum_z \mathbb{E}[Y \mid X = x, Z = z] \cdot P(Z = z)$$
 
-In practice with regression, if we adjust for the right $Z$, the coefficient on $X$ estimates the causal effect.
+In practice with regression, if we adjust for the right $Z$, the coefficient on $X$ estimates the causal effect (ATE).
 
 The `daggity` package has several helpful functions:
 
