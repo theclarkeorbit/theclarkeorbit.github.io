@@ -131,7 +131,7 @@ dag1 |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#E5DDD1", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle("1. Collider") +
   theme_dag() -> p1
 
@@ -139,7 +139,7 @@ dag2 |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#E5DDD1", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle("2. Confounder") +
   theme_dag() -> p2
 
@@ -147,7 +147,7 @@ dag3 |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#E5DDD1", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle("3. Mediator") +
   theme_dag() -> p3
 
@@ -155,7 +155,7 @@ dag4 |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#E5DDD1", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle("4. M-bias") +
   theme_dag() -> p4
 ```
@@ -223,7 +223,7 @@ dag3_wrong |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#E5DDD1", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle(paste("The wrong DAG ")) +
   theme_dag() -> pwrong
 pwrong
@@ -471,7 +471,7 @@ rudder_dag |>
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
-  geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
+  geom_dag_text(color = "#E5DDD1", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle(paste("Rudder problem adjustment set ", adjustmentSets(rudder_dag, exposure = "R", outcome = "D", effect = "total", type = "minimal"))) +
   theme_dag()
 ```

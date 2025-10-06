@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate     u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (4) M-Bias       2.79     4.64     12.3    1.36   0.890</span>
-<span class="c1">##  2 (1) Collider     0.689    0.642     2.08  NA     NA    </span>
-<span class="c1">##  3 (4) M-Bias       1.82     1.30     16.0    2.11   0.603</span>
-<span class="c1">##  4 (2) Confounder  -2.07    -1.72     -2.18  NA     NA    </span>
-<span class="c1">##  5 (2) Confounder   1.32    -0.188     0.209 NA     NA    </span>
-<span class="c1">##  6 (1) Collider    -0.328    0.516     0.344 NA     NA    </span>
-<span class="c1">##  7 (4) M-Bias       2.45    -0.143     5.24   0.544 -1.35 </span>
-<span class="c1">##  8 (4) M-Bias      -0.0329  -0.224     2.57   0.295  0.369</span>
-<span class="c1">##  9 (2) Confounder  -0.379   -1.05     -0.518 NA     NA    </span>
-<span class="c1">## 10 (3) Mediator     0.766    0.334     0.846 NA     NA</span>
+<span class="c1">##    dataset      exposure outcome covariate     u1      u2</span>
+<span class="c1">##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider   -0.916 -0.774    -0.0874 NA     NA     </span>
+<span class="c1">##  2 (1) Collider    1.27   1.56      1.70   NA     NA     </span>
+<span class="c1">##  3 (3) Mediator   -1.29  -1.22     -0.591  NA     NA     </span>
+<span class="c1">##  4 (4) M-Bias     -0.672 -0.0826    0.0570 -0.119 -0.0740</span>
+<span class="c1">##  5 (4) M-Bias     -0.125 -1.60     -8.86   -1.11  -0.314 </span>
+<span class="c1">##  6 (3) Mediator   -1.46  -0.855    -1.18   NA     NA     </span>
+<span class="c1">##  7 (1) Collider    0.313 -0.191    -0.246  NA     NA     </span>
+<span class="c1">##  8 (4) M-Bias      1.89   1.49      2.39    0.476  0.194 </span>
+<span class="c1">##  9 (3) Mediator   -0.119  2.74      1.08   NA     NA     </span>
+<span class="c1">## 10 (3) Mediator   -0.629 -1.24     -1.87   NA     NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
@@ -543,7 +543,7 @@ For the total effect, we don't need to control for anything:</p>
 <span class="w">  </span><span class="nf">tidy_dagitty</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
 <span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yend</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_dag_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2D5016&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_dag_edges</span><span class="p">(</span><span class="n">edge_colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2D5016&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_dag_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#E5DDD1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_dag_edges</span><span class="p">(</span><span class="n">edge_colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#2D5016&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;Rudder problem adjustment set &quot;</span><span class="p">,</span><span class="w"> </span><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">rudder_dag</span><span class="p">,</span><span class="w"> </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;R&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;D&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">effect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;total&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;minimal&quot;</span><span class="p">)))</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">theme_dag</span><span class="p">()</span>
 </code></pre></div>
