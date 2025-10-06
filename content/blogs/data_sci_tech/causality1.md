@@ -8,11 +8,11 @@ output:
 
 **Disclaimer**: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.
 
+If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the [Causal Mixtape](https://mixtape.scunning.com/) and [Statistical Rethinking](https://xcelab.net/rm/). If you are totally new to all this causal stuff, do read [The Book of Why](https://dl.acm.org/doi/10.5555/3238230) (no, really). 
+
 This article heavily uses the `quartets` package and the [paper that introduces it](https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446) but there is also another [paper](https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf)(pdf) and associated [package](https://github.com/jhullman/causalQuartet) on a very similar theme. For analysing DAGs, we rely heavily on the wonderful `dagitty` package, and we visualize using `ggdag`. 
 
 
-
-If you are totally new to all this causal stuff, do read [The Book of Why](https://dl.acm.org/doi/10.5555/3238230) (no, really). And if you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the [Causal Mixtape](https://mixtape.scunning.com/). 
 
 ### The wind/rudder problem
 
@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate      u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>   <dbl>  <dbl>
-##  1 (4) M-Bias        1.60    1.94     2.92    0.474   0.846
-##  2 (1) Collider     -0.660   0.963    2.19   NA      NA    
-##  3 (2) Confounder    1.92    1.67     1.47   NA      NA    
-##  4 (2) Confounder   -0.279  -2.50    -1.05   NA      NA    
-##  5 (1) Collider     -1.52   -1.47    -1.34   NA      NA    
-##  6 (1) Collider      0.743   0.766    1.03   NA      NA    
-##  7 (1) Collider     -0.545  -1.75    -2.01   NA      NA    
-##  8 (3) Mediator     -0.222  -0.250   -0.547  NA      NA    
-##  9 (2) Confounder   -0.455   1.05     0.471  NA      NA    
-## 10 (4) M-Bias        0.976   0.711   -0.0476  0.0856  0.131
+##    dataset        exposure outcome covariate     u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
+##  1 (1) Collider      0.119  -0.405    -1.89  NA     NA    
+##  2 (1) Collider     -0.428   1.25     -0.101 NA     NA    
+##  3 (2) Confounder   -0.723   0.736    -0.383 NA     NA    
+##  4 (1) Collider      0.652   0.585     0.799 NA     NA    
+##  5 (1) Collider      3.48    2.91      4.35  NA     NA    
+##  6 (3) Mediator     -1.10   -1.23     -1.00  NA     NA    
+##  7 (2) Confounder   -0.643   1.64      0.845 NA     NA    
+##  8 (3) Mediator      1.11    2.70      2.36  NA     NA    
+##  9 (4) M-Bias       -1.09   -0.362    -7.07  -0.889  0.600
+## 10 (1) Collider     -0.680  -1.97     -2.76  NA     NA
 ```
 
 ```

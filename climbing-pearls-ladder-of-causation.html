@@ -138,8 +138,8 @@
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p><strong>Disclaimer</strong>: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.</p>
+<p>If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the <a href="https://mixtape.scunning.com/">Causal Mixtape</a> and <a href="https://xcelab.net/rm/">Statistical Rethinking</a>. If you are totally new to all this causal stuff, do read <a href="https://dl.acm.org/doi/10.5555/3238230">The Book of Why</a> (no, really). </p>
 <p>This article heavily uses the <code>quartets</code> package and the <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446">paper that introduces it</a> but there is also another <a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf">paper</a>(pdf) and associated <a href="https://github.com/jhullman/causalQuartet">package</a> on a very similar theme. For analysing DAGs, we rely heavily on the wonderful <code>dagitty</code> package, and we visualize using <code>ggdag</code>. </p>
-<p>If you are totally new to all this causal stuff, do read <a href="https://dl.acm.org/doi/10.5555/3238230">The Book of Why</a> (no, really). And if you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the <a href="https://mixtape.scunning.com/">Causal Mixtape</a>. </p>
 <h3>The wind/rudder problem</h3>
 <p>Consider a dynamic system consisting of three variables: wind speed <span class="math">\(W\)</span>, rudder angle <span class="math">\(R\)</span>, and boat heading <span class="math">\(D\)</span> (direction). An observer on shore measures <span class="math">\(R\)</span> and <span class="math">\(D\)</span> continuously over time, with the goal of understanding whether rudder adjustments causally affect the boat's trajectory. The wind <span class="math">\(W\)</span>, however, remains unobserved.</p>
 <p>The data-generating process works as follows. The wind <span class="math">\(W\)</span> exerts a direct causal influence on the boat's heading: <span class="math">\(W \rightarrow D\)</span>. A skilled sailor observes the wind and adjusts the rudder to compensate, creating a second causal relationship: <span class="math">\(W \rightarrow R\)</span>. The rudder also directly affects heading through hydrodynamic forces: <span class="math">\(R \rightarrow D\)</span>. Crucially, the sailor's adjustment strategy is systematic: rudder angle is set to approximately counteract the wind's effect, meaning <span class="math">\(R \approx -\alpha W\)</span> for some coefficient <span class="math">\(\alpha &gt; 0\)</span>.</p>
@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate      u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (4) M-Bias        1.60    1.94     2.92    0.474   0.846</span>
-<span class="c1">##  2 (1) Collider     -0.660   0.963    2.19   NA      NA    </span>
-<span class="c1">##  3 (2) Confounder    1.92    1.67     1.47   NA      NA    </span>
-<span class="c1">##  4 (2) Confounder   -0.279  -2.50    -1.05   NA      NA    </span>
-<span class="c1">##  5 (1) Collider     -1.52   -1.47    -1.34   NA      NA    </span>
-<span class="c1">##  6 (1) Collider      0.743   0.766    1.03   NA      NA    </span>
-<span class="c1">##  7 (1) Collider     -0.545  -1.75    -2.01   NA      NA    </span>
-<span class="c1">##  8 (3) Mediator     -0.222  -0.250   -0.547  NA      NA    </span>
-<span class="c1">##  9 (2) Confounder   -0.455   1.05     0.471  NA      NA    </span>
-<span class="c1">## 10 (4) M-Bias        0.976   0.711   -0.0476  0.0856  0.131</span>
+<span class="c1">##    dataset        exposure outcome covariate     u1     u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider      0.119  -0.405    -1.89  NA     NA    </span>
+<span class="c1">##  2 (1) Collider     -0.428   1.25     -0.101 NA     NA    </span>
+<span class="c1">##  3 (2) Confounder   -0.723   0.736    -0.383 NA     NA    </span>
+<span class="c1">##  4 (1) Collider      0.652   0.585     0.799 NA     NA    </span>
+<span class="c1">##  5 (1) Collider      3.48    2.91      4.35  NA     NA    </span>
+<span class="c1">##  6 (3) Mediator     -1.10   -1.23     -1.00  NA     NA    </span>
+<span class="c1">##  7 (2) Confounder   -0.643   1.64      0.845 NA     NA    </span>
+<span class="c1">##  8 (3) Mediator      1.11    2.70      2.36  NA     NA    </span>
+<span class="c1">##  9 (4) M-Bias       -1.09   -0.362    -7.07  -0.889  0.600</span>
+<span class="c1">## 10 (1) Collider     -0.680  -1.97     -2.76  NA     NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
