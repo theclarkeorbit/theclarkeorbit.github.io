@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate     u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
-##  1 (4) M-Bias       0.784   2.39       5.68   0.586  0.681
-##  2 (3) Mediator    -0.590  -0.482     -0.170 NA     NA    
-##  3 (4) M-Bias      -2.29   -6.75      -5.00  -0.289 -2.98 
-##  4 (1) Collider     0.0653  0.669      0.924 NA     NA    
-##  5 (4) M-Bias      -0.654  -2.92      -7.16  -0.741 -1.16 
-##  6 (3) Mediator    -0.742  -0.0436    -1.32  NA     NA    
-##  7 (1) Collider     1.04   -0.514      0.431 NA     NA    
-##  8 (2) Confounder  -0.858  -0.802     -0.762 NA     NA    
-##  9 (1) Collider     0.333   0.108      0.987 NA     NA    
-## 10 (4) M-Bias      -0.377  -1.87     -12.9   -1.58  -1.22
+##    dataset        exposure outcome covariate    u1    u2
+##    <chr>             <dbl>   <dbl>     <dbl> <dbl> <dbl>
+##  1 (2) Confounder   0.150   0.433     0.341     NA    NA
+##  2 (2) Confounder  -0.843  -0.256     0.0383    NA    NA
+##  3 (1) Collider     0.119  -0.405    -1.89      NA    NA
+##  4 (3) Mediator    -0.287   0.631     0.589     NA    NA
+##  5 (2) Confounder  -0.622   1.26     -0.0181    NA    NA
+##  6 (2) Confounder   2.05    0.832     0.798     NA    NA
+##  7 (3) Mediator    -0.0293 -0.741    -0.496     NA    NA
+##  8 (1) Collider     2.20    1.67      3.21      NA    NA
+##  9 (1) Collider     0.0472  0.0305   -0.438     NA    NA
+## 10 (1) Collider    -0.924  -2.56     -1.59      NA    NA
 ```
 
 ```
@@ -546,7 +546,7 @@ rudder_dag <- dagitty('dag {
 rudder_dag |> 
   tidy_dagitty() |> 
   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(color = "#2D5016", size = 20, alpha = 0.4) +
+  geom_dag_point(color = "#2D5016", size = 20, alpha = 0.8) +
   geom_dag_text(color = "#C4B5A0", size = 3.0) + geom_dag_edges(edge_colour = "#2D5016") +
   ggtitle(paste("Rudder problem adjustment set ", adjustmentSets(rudder_dag, exposure = "R", outcome = "D", effect = "total", type = "minimal"))) +
   theme_dag()
