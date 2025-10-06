@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate      u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>   <dbl>  <dbl>
-##  1 (2) Confounder   -1.78  -0.609    -0.487  NA      NA    
-##  2 (4) M-Bias        2.89   1.64      3.58    0.505  -0.588
-##  3 (1) Collider     -0.664  0.0181   -1.89   NA      NA    
-##  4 (4) M-Bias       -1.67  -1.27      0.800  -0.0411  0.103
-##  5 (1) Collider      1.47   2.19      1.14   NA      NA    
-##  6 (1) Collider      1.25   1.23      1.25   NA      NA    
-##  7 (4) M-Bias        0.855 -1.85      0.796   0.351  -1.71 
-##  8 (4) M-Bias        0.976  0.711    -0.0476  0.0856  0.131
-##  9 (3) Mediator     -1.68  -3.28     -1.52   NA      NA    
-## 10 (2) Confounder    0.779  1.04     -0.154  NA      NA
+##    dataset      exposure outcome covariate     u1     u2
+##    <chr>           <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
+##  1 (1) Collider -0.660    0.963    2.19    NA     NA    
+##  2 (3) Mediator -1.29    -1.22    -0.591   NA     NA    
+##  3 (4) M-Bias    1.01     0.101   -1.25    -0.244  0.506
+##  4 (3) Mediator -0.270   -1.65    -0.231   NA     NA    
+##  5 (3) Mediator  0.468    3.35     1.78    NA     NA    
+##  6 (1) Collider  1.27     1.56     1.70    NA     NA    
+##  7 (1) Collider  0.743    0.766    1.03    NA     NA    
+##  8 (3) Mediator  0.0878  -0.0319   0.00241 NA     NA    
+##  9 (3) Mediator -0.00183  3.43     1.38    NA     NA    
+## 10 (1) Collider  1.04     1.80     0.218   NA     NA
 ```
 
 ```
@@ -527,7 +527,7 @@ n <- 500
 # D = direction (affected by both wind and rudder)
 
 W <- rnorm(n, mean = 0, sd = 1)  # Wind is unobserved
-R <- -0.9 * W + rnorm(n, 0, 0.1)  # Rudder counteracts wind
+R <- -1 * W + rnorm(n, 0, 0.1)  # Rudder counteracts wind
 D <- 0.5 * W + 0.5 * R + rnorm(n, 0, 0.1)  # Direction depends on both
 
 rudder_data <- tibble(
@@ -560,7 +560,7 @@ At rung 1, we only have observational data on R and D (we can't see the wind W).
 
 
 ```
-## Correlation between rudder (R) and direction (D): -0.361
+## Correlation between rudder (R) and direction (D): 0.022
 ```
 
 ```
@@ -575,7 +575,7 @@ The correlation is near zero! At rung 1, we would conclude (incorrectly) that th
 
 At rung 2, we ask: what if we *intervene* to set the rudder at a specific position, overriding the sailor's control?
 
-To answer this using the adjustment formula, we would need to condition on W (the wind). But W is unobserved, so we can't apply the standard backdoor adjustment. However, if we did have access to W, we could correctly estimate the causal effect.
+To answer this using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.
 
 
 ``` r
@@ -602,13 +602,13 @@ model_naive <- lm(D ~ R, data = rudder_data)
 ```
 
 ```
-##           R 
-## -0.05092029
+##          R 
+## 0.00259491
 ```
 
 When we properly adjust for the confounding wind, we see that the rudder has a substantial causal effect (around 0.5) on direction. The naive analysis severely underestimates this effect because it doesn't account for the confounding.
 
-In a real experiment, we could reveal this by randomizing the rudder position. If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.
+In a real experiment, we could reveal this by randomizing the rudder position (removing the endogeneity). If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.
 
 #### Further reading: 
 - [Causal Inference: What If](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) by Hernán & Robins (free online textbook). 

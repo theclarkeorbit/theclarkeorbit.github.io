@@ -451,7 +451,7 @@ n <- 500
 # D = direction (affected by both wind and rudder)
 
 W <- rnorm(n, mean = 0, sd = 1)  # Wind is unobserved
-R <- -0.9 * W + rnorm(n, 0, 0.1)  # Rudder counteracts wind
+R <- -1 * W + rnorm(n, 0, 0.1)  # Rudder counteracts wind
 D <- 0.5 * W + 0.5 * R + rnorm(n, 0, 0.1)  # Direction depends on both
 
 rudder_data <- tibble(
@@ -507,7 +507,7 @@ The correlation is near zero! At rung 1, we would conclude (incorrectly) that th
 
 At rung 2, we ask: what if we *intervene* to set the rudder at a specific position, overriding the sailor's control?
 
-To answer this using the adjustment formula, we would need to condition on W (the wind). But W is unobserved, so we can't apply the standard backdoor adjustment. However, if we did have access to W, we could correctly estimate the causal effect.
+To answer this using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.
 
 ```{r rudder-rung2}
 # If we could observe W, we could adjust for it
@@ -528,7 +528,7 @@ print(coef(model_naive)["R"])
 
 When we properly adjust for the confounding wind, we see that the rudder has a substantial causal effect (around 0.5) on direction. The naive analysis severely underestimates this effect because it doesn't account for the confounding.
 
-In a real experiment, we could reveal this by randomizing the rudder position. If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.
+In a real experiment, we could reveal this by randomizing the rudder position (removing the endogeneity). If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.
 
 #### Further reading: 
 - [Causal Inference: What If](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/) by Hernán & Robins (free online textbook). 

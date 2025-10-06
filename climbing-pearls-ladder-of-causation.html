@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate      u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (2) Confounder   -1.78  -0.609    -0.487  NA      NA    </span>
-<span class="c1">##  2 (4) M-Bias        2.89   1.64      3.58    0.505  -0.588</span>
-<span class="c1">##  3 (1) Collider     -0.664  0.0181   -1.89   NA      NA    </span>
-<span class="c1">##  4 (4) M-Bias       -1.67  -1.27      0.800  -0.0411  0.103</span>
-<span class="c1">##  5 (1) Collider      1.47   2.19      1.14   NA      NA    </span>
-<span class="c1">##  6 (1) Collider      1.25   1.23      1.25   NA      NA    </span>
-<span class="c1">##  7 (4) M-Bias        0.855 -1.85      0.796   0.351  -1.71 </span>
-<span class="c1">##  8 (4) M-Bias        0.976  0.711    -0.0476  0.0856  0.131</span>
-<span class="c1">##  9 (3) Mediator     -1.68  -3.28     -1.52   NA      NA    </span>
-<span class="c1">## 10 (2) Confounder    0.779  1.04     -0.154  NA      NA</span>
+<span class="c1">##    dataset      exposure outcome covariate     u1     u2</span>
+<span class="c1">##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider -0.660    0.963    2.19    NA     NA    </span>
+<span class="c1">##  2 (3) Mediator -1.29    -1.22    -0.591   NA     NA    </span>
+<span class="c1">##  3 (4) M-Bias    1.01     0.101   -1.25    -0.244  0.506</span>
+<span class="c1">##  4 (3) Mediator -0.270   -1.65    -0.231   NA     NA    </span>
+<span class="c1">##  5 (3) Mediator  0.468    3.35     1.78    NA     NA    </span>
+<span class="c1">##  6 (1) Collider  1.27     1.56     1.70    NA     NA    </span>
+<span class="c1">##  7 (1) Collider  0.743    0.766    1.03    NA     NA    </span>
+<span class="c1">##  8 (3) Mediator  0.0878  -0.0319   0.00241 NA     NA    </span>
+<span class="c1">##  9 (3) Mediator -0.00183  3.43     1.38    NA     NA    </span>
+<span class="c1">## 10 (1) Collider  1.04     1.80     0.218   NA     NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
@@ -523,7 +523,7 @@ For the total effect, we don't need to control for anything:</p>
 <span class="c1"># D = direction (affected by both wind and rudder)</span>
 
 <span class="n">W</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Wind is unobserved</span>
-<span class="n">R</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-0.9</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Rudder counteracts wind</span>
+<span class="n">R</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Rudder counteracts wind</span>
 <span class="n">D</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0.1</span><span class="p">)</span><span class="w">  </span><span class="c1"># Direction depends on both</span>
 
 <span class="n">rudder_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
@@ -551,7 +551,7 @@ For the total effect, we don't need to control for anything:</p>
 <p><img alt="center" src="/figures/causality1/rudder-setup-1.png"></p>
 <h4>Rung 1 Analysis</h4>
 <p>At rung 1, we only have observational data on R and D (we can't see the wind W). Let's look at their correlation.</p>
-<div class="highlight"><pre><span></span><code>## Correlation between rudder (R) and direction (D): -0.361
+<div class="highlight"><pre><span></span><code>## Correlation between rudder (R) and direction (D): 0.022
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> `geom_smooth()` using formula = &#39;y ~ x&#39;
@@ -561,7 +561,7 @@ For the total effect, we don't need to control for anything:</p>
 <p>The correlation is near zero! At rung 1, we would conclude (incorrectly) that the rudder doesn't affect the boat's direction. The problem is confounding by the unobserved wind W. The wind affects both R and D in opposite ways, misleading us when we don't account for it.</p>
 <h4>Rung 2 Analysis: Intervention Reveals Truth</h4>
 <p>At rung 2, we ask: what if we <em>intervene</em> to set the rudder at a specific position, overriding the sailor's control?</p>
-<p>To answer this using the adjustment formula, we would need to condition on W (the wind). But W is unobserved, so we can't apply the standard backdoor adjustment. However, if we did have access to W, we could correctly estimate the causal effect.</p>
+<p>To answer this using the adjustment formula, we would need to condition on W (the wind). When W is unobserved, we can't apply the standard backdoor adjustment. However, if we did have access to wind direction W, we could correctly estimate the causal effect - the DAG tells us what we need to measure (wind) to estimate the causal effect of rudder on direction.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># If we could observe W, we could adjust for it</span>
 <span class="n">model_adjusted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">D</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rudder_data</span><span class="p">)</span>
 <span class="c1"># Compare to the naive (wrong) estimate</span>
@@ -579,12 +579,12 @@ For the total effect, we don't need to control for anything:</p>
 ##<span class="w"> </span><span class="nv">Naive</span><span class="w"> </span><span class="nv">estimate</span><span class="w"> </span><span class="ss">(</span><span class="nv">not</span><span class="w"> </span><span class="nv">adjusting</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nv">wind</span><span class="ss">)</span>:
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##           R 
-## -0.05092029
+<div class="highlight"><pre><span></span><code>##          R 
+## 0.00259491
 </code></pre></div>
 
 <p>When we properly adjust for the confounding wind, we see that the rudder has a substantial causal effect (around 0.5) on direction. The naive analysis severely underestimates this effect because it doesn't account for the confounding.</p>
-<p>In a real experiment, we could reveal this by randomizing the rudder position. If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.</p>
+<p>In a real experiment, we could reveal this by randomizing the rudder position (removing the endogeneity). If we forced the rudder to different positions (breaking the W → R link), we would see the true causal effect.</p>
 <h4>Further reading:</h4>
 <ul>
 <li><a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">Causal Inference: What If</a> by Hernán &amp; Robins (free online textbook). </li>
