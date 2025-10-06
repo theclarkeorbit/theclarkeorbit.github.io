@@ -10,7 +10,7 @@ output:
 
 This article heavily uses the `quartets` package and the [paper that introduces it](https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446) but there is also another [paper](https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf)(pdf) and associated [package](https://github.com/jhullman/causalQuartet) on a very similar theme. For analysing DAGs, we rely heavily on the wonderful `dagitty` package, and we visualize using `ggdag`. 
 
-```{r load-packages}
+```{r load-packages, include=FALSE}
 # Load required packages
 library(quartets)      # Our example datasets
 library(dagitty)       # For DAG manipulation and testing
@@ -43,7 +43,7 @@ At the end of this article, you should be able to do a basic causal analysis on 
 
 Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.
 
-```{r load-data}
+```{r load-data, echo=FALSE}
 data("causal_quartet")
 sample_n(causal_quartet,10)
 
@@ -123,7 +123,9 @@ dag4 <- dagitty('dag {
   u2 -> covariate
   u2 -> outcome
 }')
+```
 
+```{r echo=FALSE}
 # Plot them side by side
 dag1 |> 
   tidy_dagitty() |> 

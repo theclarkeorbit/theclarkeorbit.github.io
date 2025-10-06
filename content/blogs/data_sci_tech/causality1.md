@@ -11,45 +11,6 @@ output:
 This article heavily uses the `quartets` package and the [paper that introduces it](https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446) but there is also another [paper](https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf)(pdf) and associated [package](https://github.com/jhullman/causalQuartet) on a very similar theme. For analysing DAGs, we rely heavily on the wonderful `dagitty` package, and we visualize using `ggdag`. 
 
 
-``` r
-# Load required packages
-library(quartets)      # Our example datasets
-library(dagitty)       # For DAG manipulation and testing
-library(tidyverse)     # For data manipulation and basic plotting
-```
-
-```
-## ── Attaching core tidyverse packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.1     ✔ stringr   1.5.2
-## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.1.0     
-## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
-
-``` r
-library(ggthemes)      # For theme_tufte
-library(patchwork) 
-library(ggdag)
-```
-
-```
-## 
-## Attaching package: 'ggdag'
-## 
-## The following object is masked from 'package:stats':
-## 
-##     filter
-```
-
-``` r
-# Set a theme for all plots
-theme_set(theme_tufte(base_size = 11))
-```
 
 If you are totally new to all this causal stuff, do read [The Book of Why](https://dl.acm.org/doi/10.5555/3238230) (no, really). And if you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the [Causal Mixtape](https://mixtape.scunning.com/). 
 
@@ -72,38 +33,20 @@ At the end of this article, you should be able to do a basic causal analysis on 
 Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.
 
 
-``` r
-data("causal_quartet")
-sample_n(causal_quartet,10)
-```
-
 ```
 ## # A tibble: 10 × 6
-##    dataset      exposure outcome covariate     u1     u2
-##    <chr>           <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
-##  1 (1) Collider   1.09     0.969     0.774 NA     NA    
-##  2 (3) Mediator   0.0763   2.66      1.58  NA     NA    
-##  3 (1) Collider   0.119   -0.405    -1.89  NA     NA    
-##  4 (1) Collider  -1.52    -1.47     -1.34  NA     NA    
-##  5 (4) M-Bias    -1.16    -2.51     -1.98  -0.124 -0.718
-##  6 (3) Mediator  -0.270   -1.65     -0.231 NA     NA    
-##  7 (1) Collider  -1.87    -0.948    -3.52  NA     NA    
-##  8 (1) Collider  -0.633   -0.379    -0.324 NA     NA    
-##  9 (1) Collider   0.728    1.46      1.83  NA     NA    
-## 10 (3) Mediator  -1.14     0.177    -0.227 NA     NA
-```
-
-``` r
-causal_quartet |>
-  group_by(dataset) |>
-  summarise(
-    n = n(),
-    mean_x = mean(exposure),
-    mean_y = mean(outcome),
-    sd_x = sd(exposure),
-    sd_y = sd(outcome),
-    cor_xy = cor(exposure, outcome)
-  )
+##    dataset        exposure outcome covariate    u1     u2
+##    <chr>             <dbl>   <dbl>     <dbl> <dbl>  <dbl>
+##  1 (3) Mediator    0.728    -0.533    -0.199 NA    NA    
+##  2 (3) Mediator    0.911     2.54      2.82  NA    NA    
+##  3 (2) Confounder  0.182     0.859     1.13  NA    NA    
+##  4 (4) M-Bias      0.694     0.265    15.2    1.65  0.969
+##  5 (3) Mediator   -1.68     -3.28     -1.52  NA    NA    
+##  6 (2) Confounder -0.421     0.887    -0.562 NA    NA    
+##  7 (1) Collider    1.27      1.56      1.70  NA    NA    
+##  8 (3) Mediator    2.10      1.24      0.770 NA    NA    
+##  9 (2) Confounder  0.406     0.451     0.655 NA    NA    
+## 10 (3) Mediator   -0.00823   0.794     0.817 NA    NA
 ```
 
 ```
@@ -114,21 +57,6 @@ causal_quartet |>
 ## 2 (2) Confounder   100 -0.0291 -0.0357  1.30  1.77  0.735
 ## 3 (3) Mediator     100 -0.0317 -0.0392  1.03  1.72  0.594
 ## 4 (4) M-Bias       100  0.136  -0.0809  1.48  2.06  0.724
-```
-
-``` r
-ggplot(causal_quartet, aes(x = exposure, y = outcome)) +
-  geom_point(alpha = 0.6, size = 2) +
-  facet_wrap(~ dataset, labeller = label_both) +
-  labs(
-    title = "The Causal Quartet: Identical Statistics, Different Stories",
-    subtitle = "Four datasets with the same correlation but different causal structures",
-    x = "X",
-    y = "Y"
-  ) +
-  theme(
-    strip.text = element_text(face = "bold", size = 10)
-  )
 ```
 
 ![center](/figures/causality1/load-data-1.png)
@@ -185,45 +113,9 @@ dag4 <- dagitty('dag {
   u2 -> covariate
   u2 -> outcome
 }')
-
-# Plot them side by side
-dag1 |> 
-  tidy_dagitty() |> 
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(color = "#C4B5A0", size = 20, alpha = 0.4) +
-  geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
-  ggtitle("1. Collider") +
-  theme_dag() -> p1
-
-dag2 |> 
-  tidy_dagitty() |> 
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(color = "#C4B5A0", size = 20, alpha = 0.4) +
-  geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
-  ggtitle("2. Confounder") +
-  theme_dag() -> p2
-
-dag3 |> 
-  tidy_dagitty() |> 
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(color = "#C4B5A0", size = 20, alpha = 0.4) +
-  geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
-  ggtitle("3. Mediator") +
-  theme_dag() -> p3
-
-dag4 |> 
-  tidy_dagitty() |> 
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(color = "#C4B5A0", size = 20, alpha = 0.4) +
-  geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
-  ggtitle("4. M-bias") +
-  theme_dag() -> p4
-
-p1 + p2 + p3 + p4 + 
-  plot_layout(ncol = 2, nrow = 2)
 ```
 
-![center](/figures/causality1/define dags-1.png)
+![center](/figures/causality1/unnamed-chunk-1-1.png)
 
 While the headline stats are the same, the 4 data sets represent very different causal structures, seen above. 
 
@@ -382,7 +274,7 @@ The `daggity` package has several helpful functions:
 p4
 ```
 
-![center](/figures/causality1/unnamed-chunk-2-1.png)
+![center](/figures/causality1/unnamed-chunk-3-1.png)
 
 ``` r
 paths(dag4, "exposure", "outcome")
@@ -439,7 +331,7 @@ Lets see this for the mediator (DAG-3) (where we know the direct effect should b
 p3
 ```
 
-![center](/figures/causality1/unnamed-chunk-5-1.png)
+![center](/figures/causality1/unnamed-chunk-6-1.png)
 
 ``` r
 adjustmentSets(dag3, exposure = "exposure", outcome = "outcome",

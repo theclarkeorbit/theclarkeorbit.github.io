@@ -139,41 +139,6 @@
                 </div>
                 <p><strong>Disclaimer</strong>: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers who care about getting things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.</p>
 <p>This article heavily uses the <code>quartets</code> package and the <a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446">paper that introduces it</a> but there is also another <a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf">paper</a>(pdf) and associated <a href="https://github.com/jhullman/causalQuartet">package</a> on a very similar theme. For analysing DAGs, we rely heavily on the wonderful <code>dagitty</code> package, and we visualize using <code>ggdag</code>. </p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Load required packages</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">quartets</span><span class="p">)</span><span class="w">      </span><span class="c1"># Our example datasets</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">dagitty</span><span class="p">)</span><span class="w">       </span><span class="c1"># For DAG manipulation and testing</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span><span class="w">     </span><span class="c1"># For data manipulation and basic plotting</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="nx">Attaching</span><span class="w"> </span><span class="nx">core</span><span class="w"> </span><span class="nx">tidyverse</span><span class="w"> </span><span class="nx">packages</span><span class="w"> </span><span class="err">──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span><span class="w"> </span><span class="nx">tidyverse</span><span class="w"> </span><span class="m m-Double">2.0.0</span><span class="w"> </span><span class="err">──</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">dplyr</span><span class="w">     </span><span class="m m-Double">1.1.4</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">readr</span><span class="w">     </span><span class="m m-Double">2.1.5</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">forcats</span><span class="w">   </span><span class="m m-Double">1.0.1</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">stringr</span><span class="w">   </span><span class="m m-Double">1.5.2</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">ggplot2</span><span class="w">   </span><span class="m m-Double">4.0.0</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">tibble</span><span class="w">    </span><span class="m m-Double">3.3.0</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">lubridate</span><span class="w"> </span><span class="m m-Double">1.9.4</span><span class="w">     </span><span class="err">✔</span><span class="w"> </span><span class="nx">tidyr</span><span class="w">     </span><span class="m m-Double">1.3.1</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✔</span><span class="w"> </span><span class="nx">purrr</span><span class="w">     </span><span class="m m-Double">1.1.0</span><span class="w">     </span>
-<span class="err">##</span><span class="w"> </span><span class="err">──</span><span class="w"> </span><span class="nx">Conflicts</span><span class="w"> </span><span class="err">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span><span class="w"> </span><span class="nx">tidyverse_conflicts</span><span class="p">()</span><span class="w"> </span><span class="err">──</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✖</span><span class="w"> </span><span class="nx">dplyr</span><span class="o">::</span><span class="nx">filter</span><span class="p">()</span><span class="w"> </span><span class="nx">masks</span><span class="w"> </span><span class="nx">stats</span><span class="o">::</span><span class="nx">filter</span><span class="p">()</span>
-<span class="err">##</span><span class="w"> </span><span class="err">✖</span><span class="w"> </span><span class="nx">dplyr</span><span class="o">::</span><span class="nx">lag</span><span class="p">()</span><span class="w">    </span><span class="nx">masks</span><span class="w"> </span><span class="nx">stats</span><span class="o">::</span><span class="nx">lag</span><span class="p">()</span>
-<span class="err">##</span><span class="w"> </span><span class="nx">ℹ</span><span class="w"> </span><span class="nx">Use</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">conflicted</span><span class="w"> </span><span class="kn">package</span><span class="w"> </span><span class="p">(&lt;</span><span class="nx">http</span><span class="p">:</span><span class="c1">//conflicted.r-lib.org/&gt;) to force all conflicts to become errors</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">ggthemes</span><span class="p">)</span><span class="w">      </span><span class="c1"># For theme_tufte</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">patchwork</span><span class="p">)</span><span class="w"> </span>
-<span class="nf">library</span><span class="p">(</span><span class="n">ggdag</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span>
-<span class="err">##</span><span class="w"> </span><span class="nx">Attaching</span><span class="w"> </span><span class="kn">package</span><span class="p">:</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">ggdag</span><span class="err">&#39;</span>
-<span class="err">##</span><span class="w"> </span>
-<span class="err">##</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">following</span><span class="w"> </span><span class="nx">object</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="nx">masked</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="err">&#39;</span><span class="kn">package</span><span class="p">:</span><span class="nx">stats</span><span class="err">&#39;</span><span class="p">:</span>
-<span class="err">##</span><span class="w"> </span>
-<span class="err">##</span><span class="w">     </span><span class="nx">filter</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Set a theme for all plots</span>
-<span class="nf">theme_set</span><span class="p">(</span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">11</span><span class="p">))</span>
-</code></pre></div>
-
 <p>If you are totally new to all this causal stuff, do read <a href="https://dl.acm.org/doi/10.5555/3238230">The Book of Why</a> (no, really). And if you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the <a href="https://mixtape.scunning.com/">Causal Mixtape</a>. </p>
 <h3>The wind/rudder problem</h3>
 <p>Consider a dynamic system consisting of three variables: wind speed <span class="math">\(W\)</span>, rudder angle <span class="math">\(R\)</span>, and boat heading <span class="math">\(D\)</span> (direction). An observer on shore measures <span class="math">\(R\)</span> and <span class="math">\(D\)</span> continuously over time, with the goal of understanding whether rudder adjustments causally affect the boat's trajectory. The wind <span class="math">\(W\)</span>, however, remains unobserved.</p>
@@ -184,35 +149,19 @@
 <p>At the end of this article, you should be able to do a basic causal analysis on an appropriate dataset with dagitty and have an intuition about what it is you are saying when you estimate direct and indirect causal effects.</p>
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
-<div class="highlight"><pre><span></span><code><span class="nf">data</span><span class="p">(</span><span class="s">&quot;causal_quartet&quot;</span><span class="p">)</span>
-<span class="nf">sample_n</span><span class="p">(</span><span class="n">causal_quartet</span><span class="p">,</span><span class="m">10</span><span class="p">)</span>
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset      exposure outcome covariate     u1     u2</span>
-<span class="c1">##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (1) Collider   1.09     0.969     0.774 NA     NA    </span>
-<span class="c1">##  2 (3) Mediator   0.0763   2.66      1.58  NA     NA    </span>
-<span class="c1">##  3 (1) Collider   0.119   -0.405    -1.89  NA     NA    </span>
-<span class="c1">##  4 (1) Collider  -1.52    -1.47     -1.34  NA     NA    </span>
-<span class="c1">##  5 (4) M-Bias    -1.16    -2.51     -1.98  -0.124 -0.718</span>
-<span class="c1">##  6 (3) Mediator  -0.270   -1.65     -0.231 NA     NA    </span>
-<span class="c1">##  7 (1) Collider  -1.87    -0.948    -3.52  NA     NA    </span>
-<span class="c1">##  8 (1) Collider  -0.633   -0.379    -0.324 NA     NA    </span>
-<span class="c1">##  9 (1) Collider   0.728    1.46      1.83  NA     NA    </span>
-<span class="c1">## 10 (3) Mediator  -1.14     0.177    -0.227 NA     NA</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">causal_quartet</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span>
-<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
-<span class="w">    </span><span class="n">mean_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">exposure</span><span class="p">),</span>
-<span class="w">    </span><span class="n">mean_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">outcome</span><span class="p">),</span>
-<span class="w">    </span><span class="n">sd_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">exposure</span><span class="p">),</span>
-<span class="w">    </span><span class="n">sd_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sd</span><span class="p">(</span><span class="n">outcome</span><span class="p">),</span>
-<span class="w">    </span><span class="n">cor_xy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cor</span><span class="p">(</span><span class="n">exposure</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
+<span class="c1">##    dataset        exposure outcome covariate    u1     u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (3) Mediator    0.728    -0.533    -0.199 NA    NA    </span>
+<span class="c1">##  2 (3) Mediator    0.911     2.54      2.82  NA    NA    </span>
+<span class="c1">##  3 (2) Confounder  0.182     0.859     1.13  NA    NA    </span>
+<span class="c1">##  4 (4) M-Bias      0.694     0.265    15.2    1.65  0.969</span>
+<span class="c1">##  5 (3) Mediator   -1.68     -3.28     -1.52  NA    NA    </span>
+<span class="c1">##  6 (2) Confounder -0.421     0.887    -0.562 NA    NA    </span>
+<span class="c1">##  7 (1) Collider    1.27      1.56      1.70  NA    NA    </span>
+<span class="c1">##  8 (3) Mediator    2.10      1.24      0.770 NA    NA    </span>
+<span class="c1">##  9 (2) Confounder  0.406     0.451     0.655 NA    NA    </span>
+<span class="c1">## 10 (3) Mediator   -0.00823   0.794     0.817 NA    NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
@@ -222,20 +171,6 @@
 <span class="gu">##</span> 2 (2) Confounder   100 -0.0291 -0.0357  1.30  1.77  0.735
 <span class="gu">##</span> 3 (3) Mediator     100 -0.0317 -0.0392  1.03  1.72  0.594
 <span class="gu">##</span> 4 (4) M-Bias       100  0.136  -0.0809  1.48  2.06  0.724
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">causal_quartet</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exposure</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">outcome</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.6</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">dataset</span><span class="p">,</span><span class="w"> </span><span class="n">labeller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">label_both</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
-<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The Causal Quartet: Identical Statistics, Different Stories&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Four datasets with the same correlation but different causal structures&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y&quot;</span>
-<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">theme</span><span class="p">(</span>
-<span class="w">    </span><span class="n">strip.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
 </code></pre></div>
 
 <p><img alt="center" src="/figures/causality1/load-data-1.png"></p>
@@ -277,45 +212,9 @@
 <span class="s">  u2 -&gt; covariate</span>
 <span class="s">  u2 -&gt; outcome</span>
 <span class="s">}&#39;</span><span class="p">)</span>
-
-<span class="c1"># Plot them side by side</span>
-<span class="n">dag1</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">tidy_dagitty</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yend</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D6604D&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_dag_edges</span><span class="p">(</span><span class="n">edge_colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;1. Collider&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">theme_dag</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">p1</span>
-
-<span class="n">dag2</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">tidy_dagitty</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yend</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D6604D&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_dag_edges</span><span class="p">(</span><span class="n">edge_colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;2. Confounder&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">theme_dag</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">p2</span>
-
-<span class="n">dag3</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">tidy_dagitty</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yend</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D6604D&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_dag_edges</span><span class="p">(</span><span class="n">edge_colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;3. Mediator&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">theme_dag</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">p3</span>
-
-<span class="n">dag4</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">tidy_dagitty</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">yend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yend</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_point</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">geom_dag_text</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#D6604D&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3.0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">geom_dag_edges</span><span class="p">(</span><span class="n">edge_colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C4B5A0&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">ggtitle</span><span class="p">(</span><span class="s">&quot;4. M-bias&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
-<span class="w">  </span><span class="nf">theme_dag</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">p4</span>
-
-<span class="n">p1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
-<span class="w">  </span><span class="nf">plot_layout</span><span class="p">(</span><span class="n">ncol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/causality1/define dags-1.png"></p>
+<p><img alt="center" src="/figures/causality1/unnamed-chunk-1-1.png"></p>
 <p>While the headline stats are the same, the 4 data sets represent very different causal structures, seen above. </p>
 <h4>Testing DAGs against data</h4>
 <p>In a typical situation, the DAG is an explicit set of assumptions about the world generated by the scientist, and these need to be tested against the data. The key insight of the first rung of causation is that different DAG structures imply different patterns of conditional independence. Even though x and y are correlated in all four datasets, they have different relationships when we condition on the third variable z.</p>
@@ -431,7 +330,7 @@ or as a natural direct effect (which requires stronger assumptions).</p>
 <div class="highlight"><pre><span></span><code><span class="n">p4</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/causality1/unnamed-chunk-2-1.png"></p>
+<p><img alt="center" src="/figures/causality1/unnamed-chunk-3-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="nf">paths</span><span class="p">(</span><span class="n">dag4</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;exposure&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;outcome&quot;</span><span class="p">)</span>
 </code></pre></div>
 
@@ -480,7 +379,7 @@ or as a natural direct effect (which requires stronger assumptions).</p>
 <div class="highlight"><pre><span></span><code><span class="n">p3</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/causality1/unnamed-chunk-5-1.png"></p>
+<p><img alt="center" src="/figures/causality1/unnamed-chunk-6-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">dag3</span><span class="p">,</span><span class="w"> </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exposure&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;outcome&quot;</span><span class="p">,</span>
 <span class="w">                             </span><span class="n">effect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;direct&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;minimal&quot;</span><span class="p">)</span>
 </code></pre></div>
