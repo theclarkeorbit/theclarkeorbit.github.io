@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate     u1     u2
-##    <chr>             <dbl>   <dbl>     <dbl>  <dbl>  <dbl>
-##  1 (1) Collider      0.119  -0.405    -1.89  NA     NA    
-##  2 (1) Collider     -0.428   1.25     -0.101 NA     NA    
-##  3 (2) Confounder   -0.723   0.736    -0.383 NA     NA    
-##  4 (1) Collider      0.652   0.585     0.799 NA     NA    
-##  5 (1) Collider      3.48    2.91      4.35  NA     NA    
-##  6 (3) Mediator     -1.10   -1.23     -1.00  NA     NA    
-##  7 (2) Confounder   -0.643   1.64      0.845 NA     NA    
-##  8 (3) Mediator      1.11    2.70      2.36  NA     NA    
-##  9 (4) M-Bias       -1.09   -0.362    -7.07  -0.889  0.600
-## 10 (1) Collider     -0.680  -1.97     -2.76  NA     NA
+##    dataset      exposure outcome covariate    u1     u2
+##    <chr>           <dbl>   <dbl>     <dbl> <dbl>  <dbl>
+##  1 (3) Mediator   0.0617  -0.166    -0.147 NA    NA    
+##  2 (3) Mediator  -0.213   -0.281     0.401 NA    NA    
+##  3 (1) Collider   1.13     2.53      1.28  NA    NA    
+##  4 (3) Mediator  -1.18    -0.921    -1.06  NA    NA    
+##  5 (3) Mediator   1.55     2.83      2.25  NA    NA    
+##  6 (4) M-Bias     1.99    -1.21      8.04   1.11 -0.601
+##  7 (1) Collider  -1.52    -1.47     -1.34  NA    NA    
+##  8 (3) Mediator   0.911    2.54      2.82  NA    NA    
+##  9 (3) Mediator   1.11     2.70      2.36  NA    NA    
+## 10 (3) Mediator   0.728   -0.533    -0.199 NA    NA
 ```
 
 ```
@@ -187,7 +187,11 @@ Passing all tests does not *prove* the DAG is correct. Multiple different DAG st
 ![center](/figures/causality1/test-wrong-dag-1.png)
 
 ```
-## [1] "list(X = \"covariate\", Y = \"outcome\", Z = \"exposure\")"
+## [1] "The implications: "
+```
+
+```
+## cvrt _||_ otcm | exps
 ```
 
 
