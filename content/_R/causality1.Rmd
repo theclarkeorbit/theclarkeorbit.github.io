@@ -158,7 +158,9 @@ dag4 |>
   geom_dag_text(color = "#D6604D", size = 3.0) + geom_dag_edges(edge_colour = "#C4B5A0") +
   ggtitle("4. M-bias") +
   theme_dag() -> p4
+```
 
+```{r}
 p1 + p2 + p3 + p4 + 
   plot_layout(ncol = 2, nrow = 2)
 ```

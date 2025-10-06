@@ -35,18 +35,18 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 
 ```
 ## # A tibble: 10 × 6
-##    dataset        exposure outcome covariate    u1    u2
-##    <chr>             <dbl>   <dbl>     <dbl> <dbl> <dbl>
-##  1 (3) Mediator     1.35     0.358     1.99     NA    NA
-##  2 (3) Mediator    -0.640   -1.58     -0.973    NA    NA
-##  3 (3) Mediator    -0.289    0.417     0.176    NA    NA
-##  4 (1) Collider    -0.322    0.761     0.214    NA    NA
-##  5 (3) Mediator    -0.184   -0.252    -0.780    NA    NA
-##  6 (1) Collider    -0.924   -2.56     -1.59     NA    NA
-##  7 (2) Confounder  -2.07    -1.72     -2.18     NA    NA
-##  8 (3) Mediator     0.0672  -0.140     0.130    NA    NA
-##  9 (1) Collider     1.26     0.970     1.27     NA    NA
-## 10 (1) Collider     1.27     1.56      1.70     NA    NA
+##    dataset        exposure outcome covariate       u1      u2
+##    <chr>             <dbl>   <dbl>     <dbl>    <dbl>   <dbl>
+##  1 (3) Mediator    -1.08    -0.393    -2.55  NA       NA     
+##  2 (3) Mediator     0.181   -0.526    -0.980 NA       NA     
+##  3 (4) M-Bias       2.12     1.09     -0.534  0.00605 -0.0802
+##  4 (1) Collider     0.0830   0.351     0.174 NA       NA     
+##  5 (2) Confounder  -0.694    1.08      0.273 NA       NA     
+##  6 (3) Mediator     0.0760  -0.911    -0.377 NA       NA     
+##  7 (3) Mediator     0.254    1.66      1.71  NA       NA     
+##  8 (1) Collider     1.04     0.852     1.23  NA       NA     
+##  9 (4) M-Bias      -2.29    -6.75     -5.00  -0.289   -2.98  
+## 10 (1) Collider    -1.14    -0.855    -0.994 NA       NA
 ```
 
 ```
@@ -115,7 +115,15 @@ dag4 <- dagitty('dag {
 }')
 ```
 
-![center](/figures/causality1/unnamed-chunk-1-1.png)
+
+
+
+``` r
+p1 + p2 + p3 + p4 + 
+  plot_layout(ncol = 2, nrow = 2)
+```
+
+![center](/figures/causality1/unnamed-chunk-2-1.png)
 
 While the headline stats are the same, the 4 data sets represent very different causal structures, seen above. 
 
@@ -274,7 +282,7 @@ The `daggity` package has several helpful functions:
 p4
 ```
 
-![center](/figures/causality1/unnamed-chunk-3-1.png)
+![center](/figures/causality1/unnamed-chunk-4-1.png)
 
 ``` r
 paths(dag4, "exposure", "outcome")
@@ -331,7 +339,7 @@ Lets see this for the mediator (DAG-3) (where we know the direct effect should b
 p3
 ```
 
-![center](/figures/causality1/unnamed-chunk-6-1.png)
+![center](/figures/causality1/unnamed-chunk-7-1.png)
 
 ``` r
 adjustmentSets(dag3, exposure = "exposure", outcome = "outcome",
