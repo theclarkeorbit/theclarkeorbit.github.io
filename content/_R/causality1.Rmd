@@ -64,8 +64,8 @@ ggplot(causal_quartet, aes(x = exposure, y = outcome)) +
   labs(
     title = "The Causal Quartet: Identical Statistics, Different Stories",
     subtitle = "Four datasets with the same correlation but different causal structures",
-    x = "X",
-    y = "Y"
+    x = "Exposure",
+    y = "Outcome"
   ) +
   theme(
     strip.text = element_text(face = "bold", size = 10)
