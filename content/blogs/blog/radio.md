@@ -1,5 +1,4 @@
 Title: Radio
-Author: Prasanna Bhogale
 Date: 11 Oct 2025
 
 It was far too hot to play outside, and Jai was sitting in his parent's living room with his feet on the sofa, his back flat on the floor, reading an issue of "Astounding Stories" published 50 years before he was born. He could hear his mother snoring in the bedroom over the evaporative cooler that kept the house comfortably sopoforic despite the blazing sun and the dehydrating winds blowing against the thick brick walls.
