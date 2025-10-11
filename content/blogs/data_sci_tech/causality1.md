@@ -37,16 +37,16 @@ Let's load the causal quartet and take a first look. These four datasets were ca
 ## # A tibble: 10 × 6
 ##    dataset        exposure outcome covariate      u1     u2
 ##    <chr>             <dbl>   <dbl>     <dbl>   <dbl>  <dbl>
-##  1 (3) Mediator     0.111    1.14      1.30  NA      NA    
-##  2 (4) M-Bias       1.89     1.49      2.39   0.476   0.194
-##  3 (2) Confounder  -1.25    -1.80      0.161 NA      NA    
-##  4 (3) Mediator    -2.11    -4.87     -3.67  NA      NA    
-##  5 (4) M-Bias      -0.0572  -1.49     -1.59  -0.0202 -0.881
-##  6 (1) Collider    -2.24    -2.34     -3.49  NA      NA    
-##  7 (1) Collider     1.27     1.56      1.70  NA      NA    
-##  8 (4) M-Bias      -0.0911  -0.239    -2.49  -0.207   0.368
-##  9 (2) Confounder   1.08     1.76      0.543 NA      NA    
-## 10 (4) M-Bias      -2.29    -6.75     -5.00  -0.289  -2.98
+##  1 (4) M-Bias       0.723   1.26       4.55   0.556   0.282
+##  2 (2) Confounder  -0.456  -1.04       0.386 NA      NA    
+##  3 (4) M-Bias       0.690   1.75       1.35   0.0427 -0.539
+##  4 (3) Mediator     0.910   0.909     -0.198 NA      NA    
+##  5 (1) Collider     0.770   1.28       1.27  NA      NA    
+##  6 (1) Collider     0.0472  0.0305    -0.438 NA      NA    
+##  7 (3) Mediator     0.0617 -0.166     -0.147 NA      NA    
+##  8 (1) Collider    -0.405   0.163     -1.82  NA      NA    
+##  9 (4) M-Bias       0.957  -2.65       0.640  0.222  -0.899
+## 10 (2) Confounder   1.47    0.732      0.188 NA      NA
 ```
 
 ```
