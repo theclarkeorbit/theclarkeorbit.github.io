@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate      u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (4) M-Bias       0.723   1.26       4.55   0.556   0.282</span>
-<span class="c1">##  2 (2) Confounder  -0.456  -1.04       0.386 NA      NA    </span>
-<span class="c1">##  3 (4) M-Bias       0.690   1.75       1.35   0.0427 -0.539</span>
-<span class="c1">##  4 (3) Mediator     0.910   0.909     -0.198 NA      NA    </span>
-<span class="c1">##  5 (1) Collider     0.770   1.28       1.27  NA      NA    </span>
-<span class="c1">##  6 (1) Collider     0.0472  0.0305    -0.438 NA      NA    </span>
-<span class="c1">##  7 (3) Mediator     0.0617 -0.166     -0.147 NA      NA    </span>
-<span class="c1">##  8 (1) Collider    -0.405   0.163     -1.82  NA      NA    </span>
-<span class="c1">##  9 (4) M-Bias       0.957  -2.65       0.640  0.222  -0.899</span>
-<span class="c1">## 10 (2) Confounder   1.47    0.732      0.188 NA      NA</span>
+<span class="c1">##    dataset      exposure outcome covariate     u1     u2</span>
+<span class="c1">##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider  0.233    0.343      0.563 NA     NA    </span>
+<span class="c1">##  2 (4) M-Bias   -0.125   -1.60      -8.86  -1.11  -0.314</span>
+<span class="c1">##  3 (4) M-Bias    1.96     4.19      15.9    1.90   0.581</span>
+<span class="c1">##  4 (1) Collider -0.653    0.0510     1.31  NA     NA    </span>
+<span class="c1">##  5 (4) M-Bias    1.15     3.23      -3.21  -0.397  1.19 </span>
+<span class="c1">##  6 (1) Collider -0.727   -0.480     -0.531 NA     NA    </span>
+<span class="c1">##  7 (4) M-Bias   -1.09    -0.362     -7.07  -0.889  0.600</span>
+<span class="c1">##  8 (3) Mediator -0.119    2.74       1.08  NA     NA    </span>
+<span class="c1">##  9 (1) Collider -0.00417 -0.530     -0.909 NA     NA    </span>
+<span class="c1">## 10 (3) Mediator -0.887   -3.82      -2.81  NA     NA</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
@@ -685,11 +685,11 @@ For the total effect, we don't need to control for anything:</p>
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./a-causal-workflow-in-r-with-coupon-marketing-data.html">"A causal workflow in R with coupon marketing data"</a></li>
     <li class="list-group-item"><a href="./climbing-pearls-ladder-of-causation.html">"Climbing Pearl's Ladder of Causation"</a></li>
     <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
     <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
     <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
-    <li class="list-group-item"><a href="./becoming-a-data-scientist-an-opinionated-take-in-2020.html">"Becoming a Data Scientist : an opinionated take in 2020"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
