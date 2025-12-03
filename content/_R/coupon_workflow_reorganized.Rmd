@@ -69,12 +69,12 @@ Following [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=1
 # =============================================================================
 # LOAD DATA
 # =============================================================================
-train                <- readr::read_csv("train.csv")
-campaign_data        <- readr::read_csv("campaign_data.csv")
-coupon_item_mapping  <- readr::read_csv("coupon_item_mapping.csv")
-customer_demo        <- readr::read_csv("customer_demographics.csv")
-customer_txn         <- readr::read_csv("customer_transaction_data.csv")
-item_data            <- readr::read_csv("item_data.csv")
+train                <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/train.csv")
+campaign_data        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/campaign_data.csv")
+coupon_item_mapping  <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/coupon_item_mapping.csv")
+customer_demo        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_demographics.csv")
+customer_txn         <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv")
+item_data            <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/item_data.csv")
 
 # =============================================================================
 # DEFINE COUPON CATEGORIES (following Langen & Huber)

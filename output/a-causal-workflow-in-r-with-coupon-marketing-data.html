@@ -127,7 +127,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:46:12.294265+01:00"> Wed 03 December 2025</time>
+        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:49:37.876599+01:00"> Wed 03 December 2025</time>
     </span>
 
 
@@ -176,43 +176,14 @@
 <div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
 <span class="c1"># LOAD DATA</span>
 <span class="c1"># =============================================================================</span>
-<span class="n">train</span><span class="w">                </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;train.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
+<span class="n">train</span><span class="w">                </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/Documents/causal_talk_5thel/mlcausal_data/train.csv&quot;</span><span class="p">)</span>
+<span class="n">campaign_data</span><span class="w">        </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/Documents/causal_talk_5thel/mlcausal_data/campaign_data.csv&quot;</span><span class="p">)</span>
+<span class="n">coupon_item_mapping</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/Documents/causal_talk_5thel/mlcausal_data/coupon_item_mapping.csv&quot;</span><span class="p">)</span>
+<span class="n">customer_demo</span><span class="w">        </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/Documents/causal_talk_5thel/mlcausal_data/customer_demographics.csv&quot;</span><span class="p">)</span>
+<span class="n">customer_txn</span><span class="w">         </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/Documents/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv&quot;</span><span class="p">)</span>
+<span class="n">item_data</span><span class="w">            </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;~/Documents/causal_talk_5thel/mlcausal_data/item_data.csv&quot;</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;train.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">campaign_data</span><span class="w">        </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;campaign_data.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;campaign_data.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">coupon_item_mapping</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;coupon_item_mapping.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;coupon_item_mapping.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">customer_demo</span><span class="w">        </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;customer_demographics.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;customer_demographics.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">customer_txn</span><span class="w">         </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;customer_transaction_data.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;customer_transaction_data.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">item_data</span><span class="w">            </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">readr</span><span class="o">::</span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;item_data.csv&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;item_data.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># DEFINE COUPON CATEGORIES (following Langen &amp; Huber)</span>
 <span class="c1"># =============================================================================</span>
 <span class="n">ready2eat_cats</span><span class="w">     </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Bakery&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Restaurant&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Prepared Food&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Dairy, Juices &amp; Snacks&quot;</span><span class="p">)</span>
@@ -225,25 +196,13 @@
 <span class="c1"># =============================================================================</span>
 <span class="n">customer_txn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">customer_txn</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">total_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">quantity</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">selling_price</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;customer_txn&#39; not found
-</code></pre></div>
+<span class="n">threshold</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="nf">quantile</span><span class="p">(</span><span class="n">customer_txn</span><span class="o">$</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="m">2000</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="n">threshold</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="nf">quantile</span><span class="p">(</span><span class="n">customer_txn</span><span class="o">$</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="m">0.95</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="m">2000</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;customer_txn&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">customer_txn_clean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">customer_txn</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">customer_txn_clean</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">customer_txn</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">total_value</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;customer_txn&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># PARSE CAMPAIGN DATES</span>
 <span class="c1"># =============================================================================</span>
 <span class="n">campaign_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">campaign_data</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -252,34 +211,22 @@
 <span class="w">    </span><span class="n">end_date</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">lubridate</span><span class="o">::</span><span class="nf">dmy</span><span class="p">(</span><span class="n">end_date</span><span class="p">),</span>
 <span class="w">    </span><span class="n">camp_days</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">end_date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_date</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;campaign_data&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># BUILD CUSTOMER-CAMPAIGN PANEL</span>
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Treated: customers who received coupons</span>
 <span class="n">cust_with_coupons</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">train</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error: object &#39;train&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Control candidates: customers who transacted during campaigns but got no coupons</span>
+<span class="c1"># Control candidates: customers who transacted during campaigns but got no coupons</span>
 <span class="n">cust_transacted</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">customer_txn_clean</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">crossing</span><span class="p">(</span><span class="n">campaign_data</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="n">end_date</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">end_date</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;customer_txn_clean&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Union of both sources</span>
+<span class="c1"># Union of both sources</span>
 <span class="n">cust_camp_full</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">cust_with_coupons</span><span class="p">,</span><span class="w"> </span><span class="n">cust_transacted</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">campaign_data</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;campaign_id&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -287,12 +234,8 @@
 <span class="w">    </span><span class="n">received_any_coupon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;_&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%in%</span>
 <span class="w">      </span><span class="nf">paste</span><span class="p">(</span><span class="n">cust_with_coupons</span><span class="o">$</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">cust_with_coupons</span><span class="o">$</span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">sep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;_&quot;</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cust_with_coupons&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># CONSTRUCT Z: Pre-campaign propensity index</span>
 <span class="c1"># =============================================================================</span>
 <span class="n">pre_window</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">60</span>
@@ -308,20 +251,12 @@
 <span class="w">    </span><span class="n">pre_daily</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">pmax</span><span class="p">(</span><span class="n">dplyr</span><span class="o">::</span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">date</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
 <span class="w">    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;customer_txn_clean&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">cust_camp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp_full</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">cust_camp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp_full</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">pre_spend</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;customer_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;campaign_id&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">replace_na</span><span class="p">(</span><span class="n">pre_daily</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cust_camp_full&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># CONSTRUCT X: Treatment indicators by coupon category</span>
 <span class="c1"># =============================================================================</span>
 <span class="n">coupon_with_cat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">coupon_item_mapping</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -334,12 +269,8 @@
 <span class="w">    </span><span class="n">is_other_food</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">main_category</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">other_food_cats</span><span class="p">,</span>
 <span class="w">    </span><span class="n">is_other_nonfood</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">main_category</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="n">other_nonfood_cats</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;coupon_item_mapping&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">treatment_flags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">train</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">treatment_flags</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">train</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">coupon_id</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">coupon_with_cat</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;coupon_id&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">group_by</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -351,67 +282,38 @@
 <span class="w">    </span><span class="n">n_coupons</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">n</span><span class="p">(),</span>
 <span class="w">    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error: object &#39;train&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">cust_camp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">cust_camp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">treatment_flags</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;customer_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;campaign_id&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span>
 <span class="w">    </span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;X_&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">~</span><span class="n">tidyr</span><span class="o">::</span><span class="nf">replace_na</span><span class="p">(</span><span class="n">.x</span><span class="p">,</span><span class="w"> </span><span class="m">0L</span><span class="p">)),</span>
 <span class="w">    </span><span class="n">n_coupons</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">replace_na</span><span class="p">(</span><span class="n">n_coupons</span><span class="p">,</span><span class="w"> </span><span class="m">0L</span><span class="p">),</span>
 <span class="w">    </span><span class="n">any_coupon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">n_coupons</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cust_camp&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># CONSTRUCT Y: Campaign-period average daily spending</span>
 <span class="c1"># =============================================================================</span>
 <span class="n">txn_daily</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">customer_txn_clean</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">group_by</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">summarise</span><span class="p">(</span><span class="n">daily_spend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;customer_txn_clean&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">campaign_spend</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">campaign_spend</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">distinct</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="n">end_date</span><span class="p">,</span><span class="w"> </span><span class="n">camp_days</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">txn_daily</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;customer_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">relationship</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;many-to-many&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">start_date</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">end_date</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">group_by</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">camp_days</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">summarise</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">daily_spend</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">first</span><span class="p">(</span><span class="n">camp_days</span><span class="p">),</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cust_camp&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">analysis_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">analysis_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">campaign_spend</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;customer_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;campaign_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;camp_days&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">replace_na</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cust_camp&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Trim Y outliers at 99th percentile</span>
+<span class="c1"># Trim Y outliers at 99th percentile</span>
 <span class="n">y_99</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">quantile</span><span class="p">(</span><span class="n">analysis_df</span><span class="o">$</span><span class="n">Y</span><span class="p">,</span><span class="w"> </span><span class="m">0.99</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
-</code></pre></div>
+<span class="n">analysis_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">analysis_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">y_99</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;analysis_df&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">analysis_df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">analysis_df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">y_99</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;analysis_df&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># =============================================================================</span>
+<span class="c1"># =============================================================================</span>
 <span class="c1"># BUILD ANALYSIS SAMPLES (Langen &amp; Huber methodology)</span>
 <span class="c1"># =============================================================================</span>
 <span class="c1"># For each coupon type: compare (has this coupon) vs (no coupons at all)</span>
@@ -424,12 +326,8 @@
 <span class="w">    </span><span class="n">C_other</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">X_ready2eat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">X_other_food</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">X_other_nonfood</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">Z</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">,</span><span class="w"> </span><span class="n">C_other</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;analysis_df&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">df_ready2eat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">analysis_df</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">df_ready2eat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">analysis_df</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">X_ready2eat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">any_coupon</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span>
 <span class="w">    </span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X_ready2eat</span><span class="p">,</span>
@@ -438,21 +336,14 @@
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">,</span><span class="w"> </span><span class="n">Z</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="p">,</span><span class="w"> </span><span class="n">C_other</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;analysis_df&#39; not found
-</code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="n">sample_sizes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="o">::</span><span class="nf">tibble</span><span class="p">(</span>
 <span class="w">  </span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Drugstore&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ready-to-eat&quot;</span><span class="p">),</span>
 <span class="w">  </span><span class="n">n</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">df_drugstore</span><span class="p">),</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">df_ready2eat</span><span class="p">)),</span>
 <span class="w">  </span><span class="n">treated</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">df_drugstore</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">df_ready2eat</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span>
 <span class="w">  </span><span class="n">control</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">df_drugstore</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">df_ready2eat</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">))</span>
 <span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_drugstore&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">sample_sizes</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">sample_sizes</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span>
 <span class="w">    </span><span class="n">col.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Coupon type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;N&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Treated (X = 1)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Control (X = 0)&quot;</span><span class="p">),</span>
 <span class="w">    </span><span class="n">caption</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Sample sizes by coupon type and treatment status&quot;</span>
@@ -460,8 +351,31 @@
 <span class="w">  </span><span class="n">kableExtra</span><span class="o">::</span><span class="nf">kable_styling</span><span class="p">(</span><span class="n">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;sample_sizes&#39; not found
-</code></pre></div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>Sample sizes by coupon type and treatment status</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Coupon type </th>
+   <th style="text-align:right;"> N </th>
+   <th style="text-align:right;"> Treated (X = 1) </th>
+   <th style="text-align:right;"> Control (X = 0) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Drugstore </td>
+   <td style="text-align:right;"> 26577 </td>
+   <td style="text-align:right;"> 3759 </td>
+   <td style="text-align:right;"> 22818 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ready-to-eat </td>
+   <td style="text-align:right;"> 24831 </td>
+   <td style="text-align:right;"> 2013 </td>
+   <td style="text-align:right;"> 22818 </td>
+  </tr>
+</tbody>
+</table>
 
 <h2>Traditional Causal Inference Workflow</h2>
 <h3>DAG Specification and Identification</h3>
@@ -493,75 +407,56 @@ $$</div>
 <h4>Drugstore Coupons</h4>
 <div class="highlight"><pre><span></span><code><span class="c1"># Naive estimate (no adjustment - confounded!)</span>
 <span class="n">m_drug_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_drugstore</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(mf, parent.frame()): object &#39;df_drugstore&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">naive_drug</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_drug_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">naive_drug</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_drug_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Naive&quot;</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_drug_naive&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Adjusted estimate (backdoor criterion satisfied)</span>
+<span class="c1"># Adjusted estimate (backdoor criterion satisfied)</span>
 <span class="n">m_drug_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">C_other</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_drugstore</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(mf, parent.frame()): object &#39;df_drugstore&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">adj_drug</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">adj_drug</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Adjusted&quot;</span><span class="p">)</span>
+
+<span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandwich</span><span class="o">::</span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_drug_adj&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandwich</span><span class="o">::</span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_drug_adj&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> 
+<span class="gu">##</span> t test of coefficients:
+<span class="gu">##</span> 
+<span class="gu">##</span>                Estimate  Std. Error t value  Pr(&gt;|t|)    
+<span class="gu">##</span> (Intercept) 115.0595415   1.6511328 69.6852 &lt; 2.2e-16 ***
+<span class="gu">##</span> X            96.5742140  13.3786262  7.2185 5.396e-13 ***
+<span class="gu">##</span> Z             0.0596516   0.0014281 41.7696 &lt; 2.2e-16 ***
+<span class="gu">##</span> C_other     -74.1725128  13.5716003 -5.4653 4.663e-08 ***
+<span class="gu">##</span> ---
+<span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 </code></pre></div>
 
 <h4>Ready-to-Eat Coupons</h4>
 <div class="highlight"><pre><span></span><code><span class="c1"># Naive estimate (no adjustment - confounded!)</span>
 <span class="n">m_ready_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_ready2eat</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(mf, parent.frame()): object &#39;df_ready2eat&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">naive_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">naive_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Naive&quot;</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_ready_naive&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Adjusted estimate (backdoor criterion satisfied)</span>
+<span class="c1"># Adjusted estimate (backdoor criterion satisfied)</span>
 <span class="n">m_ready_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">C_other</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_ready2eat</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in eval(mf, parent.frame()): object &#39;df_ready2eat&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">adj_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">adj_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Adjusted&quot;</span><span class="p">)</span>
+
+<span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandwich</span><span class="o">::</span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_ready_adj&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandwich</span><span class="o">::</span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_ready_adj&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> 
+<span class="gu">##</span> t test of coefficients:
+<span class="gu">##</span> 
+<span class="gu">##</span>               Estimate Std. Error t value  Pr(&gt;|t|)    
+<span class="gu">##</span> (Intercept) 1.1583e+02 1.6958e+00 68.3034 &lt; 2.2e-16 ***
+<span class="gu">##</span> X           2.1301e+01 3.4930e+00  6.0982 1.089e-09 ***
+<span class="gu">##</span> Z           5.8995e-02 1.4808e-03 39.8395 &lt; 2.2e-16 ***
+<span class="gu">##</span> ---
+<span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 </code></pre></div>
 
 <h4>Comparison: Naive vs Adjusted</h4>
@@ -573,12 +468,8 @@ $$</div>
 <span class="w">  </span><span class="n">adj_ready</span><span class="w">   </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ready-to-eat&quot;</span><span class="p">)</span>
 <span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">conf.low</span><span class="p">,</span><span class="w"> </span><span class="n">conf.high</span><span class="p">,</span><span class="w"> </span><span class="n">p.value</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;naive_drug&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Display table with kableExtra (only key columns)</span>
+<span class="c1"># Display table with kableExtra (only key columns)</span>
 <span class="n">comparison_table</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">p.value</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span>
@@ -590,8 +481,43 @@ $$</div>
 <span class="w">  </span><span class="n">kableExtra</span><span class="o">::</span><span class="nf">row_spec</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">bold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;steelblue&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;comparison_table&#39; not found
-</code></pre></div>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>Naive vs Adjusted Effect Estimates by Coupon Type</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Coupon Type </th>
+   <th style="text-align:left;"> Model </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> p-value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Drugstore </td>
+   <td style="text-align:left;"> Naive </td>
+   <td style="text-align:right;"> 29.94 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Drugstore </td>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 96.57 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ready-to-eat </td>
+   <td style="text-align:left;"> Naive </td>
+   <td style="text-align:right;"> 25.95 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Ready-to-eat </td>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 21.30 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0 </td>
+  </tr>
+</tbody>
+</table>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># LaTeX table output for slides (copy into causal_parrot_talk_v2.tex slide 20)</span>
 <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n--- LaTeX table for slides ---\n&quot;</span><span class="p">)</span>
@@ -610,9 +536,14 @@ $$</div>
 <span class="w">  </span><span class="nf">print</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;comparison_table&#39; not found
-</code></pre></div>
-
+<div class="math">\begin{tabular}{lrr}
+\toprule
+Coupon Type &amp; Naive &amp; Adjusted\\
+\midrule
+Drugstore &amp; 29.94 &amp; 96.57\\
+Ready-to-eat &amp; 25.95 &amp; 21.30\\
+\bottomrule
+\end{tabular}</div>
 <div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n--- End LaTeX table ---\n&quot;</span><span class="p">)</span>
 </code></pre></div>
 
@@ -642,28 +573,13 @@ $$</div>
 <span class="w">    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span>
 <span class="w">    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">p</span>
+<span class="n">p</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;comparison_table&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">p</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;p&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/coupon_workflow_reorganized/ate-comparison-plot-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Save plot for slides (proper dimensions for presentation)</span>
 <span class="n">ggplot2</span><span class="o">::</span><span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;effects.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;p&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">ggplot2</span><span class="o">::</span><span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;effects.pdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">  </span><span class="c1"># Vector format for LaTeX</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;p&#39; not found
+<span class="n">ggplot2</span><span class="o">::</span><span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;effects.pdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">  </span><span class="c1"># Vector format for LaTeX</span>
 </code></pre></div>
 
 <p><strong>Interpretation</strong>: Consistent with <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a>, we find that <strong>drugstore coupons have a larger positive effect on sales</strong>, while <strong>ready-to-eat coupons show a smaller effect</strong>. The same DAG and identification strategy produces different effect estimates purely because different coupon categories have different causal effects on purchasing behaviorm and our results differ slightly from <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a> since we simplified the data preperation process, and ignored granular customer demographic information.</p>
