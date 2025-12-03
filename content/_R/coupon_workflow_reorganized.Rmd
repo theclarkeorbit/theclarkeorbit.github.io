@@ -128,7 +128,7 @@ cust_camp_full <- dplyr::bind_rows(cust_with_coupons, cust_transacted) |>
   )
 
 # =============================================================================
-# CONSTRUCT Z: Pre-campaign propensity index
+# CONSTRUCT Z: Pre-campaign propensity index (true daily average)
 # =============================================================================
 pre_window <- 60
 
@@ -140,13 +140,16 @@ pre_spend <- customer_txn_clean |>
   dplyr::filter(date >= start_date - pre_window, date < start_date) |>
   dplyr::group_by(customer_id, campaign_id) |>
   dplyr::summarise(
-    pre_daily = sum(total_value, na.rm = TRUE) / pmax(dplyr::n_distinct(date), 1),
+    pre_total = sum(total_value, na.rm = TRUE),
     .groups = "drop"
   )
 
 cust_camp <- cust_camp_full |>
   dplyr::left_join(pre_spend, by = c("customer_id", "campaign_id")) |>
-  dplyr::mutate(Z = tidyr::replace_na(pre_daily, 0))
+  dplyr::mutate(
+    pre_total = tidyr::replace_na(pre_total, 0),
+    Z = pre_total / pre_window  # True daily average over full 60-day window
+  )
 
 # =============================================================================
 # CONSTRUCT X: Treatment indicators by coupon category

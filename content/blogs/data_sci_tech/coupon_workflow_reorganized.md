@@ -122,7 +122,7 @@ cust_camp_full <- dplyr::bind_rows(cust_with_coupons, cust_transacted) |>
   )
 
 # =============================================================================
-# CONSTRUCT Z: Pre-campaign propensity index
+# CONSTRUCT Z: Pre-campaign propensity index (true daily average)
 # =============================================================================
 pre_window <- 60
 
@@ -134,13 +134,16 @@ pre_spend <- customer_txn_clean |>
   dplyr::filter(date >= start_date - pre_window, date < start_date) |>
   dplyr::group_by(customer_id, campaign_id) |>
   dplyr::summarise(
-    pre_daily = sum(total_value, na.rm = TRUE) / pmax(dplyr::n_distinct(date), 1),
+    pre_total = sum(total_value, na.rm = TRUE),
     .groups = "drop"
   )
 
 cust_camp <- cust_camp_full |>
   dplyr::left_join(pre_spend, by = c("customer_id", "campaign_id")) |>
-  dplyr::mutate(Z = tidyr::replace_na(pre_daily, 0))
+  dplyr::mutate(
+    pre_total = tidyr::replace_na(pre_total, 0),
+    Z = pre_total / pre_window  # True daily average over full 60-day window
+  )
 
 # =============================================================================
 # CONSTRUCT X: Treatment indicators by coupon category
@@ -328,11 +331,11 @@ lmtest::coeftest(m_drug_adj, vcov = sandwich::vcovHC(m_drug_adj, type = "HC1"))
 ## 
 ## t test of coefficients:
 ## 
-##                Estimate  Std. Error t value  Pr(>|t|)    
-## (Intercept) 115.0595415   1.6511328 69.6852 < 2.2e-16 ***
-## X            96.5742140  13.3786262  7.2185 5.396e-13 ***
-## Z             0.0596516   0.0014281 41.7696 < 2.2e-16 ***
-## C_other     -74.1725128  13.5716003 -5.4653 4.663e-08 ***
+##                Estimate  Std. Error  t value Pr(>|t|)    
+## (Intercept)  50.6436723   0.9961180  50.8410  < 2e-16 ***
+## X            25.2709931  10.7057762   2.3605  0.01826 *  
+## Z             0.7276585   0.0053766 135.3369  < 2e-16 ***
+## C_other     -26.4019676  10.8264763  -2.4386  0.01475 *  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -360,10 +363,10 @@ lmtest::coeftest(m_ready_adj, vcov = sandwich::vcovHC(m_ready_adj, type = "HC1")
 ## 
 ## t test of coefficients:
 ## 
-##               Estimate Std. Error t value  Pr(>|t|)    
-## (Intercept) 1.1583e+02 1.6958e+00 68.3034 < 2.2e-16 ***
-## X           2.1301e+01 3.4930e+00  6.0982 1.089e-09 ***
-## Z           5.8995e-02 1.4808e-03 39.8395 < 2.2e-16 ***
+##               Estimate Std. Error  t value Pr(>|t|)    
+## (Intercept) 50.8415118  1.0130037  50.1889   <2e-16 ***
+## X           -0.3656755  2.5331899  -0.1444   0.8852    
+## Z            0.7265872  0.0055676 130.5037   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -408,25 +411,25 @@ comparison_table |>
    <td style="text-align:left;"> Drugstore </td>
    <td style="text-align:left;"> Naive </td>
    <td style="text-align:right;"> 29.94 </td>
-   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.0000 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Drugstore </td>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 96.57 </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 25.27 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.0021 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Ready-to-eat </td>
    <td style="text-align:left;"> Naive </td>
    <td style="text-align:right;"> 25.95 </td>
-   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.0000 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Ready-to-eat </td>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 21.30 </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> -0.37 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.8788 </td>
   </tr>
 </tbody>
 </table>

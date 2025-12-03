@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-12-04T00:00:00+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"A causal workflow in R with coupon marketing data"</title><link href="https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html" rel="alternate"/><published>2025-12-04T00:00:00+01:00</published><updated>2025-12-03T16:10:51.460731+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-12-04:/a-causal-workflow-in-r-with-coupon-marketing-data.html</id><summary type="html">&lt;p&gt;This post accompanies the talk presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The slides are available &lt;a href="pdfs/5theltalk2025.pdf"&gt;here&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-12-04T00:00:00+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"A causal workflow in R with coupon marketing data"</title><link href="https://theclarkeorbit.github.io/./a-causal-workflow-in-r-with-coupon-marketing-data.html" rel="alternate"/><published>2025-12-04T00:00:00+01:00</published><updated>2025-12-03T23:34:08.662757+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-12-04:/./a-causal-workflow-in-r-with-coupon-marketing-data.html</id><summary type="html">&lt;p&gt;This post accompanies the talk presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The slides are available &lt;a href="pdfs/5theltalk2025.pdf"&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;We walk through a complete causal inference workflow using real marketing data from the &lt;a href="https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption"&gt;AmExpert 2019 Kaggle competition&lt;/a&gt;. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post accompanies the talk presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The slides are available &lt;a href="pdfs/5theltalk2025.pdf"&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;We walk through a complete causal inference workflow using real marketing data from the &lt;a href="https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption"&gt;AmExpert 2019 Kaggle competition&lt;/a&gt;. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon types on customer spending during campaign periods.&lt;/p&gt;
 &lt;p&gt;Our analysis follows the methodology of &lt;a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937"&gt;Langen &amp;amp; Huber (2023)&lt;/a&gt;, who applied causal machine learning to evaluate coupon effectiveness. Their key finding: &lt;strong&gt;drugstore coupons have a significant positive effect on sales&lt;/strong&gt;, while &lt;strong&gt;ready-to-eat food coupons show no significant effect&lt;/strong&gt;. We replicate this finding using a simplified classical approach, demonstrating how DAG-based identification translates directly into a regression specification.&lt;/p&gt;
@@ -99,7 +99,7 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c1"&gt;# =============================================================================&lt;/span&gt;
-&lt;span class="c1"&gt;# CONSTRUCT Z: Pre-campaign propensity index&lt;/span&gt;
+&lt;span class="c1"&gt;# CONSTRUCT Z: Pre-campaign propensity index (true daily average)&lt;/span&gt;
 &lt;span class="c1"&gt;# =============================================================================&lt;/span&gt;
 &lt;span class="n"&gt;pre_window&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;60&lt;/span&gt;
 
@@ -111,13 +111,16 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;start_date&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pre_window&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;start_date&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;customer_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;campaign_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;pre_daily&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;total_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;na.rm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;pmax&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;n_distinct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;pre_total&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;total_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;na.rm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;.groups&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;drop&amp;quot;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="n"&gt;cust_camp&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cust_camp_full&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;left_join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pre_spend&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;by&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;customer_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;campaign_id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tidyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;replace_na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pre_daily&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;pre_total&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tidyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;replace_na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pre_total&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;Z&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pre_total&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pre_window&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# True daily average over full 60-day window&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="c1"&gt;# =============================================================================&lt;/span&gt;
 &lt;span class="c1"&gt;# CONSTRUCT X: Treatment indicators by coupon category&lt;/span&gt;
@@ -286,11 +289,11 @@ $$&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; 
 &lt;span class="gu"&gt;##&lt;/span&gt; t test of coefficients:
 &lt;span class="gu"&gt;##&lt;/span&gt; 
-&lt;span class="gu"&gt;##&lt;/span&gt;                Estimate  Std. Error t value  Pr(&amp;gt;|t|)    
-&lt;span class="gu"&gt;##&lt;/span&gt; (Intercept) 115.0595415   1.6511328 69.6852 &amp;lt; 2.2e-16 ***
-&lt;span class="gu"&gt;##&lt;/span&gt; X            96.5742140  13.3786262  7.2185 5.396e-13 ***
-&lt;span class="gu"&gt;##&lt;/span&gt; Z             0.0596516   0.0014281 41.7696 &amp;lt; 2.2e-16 ***
-&lt;span class="gu"&gt;##&lt;/span&gt; C_other     -74.1725128  13.5716003 -5.4653 4.663e-08 ***
+&lt;span class="gu"&gt;##&lt;/span&gt;                Estimate  Std. Error  t value Pr(&amp;gt;|t|)    
+&lt;span class="gu"&gt;##&lt;/span&gt; (Intercept)  50.6436723   0.9961180  50.8410  &amp;lt; 2e-16 ***
+&lt;span class="gu"&gt;##&lt;/span&gt; X            25.2709931  10.7057762   2.3605  0.01826 *  
+&lt;span class="gu"&gt;##&lt;/span&gt; Z             0.7276585   0.0053766 135.3369  &amp;lt; 2e-16 ***
+&lt;span class="gu"&gt;##&lt;/span&gt; C_other     -26.4019676  10.8264763  -2.4386  0.01475 *  
 &lt;span class="gu"&gt;##&lt;/span&gt; ---
 &lt;span class="gu"&gt;##&lt;/span&gt; Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -314,10 +317,10 @@ $$&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; 
 &lt;span class="gu"&gt;##&lt;/span&gt; t test of coefficients:
 &lt;span class="gu"&gt;##&lt;/span&gt; 
-&lt;span class="gu"&gt;##&lt;/span&gt;               Estimate Std. Error t value  Pr(&amp;gt;|t|)    
-&lt;span class="gu"&gt;##&lt;/span&gt; (Intercept) 1.1583e+02 1.6958e+00 68.3034 &amp;lt; 2.2e-16 ***
-&lt;span class="gu"&gt;##&lt;/span&gt; X           2.1301e+01 3.4930e+00  6.0982 1.089e-09 ***
-&lt;span class="gu"&gt;##&lt;/span&gt; Z           5.8995e-02 1.4808e-03 39.8395 &amp;lt; 2.2e-16 ***
+&lt;span class="gu"&gt;##&lt;/span&gt;               Estimate Std. Error  t value Pr(&amp;gt;|t|)    
+&lt;span class="gu"&gt;##&lt;/span&gt; (Intercept) 50.8415118  1.0130037  50.1889   &amp;lt;2e-16 ***
+&lt;span class="gu"&gt;##&lt;/span&gt; X           -0.3656755  2.5331899  -0.1444   0.8852    
+&lt;span class="gu"&gt;##&lt;/span&gt; Z            0.7265872  0.0055676 130.5037   &amp;lt;2e-16 ***
 &lt;span class="gu"&gt;##&lt;/span&gt; ---
 &lt;span class="gu"&gt;##&lt;/span&gt; Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -359,25 +362,25 @@ $$&lt;/div&gt;
    &lt;td style="text-align:left;"&gt; Drugstore &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Naive &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 29.94 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;font-weight: bold;color: steelblue !important;"&gt; Drugstore &lt;/td&gt;
    &lt;td style="text-align:left;font-weight: bold;color: steelblue !important;"&gt; Adjusted &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 96.57 &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 25.27 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 0.0021 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Ready-to-eat &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Naive &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 25.95 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;font-weight: bold;color: steelblue !important;"&gt; Ready-to-eat &lt;/td&gt;
    &lt;td style="text-align:left;font-weight: bold;color: steelblue !important;"&gt; Adjusted &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 21.30 &lt;/td&gt;
-   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; -0.37 &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;color: steelblue !important;"&gt; 0.8788 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

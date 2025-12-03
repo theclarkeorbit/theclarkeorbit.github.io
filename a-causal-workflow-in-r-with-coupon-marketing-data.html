@@ -10,7 +10,7 @@
 
     <link href=".//images/gravtar.jpg" rel="icon">
 
-<link rel="canonical" href="./a-causal-workflow-in-r-with-coupon-marketing-data.html">
+<link rel="canonical" href="././a-causal-workflow-in-r-with-coupon-marketing-data.html">
 
         <meta name="author" content="pras" />
         <meta name="description" content="This post accompanies the talk presented at Fifth Elephant Winter 2025. The slides are available here We walk through a complete causal inference workflow using real marketing data from the AmExpert 2019 Kaggle competition. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran …" />
@@ -18,7 +18,7 @@
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;A causal workflow in R with coupon marketing data&#34;"/>
-        <meta property="og:url" content="./a-causal-workflow-in-r-with-coupon-marketing-data.html"/>
+        <meta property="og:url" content="././a-causal-workflow-in-r-with-coupon-marketing-data.html"/>
         <meta property="og:description" content="This post accompanies the talk presented at Fifth Elephant Winter 2025. The slides are available here We walk through a complete causal inference workflow using real marketing data from the AmExpert 2019 Kaggle competition. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran …"/>
         <meta property="article:published_time" content="2025-12-04" />
             <meta property="article:section" content="data_sci_tech" />
@@ -77,6 +77,9 @@
                              About
                           </a></li>
                         <li >
+                            <a href="./category/_r.html">_r</a>
+                        </li>
+                        <li >
                             <a href="./category/blog.html">Blog</a>
                         </li>
                         <li class="active">
@@ -114,7 +117,7 @@
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="./a-causal-workflow-in-r-with-coupon-marketing-data.html"
+                    <a href="././a-causal-workflow-in-r-with-coupon-marketing-data.html"
                        rel="bookmark"
                        title="Permalink to "A causal workflow in R with coupon marketing data"">
                         "A causal workflow in R with coupon marketing data"
@@ -134,7 +137,9 @@
 
 
 
-    
+    <span class="label label-default">Lang</span>
+	<a href="././a-causal-workflow-in-r-with-coupon-marketing-data.html">en</a>
+
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>This post accompanies the talk presented at <a href="https://hasgeek.com/fifthelephant/2025-winter/schedule">Fifth Elephant Winter 2025</a>. The slides are available <a href="pdfs/5theltalk2025.pdf">here</a></p>
@@ -236,7 +241,7 @@
 <span class="w">  </span><span class="p">)</span>
 
 <span class="c1"># =============================================================================</span>
-<span class="c1"># CONSTRUCT Z: Pre-campaign propensity index</span>
+<span class="c1"># CONSTRUCT Z: Pre-campaign propensity index (true daily average)</span>
 <span class="c1"># =============================================================================</span>
 <span class="n">pre_window</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">60</span>
 
@@ -248,13 +253,16 @@
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">start_date</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pre_window</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">start_date</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">group_by</span><span class="p">(</span><span class="n">customer_id</span><span class="p">,</span><span class="w"> </span><span class="n">campaign_id</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">summarise</span><span class="p">(</span>
-<span class="w">    </span><span class="n">pre_daily</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">pmax</span><span class="p">(</span><span class="n">dplyr</span><span class="o">::</span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">date</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
+<span class="w">    </span><span class="n">pre_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">total_value</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
 <span class="w">    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
 <span class="w">  </span><span class="p">)</span>
 
 <span class="n">cust_camp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">cust_camp_full</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">left_join</span><span class="p">(</span><span class="n">pre_spend</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;customer_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;campaign_id&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">replace_na</span><span class="p">(</span><span class="n">pre_daily</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">))</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="n">pre_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">replace_na</span><span class="p">(</span><span class="n">pre_total</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">),</span>
+<span class="w">    </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pre_total</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">pre_window</span><span class="w">  </span><span class="c1"># True daily average over full 60-day window</span>
+<span class="w">  </span><span class="p">)</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># CONSTRUCT X: Treatment indicators by coupon category</span>
@@ -423,11 +431,11 @@ $$</div>
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> 
 <span class="gu">##</span> t test of coefficients:
 <span class="gu">##</span> 
-<span class="gu">##</span>                Estimate  Std. Error t value  Pr(&gt;|t|)    
-<span class="gu">##</span> (Intercept) 115.0595415   1.6511328 69.6852 &lt; 2.2e-16 ***
-<span class="gu">##</span> X            96.5742140  13.3786262  7.2185 5.396e-13 ***
-<span class="gu">##</span> Z             0.0596516   0.0014281 41.7696 &lt; 2.2e-16 ***
-<span class="gu">##</span> C_other     -74.1725128  13.5716003 -5.4653 4.663e-08 ***
+<span class="gu">##</span>                Estimate  Std. Error  t value Pr(&gt;|t|)    
+<span class="gu">##</span> (Intercept)  50.6436723   0.9961180  50.8410  &lt; 2e-16 ***
+<span class="gu">##</span> X            25.2709931  10.7057762   2.3605  0.01826 *  
+<span class="gu">##</span> Z             0.7276585   0.0053766 135.3369  &lt; 2e-16 ***
+<span class="gu">##</span> C_other     -26.4019676  10.8264763  -2.4386  0.01475 *  
 <span class="gu">##</span> ---
 <span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 </code></pre></div>
@@ -451,10 +459,10 @@ $$</div>
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> 
 <span class="gu">##</span> t test of coefficients:
 <span class="gu">##</span> 
-<span class="gu">##</span>               Estimate Std. Error t value  Pr(&gt;|t|)    
-<span class="gu">##</span> (Intercept) 1.1583e+02 1.6958e+00 68.3034 &lt; 2.2e-16 ***
-<span class="gu">##</span> X           2.1301e+01 3.4930e+00  6.0982 1.089e-09 ***
-<span class="gu">##</span> Z           5.8995e-02 1.4808e-03 39.8395 &lt; 2.2e-16 ***
+<span class="gu">##</span>               Estimate Std. Error  t value Pr(&gt;|t|)    
+<span class="gu">##</span> (Intercept) 50.8415118  1.0130037  50.1889   &lt;2e-16 ***
+<span class="gu">##</span> X           -0.3656755  2.5331899  -0.1444   0.8852    
+<span class="gu">##</span> Z            0.7265872  0.0055676 130.5037   &lt;2e-16 ***
 <span class="gu">##</span> ---
 <span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 </code></pre></div>
@@ -496,25 +504,25 @@ $$</div>
    <td style="text-align:left;"> Drugstore </td>
    <td style="text-align:left;"> Naive </td>
    <td style="text-align:right;"> 29.94 </td>
-   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.0000 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Drugstore </td>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 96.57 </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 25.27 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.0021 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Ready-to-eat </td>
    <td style="text-align:left;"> Naive </td>
    <td style="text-align:right;"> 25.95 </td>
-   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.0000 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Ready-to-eat </td>
    <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 21.30 </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> -0.37 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.8788 </td>
   </tr>
 </tbody>
 </table>
@@ -640,11 +648,11 @@ $$</div>
 <li class="list-group-item">
   <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
   <ul class="list-group" id="recentposts">
-    <li class="list-group-item"><a href="./a-causal-workflow-in-r-with-coupon-marketing-data.html">"A causal workflow in R with coupon marketing data"</a></li>
+    <li class="list-group-item"><a href="././a-causal-workflow-in-r-with-coupon-marketing-data.html">"A causal workflow in R with coupon marketing data"</a></li>
+    <li class="list-group-item"><a href="././a-causal-workflow-in-r-with-coupon-marketing-data.html">A causal workflow in R with coupon marketing data</a></li>
     <li class="list-group-item"><a href="./climbing-pearls-ladder-of-causation.html">"Climbing Pearl's Ladder of Causation"</a></li>
     <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
     <li class="list-group-item"><a href="./tidymodels-and-conformal-prediction.html">"Tidymodels and conformal prediction"</a></li>
-    <li class="list-group-item"><a href="./r-torch-and-the-little-book-of-deep-learning.html">"R, Torch, and the little book of deep learning"</a></li>
   </ul>
 </li>
 <!-- End Sidebar/Recent Posts -->
