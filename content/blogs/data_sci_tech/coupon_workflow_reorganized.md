@@ -344,7 +344,7 @@ lmtest::coeftest(m_drug_adj, vcov = sandwich::vcovHC(m_drug_adj, type = "HC1"))
 
 
 ``` r
-# Naive estimate (no adjustment - confounded!)
+# Naive estimate (no adjustment - confounded)
 m_ready_naive <- lm(Y ~ X, data = df_ready2eat)
 naive_ready <- broom::tidy(m_ready_naive, conf.int = TRUE) |>
   dplyr::filter(term == "X") |>
@@ -466,12 +466,6 @@ p
 ```
 
 ![center](/figures/coupon_workflow_reorganized/ate-comparison-plot-1.png)
-
-``` r
-# Save plot for slides (proper dimensions for presentation)
-ggplot2::ggsave("effects.png", plot = p, width = 8, height = 5, dpi = 300)
-ggplot2::ggsave("effects.pdf", plot = p, width = 8, height = 5)  # Vector format for LaTeX
-```
 
 **Interpretation**: Consistent with [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937), we find that **drugstore coupons have a larger positive effect on sales**, while **ready-to-eat coupons show a smaller effect**. The same DAG and identification strategy produces different effect estimates purely because different coupon categories have different causal effects on purchasing behaviorm and our results differ slightly from [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937) since we simplified the data preperation process, and ignored granular customer demographic information.
 

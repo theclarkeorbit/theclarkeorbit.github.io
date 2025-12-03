@@ -127,7 +127,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:58:39.866749+01:00"> Wed 03 December 2025</time>
+        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:59:58.443919+01:00"> Wed 03 December 2025</time>
     </span>
 
 
@@ -434,7 +434,7 @@ $$</div>
 </code></pre></div>
 
 <h4>Ready-to-Eat Coupons</h4>
-<div class="highlight"><pre><span></span><code><span class="c1"># Naive estimate (no adjustment - confounded!)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Naive estimate (no adjustment - confounded)</span>
 <span class="n">m_ready_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_ready2eat</span><span class="p">)</span>
 <span class="n">naive_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -549,11 +549,6 @@ $$</div>
 </code></pre></div>
 
 <p><img alt="center" src="/figures/coupon_workflow_reorganized/ate-comparison-plot-1.png"></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Save plot for slides (proper dimensions for presentation)</span>
-<span class="n">ggplot2</span><span class="o">::</span><span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;effects.png&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">dpi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">300</span><span class="p">)</span>
-<span class="n">ggplot2</span><span class="o">::</span><span class="nf">ggsave</span><span class="p">(</span><span class="s">&quot;effects.pdf&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">plot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w">  </span><span class="c1"># Vector format for LaTeX</span>
-</code></pre></div>
-
 <p><strong>Interpretation</strong>: Consistent with <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a>, we find that <strong>drugstore coupons have a larger positive effect on sales</strong>, while <strong>ready-to-eat coupons show a smaller effect</strong>. The same DAG and identification strategy produces different effect estimates purely because different coupon categories have different causal effects on purchasing behaviorm and our results differ slightly from <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a> since we simplified the data preperation process, and ignored granular customer demographic information.</p>
 <h2>Causal Machine Learning</h2>
 <p>The classical regression approach above assumes a linear, additive relationship between covariates and outcome. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a> use a causal ML approach to the problem -- <strong>Causal forests</strong> (<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1319839#abstract">Wager &amp; Athey, 2018</a>; <a href="https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full">Athey, Tibshirani &amp; Wager, 2019</a>) relax this assumption while maintaining the same identification logic.</p>
