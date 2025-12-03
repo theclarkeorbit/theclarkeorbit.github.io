@@ -11,6 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(dpi = 300)
 
 library(tidyverse)
 library(lubridate)
@@ -336,21 +337,6 @@ comparison_table |>
   kableExtra::row_spec(c(2, 4), bold = TRUE, color = "steelblue")
 ```
 
-```{r latex-table-output, results='asis'}
-# LaTeX table output for slides (copy into causal_parrot_talk_v2.tex slide 20)
-cat("\n--- LaTeX table for slides ---\n")
-comparison_table |>
-  dplyr::select(coupon_type, model, estimate) |>
-  tidyr::pivot_wider(names_from = model, values_from = estimate) |>
-  knitr::kable(
-    format = "latex",
-    col.names = c("Coupon Type", "Naive", "Adjusted"),
-    digits = 2,
-    booktabs = TRUE
-  ) |>
-  print()
-cat("\n--- End LaTeX table ---\n")
-```
 
 ```{r ate-comparison-plot, fig.width=8, fig.height=5}
 # Plot with error bars (uses conf.low/conf.high from full table)

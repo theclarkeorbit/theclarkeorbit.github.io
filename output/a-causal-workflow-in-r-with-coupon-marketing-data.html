@@ -127,7 +127,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:53:47.564518+01:00"> Wed 03 December 2025</time>
+        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:55:25.612500+01:00"> Wed 03 December 2025</time>
     </span>
 
 
@@ -520,35 +520,6 @@ $$</div>
 </tbody>
 </table>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># LaTeX table output for slides (copy into causal_parrot_talk_v2.tex slide 20)</span>
-<span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n--- LaTeX table for slides ---\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<p>--- LaTeX table for slides ---</p>
-<div class="highlight"><pre><span></span><code><span class="n">comparison_table</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span>
-<span class="w">    </span><span class="n">format</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;latex&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">col.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Coupon Type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Naive&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Adjusted&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
-<span class="w">    </span><span class="n">booktabs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span>
-<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">print</span><span class="p">()</span>
-</code></pre></div>
-
-<div class="math">\begin{tabular}{lrr}
-\toprule
-Coupon Type &amp; Naive &amp; Adjusted\\
-\midrule
-Drugstore &amp; 29.94 &amp; 96.57\\
-Ready-to-eat &amp; 25.95 &amp; 21.30\\
-\bottomrule
-\end{tabular}</div>
-<div class="highlight"><pre><span></span><code><span class="nf">cat</span><span class="p">(</span><span class="s">&quot;\n--- End LaTeX table ---\n&quot;</span><span class="p">)</span>
-</code></pre></div>
-
-<p>--- End LaTeX table ---</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Plot with error bars (uses conf.low/conf.high from full table)</span>
 <span class="n">comparison_table</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>

@@ -435,44 +435,6 @@ comparison_table |>
 </table>
 
 
-``` r
-# LaTeX table output for slides (copy into causal_parrot_talk_v2.tex slide 20)
-cat("\n--- LaTeX table for slides ---\n")
-```
-
-
---- LaTeX table for slides ---
-
-``` r
-comparison_table |>
-  dplyr::select(coupon_type, model, estimate) |>
-  tidyr::pivot_wider(names_from = model, values_from = estimate) |>
-  knitr::kable(
-    format = "latex",
-    col.names = c("Coupon Type", "Naive", "Adjusted"),
-    digits = 2,
-    booktabs = TRUE
-  ) |>
-  print()
-```
-
-
-\begin{tabular}{lrr}
-\toprule
-Coupon Type & Naive & Adjusted\\
-\midrule
-Drugstore & 29.94 & 96.57\\
-Ready-to-eat & 25.95 & 21.30\\
-\bottomrule
-\end{tabular}
-
-``` r
-cat("\n--- End LaTeX table ---\n")
-```
-
-
---- End LaTeX table ---
-
 
 ``` r
 # Plot with error bars (uses conf.low/conf.high from full table)

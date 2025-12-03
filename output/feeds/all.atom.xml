@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-12-03T14:53:47.564518+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"A causal workflow in R with coupon marketing data"</title><link href="https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html" rel="alternate"/><published>2025-12-03T14:53:47.564518+01:00</published><updated>2025-12-03T14:53:47.564518+01:00</updated><author><name>"Prasanna Bhogale"</name></author><id>tag:theclarkeorbit.github.io,2025-12-03:/a-causal-workflow-in-r-with-coupon-marketing-data.html</id><summary type="html">&lt;p&gt;This post accompanies the talk presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The slides are available &lt;a href="pdfs/5theltalk2025.pdf"&gt;here&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2025-12-03T14:55:25.612500+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"A causal workflow in R with coupon marketing data"</title><link href="https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html" rel="alternate"/><published>2025-12-03T14:55:25.612500+01:00</published><updated>2025-12-03T14:55:25.612500+01:00</updated><author><name>"Prasanna Bhogale"</name></author><id>tag:theclarkeorbit.github.io,2025-12-03:/a-causal-workflow-in-r-with-coupon-marketing-data.html</id><summary type="html">&lt;p&gt;This post accompanies the talk presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The slides are available &lt;a href="pdfs/5theltalk2025.pdf"&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;This document demonstrates a complete causal inference workflow using real marketing data from the &lt;a href="https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption"&gt;AmExpert 2019 Kaggle competition&lt;/a&gt;. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post accompanies the talk presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The slides are available &lt;a href="pdfs/5theltalk2025.pdf"&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
@@ -384,35 +384,6 @@ $$&lt;/div&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# LaTeX table output for slides (copy into causal_parrot_talk_v2.tex slide 20)&lt;/span&gt;
-&lt;span class="nf"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;\n--- LaTeX table for slides ---\n&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;--- LaTeX table for slides ---&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;comparison_table&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;dplyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coupon_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;estimate&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;tidyr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;pivot_wider&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;names_from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;values_from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;estimate&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;knitr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;latex&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;col.names&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Coupon Type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Naive&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Adjusted&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;booktabs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;div class="math"&gt;\begin{tabular}{lrr}
-\toprule
-Coupon Type &amp;amp; Naive &amp;amp; Adjusted\\
-\midrule
-Drugstore &amp;amp; 29.94 &amp;amp; 96.57\\
-Ready-to-eat &amp;amp; 25.95 &amp;amp; 21.30\\
-\bottomrule
-\end{tabular}&lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;\n--- End LaTeX table ---\n&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;--- End LaTeX table ---&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Plot with error bars (uses conf.low/conf.high from full table)&lt;/span&gt;
 &lt;span class="n"&gt;comparison_table&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;ggplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;aes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;coupon_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;estimate&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
@@ -545,7 +516,7 @@ Ready-to-eat &amp;amp; 25.95 &amp;amp; 21.30\\
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="data_sci_tech"/></entry><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-12-03T14:46:11.948036+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.&lt;/p&gt;
+&lt;/script&gt;</content><category term="data_sci_tech"/></entry><entry><title>"Climbing Pearl's Ladder of Causation"</title><link href="https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html" rel="alternate"/><published>2025-10-01T00:00:00+02:00</published><updated>2025-12-03T14:55:21.537324+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-10-01:/climbing-pearls-ladder-of-causation.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt;: statistics is hard - the chief skill seems to be the ability to avoid deluding oneself and others. This is something that is best and quickest learned via an apprenticeship in a group of careful thinkers trying to get things right. Tutorials like these can be misleading, in that they give the illusion of competence. This tutorial was written as a way for me to learn, not as an exposition by an experienced practitioner.  However, I hope this serves as a useful read, expecially since I link to other, deeper resources.&lt;/p&gt;
 &lt;p&gt;If you want to peek into how a statistician thinking carefully approaches this subject, you could hardly do better than the &lt;a href="https://mixtape.scunning.com/"&gt;Causal Mixtape&lt;/a&gt; and &lt;a href="https://xcelab.net/rm/"&gt;Statistical Rethinking&lt;/a&gt;. If you are totally new to all this causal stuff, do read &lt;a href="https://dl.acm.org/doi/10.5555/3238230"&gt;The Book of Why&lt;/a&gt; (no, really). &lt;/p&gt;
 &lt;p&gt;This article heavily uses the &lt;code&gt;quartets&lt;/code&gt; package and the &lt;a href="https://www.tandfonline.com/doi/full/10.1080/26939169.2023.2276446"&gt;paper that introduces it&lt;/a&gt; but there is also another &lt;a href="https://sites.stat.columbia.edu/gelman/research/published/causal_quartet_second_revision.pdf"&gt;paper&lt;/a&gt;(pdf) and associated &lt;a href="https://github.com/jhullman/causalQuartet"&gt;package&lt;/a&gt; on a very similar theme. For analysing DAGs, we rely heavily on the wonderful &lt;code&gt;dagitty&lt;/code&gt; package, and we visualize using &lt;code&gt;ggdag&lt;/code&gt;. &lt;/p&gt;
 &lt;h3&gt;The wind/rudder problem&lt;/h3&gt;
@@ -558,18 +529,18 @@ Ready-to-eat &amp;amp; 25.95 &amp;amp; 21.30\\
 &lt;h3&gt;The data.&lt;/h3&gt;
 &lt;p&gt;Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## # A tibble: 10 × 6&lt;/span&gt;
-&lt;span class="c1"&gt;##    dataset      exposure outcome covariate     u1     u2&lt;/span&gt;
-&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;           &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
-&lt;span class="c1"&gt;##  1 (1) Collider  0.233    0.343      0.563 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  2 (4) M-Bias   -0.125   -1.60      -8.86  -1.11  -0.314&lt;/span&gt;
-&lt;span class="c1"&gt;##  3 (4) M-Bias    1.96     4.19      15.9    1.90   0.581&lt;/span&gt;
-&lt;span class="c1"&gt;##  4 (1) Collider -0.653    0.0510     1.31  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  5 (4) M-Bias    1.15     3.23      -3.21  -0.397  1.19 &lt;/span&gt;
-&lt;span class="c1"&gt;##  6 (1) Collider -0.727   -0.480     -0.531 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  7 (4) M-Bias   -1.09    -0.362     -7.07  -0.889  0.600&lt;/span&gt;
-&lt;span class="c1"&gt;##  8 (3) Mediator -0.119    2.74       1.08  NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;##  9 (1) Collider -0.00417 -0.530     -0.909 NA     NA    &lt;/span&gt;
-&lt;span class="c1"&gt;## 10 (3) Mediator -0.887   -3.82      -2.81  NA     NA&lt;/span&gt;
+&lt;span class="c1"&gt;##    dataset        exposure outcome covariate     u1     u2&lt;/span&gt;
+&lt;span class="c1"&gt;##    &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;&lt;/span&gt;
+&lt;span class="c1"&gt;##  1 (1) Collider     1.39     2.85      3.58  NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  2 (3) Mediator     1.34    -0.235     0.633 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  3 (1) Collider    -0.924   -2.56     -1.59  NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  4 (2) Confounder  -0.723    0.736    -0.383 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  5 (3) Mediator     0.678   -0.209    -0.224 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  6 (2) Confounder   0.0725  -0.398    -0.302 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  7 (1) Collider     1.04     1.80      0.218 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  8 (2) Confounder   1.02     1.03      0.852 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;##  9 (3) Mediator     1.39     0.132     0.198 NA     NA    &lt;/span&gt;
+&lt;span class="c1"&gt;## 10 (4) M-Bias       0.899   -0.350     5.75   0.865 -0.579&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 4 × 7
