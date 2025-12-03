@@ -150,18 +150,18 @@
 <h3>The data.</h3>
 <p>Let's load the causal quartet and take a first look. These four datasets were carefully constructed to have identical correlations between x and y, but as we'll discover, they tell four completely different causal stories.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 10 × 6</span>
-<span class="c1">##    dataset        exposure outcome covariate     u1     u2</span>
-<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="c1">##  1 (1) Collider     1.39     2.85      3.58  NA     NA    </span>
-<span class="c1">##  2 (3) Mediator     1.34    -0.235     0.633 NA     NA    </span>
-<span class="c1">##  3 (1) Collider    -0.924   -2.56     -1.59  NA     NA    </span>
-<span class="c1">##  4 (2) Confounder  -0.723    0.736    -0.383 NA     NA    </span>
-<span class="c1">##  5 (3) Mediator     0.678   -0.209    -0.224 NA     NA    </span>
-<span class="c1">##  6 (2) Confounder   0.0725  -0.398    -0.302 NA     NA    </span>
-<span class="c1">##  7 (1) Collider     1.04     1.80      0.218 NA     NA    </span>
-<span class="c1">##  8 (2) Confounder   1.02     1.03      0.852 NA     NA    </span>
-<span class="c1">##  9 (3) Mediator     1.39     0.132     0.198 NA     NA    </span>
-<span class="c1">## 10 (4) M-Bias       0.899   -0.350     5.75   0.865 -0.579</span>
+<span class="c1">##    dataset        exposure outcome covariate      u1       u2</span>
+<span class="c1">##    &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="c1">##  1 (1) Collider      0.274 -0.769    -0.286  NA      NA      </span>
+<span class="c1">##  2 (4) M-Bias       -2.53  -2.02     -5.71   -0.890   1.47   </span>
+<span class="c1">##  3 (4) M-Bias       -0.672 -0.0826    0.0570 -0.119  -0.0740 </span>
+<span class="c1">##  4 (3) Mediator      1.97  -1.18     -0.461  NA      NA      </span>
+<span class="c1">##  5 (1) Collider      0.204  0.968     1.26   NA      NA      </span>
+<span class="c1">##  6 (1) Collider     -0.601  0.405    -0.303  NA      NA      </span>
+<span class="c1">##  7 (2) Confounder   -0.279 -2.50     -1.05   NA      NA      </span>
+<span class="c1">##  8 (4) M-Bias        0.515  1.53      3.68   -0.0256  2.72   </span>
+<span class="c1">##  9 (3) Mediator     -0.289  0.417     0.176  NA      NA      </span>
+<span class="c1">## 10 (4) M-Bias       -1.30  -1.62    -10.7    -1.44    0.00629</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 7
