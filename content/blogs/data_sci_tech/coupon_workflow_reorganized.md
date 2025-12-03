@@ -10,9 +10,9 @@ output:
 
 This post accompanies the talk presented at [Fifth Elephant Winter 2025](https://hasgeek.com/fifthelephant/2025-winter/schedule). The slides are available [here](pdfs/5theltalk2025.pdf)
 
-## Introduction
 
-We demonstrate a complete causal inference workflow using real marketing data from the [AmExpert 2019 Kaggle competition](https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption). The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon types on customer spending during campaign periods.
+
+We walk through a complete causal inference workflow using real marketing data from the [AmExpert 2019 Kaggle competition](https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption). The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon types on customer spending during campaign periods.
 
 Our analysis follows the methodology of [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937), who applied causal machine learning to evaluate coupon effectiveness. Their key finding: **drugstore coupons have a significant positive effect on sales**, while **ready-to-eat food coupons show no significant effect**. We replicate this finding using a simplified classical approach, demonstrating how DAG-based identification translates directly into a regression specification.
 
