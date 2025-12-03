@@ -369,15 +369,5 @@ p
 
 The classical regression approach above assumes a linear, additive relationship between covariates and outcome. [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937) use a causal ML approach to the problem -- **Causal forests** ([Wager & Athey, 2018](https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1319839#abstract); [Athey, Tibshirani & Wager, 2019](https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full)) relax this assumption while maintaining the same identification logic.
 
-### Same Identification, Different Estimation
-
-The DAG and backdoor criterion remain unchanged—we still need to control for Z and C. The difference is purely in *how* we estimate effects:
-
-| Aspect | Linear Regression | Causal Forest |
-|--------|------------------|---------------|
-| Functional form | Assumes linear $Y = \alpha + \tau X + \beta Z + \gamma C$ | Learns flexible $\mu(X, Z, C)$ from data |
-| Effect heterogeneity | Single global ATE | Conditional ATEs for each observation |
-| Nuisance estimation | OLS | Separate ML models for $E[Y|Z,C]$ and $P(X|Z,C)$ |
-| Sample splitting | None | Honest trees prevent overfitting |
 
 We will explore this further in the next post.
