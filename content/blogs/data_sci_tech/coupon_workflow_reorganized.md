@@ -293,7 +293,7 @@ dosearch::dosearch(data_spec, query_spec, dag)
 ## \sum_{C,Z}\left(p(C,Z)p(Y|X,C,Z)\right)
 ```
 
-$$\sum_{C,Z}\left(p(C,Z)p(Y|X,C,Z)\right)$$
+$$\sum_{C,Z}p(C,Z)p(Y|X,C,Z)$$
 
 The backdoor criterion confirms that conditioning on **{Z, C}** blocks all non-causal paths from X to Y. This translates directly to the regression specification:
 

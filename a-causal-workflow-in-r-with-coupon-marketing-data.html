@@ -397,7 +397,7 @@
 <div class="highlight"><pre><span></span><code><span class="gu">##</span> \sum_{C,Z}\left(p(C,Z)p(Y|X,C,Z)\right)
 </code></pre></div>
 
-<div class="math">$$\sum_{C,Z}\left(p(C,Z)p(Y|X,C,Z)\right)$$</div>
+<div class="math">$$\sum_{C,Z}p(C,Z)p(Y|X,C,Z)$$</div>
 <p>The backdoor criterion confirms that conditioning on <strong>{Z, C}</strong> blocks all non-causal paths from X to Y. This translates directly to the regression specification:</p>
 <div class="math">$$
 Y_i = \alpha + \tau X_i + \beta Z_i + \gamma C_i + \varepsilon_i
