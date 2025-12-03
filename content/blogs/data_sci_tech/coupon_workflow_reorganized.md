@@ -467,7 +467,7 @@ p
 
 ![center](/figures/coupon_workflow_reorganized/ate-comparison-plot-1.png)
 
-**Interpretation**: Consistent with [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937), we find that **drugstore coupons have a larger positive effect on sales**, while **ready-to-eat coupons show a smaller effect**. The same DAG and identification strategy produces different effect estimates purely because different coupon categories have different causal effects on purchasing behaviorm and our results differ slightly from [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937) since we simplified the data preperation process, and ignored granular customer demographic information.
+**Interpretation**: Consistent with [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937), we find that **drugstore coupons have a larger positive effect on sales**, while **ready-to-eat coupons show no effect**. 
 
 ## Causal Machine Learning
 
