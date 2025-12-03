@@ -11,6 +11,8 @@ output:
 
 
 
+This post accompanies the talk presented at [Fifth Elephant Winter 2025](https://hasgeek.com/fifthelephant/2025-winter/schedule). The slides are available [here](pdfs/5theltalk2025.pdf)
+
 ## Introduction
 
 This document demonstrates a complete causal inference workflow using real marketing data from the [AmExpert 2019 Kaggle competition](https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption). The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon types on customer spending during campaign periods.

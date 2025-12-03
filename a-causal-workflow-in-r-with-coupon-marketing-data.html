@@ -13,13 +13,13 @@
 <link rel="canonical" href="./a-causal-workflow-in-r-with-coupon-marketing-data.html">
 
         <meta name="author" content=""Prasanna Bhogale"" />
-        <meta name="description" content="Introduction This document demonstrates a complete causal inference workflow using real marketing data from the AmExpert 2019 Kaggle competition. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon …" />
+        <meta name="description" content="This post accompanies the talk presented at Fifth Elephant Winter 2025. The slides are available here Introduction This document demonstrates a complete causal inference workflow using real marketing data from the AmExpert 2019 Kaggle competition. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that …" />
 
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;A causal workflow in R with coupon marketing data&#34;"/>
         <meta property="og:url" content="./a-causal-workflow-in-r-with-coupon-marketing-data.html"/>
-        <meta property="og:description" content="Introduction This document demonstrates a complete causal inference workflow using real marketing data from the AmExpert 2019 Kaggle competition. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon …"/>
+        <meta property="og:description" content="This post accompanies the talk presented at Fifth Elephant Winter 2025. The slides are available here Introduction This document demonstrates a complete causal inference workflow using real marketing data from the AmExpert 2019 Kaggle competition. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that …"/>
         <meta property="article:published_time" content="2025-12-03" />
             <meta property="article:section" content="data_sci_tech" />
             <meta property="article:author" content=""Prasanna Bhogale"" />
@@ -127,7 +127,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:49:37.876599+01:00"> Wed 03 December 2025</time>
+        <i class="fa fa-calendar"></i><time datetime="2025-12-03T14:53:47.564518+01:00"> Wed 03 December 2025</time>
     </span>
 
 
@@ -137,7 +137,8 @@
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <h2>Introduction</h2>
+                <p>This post accompanies the talk presented at <a href="https://hasgeek.com/fifthelephant/2025-winter/schedule">Fifth Elephant Winter 2025</a>. The slides are available <a href="pdfs/5theltalk2025.pdf">here</a></p>
+<h2>Introduction</h2>
 <p>This document demonstrates a complete causal inference workflow using real marketing data from the <a href="https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption">AmExpert 2019 Kaggle competition</a>. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon types on customer spending during campaign periods.</p>
 <p>Our analysis follows the methodology of <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a>, who applied causal machine learning to evaluate coupon effectiveness. Their key finding: <strong>drugstore coupons have a significant positive effect on sales</strong>, while <strong>ready-to-eat food coupons show no significant effect</strong>. We replicate this finding using a simplified classical approach, demonstrating how DAG-based identification translates directly into a regression specification.</p>
 <h3>The Causal Structure</h3>
