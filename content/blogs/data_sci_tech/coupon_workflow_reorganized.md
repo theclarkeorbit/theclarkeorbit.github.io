@@ -1,11 +1,8 @@
 ---
 title: "A causal workflow in R with coupon marketing data"
-author: "Prasanna Bhogale"
+date: 2025-12-04
 output:
   html_document:
-    toc: true
-    toc_depth: 2
-    number_sections: false
     df_print: paged
 ---
 
