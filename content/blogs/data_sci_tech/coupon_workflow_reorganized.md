@@ -8,7 +8,7 @@ output:
 
 
 
-This post accompanies the talk presented at [Fifth Elephant Winter 2025](https://hasgeek.com/fifthelephant/2025-winter/schedule). The video of the talk will be made available soon.
+This post is code for the demo associated with a talk on causal inference presented at [Fifth Elephant Winter 2025](https://hasgeek.com/fifthelephant/2025-winter/schedule). The video of the talk will be available soon, and I'll link to it here.
 
 
 
