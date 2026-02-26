@@ -13,7 +13,6 @@ editor_options:
 
 
 
-# This notebook
 
 This is the companion walkthrough for the talk *Interrogating Your Twin:
 Causal Reasoning in Manufacturing Systems* (Fifth Elephant 2026, Pune).
@@ -37,53 +36,10 @@ recommendations). Along the way we encounter reverse causation, collider
 bias, and a demonstration of what goes wrong when you "control for
 everything."
 
-
-# The data
-
 Three tables from a real factory's monitoring system, covering 47 days of
 production across ~23 machines running two 12-hour shifts:
 
 
-``` r
-energy_raw  <- read_csv("walkthrough/RytnowRIMMData/EnergyStatusLog.csv",
-                        show_col_types = FALSE)
-```
-
-```
-## Error: 'walkthrough/RytnowRIMMData/EnergyStatusLog.csv' does not exist in current working directory ('/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R').
-```
-
-``` r
-machine_raw <- read_csv("walkthrough/RytnowRIMMData/Machine_Status_Log.csv",
-                        show_col_types = FALSE)
-```
-
-```
-## Error: 'walkthrough/RytnowRIMMData/Machine_Status_Log.csv' does not exist in current working directory ('/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R').
-```
-
-``` r
-process_raw <- read_csv("walkthrough/RytnowRIMMData/Process_Status_Log.csv",
-                        show_col_types = FALSE)
-```
-
-```
-## Error: 'walkthrough/RytnowRIMMData/Process_Status_Log.csv' does not exist in current working directory ('/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R').
-```
-
-``` r
-tibble(
-  table       = c("Energy", "Machine Status", "Process"),
-  rows        = c(nrow(energy_raw), nrow(machine_raw), nrow(process_raw)),
-  description = c("5-min energy readings per machine",
-                   "Working / Idle / Breakdown events",
-                   "Process start/stop events")
-)
-```
-
-```
-## Error: object 'energy_raw' not found
-```
 
 ## Assembling the analysis dataset
 
@@ -92,155 +48,8 @@ shift. For each, we compute whether a breakdown occurred, how long the
 machine ran, its mean energy draw, and how many process changeovers happened.
 
 
-``` r
-# --- Machine Status Log ---
-machine <- machine_raw |>
-  rename(
-    machine_name  = MachineName,
-    status        = MachineBMPStatus,
-    status_detail = MCBMPStatusDetails,
-    start_time    = StartTime,
-    end_time      = EndTime,
-    dur_min       = duration,
-    shift         = ShiftName,
-    machine_group = MachineGroupName
-  ) |>
-  mutate(
-    start_time = dmy_hm(start_time),
-    end_time   = dmy_hm(end_time),
-    shift_date = if_else(hour(start_time) < 7,
-                         as_date(start_time) - days(1),
-                         as_date(start_time)),
-    # Generic machine group labels
-    machine_group = recode(machine_group,
-      "Injection Moulding less 150"      = "Small",
-      "Injection Moulding (150 To 300 )" = "Medium",
-      "Injection Moulding 300 Above"     = "Large",
-      "Assembly"                         = "Assembly"
-    )
-  )
-```
-
-```
-## Error: object 'machine_raw' not found
-```
-
-``` r
-# Per machine-shift: running time and breakdown indicator
-machine_shift <- machine |>
-  group_by(machine_name, machine_group, shift_date, shift) |>
-  summarise(
-    run_minutes = sum(dur_min[status == "Working"], na.rm = TRUE),
-    breakdown   = as.integer(
-      any(status_detail %in% c("Machine Break down", "Tool Break Down"),
-          na.rm = TRUE)),
-    .groups = "drop"
-  )
-```
-
-```
-## Error: object 'machine' not found
-```
-
-``` r
-# --- Energy Log ---
-energy <- energy_raw |>
-  rename(machine_name  = MachineNae,
-         consumption   = ConsumptionReading,
-         timestamp_raw = ConsumptionDate) |>
-  mutate(
-    timestamp  = dmy_hm(timestamp_raw),
-    shift_date = if_else(hour(timestamp) < 7,
-                         as_date(timestamp) - days(1),
-                         as_date(timestamp)),
-    shift      = if_else(hour(timestamp) >= 7 & hour(timestamp) < 19,
-                         "First Shift", "Second Shift")
-  )
-```
-
-```
-## Error: object 'energy_raw' not found
-```
-
-``` r
-# Per machine-shift: energy summary
-energy_shift <- energy |>
-  group_by(machine_name, shift_date, shift) |>
-  summarise(
-    mean_energy = mean(consumption, na.rm = TRUE),
-    .groups     = "drop"
-  )
-```
-
-```
-## Error: object 'energy' not found
-```
-
-``` r
-# --- Process Log: changeovers per machine-shift ---
-process <- process_raw |>
-  rename(machine_name = MachineName,
-         shift        = ShiftName,
-         start_date   = StartDate) |>
-  mutate(
-    start_time = dmy_hm(start_date),
-    shift_date = if_else(hour(start_time) < 7,
-                         as_date(start_time) - days(1),
-                         as_date(start_time))
-  )
-```
-
-```
-## Error: object 'process_raw' not found
-```
-
-``` r
-changeovers <- process |>
-  group_by(machine_name, shift_date, shift) |>
-  summarise(n_changeovers = n_distinct(ProcessCode) - 1L, .groups = "drop") |>
-  mutate(n_changeovers = pmax(n_changeovers, 0L))
-```
-
-```
-## Error: object 'process' not found
-```
-
-``` r
-# --- Join everything ---
-df <- machine_shift |>
-  inner_join(energy_shift,
-             by = c("machine_name", "shift_date", "shift")) |>
-  left_join(changeovers,
-            by = c("machine_name", "shift_date", "shift")) |>
-  mutate(
-    n_changeovers = replace_na(n_changeovers, 0L),
-    run_hours     = run_minutes / 60,
-    machine_group = factor(machine_group),
-    shift_f       = factor(shift)
-  ) |>
-  filter(run_minutes > 0)
-```
-
-```
-## Error: object 'machine_shift' not found
-```
 
 
-``` r
-df |>
-  summarise(
-    shifts         = n(),
-    machines       = n_distinct(machine_name),
-    breakdowns     = sum(breakdown),
-    breakdown_rate = paste0(round(mean(breakdown) * 100, 1), "%"),
-    mean_run_hours = round(mean(run_hours), 1),
-    mean_energy    = round(mean(mean_energy), 3)
-  )
-```
-
-```
-## Error in UseMethod("summarise"): no applicable method for 'summarise' applied to an object of class "function"
-```
 
 Sparse events --- about 3% of machine-shifts end in a breakdown. Each missed
 one is expensive: unplanned downtime, emergency repair, cascading delays.
@@ -248,14 +57,14 @@ This asymmetry --- cheap inspections, expensive failures --- is the
 economic foundation of everything that follows.
 
 
-# Rung 1: what does the data show?
+## Rung 1: what does the data show?
 
 Before building any causal model, let's look at what simple associations exist.
 With a ~3% event rate, density plots are useless --- the breakdown distribution
 drowns in the normal mass. Instead, we compute **breakdown rates** within bins
 and plot those directly with confidence intervals.
 
-## Breakdown rate by shift
+### Breakdown rate by shift
 
 
 ``` r
@@ -278,15 +87,13 @@ df |>
        x = NULL, y = "Breakdown rate")
 ```
 
-```
-## Error in UseMethod("group_by"): no applicable method for 'group_by' applied to an object of class "function"
-```
+![center](/figures/walkthrough_causal_workflow7/rate-by-shift-1.png)
 
 First Shift breaks down roughly twice as often as Second Shift. That's a
 real signal --- but is it causal?
 
 
-## Breakdown rate by running hours
+### Breakdown rate by running hours
 
 
 ``` r
@@ -313,9 +120,7 @@ df |>
        x = "Running hours in shift", y = "Breakdown rate")
 ```
 
-```
-## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
-```
+![center](/figures/walkthrough_causal_workflow7/rate-by-runhours-1.png)
 
 This is striking and counterintuitive. Machines that ran for only 0--3 hours
 have a ~10% breakdown rate, while those that ran 11+ hours have under 1%.
@@ -328,7 +133,7 @@ runs from breakdown to run_hours, not the other way round. This is exactly
 the trap the DAG will help us avoid.
 
 
-## Breakdown rate by changeovers
+### Breakdown rate by changeovers
 
 
 ``` r
@@ -357,9 +162,7 @@ df |>
        x = "Changeovers in shift", y = "Breakdown rate")
 ```
 
-```
-## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
-```
+![center](/figures/walkthrough_causal_workflow7/rate-by-changeovers-1.png)
 
 Shifts with one or more changeovers have roughly double the breakdown rate of
 shifts with none. The mechanism is plausible: each tool or process changeover
@@ -371,7 +174,7 @@ That means changeovers might *mediate* part of the shift effect.
 The DAG will make this explicit.
 
 
-## Breakdown rate by energy
+### Breakdown rate by energy
 
 
 ``` r
@@ -398,16 +201,14 @@ df |>
        x = "Mean energy per 5-min reading (kWh)", y = "Breakdown rate")
 ```
 
-```
-## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
-```
+![center](/figures/walkthrough_causal_workflow7/rate-by-energy-1.png)
 
 Energy consumption shows no meaningful pattern with breakdowns. It has no
 business in a causal model of failure. But keep this in mind for the next
 section --- because the structure learning algorithm disagrees.
 
 
-# Structure learning: can the data discover the DAG?
+## Structure learning: can the data discover the DAG?
 
 Before imposing our domain knowledge, let's ask: what does the data alone
 suggest about the causal structure? We use `bnlearn`'s hill-climbing
@@ -425,31 +226,17 @@ df_bn <- df |>
     changeovers = as.numeric(n_changeovers),
     breakdown = factor(breakdown)
   )
-```
 
-```
-## Error in UseMethod("transmute"): no applicable method for 'transmute' applied to an object of class "function"
-```
-
-``` r
 set.seed(42)
 learned_dag <- hc(df_bn, score = "bic-cg")
-```
 
-```
-## Error: object 'df_bn' not found
-```
-
-``` r
 par(mar = c(1, 1, 2, 1))
 graphviz.plot(learned_dag,
               main   = "Data-learned structure (bnlearn hill-climbing)",
               shape  = "ellipse")
 ```
 
-```
-## Error: object 'learned_dag' not found
-```
+![center](/figures/walkthrough_causal_workflow7/structure-learning-1.png)
 
 
 ``` r
@@ -457,7 +244,16 @@ arcs(learned_dag) |> as_tibble()
 ```
 
 ```
-## Error: object 'learned_dag' not found
+## # A tibble: 7 × 2
+##   from      to         
+##   <chr>     <chr>      
+## 1 mg        energy     
+## 2 shift     energy     
+## 3 shift     changeovers
+## 4 shift     run_hours  
+## 5 mg        run_hours  
+## 6 breakdown energy     
+## 7 energy    run_hours
 ```
 
 Look at what the algorithm found:
@@ -579,13 +375,7 @@ df_for_dag <- df |>
   select(mg_num, run_hours, shift_num, breakdown, n_changeovers) |>
   rename(machine_group = mg_num, shift = shift_num,
          changeovers = n_changeovers)
-```
 
-```
-## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
-```
-
-``` r
 test_dag <- dagitty('dag {
   machine_group -> breakdown
   machine_group -> changeovers
@@ -602,7 +392,13 @@ localTests(test_dag, data = df_for_dag, type = "cis") |>
 ```
 
 ```
-## Error: object 'df_for_dag' not found
+## # A tibble: 4 × 6
+##   test                  estimate p.value  `2.5%` `97.5%` verdict 
+##   <chr>                    <dbl>   <dbl>   <dbl>   <dbl> <chr>   
+## 1 mch_ _||_ rn_h | brkd -0.0706  0.00782 -0.122  -0.0186 VIOLATED
+## 2 chng _||_ rn_h | brkd -0.0317  0.232   -0.0836  0.0203 ok      
+## 3 mch_ _||_ shft         0.0103  0.699   -0.0418  0.0622 ok      
+## 4 rn_h _||_ shft | brkd -0.00754 0.777   -0.0596  0.0445 ok
 ```
 
 Large $p$-values mean the data are consistent with the DAG's predictions.
@@ -678,7 +474,11 @@ chisq.test(table(df$shift, df$machine_group))
 ```
 
 ```
-## Error in df$shift: object of type 'closure' is not subsettable
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  table(df$shift, df$machine_group)
+## X-squared = 0.16082, df = 2, p-value = 0.9227
 ```
 
 The $\chi^2$ test is non-significant --- shift assignment is independent of
@@ -725,23 +525,11 @@ do(\text{shift}))$ is identifiable from observational data.
 # Total effect: adjust for machine_group only
 m_total <- glm(breakdown ~ shift + machine_group,
                data = df, family = binomial)
-```
 
-```
-## Error in model.frame.default(formula = breakdown ~ shift + machine_group, : 'data' must be a data.frame, environment, or list
-```
-
-``` r
 # Direct effect: also adjust for changeovers (blocking the mediator)
 m_direct <- glm(breakdown ~ shift + machine_group + n_changeovers,
                 data = df, family = binomial)
-```
 
-```
-## Error in model.frame.default(formula = breakdown ~ shift + machine_group + : 'data' must be a data.frame, environment, or list
-```
-
-``` r
 bind_rows(
   broom::tidy(m_total) |> mutate(model = "Total (adjust machine_group)"),
   broom::tidy(m_direct) |> mutate(model = "Direct (+ changeovers)")
@@ -756,7 +544,16 @@ bind_rows(
 ```
 
 ```
-## Error: object 'm_total' not found
+## # A tibble: 7 × 5
+##   model                        term                estimate std.error p.value
+##   <chr>                        <chr>                  <dbl>     <dbl>   <dbl>
+## 1 Total (adjust machine_group) shiftSecond Shift     -0.749     0.293 0.0105 
+## 2 Total (adjust machine_group) machine_groupMedium   -0.162     0.336 0.63   
+## 3 Total (adjust machine_group) machine_groupSmall    -0.551     0.311 0.0771 
+## 4 Direct (+ changeovers)       shiftSecond Shift     -0.762     0.294 0.00964
+## 5 Direct (+ changeovers)       machine_groupMedium   -0.163     0.336 0.626  
+## 6 Direct (+ changeovers)       machine_groupSmall    -0.552     0.312 0.0761 
+## 7 Direct (+ changeovers)       n_changeovers         -0.099     0.245 0.685
 ```
 
 Second Shift has a negative coefficient (lower breakdown risk) in both
@@ -780,18 +577,22 @@ for everything." Watch what happens when we include `run_hours`:
 ``` r
 m_bad <- glm(breakdown ~ shift + machine_group + run_hours,
              data = df, family = binomial)
-```
 
-```
-## Error in model.frame.default(formula = breakdown ~ shift + machine_group + : 'data' must be a data.frame, environment, or list
-```
-
-``` r
 coeftest(m_bad, vcov = vcovHC(m_bad, type = "HC1"))
 ```
 
 ```
-## Error: object 'm_bad' not found
+## 
+## z test of coefficients:
+## 
+##                      Estimate Std. Error z value  Pr(>|z|)    
+## (Intercept)         -1.140520   0.379689 -3.0038  0.002666 ** 
+## shiftSecond Shift   -0.791308   0.304629 -2.5976  0.009387 ** 
+## machine_groupMedium -0.197294   0.342920 -0.5753  0.565065    
+## machine_groupSmall  -0.635560   0.322452 -1.9710  0.048722 *  
+## run_hours           -0.161901   0.030043 -5.3890 7.087e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 
@@ -810,7 +611,12 @@ bind_rows(
 ```
 
 ```
-## Error: object 'm_total' not found
+## # A tibble: 3 × 5
+##   model                term              estimate std.error   p.value
+##   <chr>                <chr>                <dbl>     <dbl>     <dbl>
+## 1 Causal (total)       shiftSecond Shift   -0.749     0.293 0.0105   
+## 2 Biased (+ run_hours) shiftSecond Shift   -0.791     0.297 0.00772  
+## 3 Biased (+ run_hours) run_hours           -0.162     0.038 0.0000211
 ```
 
 Including `run_hours` --- a descendant of the outcome --- opens a collider
@@ -841,7 +647,16 @@ bind_rows(
 ```
 
 ```
-## Error: object 'm_total' not found
+## # A tibble: 7 × 5
+##   model                term                estimate std.error   p.value
+##   <chr>                <chr>                  <dbl>     <dbl>     <dbl>
+## 1 Causal (correct)     shiftSecond Shift     -0.749     0.293 0.0105   
+## 2 Causal (correct)     machine_groupMedium   -0.162     0.336 0.63     
+## 3 Causal (correct)     machine_groupSmall    -0.551     0.311 0.0771   
+## 4 Biased (+ run_hours) shiftSecond Shift     -0.791     0.297 0.00772  
+## 5 Biased (+ run_hours) machine_groupMedium   -0.197     0.339 0.561    
+## 6 Biased (+ run_hours) machine_groupSmall    -0.636     0.316 0.0442   
+## 7 Biased (+ run_hours) run_hours             -0.162     0.038 0.0000211
 ```
 
 The biased model tells you that `run_hours` is the strongest predictor
@@ -879,63 +694,17 @@ df_cf <- df |>
   mutate(
     W = as.integer(shift == "First Shift")
   )
-```
 
-```
-## Error in UseMethod("mutate"): no applicable method for 'mutate' applied to an object of class "function"
-```
-
-``` r
 # Machine group dummies as covariates
 mg_dummies <- model.matrix(~ machine_group - 1, data = df_cf) |>
   as_tibble()
-```
-
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 df_cf <- bind_cols(df_cf, mg_dummies)
-```
-
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 cov_cols <- names(mg_dummies)
-```
 
-```
-## Error: object 'mg_dummies' not found
-```
-
-``` r
 X <- as.matrix(df_cf[, cov_cols])
-```
-
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 Y <- df_cf$breakdown
-```
-
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 W <- df_cf$W
-```
 
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 # Treatment balance
 tibble(
   shift       = c("First (W=1)", "Second (W=0)"),
@@ -946,7 +715,11 @@ tibble(
 ```
 
 ```
-## Error: object 'W' not found
+## # A tibble: 2 × 4
+##   shift            n failures   rate
+##   <chr>        <dbl>    <int>  <dbl>
+## 1 First (W=1)    774       42 0.0543
+## 2 Second (W=0)   646       17 0.0263
 ```
 
 Shift assignment has natural variation --- machines appear on both shifts,
@@ -959,26 +732,14 @@ This gives the causal forest good overlap for CATE estimation.
 ``` r
 set.seed(42)
 cf <- causal_forest(X = X, Y = Y, W = W, num.trees = 2000)
-```
 
-```
-## Error: object 'X' not found
-```
-
-``` r
 ate <- average_treatment_effect(cf)
-```
-
-```
-## Error: object 'cf' not found
-```
-
-``` r
 ate
 ```
 
 ```
-## Error: object 'ate' not found
+##   estimate    std.err 
+## 0.02768711 0.01033986
 ```
 
 The ATE tells us the average increase in breakdown probability from being
@@ -999,9 +760,7 @@ tibble(propensity = cf$W.hat) |>
        x = "Estimated P(First Shift | covariates)", y = "Count")
 ```
 
-```
-## Error: object 'cf' not found
-```
+![center](/figures/walkthrough_causal_workflow7/propensity-check-1.png)
 
 Propensity scores cluster around 0.5 --- exactly where we want them. No
 machine type is deterministically assigned to one shift, so the causal
@@ -1014,21 +773,8 @@ the covariate space) for reliable effect estimation.
 
 ``` r
 tau_hat <- predict(cf)$predictions
-```
-
-```
-## Error: object 'cf' not found
-```
-
-``` r
 df_cf$tau_hat <- tau_hat
-```
 
-```
-## Error: object 'tau_hat' not found
-```
-
-``` r
 ggplot(df_cf, aes(x = tau_hat, fill = machine_group)) +
   geom_histogram(bins = 40, alpha = 0.7, colour = "white",
                  position = "stack") +
@@ -1041,9 +787,7 @@ ggplot(df_cf, aes(x = tau_hat, fill = machine_group)) +
        y = "Count", fill = "Machine group")
 ```
 
-```
-## Error: object 'df_cf' not found
-```
+![center](/figures/walkthrough_causal_workflow7/hte-distribution-1.png)
 
 The distribution is bimodal because the only covariates are machine group
 dummies --- so the causal forest estimates a distinct CATE for each group,
@@ -1063,7 +807,12 @@ tibble(
 ```
 
 ```
-## Error: object 'cov_cols' not found
+## # A tibble: 3 × 2
+##   variable            importance
+##   <chr>                    <dbl>
+## 1 machine_groupMedium      0.314
+## 2 machine_groupLarge       0.292
+## 3 machine_groupSmall       0.272
 ```
 
 
@@ -1088,20 +837,20 @@ cate_table <- df_cf |>
     `Breakdown rate`  = paste0(round(breakdown_rate * 100, 1), "%"),
     `Expected cost/machine ($)` = round(mean_cate * 50000, 0)
   )
-```
 
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 cate_table |>
   select(machine_group, n, `Mean CATE`, `95% CI`, `Breakdown rate`,
          `Expected cost/machine ($)`)
 ```
 
 ```
-## Error: object 'cate_table' not found
+## # A tibble: 3 × 6
+##   machine_group     n `Mean CATE` `95% CI`         `Breakdown rate`
+##   <fct>         <int>       <dbl> <chr>            <chr>           
+## 1 Medium          332      0.033  [0.0328, 0.0331] 4.5%            
+## 2 Large           474      0.0297 [0.0296, 0.0298] 5.3%            
+## 3 Small           614      0.0253 [0.0253, 0.0254] 3.1%            
+## # ℹ 1 more variable: `Expected cost/machine ($)` <dbl>
 ```
 
 The table shows the estimated shift effect by machine group. The last column
@@ -1163,34 +912,15 @@ first_shift <- df_cf |>
     expected_savings   = expected_prevented * cost_per_breakdown -
                          rank * cost_per_inspection
   )
-```
 
-```
-## Error: object 'df_cf' not found
-```
-
-``` r
 # Random baseline: average CATE is constant, so cumulative grows linearly
 mean_cate <- mean(first_shift$tau_hat)
-```
-
-```
-## Error: object 'first_shift' not found
-```
-
-``` r
 first_shift <- first_shift |>
   mutate(
     random_savings = rank * mean_cate * cost_per_breakdown -
                      rank * cost_per_inspection
   )
-```
 
-```
-## Error: object 'first_shift' not found
-```
-
-``` r
 ggplot(first_shift) +
   geom_line(aes(x = pct_treated, y = expected_savings / 1000,
                 colour = "CATE-ranked"), linewidth = 1) +
@@ -1209,9 +939,7 @@ ggplot(first_shift) +
   theme(legend.position = c(0.2, 0.85))
 ```
 
-```
-## Error: object 'first_shift' not found
-```
+![center](/figures/walkthrough_causal_workflow7/targeting-curve-1.png)
 
 The targeting curve is monotonically increasing here --- because with
 $500 inspections and $50K breakdowns, even the lowest-CATE machines
@@ -1230,13 +958,7 @@ exactly which 200.
 # Compare CATE-ranked vs random at specific budget levels
 budget_pcts <- c(0.25, 0.50, 0.75, 1.00)
 n_first <- nrow(first_shift)
-```
 
-```
-## Error: object 'first_shift' not found
-```
-
-``` r
 comparison <- tibble(
   `Budget (% treated)` = paste0(budget_pcts * 100, "%"),
   `Machines treated`   = round(budget_pcts * n_first),
@@ -1254,18 +976,19 @@ comparison <- tibble(
   mutate(
     `CATE advantage ($K)` = `CATE-ranked savings ($K)` - `Random savings ($K)`
   )
-```
 
-```
-## Error: object 'n_first' not found
-```
-
-``` r
 comparison
 ```
 
 ```
-## Error: object 'comparison' not found
+## # A tibble: 4 × 5
+##   `Budget (% treated)` `Machines treated` `CATE-ranked savings ($K)`
+##   <chr>                             <dbl>                      <dbl>
+## 1 25%                                 194                       225.
+## 2 50%                                 387                       417.
+## 3 75%                                 580                       577.
+## 4 100%                                774                       721.
+## # ℹ 2 more variables: `Random savings ($K)` <dbl>, `CATE advantage ($K)` <dbl>
 ```
 
 The advantage of CATE-ranking is largest at small budgets. As you approach
@@ -1278,29 +1001,9 @@ effects: **they tell you the optimal *order*, even when the optimal
 ``` r
 # Summary stats
 optimal <- first_shift |> slice_max(expected_savings, n = 1)
-```
-
-```
-## Error: object 'first_shift' not found
-```
-
-``` r
 quarter <- first_shift |> filter(rank == round(0.25 * n_first))
-```
-
-```
-## Error: object 'first_shift' not found
-```
-
-``` r
 random_quarter <- first_shift |> filter(rank == round(0.25 * n_first))
-```
 
-```
-## Error: object 'first_shift' not found
-```
-
-``` r
 tibble(
   metric = c(
     "Machines on First Shift",
@@ -1325,7 +1028,16 @@ tibble(
 ```
 
 ```
-## Error: object 'first_shift' not found
+## # A tibble: 7 × 2
+##   metric                                   value           
+##   <chr>                                    <chr>           
+## 1 Machines on First Shift                  774             
+## 2 ATE (mean CATE)                          0.0286 (2.86 pp)
+## 3 Expected cost per First Shift assignment $1,431          
+## 4 Full intervention savings                $720,768        
+## 5 CATE-ranked savings at 25% budget        $224,588        
+## 6 Random savings at 25% budget             $180,658        
+## 7 Advantage of CATE-ranking at 25%         $43,930
 ```
 
 

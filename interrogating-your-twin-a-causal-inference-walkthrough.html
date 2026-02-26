@@ -13,13 +13,13 @@
 <link rel="canonical" href="./interrogating-your-twin-a-causal-inference-walkthrough.html">
 
         <meta name="author" content=""Prasanna Bhogale"" />
-        <meta name="description" content="This notebook This is the companion walkthrough for the talk Interrogating Your Twin: Causal Reasoning in Manufacturing Systems (Fifth Elephant 2026, Pune). The talk introduces Pearl&#39;s Ladder of Causation and argues that predictive maintenance needs to move beyond pattern-matching (Rung 1) to interventional reasoning (Rung 2). Here we do exactly …" />
+        <meta name="description" content="This is the companion walkthrough for the talk Interrogating Your Twin: Causal Reasoning in Manufacturing Systems (Fifth Elephant 2026, Pune). The talk introduces Pearl&#39;s Ladder of Causation and argues that predictive maintenance needs to move beyond pattern-matching (Rung 1) to interventional reasoning (Rung 2). Here we do exactly that, with …" />
 
         <meta property="og:site_name" content="p. bhogale" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="&#34;Interrogating your twin: a causal inference walkthrough&#34;"/>
         <meta property="og:url" content="./interrogating-your-twin-a-causal-inference-walkthrough.html"/>
-        <meta property="og:description" content="This notebook This is the companion walkthrough for the talk Interrogating Your Twin: Causal Reasoning in Manufacturing Systems (Fifth Elephant 2026, Pune). The talk introduces Pearl&#39;s Ladder of Causation and argues that predictive maintenance needs to move beyond pattern-matching (Rung 1) to interventional reasoning (Rung 2). Here we do exactly …"/>
+        <meta property="og:description" content="This is the companion walkthrough for the talk Interrogating Your Twin: Causal Reasoning in Manufacturing Systems (Fifth Elephant 2026, Pune). The talk introduces Pearl&#39;s Ladder of Causation and argues that predictive maintenance needs to move beyond pattern-matching (Rung 1) to interventional reasoning (Rung 2). Here we do exactly that, with …"/>
         <meta property="article:published_time" content="2026-02-26" />
             <meta property="article:section" content="data_sci_tech" />
             <meta property="article:author" content=""Prasanna Bhogale"" />
@@ -127,7 +127,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2026-02-26T18:10:46.593230+01:00"> Thu 26 February 2026</time>
+        <i class="fa fa-calendar"></i><time datetime="2026-02-26T18:18:57.922785+01:00"> Thu 26 February 2026</time>
     </span>
 
 
@@ -137,8 +137,7 @@
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <h1>This notebook</h1>
-<p>This is the companion walkthrough for the talk <em>Interrogating Your Twin:
+                <p>This is the companion walkthrough for the talk <em>Interrogating Your Twin:
 Causal Reasoning in Manufacturing Systems</em> (Fifth Elephant 2026, Pune).
 The talk introduces Pearl's Ladder of Causation and argues that
 predictive maintenance needs to move beyond pattern-matching (Rung 1) to
@@ -158,189 +157,22 @@ treatment effects via <code>grf::causal_forest</code>, with targeted interventio
 recommendations). Along the way we encounter reverse causation, collider
 bias, and a demonstration of what goes wrong when you "control for
 everything."</p>
-<h1>The data</h1>
 <p>Three tables from a real factory's monitoring system, covering 47 days of
 production across ~23 machines running two 12-hour shifts:</p>
-<div class="highlight"><pre><span></span><code><span class="n">energy_raw</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;walkthrough/RytnowRIMMData/EnergyStatusLog.csv&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;walkthrough/RytnowRIMMData/EnergyStatusLog.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">machine_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;walkthrough/RytnowRIMMData/Machine_Status_Log.csv&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;walkthrough/RytnowRIMMData/Machine_Status_Log.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">process_raw</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="s">&quot;walkthrough/RytnowRIMMData/Process_Status_Log.csv&quot;</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">show_col_types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: &#39;walkthrough/RytnowRIMMData/Process_Status_Log.csv&#39; does not exist in current working directory (&#39;/Users/prasanna/Library/CloudStorage/Dropbox/website/theclarkeorbit.github.io/content/_R&#39;).
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">tibble</span><span class="p">(</span>
-<span class="w">  </span><span class="n">table</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Energy&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Machine Status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Process&quot;</span><span class="p">),</span>
-<span class="w">  </span><span class="n">rows</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">energy_raw</span><span class="p">),</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">machine_raw</span><span class="p">),</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">process_raw</span><span class="p">)),</span>
-<span class="w">  </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;5-min energy readings per machine&quot;</span><span class="p">,</span>
-<span class="w">                   </span><span class="s">&quot;Working / Idle / Breakdown events&quot;</span><span class="p">,</span>
-<span class="w">                   </span><span class="s">&quot;Process start/stop events&quot;</span><span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;energy_raw&#39; not found
-</code></pre></div>
-
 <h2>Assembling the analysis dataset</h2>
 <p>The analysis unit is a <strong>machine-shift</strong>: one machine <span class="math">\(\times\)</span> one 12-hour
 shift. For each, we compute whether a breakdown occurred, how long the
 machine ran, its mean energy draw, and how many process changeovers happened.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># --- Machine Status Log ---</span>
-<span class="n">machine</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">machine_raw</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">rename</span><span class="p">(</span>
-<span class="w">    </span><span class="n">machine_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">MachineName</span><span class="p">,</span>
-<span class="w">    </span><span class="n">status</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">MachineBMPStatus</span><span class="p">,</span>
-<span class="w">    </span><span class="n">status_detail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MCBMPStatusDetails</span><span class="p">,</span>
-<span class="w">    </span><span class="n">start_time</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">StartTime</span><span class="p">,</span>
-<span class="w">    </span><span class="n">end_time</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">EndTime</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dur_min</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">duration</span><span class="p">,</span>
-<span class="w">    </span><span class="n">shift</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">ShiftName</span><span class="p">,</span>
-<span class="w">    </span><span class="n">machine_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MachineGroupName</span>
-<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">start_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">dmy_hm</span><span class="p">(</span><span class="n">start_time</span><span class="p">),</span>
-<span class="w">    </span><span class="n">end_time</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">dmy_hm</span><span class="p">(</span><span class="n">end_time</span><span class="p">),</span>
-<span class="w">    </span><span class="n">shift_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="nf">hour</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">7</span><span class="p">,</span>
-<span class="w">                         </span><span class="nf">as_date</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">days</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
-<span class="w">                         </span><span class="nf">as_date</span><span class="p">(</span><span class="n">start_time</span><span class="p">)),</span>
-<span class="w">    </span><span class="c1"># Generic machine group labels</span>
-<span class="w">    </span><span class="n">machine_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">recode</span><span class="p">(</span><span class="n">machine_group</span><span class="p">,</span>
-<span class="w">      </span><span class="s">&quot;Injection Moulding less 150&quot;</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Small&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s">&quot;Injection Moulding (150 To 300 )&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Medium&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s">&quot;Injection Moulding 300 Above&quot;</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Large&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s">&quot;Assembly&quot;</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Assembly&quot;</span>
-<span class="w">    </span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;machine_raw&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Per machine-shift: running time and breakdown indicator</span>
-<span class="n">machine_shift</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">machine</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">machine_name</span><span class="p">,</span><span class="w"> </span><span class="n">machine_group</span><span class="p">,</span><span class="w"> </span><span class="n">shift_date</span><span class="p">,</span><span class="w"> </span><span class="n">shift</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span>
-<span class="w">    </span><span class="n">run_minutes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">dur_min</span><span class="p">[</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Working&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
-<span class="w">    </span><span class="n">breakdown</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span>
-<span class="w">      </span><span class="nf">any</span><span class="p">(</span><span class="n">status_detail</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Machine Break down&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Tool Break Down&quot;</span><span class="p">),</span>
-<span class="w">          </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)),</span>
-<span class="w">    </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
-<span class="w">  </span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;machine&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># --- Energy Log ---</span>
-<span class="n">energy</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">energy_raw</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">machine_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">MachineNae</span><span class="p">,</span>
-<span class="w">         </span><span class="n">consumption</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">ConsumptionReading</span><span class="p">,</span>
-<span class="w">         </span><span class="n">timestamp_raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ConsumptionDate</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">timestamp</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">dmy_hm</span><span class="p">(</span><span class="n">timestamp_raw</span><span class="p">),</span>
-<span class="w">    </span><span class="n">shift_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="nf">hour</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">7</span><span class="p">,</span>
-<span class="w">                         </span><span class="nf">as_date</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">days</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
-<span class="w">                         </span><span class="nf">as_date</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)),</span>
-<span class="w">    </span><span class="n">shift</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="nf">hour</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nf">hour</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">19</span><span class="p">,</span>
-<span class="w">                         </span><span class="s">&quot;First Shift&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Second Shift&quot;</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;energy_raw&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Per machine-shift: energy summary</span>
-<span class="n">energy_shift</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">energy</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">machine_name</span><span class="p">,</span><span class="w"> </span><span class="n">shift_date</span><span class="p">,</span><span class="w"> </span><span class="n">shift</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span>
-<span class="w">    </span><span class="n">mean_energy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">consumption</span><span class="p">,</span><span class="w"> </span><span class="n">na.rm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
-<span class="w">    </span><span class="n">.groups</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span>
-<span class="w">  </span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;energy&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># --- Process Log: changeovers per machine-shift ---</span>
-<span class="n">process</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">process_raw</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">machine_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MachineName</span><span class="p">,</span>
-<span class="w">         </span><span class="n">shift</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">ShiftName</span><span class="p">,</span>
-<span class="w">         </span><span class="n">start_date</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">StartDate</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">start_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">dmy_hm</span><span class="p">(</span><span class="n">start_date</span><span class="p">),</span>
-<span class="w">    </span><span class="n">shift_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="nf">hour</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">7</span><span class="p">,</span>
-<span class="w">                         </span><span class="nf">as_date</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nf">days</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
-<span class="w">                         </span><span class="nf">as_date</span><span class="p">(</span><span class="n">start_time</span><span class="p">))</span>
-<span class="w">  </span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;process_raw&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">changeovers</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">machine_name</span><span class="p">,</span><span class="w"> </span><span class="n">shift_date</span><span class="p">,</span><span class="w"> </span><span class="n">shift</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">n_changeovers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">ProcessCode</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1L</span><span class="p">,</span><span class="w"> </span><span class="n">.groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;drop&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">n_changeovers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">pmax</span><span class="p">(</span><span class="n">n_changeovers</span><span class="p">,</span><span class="w"> </span><span class="m">0L</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;process&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># --- Join everything ---</span>
-<span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">machine_shift</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">inner_join</span><span class="p">(</span><span class="n">energy_shift</span><span class="p">,</span>
-<span class="w">             </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;machine_name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;shift_date&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;shift&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">left_join</span><span class="p">(</span><span class="n">changeovers</span><span class="p">,</span>
-<span class="w">            </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;machine_name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;shift_date&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;shift&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
-<span class="w">    </span><span class="n">n_changeovers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">replace_na</span><span class="p">(</span><span class="n">n_changeovers</span><span class="p">,</span><span class="w"> </span><span class="m">0L</span><span class="p">),</span>
-<span class="w">    </span><span class="n">run_hours</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">run_minutes</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">60</span><span class="p">,</span>
-<span class="w">    </span><span class="n">machine_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">machine_group</span><span class="p">),</span>
-<span class="w">    </span><span class="n">shift_f</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">shift</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">run_minutes</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;machine_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span>
-<span class="w">    </span><span class="n">shifts</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">(),</span>
-<span class="w">    </span><span class="n">machines</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nf">n_distinct</span><span class="p">(</span><span class="n">machine_name</span><span class="p">),</span>
-<span class="w">    </span><span class="n">breakdowns</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">breakdown</span><span class="p">),</span>
-<span class="w">    </span><span class="n">breakdown_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;%&quot;</span><span class="p">),</span>
-<span class="w">    </span><span class="n">mean_run_hours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">run_hours</span><span class="p">),</span><span class="w"> </span><span class="m">1</span><span class="p">),</span>
-<span class="w">    </span><span class="n">mean_energy</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="nf">mean</span><span class="p">(</span><span class="n">mean_energy</span><span class="p">),</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
-<span class="w">  </span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;summarise&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;summarise&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
 <p>Sparse events --- about 3% of machine-shifts end in a breakdown. Each missed
 one is expensive: unplanned downtime, emergency repair, cascading delays.
 This asymmetry --- cheap inspections, expensive failures --- is the
 economic foundation of everything that follows.</p>
-<h1>Rung 1: what does the data show?</h1>
+<h2>Rung 1: what does the data show?</h2>
 <p>Before building any causal model, let's look at what simple associations exist.
 With a ~3% event rate, density plots are useless --- the breakdown distribution
 drowns in the normal mass. Instead, we compute <strong>breakdown rates</strong> within bins
 and plot those directly with confidence intervals.</p>
-<h2>Breakdown rate by shift</h2>
+<h3>Breakdown rate by shift</h3>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">shift</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">summarise</span><span class="p">(</span>
@@ -360,12 +192,10 @@ and plot those directly with confidence intervals.</p>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in UseMethod(&quot;group_by&quot;): no applicable method for &#39;group_by&#39; applied to an object of class &quot;function&quot;
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-shift-1.png"></p>
 <p>First Shift breaks down roughly twice as often as Second Shift. That's a
 real signal --- but is it causal?</p>
-<h2>Breakdown rate by running hours</h2>
+<h3>Breakdown rate by running hours</h3>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">run_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cut</span><span class="p">(</span><span class="n">run_hours</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">6</span><span class="p">,</span><span class="w"> </span><span class="m">9</span><span class="p">,</span><span class="w"> </span><span class="m">12</span><span class="p">),</span>
 <span class="w">                       </span><span class="n">include.lowest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -389,9 +219,7 @@ real signal --- but is it causal?</p>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Running hours in shift&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;mutate&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;mutate&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-runhours-1.png"></p>
 <p>This is striking and counterintuitive. Machines that ran for only 0--3 hours
 have a ~10% breakdown rate, while those that ran 11+ hours have under 1%.
 A naive analyst might conclude that running a machine longer <em>prevents</em>
@@ -400,7 +228,7 @@ breakdowns. That conclusion is backwards.</p>
 that breaks down after two hours gets recorded as a short run. The arrow
 runs from breakdown to run_hours, not the other way round. This is exactly
 the trap the DAG will help us avoid.</p>
-<h2>Breakdown rate by changeovers</h2>
+<h3>Breakdown rate by changeovers</h3>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">co_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
 <span class="w">    </span><span class="n">n_changeovers</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">,</span>
@@ -426,9 +254,7 @@ the trap the DAG will help us avoid.</p>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Changeovers in shift&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;mutate&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;mutate&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-changeovers-1.png"></p>
 <p>Shifts with one or more changeovers have roughly double the breakdown rate of
 shifts with none. The mechanism is plausible: each tool or process changeover
 stresses the machine, increases setup risk, and creates a window for operator
@@ -436,7 +262,7 @@ error. We'll test whether this survives causal adjustment.</p>
 <p>Note that First Shift also has more changeovers (mean 0.31 vs 0.21).
 That means changeovers might <em>mediate</em> part of the shift effect.
 The DAG will make this explicit.</p>
-<h2>Breakdown rate by energy</h2>
+<h3>Breakdown rate by energy</h3>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">energy_bin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">cut</span><span class="p">(</span><span class="n">mean_energy</span><span class="p">,</span><span class="w"> </span><span class="n">breaks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">energy_bin</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -460,13 +286,11 @@ The DAG will make this explicit.</p>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Mean energy per 5-min reading (kWh)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;mutate&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;mutate&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-energy-1.png"></p>
 <p>Energy consumption shows no meaningful pattern with breakdowns. It has no
 business in a causal model of failure. But keep this in mind for the next
 section --- because the structure learning algorithm disagrees.</p>
-<h1>Structure learning: can the data discover the DAG?</h1>
+<h2>Structure learning: can the data discover the DAG?</h2>
 <p>Before imposing our domain knowledge, let's ask: what does the data alone
 suggest about the causal structure? We use <code>bnlearn</code>'s hill-climbing
 algorithm with the BIC-CG score (appropriate for mixed continuous/discrete
@@ -480,31 +304,30 @@ data) to learn a Bayesian network.</p>
 <span class="w">    </span><span class="n">changeovers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">n_changeovers</span><span class="p">),</span>
 <span class="w">    </span><span class="n">breakdown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">breakdown</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;transmute&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;transmute&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+<span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
 <span class="n">learned_dag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">hc</span><span class="p">(</span><span class="n">df_bn</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bic-cg&quot;</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_bn&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">))</span>
 <span class="nf">graphviz.plot</span><span class="p">(</span><span class="n">learned_dag</span><span class="p">,</span>
 <span class="w">              </span><span class="n">main</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Data-learned structure (bnlearn hill-climbing)&quot;</span><span class="p">,</span>
 <span class="w">              </span><span class="n">shape</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ellipse&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;learned_dag&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/structure-learning-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="nf">arcs</span><span class="p">(</span><span class="n">learned_dag</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as_tibble</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;learned_dag&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 7 × 2
+<span class="gu">##</span>   from      to         
+<span class="gu">##</span>   &lt;chr&gt;     &lt;chr&gt;      
+<span class="gu">##</span> 1 mg        energy     
+<span class="gu">##</span> 2 shift     energy     
+<span class="gu">##</span> 3 shift     changeovers
+<span class="gu">##</span> 4 shift     run_hours  
+<span class="gu">##</span> 5 mg        run_hours  
+<span class="gu">##</span> 6 breakdown energy     
+<span class="gu">##</span> 7 energy    run_hours
 </code></pre></div>
 
 <p>Look at what the algorithm found:</p>
@@ -623,12 +446,8 @@ corrections that only domain knowledge can supply:</p>
 <span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">mg_num</span><span class="p">,</span><span class="w"> </span><span class="n">run_hours</span><span class="p">,</span><span class="w"> </span><span class="n">shift_num</span><span class="p">,</span><span class="w"> </span><span class="n">breakdown</span><span class="p">,</span><span class="w"> </span><span class="n">n_changeovers</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">rename</span><span class="p">(</span><span class="n">machine_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mg_num</span><span class="p">,</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shift_num</span><span class="p">,</span>
 <span class="w">         </span><span class="n">changeovers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_changeovers</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;mutate&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;mutate&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">test_dag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<span class="n">test_dag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
 <span class="s">  machine_group -&gt; breakdown</span>
 <span class="s">  machine_group -&gt; changeovers</span>
 <span class="s">  shift         -&gt; breakdown</span>
@@ -643,7 +462,13 @@ corrections that only domain knowledge can supply:</p>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">verdict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span><span class="n">p.value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">0.05</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;VIOLATED&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ok&quot;</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_for_dag&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 6
+<span class="gu">##</span>   test                  estimate p.value  `2.5%` `97.5%` verdict 
+<span class="gu">##</span>   &lt;chr&gt;                    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   
+<span class="gu">##</span> 1 mch_ _||_ rn_h | brkd -0.0706  0.00782 -0.122  -0.0186 VIOLATED
+<span class="gu">##</span> 2 chng _||_ rn_h | brkd -0.0317  0.232   -0.0836  0.0203 ok      
+<span class="gu">##</span> 3 mch_ _||_ shft         0.0103  0.699   -0.0418  0.0622 ok      
+<span class="gu">##</span> 4 rn_h _||_ shft | brkd -0.00754 0.777   -0.0596  0.0445 ok
 </code></pre></div>
 
 <p>Large <span class="math">\(p\)</span>-values mean the data are consistent with the DAG's predictions.
@@ -707,7 +532,11 @@ aren't systematically assigned to shifts):</p>
 <div class="highlight"><pre><span></span><code><span class="nf">chisq.test</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">shift</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">machine_group</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Error</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nx">df</span><span class="err">$</span><span class="nx">shift</span><span class="p">:</span><span class="w"> </span><span class="nx">object</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="err">&#39;</span><span class="nx">closure</span><span class="err">&#39;</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="nx">subsettable</span>
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> 
+<span class="gu">##</span>  Pearson&#39;s Chi-squared test
+<span class="gu">##</span> 
+<span class="gu">##</span> data:  table(df$shift, df$machine_group)
+<span class="gu">##</span> X-squared = 0.16082, df = 2, p-value = 0.9227
 </code></pre></div>
 
 <p>The <span class="math">\(\chi^2\)</span> test is non-significant --- shift assignment is independent of
@@ -743,20 +572,12 @@ do(\text{shift}))\)</span> is identifiable from observational data.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Total effect: adjust for machine_group only</span>
 <span class="n">m_total</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">machine_group</span><span class="p">,</span>
 <span class="w">               </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in model.frame.default(formula = breakdown ~ shift + machine_group, : &#39;data&#39; must be a data.frame, environment, or list
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Direct effect: also adjust for changeovers (blocking the mediator)</span>
+<span class="c1"># Direct effect: also adjust for changeovers (blocking the mediator)</span>
 <span class="n">m_direct</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">machine_group</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n_changeovers</span><span class="p">,</span>
 <span class="w">                </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in model.frame.default(formula = breakdown ~ shift + machine_group + : &#39;data&#39; must be a data.frame, environment, or list
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">bind_rows</span><span class="p">(</span>
+<span class="nf">bind_rows</span><span class="p">(</span>
 <span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_total</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Total (adjust machine_group)&quot;</span><span class="p">),</span>
 <span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_direct</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Direct (+ changeovers)&quot;</span><span class="p">)</span>
 <span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -769,7 +590,16 @@ do(\text{shift}))\)</span> is identifiable from observational data.</p>
 <span class="w">  </span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_total&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 7 × 5
+<span class="gu">##</span>   model                        term                estimate std.error p.value
+<span class="gu">##</span>   &lt;chr&gt;                        &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+<span class="gu">##</span> 1 Total (adjust machine_group) shiftSecond Shift     -0.749     0.293 0.0105 
+<span class="gu">##</span> 2 Total (adjust machine_group) machine_groupMedium   -0.162     0.336 0.63   
+<span class="gu">##</span> 3 Total (adjust machine_group) machine_groupSmall    -0.551     0.311 0.0771 
+<span class="gu">##</span> 4 Direct (+ changeovers)       shiftSecond Shift     -0.762     0.294 0.00964
+<span class="gu">##</span> 5 Direct (+ changeovers)       machine_groupMedium   -0.163     0.336 0.626  
+<span class="gu">##</span> 6 Direct (+ changeovers)       machine_groupSmall    -0.552     0.312 0.0761 
+<span class="gu">##</span> 7 Direct (+ changeovers)       n_changeovers         -0.099     0.245 0.685
 </code></pre></div>
 
 <p>Second Shift has a negative coefficient (lower breakdown risk) in both
@@ -786,15 +616,21 @@ gave us the right question to ask --- and the answer was informative.</p>
 for everything." Watch what happens when we include <code>run_hours</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">m_bad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">machine_group</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">run_hours</span><span class="p">,</span>
 <span class="w">             </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">)</span>
+
+<span class="nf">coeftest</span><span class="p">(</span><span class="n">m_bad</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_bad</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error in model.frame.default(formula = breakdown ~ shift + machine_group + : &#39;data&#39; must be a data.frame, environment, or list
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_bad</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_bad</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_bad&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> 
+<span class="gu">##</span> z test of coefficients:
+<span class="gu">##</span> 
+<span class="gu">##</span>                      Estimate Std. Error z value  Pr(&gt;|z|)    
+<span class="gu">##</span> (Intercept)         -1.140520   0.379689 -3.0038  0.002666 ** 
+<span class="gu">##</span> shiftSecond Shift   -0.791308   0.304629 -2.5976  0.009387 ** 
+<span class="gu">##</span> machine_groupMedium -0.197294   0.342920 -0.5753  0.565065    
+<span class="gu">##</span> machine_groupSmall  -0.635560   0.322452 -1.9710  0.048722 *  
+<span class="gu">##</span> run_hours           -0.161901   0.030043 -5.3890 7.087e-08 ***
+<span class="gu">##</span> ---
+<span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nf">bind_rows</span><span class="p">(</span>
@@ -810,7 +646,12 @@ for everything." Watch what happens when we include <code>run_hours</code>:</p>
 <span class="w">  </span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_total&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 3 × 5
+<span class="gu">##</span>   model                term              estimate std.error   p.value
+<span class="gu">##</span>   &lt;chr&gt;                &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+<span class="gu">##</span> 1 Causal (total)       shiftSecond Shift   -0.749     0.293 0.0105   
+<span class="gu">##</span> 2 Biased (+ run_hours) shiftSecond Shift   -0.791     0.297 0.00772  
+<span class="gu">##</span> 3 Biased (+ run_hours) run_hours           -0.162     0.038 0.0000211
 </code></pre></div>
 
 <p>Including <code>run_hours</code> --- a descendant of the outcome --- opens a collider
@@ -834,7 +675,16 @@ speaking. The DAG caught this; a correlation matrix wouldn't.</p>
 <span class="w">  </span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;m_total&#39; not found
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 7 × 5
+<span class="gu">##</span>   model                term                estimate std.error   p.value
+<span class="gu">##</span>   &lt;chr&gt;                &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+<span class="gu">##</span> 1 Causal (correct)     shiftSecond Shift     -0.749     0.293 0.0105   
+<span class="gu">##</span> 2 Causal (correct)     machine_groupMedium   -0.162     0.336 0.63     
+<span class="gu">##</span> 3 Causal (correct)     machine_groupSmall    -0.551     0.311 0.0771   
+<span class="gu">##</span> 4 Biased (+ run_hours) shiftSecond Shift     -0.791     0.297 0.00772  
+<span class="gu">##</span> 5 Biased (+ run_hours) machine_groupMedium   -0.197     0.339 0.561    
+<span class="gu">##</span> 6 Biased (+ run_hours) machine_groupSmall    -0.636     0.316 0.0442   
+<span class="gu">##</span> 7 Biased (+ run_hours) run_hours             -0.162     0.038 0.0000211
 </code></pre></div>
 
 <p>The biased model tells you that <code>run_hours</code> is the strongest predictor
@@ -861,50 +711,18 @@ belongs here.</p>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
 <span class="w">    </span><span class="n">W</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">as.integer</span><span class="p">(</span><span class="n">shift</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;First Shift&quot;</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code>##<span class="w"> </span><span class="nv">Error</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="nv">UseMethod</span><span class="ss">(</span><span class="s2">&quot;mutate&quot;</span><span class="ss">)</span>:<span class="w"> </span><span class="nv">no</span><span class="w"> </span><span class="nv">applicable</span><span class="w"> </span><span class="nv">method</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="s1">&#39;mutate&#39;</span><span class="w"> </span><span class="nv">applied</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="nv">an</span><span class="w"> </span><span class="nv">object</span><span class="w"> </span><span class="nv">of</span><span class="w"> </span><span class="nv">class</span><span class="w"> </span><span class="s2">&quot;function&quot;</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Machine group dummies as covariates</span>
+<span class="c1"># Machine group dummies as covariates</span>
 <span class="n">mg_dummies</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">model.matrix</span><span class="p">(</span><span class="o">~</span><span class="w"> </span><span class="n">machine_group</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_cf</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">as_tibble</span><span class="p">()</span>
-</code></pre></div>
+<span class="n">df_cf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">df_cf</span><span class="p">,</span><span class="w"> </span><span class="n">mg_dummies</span><span class="p">)</span>
+<span class="n">cov_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">mg_dummies</span><span class="p">)</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
+<span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">df_cf</span><span class="p">[,</span><span class="w"> </span><span class="n">cov_cols</span><span class="p">])</span>
+<span class="n">Y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cf</span><span class="o">$</span><span class="n">breakdown</span>
+<span class="n">W</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cf</span><span class="o">$</span><span class="n">W</span>
 
-<div class="highlight"><pre><span></span><code><span class="n">df_cf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">bind_cols</span><span class="p">(</span><span class="n">df_cf</span><span class="p">,</span><span class="w"> </span><span class="n">mg_dummies</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">cov_cols</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">names</span><span class="p">(</span><span class="n">mg_dummies</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;mg_dummies&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">as.matrix</span><span class="p">(</span><span class="n">df_cf</span><span class="p">[,</span><span class="w"> </span><span class="n">cov_cols</span><span class="p">])</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">Y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cf</span><span class="o">$</span><span class="n">breakdown</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">W</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df_cf</span><span class="o">$</span><span class="n">W</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Treatment balance</span>
+<span class="c1"># Treatment balance</span>
 <span class="nf">tibble</span><span class="p">(</span>
 <span class="w">  </span><span class="n">shift</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;First (W=1)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Second (W=0)&quot;</span><span class="p">),</span>
 <span class="w">  </span><span class="n">n</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">W</span><span class="p">),</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="m">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">W</span><span class="p">)),</span>
@@ -913,7 +731,11 @@ belongs here.</p>
 <span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error: object &#39;W&#39; not found
+<div class="highlight"><pre><span></span><code>## # A tibble: 2 × 4
+##   shift            n failures   rate
+##   &lt;chr&gt;        &lt;dbl&gt;    &lt;int&gt;  &lt;dbl&gt;
+## 1 First (W=1)    774       42 0.0543
+## 2 Second (W=0)   646       17 0.0263
 </code></pre></div>
 
 <p>Shift assignment has natural variation --- machines appear on both shifts,
@@ -922,21 +744,13 @@ This gives the causal forest good overlap for CATE estimation.</p>
 <h2>Fitting the causal forest</h2>
 <div class="highlight"><pre><span></span><code><span class="nf">set.seed</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
 <span class="n">cf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">causal_forest</span><span class="p">(</span><span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Y</span><span class="p">,</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">W</span><span class="p">,</span><span class="w"> </span><span class="n">num.trees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2000</span><span class="p">)</span>
+
+<span class="n">ate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">average_treatment_effect</span><span class="p">(</span><span class="n">cf</span><span class="p">)</span>
+<span class="n">ate</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error: object &#39;X&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">ate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">average_treatment_effect</span><span class="p">(</span><span class="n">cf</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">ate</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;ate&#39; not found
+<div class="highlight"><pre><span></span><code>##   estimate    std.err 
+## 0.02768711 0.01033986
 </code></pre></div>
 
 <p>The ATE tells us the average increase in breakdown probability from being
@@ -954,27 +768,16 @@ probability of being assigned to First Shift given covariates.</p>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Estimated P(First Shift | covariates)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Count&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code>## Error: object &#39;cf&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/propensity-check-1.png"></p>
 <p>Propensity scores cluster around 0.5 --- exactly where we want them. No
 machine type is deterministically assigned to one shift, so the causal
 forest has good "overlap" (both treatment and control observations across
 the covariate space) for reliable effect estimation.</p>
 <h2>Heterogeneous treatment effects</h2>
 <div class="highlight"><pre><span></span><code><span class="n">tau_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cf</span><span class="p">)</span><span class="o">$</span><span class="n">predictions</span>
-</code></pre></div>
+<span class="n">df_cf</span><span class="o">$</span><span class="n">tau_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tau_hat</span>
 
-<div class="highlight"><pre><span></span><code>## Error: object &#39;cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">df_cf</span><span class="o">$</span><span class="n">tau_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tau_hat</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;tau_hat&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">df_cf</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau_hat</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">machine_group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">df_cf</span><span class="p">,</span><span class="w"> </span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau_hat</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">machine_group</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">40</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">,</span>
 <span class="w">                 </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;stack&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ate</span><span class="p">[</span><span class="s">&quot;estimate&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dashed&quot;</span><span class="p">,</span>
@@ -986,9 +789,7 @@ the covariate space) for reliable effect estimation.</p>
 <span class="w">       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Count&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Machine group&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/hte-distribution-1.png"></p>
 <p>The distribution is bimodal because the only covariates are machine group
 dummies --- so the causal forest estimates a distinct CATE for each group,
 and machines within a group cluster tightly. The left mode is Small
@@ -1003,7 +804,12 @@ honesty (out-of-bag variation), not genuine within-group heterogeneity.</p>
 <span class="w">  </span><span class="nf">arrange</span><span class="p">(</span><span class="nf">desc</span><span class="p">(</span><span class="n">importance</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cov_cols&#39; not found
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 3 × 2</span>
+<span class="c1">##   variable            importance</span>
+<span class="c1">##   &lt;chr&gt;                    &lt;dbl&gt;</span>
+<span class="c1">## 1 machine_groupMedium      0.314</span>
+<span class="c1">## 2 machine_groupLarge       0.292</span>
+<span class="c1">## 3 machine_groupSmall       0.272</span>
 </code></pre></div>
 
 <h2>CATE by machine group</h2>
@@ -1024,17 +830,19 @@ honesty (out-of-bag variation), not genuine within-group heterogeneity.</p>
 <span class="w">    </span><span class="n">`Breakdown rate`</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="nf">round</span><span class="p">(</span><span class="n">breakdown_rate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;%&quot;</span><span class="p">),</span>
 <span class="w">    </span><span class="n">`Expected cost/machine ($)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">mean_cate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">50000</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">)</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">cate_table</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">cate_table</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">machine_group</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">`Mean CATE`</span><span class="p">,</span><span class="w"> </span><span class="n">`95% CI`</span><span class="p">,</span><span class="w"> </span><span class="n">`Breakdown rate`</span><span class="p">,</span>
 <span class="w">         </span><span class="n">`Expected cost/machine ($)`</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;cate_table&#39; not found
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 3 × 6</span>
+<span class="c1">##   machine_group     n `Mean CATE` `95% CI`         `Breakdown rate`</span>
+<span class="c1">##   &lt;fct&gt;         &lt;int&gt;       &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;           </span>
+<span class="c1">## 1 Medium          332      0.033  [0.0328, 0.0331] 4.5%            </span>
+<span class="c1">## 2 Large           474      0.0297 [0.0296, 0.0298] 5.3%            </span>
+<span class="c1">## 3 Small           614      0.0253 [0.0253, 0.0254] 3.1%            </span>
+<span class="c1">## # ℹ 1 more variable: `Expected cost/machine ($)` &lt;dbl&gt;</span>
 </code></pre></div>
 
 <p>The table shows the estimated shift effect by machine group. The last column
@@ -1103,29 +911,16 @@ inspection worthwhile for high-CATE machines.</p>
 <span class="w">    </span><span class="n">expected_savings</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">expected_prevented</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cost_per_breakdown</span><span class="w"> </span><span class="o">-</span>
 <span class="w">                         </span><span class="n">rank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cost_per_inspection</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;df_cf&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># Random baseline: average CATE is constant, so cumulative grows linearly</span>
+<span class="c1"># Random baseline: average CATE is constant, so cumulative grows linearly</span>
 <span class="n">mean_cate</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">first_shift</span><span class="o">$</span><span class="n">tau_hat</span><span class="p">)</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">first_shift</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="n">first_shift</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
 <span class="w">    </span><span class="n">random_savings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mean_cate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cost_per_breakdown</span><span class="w"> </span><span class="o">-</span>
 <span class="w">                     </span><span class="n">rank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cost_per_inspection</span>
 <span class="w">  </span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">ggplot</span><span class="p">(</span><span class="n">first_shift</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">first_shift</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pct_treated</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expected_savings</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
 <span class="w">                </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;CATE-ranked&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_line</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pct_treated</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random_savings</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1000</span><span class="p">,</span>
@@ -1143,9 +938,7 @@ inspection worthwhile for high-CATE machines.</p>
 <span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0.85</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
+<p><img alt="center" src="/figures/walkthrough_causal_workflow7/targeting-curve-1.png"></p>
 <p>The targeting curve is monotonically increasing here --- because with
 $500 inspections and $50K breakdowns, even the lowest-CATE machines
 are worth treating (expected value of intervention &gt; cost for nearly
@@ -1159,12 +952,8 @@ exactly which 200.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Compare CATE-ranked vs random at specific budget levels</span>
 <span class="n">budget_pcts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="m">0.50</span><span class="p">,</span><span class="w"> </span><span class="m">0.75</span><span class="p">,</span><span class="w"> </span><span class="m">1.00</span><span class="p">)</span>
 <span class="n">n_first</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">first_shift</span><span class="p">)</span>
-</code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">comparison</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
+<span class="n">comparison</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tibble</span><span class="p">(</span>
 <span class="w">  </span><span class="n">`Budget (% treated)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste0</span><span class="p">(</span><span class="n">budget_pcts</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">100</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%&quot;</span><span class="p">),</span>
 <span class="w">  </span><span class="n">`Machines treated`</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="n">budget_pcts</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_first</span><span class="p">),</span>
 <span class="w">  </span><span class="n">`CATE-ranked savings ($K)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sapply</span><span class="p">(</span><span class="n">budget_pcts</span><span class="p">,</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1181,15 +970,18 @@ exactly which 200.</p>
 <span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
 <span class="w">    </span><span class="n">`CATE advantage ($K)`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">`CATE-ranked savings ($K)`</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">`Random savings ($K)`</span>
 <span class="w">  </span><span class="p">)</span>
+
+<span class="n">comparison</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;n_first&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">comparison</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code>## Error: object &#39;comparison&#39; not found
+<div class="highlight"><pre><span></span><code><span class="c1">## # A tibble: 4 × 5</span>
+<span class="c1">##   `Budget (% treated)` `Machines treated` `CATE-ranked savings ($K)`</span>
+<span class="c1">##   &lt;chr&gt;                             &lt;dbl&gt;                      &lt;dbl&gt;</span>
+<span class="c1">## 1 25%                                 194                       225.</span>
+<span class="c1">## 2 50%                                 387                       417.</span>
+<span class="c1">## 3 75%                                 580                       577.</span>
+<span class="c1">## 4 100%                                774                       721.</span>
+<span class="c1">## # ℹ 2 more variables: `Random savings ($K)` &lt;dbl&gt;, `CATE advantage ($K)` &lt;dbl&gt;</span>
 </code></pre></div>
 
 <p>The advantage of CATE-ranking is largest at small budgets. As you approach
@@ -1199,24 +991,10 @@ effects: <strong>they tell you the optimal <em>order</em>, even when the optimal
 <em>quantity</em> turns out to be "all of them."</strong></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Summary stats</span>
 <span class="n">optimal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">slice_max</span><span class="p">(</span><span class="n">expected_savings</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
-</code></pre></div>
+<span class="n">quarter</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.25</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_first</span><span class="p">))</span>
+<span class="n">random_quarter</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.25</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_first</span><span class="p">))</span>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">quarter</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.25</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_first</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">random_quarter</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.25</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_first</span><span class="p">))</span>
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">tibble</span><span class="p">(</span>
+<span class="nf">tibble</span><span class="p">(</span>
 <span class="w">  </span><span class="n">metric</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span>
 <span class="w">    </span><span class="s">&quot;Machines on First Shift&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="s">&quot;ATE (mean CATE)&quot;</span><span class="p">,</span>
@@ -1239,7 +1017,16 @@ effects: <strong>they tell you the optimal <em>order</em>, even when the optimal
 <span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> Error: object &#39;first_shift&#39; not found
+<div class="highlight"><pre><span></span><code><span class="p">##</span><span class="w"> </span><span class="p">#</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="nl">tibble:</span><span class="w"> </span><span class="mh">7</span><span class="w"> </span><span class="err">×</span><span class="w"> </span><span class="mh">2</span>
+<span class="p">##</span><span class="w">   </span><span class="n">metric</span><span class="w">                                   </span><span class="n">value</span><span class="w">           </span>
+<span class="p">##</span><span class="w">   </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">                                    </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">           </span>
+<span class="p">##</span><span class="w"> </span><span class="mh">1</span><span class="w"> </span><span class="n">Machines</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">First</span><span class="w"> </span><span class="n">Shift</span><span class="w">                  </span><span class="mh">774</span><span class="w">             </span>
+<span class="p">##</span><span class="w"> </span><span class="mh">2</span><span class="w"> </span><span class="n">ATE</span><span class="w"> </span><span class="p">(</span><span class="n">mean</span><span class="w"> </span><span class="n">CATE</span><span class="p">)</span><span class="w">                          </span><span class="mf">0.0286</span><span class="w"> </span><span class="p">(</span><span class="mf">2.86</span><span class="w"> </span><span class="n">pp</span><span class="p">)</span>
+<span class="p">##</span><span class="w"> </span><span class="mh">3</span><span class="w"> </span><span class="n">Expected</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="n">per</span><span class="w"> </span><span class="n">First</span><span class="w"> </span><span class="n">Shift</span><span class="w"> </span><span class="n">assignment</span><span class="w"> </span><span class="err">$</span><span class="mh">1</span><span class="p">,</span><span class="mh">431</span><span class="w">          </span>
+<span class="p">##</span><span class="w"> </span><span class="mh">4</span><span class="w"> </span><span class="n">Full</span><span class="w"> </span><span class="n">intervention</span><span class="w"> </span><span class="n">savings</span><span class="w">                </span><span class="err">$</span><span class="mh">720</span><span class="p">,</span><span class="mh">768</span><span class="w">        </span>
+<span class="p">##</span><span class="w"> </span><span class="mh">5</span><span class="w"> </span><span class="n">CATE</span><span class="o">-</span><span class="n">ranked</span><span class="w"> </span><span class="n">savings</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mh">25</span><span class="o">%</span><span class="w"> </span><span class="n">budget</span><span class="w">        </span><span class="err">$</span><span class="mh">224</span><span class="p">,</span><span class="mh">588</span><span class="w">        </span>
+<span class="p">##</span><span class="w"> </span><span class="mh">6</span><span class="w"> </span><span class="n">Random</span><span class="w"> </span><span class="n">savings</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mh">25</span><span class="o">%</span><span class="w"> </span><span class="n">budget</span><span class="w">             </span><span class="err">$</span><span class="mh">180</span><span class="p">,</span><span class="mh">658</span><span class="w">        </span>
+<span class="p">##</span><span class="w"> </span><span class="mh">7</span><span class="w"> </span><span class="n">Advantage</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">CATE</span><span class="o">-</span><span class="n">ranking</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mh">25</span><span class="o">%</span><span class="w">         </span><span class="err">$</span><span class="mh">43</span><span class="p">,</span><span class="mh">930</span>
 </code></pre></div>
 
 <h1>What we learned</h1>

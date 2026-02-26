@@ -32,7 +32,6 @@ col_fail <- "firebrick3"
 col_bar  <- "steelblue"
 ```
 
-# This notebook
 
 This is the companion walkthrough for the talk *Interrogating Your Twin:
 Causal Reasoning in Manufacturing Systems* (Fifth Elephant 2026, Pune).
@@ -56,18 +55,15 @@ recommendations). Along the way we encounter reverse causation, collider
 bias, and a demonstration of what goes wrong when you "control for
 everything."
 
-
-# The data
-
 Three tables from a real factory's monitoring system, covering 47 days of
 production across ~23 machines running two 12-hour shifts:
 
-```{r load-data}
-energy_raw  <- read_csv("walkthrough/RytnowRIMMData/EnergyStatusLog.csv",
+```{r load-data, include=FALSE}
+energy_raw  <- read_csv("~/projects/causal_talk_5thel/pred-maint/walkthrough/RytnowRIMMData/EnergyStatusLog.csv",
                         show_col_types = FALSE)
-machine_raw <- read_csv("walkthrough/RytnowRIMMData/Machine_Status_Log.csv",
+machine_raw <- read_csv("~/projects/causal_talk_5thel/pred-maint/walkthrough/RytnowRIMMData/Machine_Status_Log.csv",
                         show_col_types = FALSE)
-process_raw <- read_csv("walkthrough/RytnowRIMMData/Process_Status_Log.csv",
+process_raw <- read_csv("~/projects/causal_talk_5thel/pred-maint/walkthrough/RytnowRIMMData/Process_Status_Log.csv",
                         show_col_types = FALSE)
 
 tibble(
@@ -85,7 +81,7 @@ The analysis unit is a **machine-shift**: one machine $\times$ one 12-hour
 shift. For each, we compute whether a breakdown occurred, how long the
 machine ran, its mean energy draw, and how many process changeovers happened.
 
-```{r assemble-data}
+```{r assemble-data, include=FALSE}
 # --- Machine Status Log ---
 machine <- machine_raw |>
   rename(
@@ -178,7 +174,7 @@ df <- machine_shift |>
   filter(run_minutes > 0)
 ```
 
-```{r data-summary}
+```{r data-summary, include=FALSE}
 df |>
   summarise(
     shifts         = n(),
@@ -196,14 +192,14 @@ This asymmetry --- cheap inspections, expensive failures --- is the
 economic foundation of everything that follows.
 
 
-# Rung 1: what does the data show?
+## Rung 1: what does the data show?
 
 Before building any causal model, let's look at what simple associations exist.
 With a ~3% event rate, density plots are useless --- the breakdown distribution
 drowns in the normal mass. Instead, we compute **breakdown rates** within bins
 and plot those directly with confidence intervals.
 
-## Breakdown rate by shift
+### Breakdown rate by shift
 
 ```{r rate-by-shift}
 df |>
@@ -229,7 +225,7 @@ First Shift breaks down roughly twice as often as Second Shift. That's a
 real signal --- but is it causal?
 
 
-## Breakdown rate by running hours
+### Breakdown rate by running hours
 
 ```{r rate-by-runhours}
 df |>
@@ -266,7 +262,7 @@ runs from breakdown to run_hours, not the other way round. This is exactly
 the trap the DAG will help us avoid.
 
 
-## Breakdown rate by changeovers
+### Breakdown rate by changeovers
 
 ```{r rate-by-changeovers}
 df |>
@@ -304,7 +300,7 @@ That means changeovers might *mediate* part of the shift effect.
 The DAG will make this explicit.
 
 
-## Breakdown rate by energy
+### Breakdown rate by energy
 
 ```{r rate-by-energy}
 df |>
@@ -335,7 +331,7 @@ business in a causal model of failure. But keep this in mind for the next
 section --- because the structure learning algorithm disagrees.
 
 
-# Structure learning: can the data discover the DAG?
+## Structure learning: can the data discover the DAG?
 
 Before imposing our domain knowledge, let's ask: what does the data alone
 suggest about the causal structure? We use `bnlearn`'s hill-climbing
