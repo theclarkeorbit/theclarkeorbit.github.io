@@ -173,6 +173,284 @@
 <h2>Data Preparation</h2>
 <p>The dataset consists of six CSV files: <code>train.csv</code> (coupon assignments), <code>campaign_data.csv</code> (campaign dates), <code>customer_transaction_data.csv</code> (purchase records), <code>item_data.csv</code> (product categories), <code>coupon_item_mapping.csv</code> (coupon-to-product mappings), and <code>customer_demographics.csv</code>. We construct a customer × campaign panel where each row contains the propensity index Z, treatment indicators X and C, and outcome Y.</p>
 <p>Following <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a>, we compare each coupon category against customers who received <strong>no coupons at all</strong> (not "no coupon of this type"). This ensures the control group is uncontaminated by other coupon effects. The transaction data contains extreme outliers (wholesale/B2B accounts with transactions in the millions), which we filter at the 95th percentile to focus on retail customers.</p>
+<div class="highlight"><pre><span></span><code><span class="n">sample_sizes</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">tibble</span><span class="o">::</span><span class="nf">tibble</span><span class="p">(</span>
+<span class="w">  </span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Drugstore&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ready-to-eat&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">n</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">nrow</span><span class="p">(</span><span class="n">df_drugstore</span><span class="p">),</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">df_ready2eat</span><span class="p">)),</span>
+<span class="w">  </span><span class="n">treated</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">df_drugstore</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">),</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">df_ready2eat</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="p">)),</span>
+<span class="w">  </span><span class="n">control</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">df_drugstore</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">),</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">df_ready2eat</span><span class="o">$</span><span class="n">X</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="n">sample_sizes</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span>
+<span class="w">    </span><span class="n">col.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Coupon type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;N&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Treated (X = 1)&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Control (X = 0)&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">caption</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Sample sizes by coupon type and treatment status&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">kableExtra</span><span class="o">::</span><span class="nf">kable_styling</span><span class="p">(</span><span class="n">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+</code></pre></div>
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>Sample sizes by coupon type and treatment status</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Coupon type </th>
+   <th style="text-align:right;"> N </th>
+   <th style="text-align:right;"> Treated (X = 1) </th>
+   <th style="text-align:right;"> Control (X = 0) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Drugstore </td>
+   <td style="text-align:right;"> 26577 </td>
+   <td style="text-align:right;"> 3759 </td>
+   <td style="text-align:right;"> 22818 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ready-to-eat </td>
+   <td style="text-align:right;"> 24831 </td>
+   <td style="text-align:right;"> 2013 </td>
+   <td style="text-align:right;"> 22818 </td>
+  </tr>
+</tbody>
+</table>
+
+<h2>Traditional Causal Inference Workflow</h2>
+<h3>DAG Specification and Identification</h3>
+<p>We have already defined the DAG in <code>dagitty</code> and now, we can use <code>dosearch</code> to verify that the causal effect is identifiable:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check adjustment sets</span>
+<span class="n">dagitty</span><span class="o">::</span><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span><span class="w"> </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## { C, Z }
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify with dosearch</span>
+<span class="n">data_spec</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;P(X, Y, Z, C)&quot;</span>
+<span class="n">query_spec</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;P(Y | do(X))&quot;</span>
+
+<span class="n">dosearch</span><span class="o">::</span><span class="nf">dosearch</span><span class="p">(</span><span class="n">data_spec</span><span class="p">,</span><span class="w"> </span><span class="n">query_spec</span><span class="p">,</span><span class="w"> </span><span class="n">dag</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> \sum_{C,Z}\left(p(C,Z)p(Y|X,C,Z)\right)
+</code></pre></div>
+
+<div class="math">$$\sum_{C,Z}p(C,Z)p(Y|X,C,Z)$$</div>
+<p>The backdoor criterion confirms that conditioning on <strong>{Z, C}</strong> blocks all non-causal paths from X to Y. This translates directly to the regression specification:</p>
+<div class="math">$$
+Y_i = \alpha + \tau X_i + \beta Z_i + \gamma C_i + \varepsilon_i
+$$</div>
+<p>where <span class="math">\(\hat{\tau}\)</span> estimates the Average Treatment Effect (ATE) under the assumption of no unmeasured confounding.</p>
+<h3>ATE Estimation</h3>
+<h4>Drugstore Coupons</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Naive estimate (no adjustment - confounded!)</span>
+<span class="n">m_drug_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_drugstore</span><span class="p">)</span>
+<span class="n">naive_drug</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_drug_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Naive&quot;</span><span class="p">)</span>
+
+<span class="c1"># Adjusted estimate (backdoor criterion satisfied)</span>
+<span class="n">m_drug_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">C_other</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_drugstore</span><span class="p">)</span>
+<span class="n">adj_drug</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Adjusted&quot;</span><span class="p">)</span>
+
+<span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandwich</span><span class="o">::</span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_drug_adj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> 
+<span class="gu">##</span> t test of coefficients:
+<span class="gu">##</span> 
+<span class="gu">##</span>                Estimate  Std. Error  t value Pr(&gt;|t|)    
+<span class="gu">##</span> (Intercept)  50.6436723   0.9961180  50.8410  &lt; 2e-16 ***
+<span class="gu">##</span> X            25.2709931  10.7057762   2.3605  0.01826 *  
+<span class="gu">##</span> Z             0.7276585   0.0053766 135.3369  &lt; 2e-16 ***
+<span class="gu">##</span> C_other     -26.4019676  10.8264763  -2.4386  0.01475 *  
+<span class="gu">##</span> ---
+<span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre></div>
+
+<h4>Ready-to-Eat Coupons</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Naive estimate (no adjustment - confounded)</span>
+<span class="n">m_ready_naive</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_ready2eat</span><span class="p">)</span>
+<span class="n">naive_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_naive</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Naive&quot;</span><span class="p">)</span>
+
+<span class="c1"># Adjusted estimate (backdoor criterion satisfied)</span>
+<span class="n">m_ready_adj</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">Y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">C_other</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df_ready2eat</span><span class="p">)</span>
+<span class="n">adj_ready</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">conf.int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Adjusted&quot;</span><span class="p">)</span>
+
+<span class="n">lmtest</span><span class="o">::</span><span class="nf">coeftest</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sandwich</span><span class="o">::</span><span class="nf">vcovHC</span><span class="p">(</span><span class="n">m_ready_adj</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;HC1&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> 
+<span class="gu">##</span> t test of coefficients:
+<span class="gu">##</span> 
+<span class="gu">##</span>               Estimate Std. Error  t value Pr(&gt;|t|)    
+<span class="gu">##</span> (Intercept) 50.8415118  1.0130037  50.1889   &lt;2e-16 ***
+<span class="gu">##</span> X           -0.3656755  2.5331899  -0.1444   0.8852    
+<span class="gu">##</span> Z            0.7265872  0.0055676 130.5037   &lt;2e-16 ***
+<span class="gu">##</span> ---
+<span class="gu">##</span> Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+</code></pre></div>
+
+<h4>Comparison: Naive vs Adjusted</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build full comparison table (includes conf.low/conf.high for plot)</span>
+<span class="n">comparison_table</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">bind_rows</span><span class="p">(</span>
+<span class="w">  </span><span class="n">naive_drug</span><span class="w">  </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Drugstore&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">adj_drug</span><span class="w">    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Drugstore&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">naive_ready</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ready-to-eat&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">adj_ready</span><span class="w">   </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">mutate</span><span class="p">(</span><span class="n">coupon_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Ready-to-eat&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">conf.low</span><span class="p">,</span><span class="w"> </span><span class="n">conf.high</span><span class="p">,</span><span class="w"> </span><span class="n">p.value</span><span class="p">)</span>
+
+<span class="c1"># Display table with kableExtra (only key columns)</span>
+<span class="n">comparison_table</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">p.value</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span>
+<span class="w">    </span><span class="n">col.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Coupon Type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Model&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Estimate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;p-value&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span>
+<span class="w">    </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Naive vs Adjusted Effect Estimates by Coupon Type&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">kableExtra</span><span class="o">::</span><span class="nf">kable_styling</span><span class="p">(</span><span class="n">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">bootstrap_options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;striped&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hover&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="n">kableExtra</span><span class="o">::</span><span class="nf">row_spec</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">4</span><span class="p">),</span><span class="w"> </span><span class="n">bold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;steelblue&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>Naive vs Adjusted Effect Estimates by Coupon Type</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Coupon Type </th>
+   <th style="text-align:left;"> Model </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> p-value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Drugstore </td>
+   <td style="text-align:left;"> Naive </td>
+   <td style="text-align:right;"> 29.94 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Drugstore </td>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 25.27 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.0021 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ready-to-eat </td>
+   <td style="text-align:left;"> Naive </td>
+   <td style="text-align:right;"> 25.95 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Ready-to-eat </td>
+   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> -0.37 </td>
+   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.8788 </td>
+  </tr>
+</tbody>
+</table>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Plot with error bars (uses conf.low/conf.high from full table)</span>
+<span class="n">comparison_table</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coupon_type</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_errorbar</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">ymin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conf.low</span><span class="p">,</span><span class="w"> </span><span class="n">ymax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conf.high</span><span class="p">),</span>
+<span class="w">                </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="n">.</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">position_dodge</span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.4</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_hline</span><span class="p">(</span><span class="n">yintercept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">linetype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dashed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;gray50&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">linewidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">scale_color_manual</span><span class="p">(</span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Naive&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebrick3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Adjusted&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;steelblue&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Naive vs Adjusted Effect Estimates&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Adjusting for confounders {Z, C} changes effect estimates&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Coupon Type&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Effect on Daily Spend&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Model&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Model&quot;</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme_tufte</span><span class="p">(</span><span class="n">base_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span>
+<span class="w">    </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bottom&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="p">,</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bold&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">plot.subtitle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">),</span>
+<span class="w">    </span><span class="n">axis.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">),</span>
+<span class="w">    </span><span class="n">axis.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">),</span>
+<span class="w">    </span><span class="n">legend.text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span><span class="p">),</span>
+<span class="w">    </span><span class="n">legend.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_text</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">p</span>
+<span class="n">p</span>
+</code></pre></div>
+
+<p><img alt="center" src="/figures/coupon_workflow_reorganized/ate-comparison-plot-1.png"></p>
+<p><strong>Interpretation</strong>: Consistent with <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a>, we find that <strong>drugstore coupons have a larger positive effect on sales</strong>, while <strong>ready-to-eat coupons show no effect</strong>. </p>
+<h2>Causal Machine Learning</h2>
+<p>The classical regression approach above assumes a linear, additive relationship between covariates and outcome. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937">Langen &amp; Huber (2023)</a> use a causal ML approach to the problem -- <strong>Causal forests</strong> (<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2017.1319839#abstract">Wager &amp; Athey, 2018</a>; <a href="https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.full">Athey, Tibshirani &amp; Wager, 2019</a>) relax this assumption while maintaining the same identification logic.</p>
+<p>We will explore this further in the next post.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </div>
             <!-- /.entry-content -->
         </article>
