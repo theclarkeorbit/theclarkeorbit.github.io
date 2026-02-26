@@ -63,12 +63,53 @@ Following [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=1
 # LOAD DATA
 # =============================================================================
 train                <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/train.csv")
-campaign_data        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/campaign_data.csv")
-coupon_item_mapping  <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/coupon_item_mapping.csv")
-customer_demo        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_demographics.csv")
-customer_txn         <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv")
-item_data            <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/item_data.csv")
+```
 
+```
+## Error: '~/Documents/causal_talk_5thel/mlcausal_data/train.csv' does not exist.
+```
+
+``` r
+campaign_data        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/campaign_data.csv")
+```
+
+```
+## Error: '~/Documents/causal_talk_5thel/mlcausal_data/campaign_data.csv' does not exist.
+```
+
+``` r
+coupon_item_mapping  <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/coupon_item_mapping.csv")
+```
+
+```
+## Error: '~/Documents/causal_talk_5thel/mlcausal_data/coupon_item_mapping.csv' does not exist.
+```
+
+``` r
+customer_demo        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_demographics.csv")
+```
+
+```
+## Error: '~/Documents/causal_talk_5thel/mlcausal_data/customer_demographics.csv' does not exist.
+```
+
+``` r
+customer_txn         <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv")
+```
+
+```
+## Error: '~/Documents/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv' does not exist.
+```
+
+``` r
+item_data            <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/item_data.csv")
+```
+
+```
+## Error: '~/Documents/causal_talk_5thel/mlcausal_data/item_data.csv' does not exist.
+```
+
+``` r
 # =============================================================================
 # DEFINE COUPON CATEGORIES (following Langen & Huber)
 # =============================================================================
@@ -82,12 +123,30 @@ other_nonfood_cats <- c("Flowers & Plants", "Garden", "Travel", "Miscellaneous")
 # =============================================================================
 customer_txn <- customer_txn |>
   dplyr::mutate(total_value = quantity * selling_price)
+```
 
+```
+## Error: object 'customer_txn' not found
+```
+
+``` r
 threshold <- min(quantile(customer_txn$total_value, 0.95, na.rm = TRUE), 2000)
+```
 
+```
+## Error: object 'customer_txn' not found
+```
+
+``` r
 customer_txn_clean <- customer_txn |>
   dplyr::filter(total_value <= threshold)
+```
 
+```
+## Error: object 'customer_txn' not found
+```
+
+``` r
 # =============================================================================
 # PARSE CAMPAIGN DATES
 # =============================================================================
@@ -97,21 +156,39 @@ campaign_data <- campaign_data |>
     end_date   = lubridate::dmy(end_date),
     camp_days  = as.numeric(end_date - start_date) + 1
   )
+```
 
+```
+## Error: object 'campaign_data' not found
+```
+
+``` r
 # =============================================================================
 # BUILD CUSTOMER-CAMPAIGN PANEL
 # =============================================================================
 # Treated: customers who received coupons
 cust_with_coupons <- train |>
   dplyr::distinct(customer_id, campaign_id)
+```
 
+```
+## Error: object 'train' not found
+```
+
+``` r
 # Control candidates: customers who transacted during campaigns but got no coupons
 cust_transacted <- customer_txn_clean |>
   dplyr::select(customer_id, date) |>
   tidyr::crossing(campaign_data |> dplyr::select(campaign_id, start_date, end_date)) |>
   dplyr::filter(date >= start_date, date <= end_date) |>
   dplyr::distinct(customer_id, campaign_id)
+```
 
+```
+## Error: object 'customer_txn_clean' not found
+```
+
+``` r
 # Union of both sources
 cust_camp_full <- dplyr::bind_rows(cust_with_coupons, cust_transacted) |>
   dplyr::distinct(customer_id, campaign_id) |>
@@ -120,7 +197,13 @@ cust_camp_full <- dplyr::bind_rows(cust_with_coupons, cust_transacted) |>
     received_any_coupon = paste(customer_id, campaign_id, sep = "_") %in%
       paste(cust_with_coupons$customer_id, cust_with_coupons$campaign_id, sep = "_")
   )
+```
 
+```
+## Error: object 'cust_with_coupons' not found
+```
+
+``` r
 # =============================================================================
 # CONSTRUCT Z: Pre-campaign propensity index (true daily average)
 # =============================================================================
@@ -137,14 +220,26 @@ pre_spend <- customer_txn_clean |>
     pre_total = sum(total_value, na.rm = TRUE),
     .groups = "drop"
   )
+```
 
+```
+## Error: object 'customer_txn_clean' not found
+```
+
+``` r
 cust_camp <- cust_camp_full |>
   dplyr::left_join(pre_spend, by = c("customer_id", "campaign_id")) |>
   dplyr::mutate(
     pre_total = tidyr::replace_na(pre_total, 0),
     Z = pre_total / pre_window  # True daily average over full 60-day window
   )
+```
 
+```
+## Error: object 'cust_camp_full' not found
+```
+
+``` r
 # =============================================================================
 # CONSTRUCT X: Treatment indicators by coupon category
 # =============================================================================
@@ -158,7 +253,13 @@ coupon_with_cat <- coupon_item_mapping |>
     is_other_food   = main_category %in% other_food_cats,
     is_other_nonfood = main_category %in% other_nonfood_cats
   )
+```
 
+```
+## Error: object 'coupon_item_mapping' not found
+```
+
+``` r
 treatment_flags <- train |>
   dplyr::select(customer_id, campaign_id, coupon_id) |>
   dplyr::left_join(coupon_with_cat, by = "coupon_id") |>
@@ -171,7 +272,13 @@ treatment_flags <- train |>
     n_coupons       = dplyr::n(),
     .groups = "drop"
   )
+```
 
+```
+## Error: object 'train' not found
+```
+
+``` r
 cust_camp <- cust_camp |>
   dplyr::left_join(treatment_flags, by = c("customer_id", "campaign_id")) |>
   dplyr::mutate(
@@ -179,29 +286,66 @@ cust_camp <- cust_camp |>
     n_coupons  = tidyr::replace_na(n_coupons, 0L),
     any_coupon = as.integer(n_coupons > 0)
   )
+```
 
+```
+## Error: object 'cust_camp' not found
+```
+
+``` r
 # =============================================================================
 # CONSTRUCT Y: Campaign-period average daily spending
 # =============================================================================
 txn_daily <- customer_txn_clean |>
   dplyr::group_by(customer_id, date) |>
   dplyr::summarise(daily_spend = sum(total_value, na.rm = TRUE), .groups = "drop")
+```
 
+```
+## Error: object 'customer_txn_clean' not found
+```
+
+``` r
 campaign_spend <- cust_camp |>
   dplyr::distinct(customer_id, campaign_id, start_date, end_date, camp_days) |>
   dplyr::left_join(txn_daily, by = "customer_id", relationship = "many-to-many") |>
   dplyr::filter(date >= start_date, date <= end_date) |>
   dplyr::group_by(customer_id, campaign_id, camp_days) |>
   dplyr::summarise(Y = sum(daily_spend, na.rm = TRUE) / first(camp_days), .groups = "drop")
+```
 
+```
+## Error: object 'cust_camp' not found
+```
+
+``` r
 analysis_df <- cust_camp |>
   dplyr::left_join(campaign_spend, by = c("customer_id", "campaign_id", "camp_days")) |>
   dplyr::mutate(Y = tidyr::replace_na(Y, 0))
+```
 
+```
+## Error: object 'cust_camp' not found
+```
+
+``` r
 # Trim Y outliers at 99th percentile
 y_99 <- quantile(analysis_df$Y, 0.99, na.rm = TRUE)
-analysis_df <- analysis_df |> dplyr::filter(Y <= y_99)
+```
 
+```
+## Error: object 'analysis_df' not found
+```
+
+``` r
+analysis_df <- analysis_df |> dplyr::filter(Y <= y_99)
+```
+
+```
+## Error: object 'analysis_df' not found
+```
+
+``` r
 # =============================================================================
 # BUILD ANALYSIS SAMPLES (Langen & Huber methodology)
 # =============================================================================
@@ -215,7 +359,13 @@ df_drugstore <- analysis_df |>
     C_other = as.integer(X_ready2eat == 1 | X_other_food == 1 | X_other_nonfood == 1)
   ) |>
   dplyr::select(customer_id, campaign_id, Z, X, Y, C_other)
+```
 
+```
+## Error: object 'analysis_df' not found
+```
+
+``` r
 df_ready2eat <- analysis_df |>
   dplyr::filter(X_ready2eat == 1 | any_coupon == 0) |>
   dplyr::mutate(
@@ -223,6 +373,10 @@ df_ready2eat <- analysis_df |>
     C_other = as.integer(X_drugstore == 1 | X_other_food == 1 | X_other_nonfood == 1)
   ) |>
   dplyr::select(customer_id, campaign_id, Z, X, Y, C_other)
+```
+
+```
+## Error: object 'analysis_df' not found
 ```
 
 
@@ -233,7 +387,13 @@ sample_sizes <- tibble::tibble(
   treated     = c(sum(df_drugstore$X == 1), sum(df_ready2eat$X == 1)),
   control     = c(sum(df_drugstore$X == 0), sum(df_ready2eat$X == 0))
 )
+```
 
+```
+## Error: object 'df_drugstore' not found
+```
+
+``` r
 sample_sizes |>
   knitr::kable(
     col.names = c("Coupon type", "N", "Treated (X = 1)", "Control (X = 0)"),
@@ -242,31 +402,9 @@ sample_sizes |>
   kableExtra::kable_styling(full_width = FALSE)
 ```
 
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>Sample sizes by coupon type and treatment status</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Coupon type </th>
-   <th style="text-align:right;"> N </th>
-   <th style="text-align:right;"> Treated (X = 1) </th>
-   <th style="text-align:right;"> Control (X = 0) </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Drugstore </td>
-   <td style="text-align:right;"> 26577 </td>
-   <td style="text-align:right;"> 3759 </td>
-   <td style="text-align:right;"> 22818 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Ready-to-eat </td>
-   <td style="text-align:right;"> 24831 </td>
-   <td style="text-align:right;"> 2013 </td>
-   <td style="text-align:right;"> 22818 </td>
-  </tr>
-</tbody>
-</table>
+```
+## Error: object 'sample_sizes' not found
+```
 
 ## Traditional Causal Inference Workflow
 
@@ -314,30 +452,47 @@ where $\hat{\tau}$ estimates the Average Treatment Effect (ATE) under the assump
 ``` r
 # Naive estimate (no adjustment - confounded!)
 m_drug_naive <- lm(Y ~ X, data = df_drugstore)
+```
+
+```
+## Error in eval(mf, parent.frame()): object 'df_drugstore' not found
+```
+
+``` r
 naive_drug <- broom::tidy(m_drug_naive, conf.int = TRUE) |>
   dplyr::filter(term == "X") |>
   dplyr::mutate(model = "Naive")
+```
 
+```
+## Error: object 'm_drug_naive' not found
+```
+
+``` r
 # Adjusted estimate (backdoor criterion satisfied)
 m_drug_adj <- lm(Y ~ X + Z + C_other, data = df_drugstore)
+```
+
+```
+## Error in eval(mf, parent.frame()): object 'df_drugstore' not found
+```
+
+``` r
 adj_drug <- broom::tidy(m_drug_adj, conf.int = TRUE) |>
   dplyr::filter(term == "X") |>
   dplyr::mutate(model = "Adjusted")
+```
 
+```
+## Error: object 'm_drug_adj' not found
+```
+
+``` r
 lmtest::coeftest(m_drug_adj, vcov = sandwich::vcovHC(m_drug_adj, type = "HC1"))
 ```
 
 ```
-## 
-## t test of coefficients:
-## 
-##                Estimate  Std. Error  t value Pr(>|t|)    
-## (Intercept)  50.6436723   0.9961180  50.8410  < 2e-16 ***
-## X            25.2709931  10.7057762   2.3605  0.01826 *  
-## Z             0.7276585   0.0053766 135.3369  < 2e-16 ***
-## C_other     -26.4019676  10.8264763  -2.4386  0.01475 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Error: object 'm_drug_adj' not found
 ```
 
 #### Ready-to-Eat Coupons
@@ -346,29 +501,47 @@ lmtest::coeftest(m_drug_adj, vcov = sandwich::vcovHC(m_drug_adj, type = "HC1"))
 ``` r
 # Naive estimate (no adjustment - confounded)
 m_ready_naive <- lm(Y ~ X, data = df_ready2eat)
+```
+
+```
+## Error in eval(mf, parent.frame()): object 'df_ready2eat' not found
+```
+
+``` r
 naive_ready <- broom::tidy(m_ready_naive, conf.int = TRUE) |>
   dplyr::filter(term == "X") |>
   dplyr::mutate(model = "Naive")
+```
 
+```
+## Error: object 'm_ready_naive' not found
+```
+
+``` r
 # Adjusted estimate (backdoor criterion satisfied)
 m_ready_adj <- lm(Y ~ X + Z + C_other, data = df_ready2eat)
+```
+
+```
+## Error in eval(mf, parent.frame()): object 'df_ready2eat' not found
+```
+
+``` r
 adj_ready <- broom::tidy(m_ready_adj, conf.int = TRUE) |>
   dplyr::filter(term == "X") |>
   dplyr::mutate(model = "Adjusted")
+```
 
+```
+## Error: object 'm_ready_adj' not found
+```
+
+``` r
 lmtest::coeftest(m_ready_adj, vcov = sandwich::vcovHC(m_ready_adj, type = "HC1"))
 ```
 
 ```
-## 
-## t test of coefficients:
-## 
-##               Estimate Std. Error  t value Pr(>|t|)    
-## (Intercept) 50.8415118  1.0130037  50.1889   <2e-16 ***
-## X           -0.3656755  2.5331899  -0.1444   0.8852    
-## Z            0.7265872  0.0055676 130.5037   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Error: object 'm_ready_adj' not found
 ```
 
 #### Comparison: Naive vs Adjusted
@@ -383,7 +556,13 @@ comparison_table <- dplyr::bind_rows(
   adj_ready   |> dplyr::mutate(coupon_type = "Ready-to-eat")
 ) |>
   dplyr::select(coupon_type, model, estimate, conf.low, conf.high, p.value)
+```
 
+```
+## Error: object 'naive_drug' not found
+```
+
+``` r
 # Display table with kableExtra (only key columns)
 comparison_table |>
   dplyr::select(coupon_type, model, estimate, p.value) |>
@@ -396,43 +575,9 @@ comparison_table |>
   kableExtra::row_spec(c(2, 4), bold = TRUE, color = "steelblue")
 ```
 
-<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>Naive vs Adjusted Effect Estimates by Coupon Type</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Coupon Type </th>
-   <th style="text-align:left;"> Model </th>
-   <th style="text-align:right;"> Estimate </th>
-   <th style="text-align:right;"> p-value </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Drugstore </td>
-   <td style="text-align:left;"> Naive </td>
-   <td style="text-align:right;"> 29.94 </td>
-   <td style="text-align:right;"> 0.0000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Drugstore </td>
-   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 25.27 </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.0021 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Ready-to-eat </td>
-   <td style="text-align:left;"> Naive </td>
-   <td style="text-align:right;"> 25.95 </td>
-   <td style="text-align:right;"> 0.0000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Ready-to-eat </td>
-   <td style="text-align:left;font-weight: bold;color: steelblue !important;"> Adjusted </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> -0.37 </td>
-   <td style="text-align:right;font-weight: bold;color: steelblue !important;"> 0.8788 </td>
-  </tr>
-</tbody>
-</table>
+```
+## Error: object 'comparison_table' not found
+```
 
 
 
@@ -462,10 +607,19 @@ comparison_table |>
     legend.text = element_text(size = 12),
     legend.title = element_text(size = 14)
   ) -> p
+```
+
+```
+## Error: object 'comparison_table' not found
+```
+
+``` r
 p
 ```
 
-![center](/figures/coupon_workflow_reorganized/ate-comparison-plot-1.png)
+```
+## Error: object 'p' not found
+```
 
 **Interpretation**: Consistent with [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937), we find that **drugstore coupons have a larger positive effect on sales**, while **ready-to-eat coupons show no effect**. 
 
