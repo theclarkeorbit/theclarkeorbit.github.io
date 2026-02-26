@@ -65,16 +65,16 @@ The dataset consists of six CSV files: `train.csv` (coupon assignments), `campai
 
 Following [Langen & Huber (2023)](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937), we compare each coupon category against customers who received **no coupons at all** (not "no coupon of this type"). This ensures the control group is uncontaminated by other coupon effects. The transaction data contains extreme outliers (wholesale/B2B accounts with transactions in the millions), which we filter at the 95th percentile to focus on retail customers.
 
-```{r data-prep, results='hide'}
+```{r data-prep, results='hide', include=FALSE}
 # =============================================================================
 # LOAD DATA
 # =============================================================================
-train                <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/train.csv")
-campaign_data        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/campaign_data.csv")
-coupon_item_mapping  <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/coupon_item_mapping.csv")
-customer_demo        <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_demographics.csv")
-customer_txn         <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv")
-item_data            <- readr::read_csv("~/Documents/causal_talk_5thel/mlcausal_data/item_data.csv")
+train                <- readr::read_csv("~/projects/causal_talk_5thel/mlcausal_data/train.csv")
+campaign_data        <- readr::read_csv("~/projects/causal_talk_5thel/mlcausal_data/campaign_data.csv")
+coupon_item_mapping  <- readr::read_csv("~/projects/causal_talk_5thell/mlcausal_data/coupon_item_mapping.csv")
+customer_demo        <- readr::read_csv("~/projects/causal_talk_5thel/mlcausal_data/customer_demographics.csv")
+customer_txn         <- readr::read_csv("~/projects/causal_talk_5thel/mlcausal_data/customer_transaction_data.csv")
+item_data            <- readr::read_csv("~/projects/causal_talk_5thel/mlcausal_data/item_data.csv")
 
 # =============================================================================
 # DEFINE COUPON CATEGORIES (following Langen & Huber)
