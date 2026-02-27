@@ -917,10 +917,7 @@ data.frame(
   </tr>
 </tbody>
 </table>
-| Outcome | Cost | What happens |
-|---------|------|--------------|
-| Prevented breakdown | saved $50,000 | Avoided emergency repair + downtime |
-| Inspection (per machine) | $500 | Targeted check — cheap relative to breakdown |
+
 
 Each prevented breakdown saves $50K. Each inspection costs $500. The
 asymmetry is the whole point: even a small probability of prevention makes

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2026-02-27T21:53:47.962797+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Interrogating your twin: a causal inference walkthrough"</title><link href="https://theclarkeorbit.github.io/interrogating-your-twin-a-causal-inference-walkthrough.html" rel="alternate"/><published>2026-02-26T00:00:00+01:00</published><updated>2026-02-27T21:53:47.962797+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2026-02-26:/interrogating-your-twin-a-causal-inference-walkthrough.html</id><summary type="html">&lt;p&gt;This is the companion walkthrough for the talk &lt;em&gt;Interrogating Your Twin:
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/all.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2026-02-27T21:54:11.581950+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Interrogating your twin: a causal inference walkthrough"</title><link href="https://theclarkeorbit.github.io/interrogating-your-twin-a-causal-inference-walkthrough.html" rel="alternate"/><published>2026-02-26T00:00:00+01:00</published><updated>2026-02-27T21:54:11.581950+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2026-02-26:/interrogating-your-twin-a-causal-inference-walkthrough.html</id><summary type="html">&lt;p&gt;This is the companion walkthrough for the talk &lt;em&gt;Interrogating Your Twin:
 Causal Reasoning in Manufacturing Systems&lt;/em&gt; (Fifth Elephant 2026, Pune).
 The talk introduces Pearl's Ladder of Causation and argues that
 predictive maintenance needs to move beyond pattern-matching (Rung 1) to
@@ -772,27 +772,7 @@ early. We compare three strategies:&lt;/p&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Outcome&lt;/th&gt;
-&lt;th&gt;Cost&lt;/th&gt;
-&lt;th&gt;What happens&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Prevented breakdown&lt;/td&gt;
-&lt;td&gt;saved $50,000&lt;/td&gt;
-&lt;td&gt;Avoided emergency repair + downtime&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Inspection (per machine)&lt;/td&gt;
-&lt;td&gt;$500&lt;/td&gt;
-&lt;td&gt;Targeted check — cheap relative to breakdown&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
 &lt;p&gt;Each prevented breakdown saves $50K. Each inspection costs $500. The
 asymmetry is the whole point: even a small probability of prevention makes
 inspection worthwhile for high-CATE machines.&lt;/p&gt;
