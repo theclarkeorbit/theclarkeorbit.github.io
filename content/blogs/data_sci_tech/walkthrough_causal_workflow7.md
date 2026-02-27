@@ -881,6 +881,42 @@ early. We compare three strategies:
 2. **Random**: treat the same number of machines but chosen at random
 3. **Do nothing**: the baseline
 
+
+``` r
+library(knitr)
+library(kableExtra)
+
+data.frame(
+  Outcome = c("Prevented breakdown", "Inspection (per machine)"),
+  Cost = c("saved $50,000", "$500"),
+  `What happens` = c("Avoided emergency repair + downtime", "Targeted check — cheap relative to breakdown"),
+  check.names = FALSE
+) |>
+  kable("html", escape = FALSE) |>
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
+
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Outcome </th>
+   <th style="text-align:left;"> Cost </th>
+   <th style="text-align:left;"> What happens </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Prevented breakdown </td>
+   <td style="text-align:left;"> saved $50,000 </td>
+   <td style="text-align:left;"> Avoided emergency repair + downtime </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Inspection (per machine) </td>
+   <td style="text-align:left;"> $500 </td>
+   <td style="text-align:left;"> Targeted check — cheap relative to breakdown </td>
+  </tr>
+</tbody>
+</table>
 | Outcome | Cost | What happens |
 |---------|------|--------------|
 | Prevented breakdown | saved $50,000 | Avoided emergency repair + downtime |

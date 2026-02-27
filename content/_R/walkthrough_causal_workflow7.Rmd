@@ -851,6 +851,19 @@ early. We compare three strategies:
 2. **Random**: treat the same number of machines but chosen at random
 3. **Do nothing**: the baseline
 
+```{r}
+library(knitr)
+library(kableExtra)
+
+data.frame(
+  Outcome = c("Prevented breakdown", "Inspection (per machine)"),
+  Cost = c("saved $50,000", "$500"),
+  `What happens` = c("Avoided emergency repair + downtime", "Targeted check — cheap relative to breakdown"),
+  check.names = FALSE
+) |>
+  kable("html", escape = FALSE) |>
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
 | Outcome | Cost | What happens |
 |---------|------|--------------|
 | Prevented breakdown | saved $50,000 | Avoided emergency repair + downtime |

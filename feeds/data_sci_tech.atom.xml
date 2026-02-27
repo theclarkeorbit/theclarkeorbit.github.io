@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2026-02-26T18:34:51.559313+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Interrogating your twin: a causal inference walkthrough"</title><link href="https://theclarkeorbit.github.io/interrogating-your-twin-a-causal-inference-walkthrough.html" rel="alternate"/><published>2026-02-26T00:00:00+01:00</published><updated>2026-02-26T18:34:51.559313+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2026-02-26:/interrogating-your-twin-a-causal-inference-walkthrough.html</id><summary type="html">&lt;p&gt;This is the companion walkthrough for the talk &lt;em&gt;Interrogating Your Twin:
+<feed xmlns="http://www.w3.org/2005/Atom"><title>p. bhogale - data_sci_tech</title><link href="https://theclarkeorbit.github.io/" rel="alternate"/><link href="https://theclarkeorbit.github.io/feeds/data_sci_tech.atom.xml" rel="self"/><id>https://theclarkeorbit.github.io/</id><updated>2026-02-27T21:53:47.962797+01:00</updated><subtitle>Data Sci, Quant Fin, Quant Bio.</subtitle><entry><title>"Interrogating your twin: a causal inference walkthrough"</title><link href="https://theclarkeorbit.github.io/interrogating-your-twin-a-causal-inference-walkthrough.html" rel="alternate"/><published>2026-02-26T00:00:00+01:00</published><updated>2026-02-27T21:53:47.962797+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2026-02-26:/interrogating-your-twin-a-causal-inference-walkthrough.html</id><summary type="html">&lt;p&gt;This is the companion walkthrough for the talk &lt;em&gt;Interrogating Your Twin:
 Causal Reasoning in Manufacturing Systems&lt;/em&gt; (Fifth Elephant 2026, Pune).
 The talk introduces Pearl's Ladder of Causation and argues that
 predictive maintenance needs to move beyond pattern-matching (Rung 1) to
@@ -738,6 +738,40 @@ early. We compare three strategies:&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;Random&lt;/strong&gt;: treat the same number of machines but chosen at random&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Do nothing&lt;/strong&gt;: the baseline&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;knitr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kableExtra&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nf"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Outcome&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Prevented breakdown&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Inspection (per machine)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;Cost&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;saved $50,000&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;$500&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;`What happens`&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Avoided emergency repair + downtime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Targeted check — cheap relative to breakdown&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;check.names&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;escape&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;kable_styling&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;bootstrap_options&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;striped&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;hover&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;full_width&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Outcome &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Cost &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; What happens &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Prevented breakdown &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; saved $50,000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Avoided emergency repair + downtime &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Inspection (per machine) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; $500 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Targeted check — cheap relative to breakdown &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1043,7 +1077,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:&lt;/
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="data_sci_tech"/></entry><entry><title>"A causal workflow in R with coupon marketing data"</title><link href="https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html" rel="alternate"/><published>2025-12-04T00:00:00+01:00</published><updated>2026-02-26T18:34:49.316357+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-12-04:/a-causal-workflow-in-r-with-coupon-marketing-data.html</id><summary type="html">&lt;p&gt;This post is code for the demo associated with a talk on causal inference presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The video of the talk will be available soon, and I'll link to it here.&lt;/p&gt;
+&lt;/script&gt;</content><category term="data_sci_tech"/></entry><entry><title>"A causal workflow in R with coupon marketing data"</title><link href="https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html" rel="alternate"/><published>2025-12-04T00:00:00+01:00</published><updated>2026-02-27T21:53:45.792139+01:00</updated><author><name>pras</name></author><id>tag:theclarkeorbit.github.io,2025-12-04:/a-causal-workflow-in-r-with-coupon-marketing-data.html</id><summary type="html">&lt;p&gt;This post is code for the demo associated with a talk on causal inference presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The video of the talk will be available soon, and I'll link to it here.&lt;/p&gt;
 &lt;p&gt;We walk through a complete causal inference workflow using real marketing data from the &lt;a href="https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption"&gt;AmExpert …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post is code for the demo associated with a talk on causal inference presented at &lt;a href="https://hasgeek.com/fifthelephant/2025-winter/schedule"&gt;Fifth Elephant Winter 2025&lt;/a&gt;. The video of the talk will be available soon, and I'll link to it here.&lt;/p&gt;
 &lt;p&gt;We walk through a complete causal inference workflow using real marketing data from the &lt;a href="https://www.kaggle.com/datasets/vasudeva009/predicting-coupon-redemption"&gt;AmExpert 2019 Kaggle competition&lt;/a&gt;. The dataset contains transaction records, coupon assignments, and customer demographics from a retail store that ran 18 marketing campaigns. Our goal is to estimate the causal effect of receiving specific coupon types on customer spending during campaign periods.&lt;/p&gt;
 &lt;p&gt;Our analysis follows the methodology of &lt;a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0278937"&gt;Langen &amp;amp; Huber (2023)&lt;/a&gt;, who applied causal machine learning to evaluate coupon effectiveness. Their key finding: &lt;strong&gt;drugstore coupons have a significant positive effect on sales&lt;/strong&gt;, while &lt;strong&gt;ready-to-eat food coupons show no significant effect&lt;/strong&gt;. We replicate this finding using a simplified classical approach, demonstrating how DAG-based identification translates directly into a regression specification.&lt;/p&gt;

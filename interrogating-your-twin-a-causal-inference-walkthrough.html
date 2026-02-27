@@ -872,6 +872,40 @@ early. We compare three strategies:</p>
 <li><strong>Random</strong>: treat the same number of machines but chosen at random</li>
 <li><strong>Do nothing</strong>: the baseline</li>
 </ol>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">kableExtra</span><span class="p">)</span>
+
+<span class="nf">data.frame</span><span class="p">(</span>
+<span class="w">  </span><span class="n">Outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Prevented breakdown&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Inspection (per machine)&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;saved $50,000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$500&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">`What happens`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Avoided emergency repair + downtime&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Targeted check — cheap relative to breakdown&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
+<span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">kable</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">escape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
+<span class="w">  </span><span class="nf">kable_styling</span><span class="p">(</span><span class="n">bootstrap_options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;striped&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hover&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
+</code></pre></div>
+
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Outcome </th>
+   <th style="text-align:left;"> Cost </th>
+   <th style="text-align:left;"> What happens </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Prevented breakdown </td>
+   <td style="text-align:left;"> saved $50,000 </td>
+   <td style="text-align:left;"> Avoided emergency repair + downtime </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Inspection (per machine) </td>
+   <td style="text-align:left;"> $500 </td>
+   <td style="text-align:left;"> Targeted check — cheap relative to breakdown </td>
+  </tr>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
