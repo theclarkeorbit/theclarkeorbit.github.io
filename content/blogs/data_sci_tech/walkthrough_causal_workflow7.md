@@ -8,56 +8,48 @@ output:
 
 
 
+*Companion to "Interrogating Your Twin: Causal Reasoning in Manufacturing
+Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:*
 
-This is the companion walkthrough for the talk *Interrogating Your Twin:
-Causal Reasoning in Manufacturing Systems* (Fifth Elephant 2026, Pune).
-The talk introduces Pearl's Ladder of Causation and argues that
-predictive maintenance needs to move beyond pattern-matching (Rung 1) to
-interventional reasoning (Rung 2). Here we do exactly that, with real
-production data from a manufacturing facility.
+1. [*Climbing Pearl's Ladder of Causation*](https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html) ---
+   *the conceptual foundations*
+2. [*A causal workflow with coupon marketing data*](https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html) ---
+   *the five-step pipeline applied to marketing*
+3. ***This post** --- real factory data, reverse causation, and the full pipeline*
 
-The workflow mirrors the talk's pipeline:
+
+
+
+
+This is the companion walkthrough for the talk *Interrogating Your Twin: Causal Reasoning in Manufacturing Systems* (Fifth Elephant 2026, Pune). The talk introduces Pearl's Ladder of Causation and argues that predictive maintenance needs to move beyond pattern-matching (Rung 1) to interventional reasoning (Rung 2). Here we do exactly that, with real-ish production data from a manufacturing facility.
+
+The workflow:
 
 1. **DAG** --- encode domain knowledge as a directed acyclic graph
 2. **Test** --- check the DAG's implied independencies against data
-3. **Identify** --- use the backdoor criterion (and `dosearch`) to find
-   the right adjustment set
+3. **Identify** --- use the backdoor criterion (and `dosearch`) to find the right adjustment set
 4. **Estimate** --- obtain causal coefficients with proper adjustment
 
-We also extend the pipeline in two directions the talk previews: **structure
-learning** (can the data *discover* the DAG?) and **causal ML** (heterogeneous
-treatment effects via `grf::causal_forest`, with targeted intervention
-recommendations). Along the way we encounter reverse causation, collider
-bias, and a demonstration of what goes wrong when you "control for
-everything."
+We also extend the pipeline in two directions the talk previews: **structure learning** (can the data *discover* the DAG?) and **causal ML** (heterogeneous treatment effects via `grf::causal_forest`, with targeted intervention recommendations). Along the way we encounter reverse causation, collider bias, and a demonstration of what goes wrong when you "control for everything."
 
-Three tables from a real factory's monitoring system, covering 47 days of
-production across ~23 machines running two 12-hour shifts:
+Three tables from a real factory's monitoring system, covering 47 days of production across ~23 machines running two 12-hour shifts:
 
 
 
 ## Assembling the analysis dataset
 
-The analysis unit is a **machine-shift**: one machine $\times$ one 12-hour
-shift. For each, we compute whether a breakdown occurred, how long the
-machine ran, its mean energy draw, and how many process changeovers happened.
+The analysis unit is a **machine-shift**: one machine $\times$ one 12-hour shift. For each, we compute whether a breakdown occurred, how long the machine ran, its mean energy draw, and how many process changeovers happened.
 
 
 
 
 
-Sparse events --- about 3% of machine-shifts end in a breakdown. Each missed
-one is expensive: unplanned downtime, emergency repair, cascading delays.
-This asymmetry --- cheap inspections, expensive failures --- is the
-economic foundation of everything that follows.
+Sparse events --- about 3% of machine-shifts end in a breakdown. Each missed one is expensive: unplanned downtime, emergency repair, cascading delays. This asymmetry --- cheap inspections, expensive failures --- is the economic foundation of everything that follows.
 
 
 ## Rung 1: what does the data show?
 
-Before building any causal model, let's look at what simple associations exist.
-With a ~3% event rate, density plots are useless --- the breakdown distribution
-drowns in the normal mass. Instead, we compute **breakdown rates** within bins
-and plot those directly with confidence intervals.
+Before building any causal model, let's look at what simple associations exist. With a ~3% event rate, density plots are useless --- the breakdown distribution drowns in the normal mass. Instead, we compute **breakdown rates** within bins and plot those directly with confidence intervals.
 
 ### Breakdown rate by shift
 
@@ -84,9 +76,7 @@ df |>
 
 ![center](/figures/walkthrough_causal_workflow7/rate-by-shift-1.png)
 
-First Shift breaks down roughly twice as often as Second Shift. That's a
-real signal --- but is it causal?
-
+First Shift breaks down roughly twice as often as Second Shift. That's a real signal --- but is it causal?
 
 ### Breakdown rate by running hours
 
@@ -117,15 +107,9 @@ df |>
 
 ![center](/figures/walkthrough_causal_workflow7/rate-by-runhours-1.png)
 
-This is striking and counterintuitive. Machines that ran for only 0--3 hours
-have a ~10% breakdown rate, while those that ran 11+ hours have under 1%.
-A naive analyst might conclude that running a machine longer *prevents*
-breakdowns. That conclusion is backwards.
+This is striking and counterintuitive. Machines that ran for only 0--3 hours have a ~10% breakdown rate, while those that ran 11+ hours have under 1%. A naive analyst might conclude that running a machine longer *prevents* breakdowns. That conclusion is backwards.
 
-**This is reverse causation.** Breakdowns *truncate* shifts --- a machine
-that breaks down after two hours gets recorded as a short run. The arrow
-runs from breakdown to run_hours, not the other way round. This is exactly
-the trap the DAG will help us avoid.
+**This is reverse causation.** Breakdowns *truncate* shifts --- a machine that breaks down after two hours gets recorded as a short run. The arrow runs from breakdown to run_hours, not the other way round. This is exactly the trap the DAG will help us avoid.
 
 
 ### Breakdown rate by changeovers
@@ -159,14 +143,9 @@ df |>
 
 ![center](/figures/walkthrough_causal_workflow7/rate-by-changeovers-1.png)
 
-Shifts with one or more changeovers have roughly double the breakdown rate of
-shifts with none. The mechanism is plausible: each tool or process changeover
-stresses the machine, increases setup risk, and creates a window for operator
-error. We'll test whether this survives causal adjustment.
+Shifts with one or more changeovers have roughly double the breakdown rate of shifts with none. The mechanism is plausible: each tool or process changeover stresses the machine, increases setup risk, and creates a window for operator error. We'll test whether this survives causal adjustment.
 
-Note that First Shift also has more changeovers (mean 0.31 vs 0.21).
-That means changeovers might *mediate* part of the shift effect.
-The DAG will make this explicit.
+Note that First Shift also has more changeovers (mean 0.31 vs 0.21). That means changeovers might *mediate* part of the shift effect. The DAG will make this explicit.
 
 
 ### Breakdown rate by energy
@@ -198,17 +177,12 @@ df |>
 
 ![center](/figures/walkthrough_causal_workflow7/rate-by-energy-1.png)
 
-Energy consumption shows no meaningful pattern with breakdowns. It has no
-business in a causal model of failure. But keep this in mind for the next
-section --- because the structure learning algorithm disagrees.
+Energy consumption shows no meaningful pattern with breakdowns. It has no business in a causal model of failure. But keep this in mind for the next section --- because the structure learning algorithm disagrees.
 
 
 ## Structure learning: can the data discover the DAG?
 
-Before imposing our domain knowledge, let's ask: what does the data alone
-suggest about the causal structure? We use `bnlearn`'s hill-climbing
-algorithm with the BIC-CG score (appropriate for mixed continuous/discrete
-data) to learn a Bayesian network.
+Before imposing our domain knowledge, let's ask: what does the data alone suggest about the causal structure? We use `bnlearn`'s hill-climbing algorithm with the BIC-CG score (appropriate for mixed continuous/discrete data) to learn a Bayesian network.
 
 
 ``` r
@@ -253,56 +227,24 @@ arcs(learned_dag) |> as_tibble()
 
 Look at what the algorithm found:
 
-- **Energy appears as a hub** --- connected to machine group, shift,
-  breakdown, and run_hours. The data correctly identifies that energy is
-  *associated* with many variables. But we showed above that it has no
-  effect on breakdown. Why is it so central?
-  Because energy is a **common descendant**: bigger machines (machine group)
-  draw more power, and breakdowns change how energy is averaged over the
-  shift. `bnlearn` finds associations at Rung 1; it cannot distinguish
-  "energy is caused by these variables" from "energy causes these variables."
-  A variable with zero causal relevance to the outcome can appear highly
-  connected in a learned graph.
+- **Energy appears as a hub** --- connected to machine group, shift, breakdown, and run_hours. The data correctly identifies that energy is *associated* with many variables. But we showed above that it has no effect on breakdown. Why is it so central? Because energy is a **common descendant**: bigger machines (machine group) draw more power, and breakdowns change how energy is averaged over the shift. `bnlearn` finds associations at Rung 1; it cannot distinguish "energy is caused by these variables" from "energy causes these variables." A variable with zero causal relevance to the outcome can appear highly connected in a learned graph.
 
-- **Run_hours and breakdown** are connected --- but the algorithm may orient
-  the edge as `run_hours -> breakdown` (the naive, wrong direction).
-  The data can't tell you it's actually reverse causation.
+- **Run_hours and breakdown** are connected --- but the algorithm may orient the edge as `run_hours -> breakdown` (the naive, wrong direction). The data can't tell you it's actually reverse causation.
 
-- **Shift and changeovers** likely appear connected --- consistent with
-  First Shift having more changeovers.
+- **Shift and changeovers** likely appear connected --- consistent with First Shift having more changeovers.
 
-This is the lesson: **data discovers edges; domain knowledge orients them.**
-Structure learning is Rung 1. It finds statistical dependencies. It cannot
-distinguish `run_hours -> breakdown` from `breakdown -> run_hours` because
-both produce the same joint distribution. For that, you need the *mechanism*,
-which is Rung 2.
+This is the lesson: **data discovers edges; domain knowledge orients them.** Structure learning is Rung 1. It finds statistical dependencies. It cannot distinguish `run_hours -> breakdown` from `breakdown -> run_hours` because both produce the same joint distribution. For that, you need the *mechanism*, which is Rung 2.
 
 
 # The DAG: what causes breakdowns?
 
-The learned graph gives us a starting point, but we need to make three
-corrections that only domain knowledge can supply:
+The learned graph gives us a starting point, but we need to make three corrections that only domain knowledge can supply:
 
-1. **Reverse the `run_hours -- breakdown` edge.** The algorithm sees a
-   strong association but can't tell which way it runs. We know the
-   mechanism: breakdowns *truncate* shifts. A machine that fails after two
-   hours logs a short run. The arrow is `breakdown -> run_hours`, not the
-   other way round. This is the reverse causation we spotted in the rate
-   plot.
+1. **Reverse the `run_hours -- breakdown` edge.** The algorithm sees a strong association but can't tell which way it runs. We know the mechanism: breakdowns *truncate* shifts. A machine that fails after two hours logs a short run. The arrow is `breakdown -> run_hours`, not the other way round. This is the reverse causation we spotted in the rate plot.
 
-2. **Remove energy.** It appears as a hub in the learned graph because
-   it's a *common descendant* --- machine group and breakdown both
-   influence how energy averages out over a shift. It has zero causal
-   relevance to failure. Keeping it would add spurious paths and
-   complicate adjustment sets for no gain.
+2. **Remove energy.** It appears as a hub in the learned graph because it's a *common descendant* --- machine group and breakdown both influence how energy averages out over a shift. It has zero causal relevance to failure. Keeping it would add spurious paths and complicate adjustment sets for no gain.
 
-3. **Orient the mediator path.** The algorithm finds that shift,
-   changeovers, and breakdown are all connected, but doesn't know that
-   the mechanism is shift -> changeovers -> breakdown (First Shift
-   schedules more changeovers, each of which stresses the machine).
-   This matters because it determines whether we should adjust for
-   changeovers when estimating the shift effect (answer: only if we want
-   the *direct* effect, not the total).
+3. **Orient the mediator path.** The algorithm finds that shift, changeovers, and breakdown are all connected, but doesn't know that the mechanism is shift -> changeovers -> breakdown (First Shift schedules more changeovers, each of which stresses the machine). This matters because it determines whether we should adjust for changeovers when estimating the shift effect (answer: only if we want the *direct* effect, not the total).
 
 With those corrections, we write down the DAG:
 
@@ -328,20 +270,13 @@ plot(factory_dag)
 
 ![center](/figures/walkthrough_causal_workflow7/dag-specification-1.png)
 
-Five nodes, six edges. Three things to notice:
+Note:
 
-1. **Changeovers is a mediator.** Part of the shift effect on breakdown flows
-   through changeovers (shift -> changeovers -> breakdown). The rest is
-   the *direct* shift effect. This distinction matters for intervention:
-   if you can reduce changeovers, you block the mediated path. If you
-   can't, the direct effect tells you what's left.
+1. **Changeovers is a mediator.** Part of the shift effect on breakdown flows through changeovers (shift -> changeovers -> breakdown). The rest is the *direct* shift effect. This distinction matters for intervention: if you can reduce changeovers, you block the mediated path. If you can't, the direct effect tells you what's left.
 
-2. **Run_hours is a descendant of breakdown**, not a cause. Including it in a
-   regression would condition on a *collider descendant* --- introducing bias.
-   The DAG tells us to leave it out.
+2. **Run_hours is a descendant of breakdown**, not a cause. Including it in a regression would condition on a *collider descendant* --- introducing bias. The DAG tells us to leave it out.
 
-3. **Machine group is a confounder** (common cause of changeovers and
-   breakdown). We must adjust for it.
+3. **Machine group is a confounder** (common cause of changeovers and breakdown). We must adjust for it.
 
 
 ## Testing the DAG
@@ -396,56 +331,36 @@ localTests(test_dag, data = df_for_dag, type = "cis") |>
 ## 4 rn_h _||_ shft | brkd -0.00754 0.777   -0.0596  0.0445 ok
 ```
 
-Large $p$-values mean the data are consistent with the DAG's predictions.
-Small $p$-values flag implied independencies that the data violates --- a
-signal that an edge may be missing. If you see one marginal violation among
-several tests, it merits a note but not necessarily a DAG revision: with
-multiple tests at $\alpha = 0.05$, one borderline rejection is expected by
-chance. If many tests fail, or one fails dramatically, the DAG needs work.
-We're looking for blatant contradictions, not hairline significance.
+Large $p$-values mean the data are consistent with the DAG's predictions. Small $p$-values flag implied independencies that the data violates --- a signal that an edge may be missing. If you see one marginal violation among several tests, it merits a note but not necessarily a DAG revision: with multiple tests at $\alpha = 0.05$, one borderline rejection is expected by chance. If many tests fail, or one fails dramatically, the DAG needs work. We're looking for blatant contradictions, not hairline significance.
 
 
 ## What the DAG says *not* to condition on
 
 The DAG makes two important negative claims:
 
-1. **Do not condition on `run_hours`** when estimating `shift -> breakdown`.
-   Run hours is a descendant of breakdown. Conditioning on it opens a
-   spurious path and biases the estimate.
+1. **Do not condition on `run_hours`** when estimating `shift -> breakdown`. Run hours is a descendant of breakdown. Conditioning on it opens a spurious path and biases the estimate.
 
-2. **Do not condition on `changeovers`** if you want the **total** effect
-   of shift. Changeovers is a mediator. Conditioning on it blocks the
-   mediated path and gives you only the direct effect --- which
-   underestimates the full impact of a shift change.
+2. **Do not condition on `changeovers`** if you want the **total** effect of shift. Changeovers is a mediator. Conditioning on it blocks the mediated path and gives you only the direct effect --- which underestimates the full impact of a shift change.
 
-These are the mistakes a naive analyst would make by "controlling for
-everything available." The DAG prevents them.
+These are the mistakes a naive analyst would make by "controlling for everything available." The DAG prevents them.
 
 
 ## Total effect vs. direct effect
 
 This DAG gives us two distinct causal questions:
 
-- **Total effect of shift:** What happens to breakdown rates if we reassign
-  machines from First to Second Shift? (Includes any change in changeovers
-  that follows.) Adjustment set: **{machine_group}** only.
+- **Total effect of shift:** What happens to breakdown rates if we reassign machines from First to Second Shift? (Includes any change in changeovers that follows.) Adjustment set: **{machine_group}** only.
 
-- **Direct effect of shift:** What happens if we change the shift *but
-  somehow keep changeovers fixed*? Adjustment set: **{machine_group,
-  changeovers}**.
+- **Direct effect of shift:** What happens if we change the shift *but somehow keep changeovers fixed*? Adjustment set: **{machine_group, changeovers}**.
 
-The total effect is what the factory manager cares about. The direct effect
-tells you how much of the shift effect would remain even if you equalised
-changeover rates across shifts.
+The total effect is what the factory manager cares about. The direct effect tells you how much of the shift effect would remain even if you equalised changeover rates across shifts.
 
 
 # Rung 2: from association to intervention
 
 ## The causal question
 
-Does shift assignment *cause* different breakdown rates? If so, the
-intervention is clear: staff the high-risk shift differently, adjust
-maintenance schedules, or investigate what First Shift does differently.
+Does shift assignment *cause* different breakdown rates? If so, the intervention is clear: staff the high-risk shift differently, adjust maintenance schedules, or investigate what First Shift does differently.
 
 
 ``` r
@@ -459,9 +374,7 @@ adjustmentSets(factory_dag,
 ##  {}
 ```
 
-The backdoor criterion says: **adjust for `machine_group` only.** Let's
-verify that shift and machine group are actually independent (i.e. machines
-aren't systematically assigned to shifts):
+The backdoor criterion says: **adjust for `machine_group` only.** Let's verify that shift and machine group are actually independent (i.e. machines aren't systematically assigned to shifts):
 
 
 ``` r
@@ -476,10 +389,7 @@ chisq.test(table(df$shift, df$machine_group))
 ## X-squared = 0.16082, df = 2, p-value = 0.9227
 ```
 
-The $\chi^2$ test is non-significant --- shift assignment is independent of
-machine group in this factory. That means the minimal adjustment set is
-effectively empty: no confounders to block. We adjust for `machine_group`
-anyway as a robustness check.
+The $\chi^2$ test is non-significant --- shift assignment is independent of machine group in this factory. That means the minimal adjustment set is effectively empty: no confounders to block. We adjust for `machine_group` anyway as a robustness check.
 
 
 ## Algorithmic verification with dosearch
@@ -509,8 +419,7 @@ dosearch(
 ## p(Y|S)
 ```
 
-`dosearch` confirms: the interventional distribution $P(\text{breakdown} \mid
-do(\text{shift}))$ is identifiable from observational data.
+`dosearch` confirms: the interventional distribution $P(\text{breakdown} \mid do(\text{shift}))$ is identifiable from observational data.
 
 
 ## Estimating the causal effect
@@ -551,22 +460,14 @@ bind_rows(
 ## 7 Direct (+ changeovers)       n_changeovers         -0.099     0.245 0.685
 ```
 
-Second Shift has a negative coefficient (lower breakdown risk) in both
-models. The total and direct effects are nearly identical --- changeovers
-do not significantly mediate the shift effect in this dataset (the
-changeover coefficient is small and non-significant). The shift effect
-on breakdowns is overwhelmingly *direct*: whatever First Shift does
-differently, it isn't primarily through more changeovers.
+Second Shift has a negative coefficient (lower breakdown risk) in both models. The total and direct effects are nearly identical --- changeovers do not significantly mediate the shift effect in this dataset (the changeover coefficient is small and non-significant). The shift effect on breakdowns is overwhelmingly *direct*: whatever First Shift does differently, it isn't primarily through more changeovers.
 
-This is a legitimate finding, not a failure. The DAG predicted a *possible*
-mediation path; the data tells us the direct path dominates. The DAG
-gave us the right question to ask --- and the answer was informative.
+This is a legitimate finding, not a failure. The DAG predicted a *possible* mediation path; the data tells us the direct path dominates. The DAG gave us the right question to ask and the answer was informative.
 
 
 ## The collider bias trap
 
-Now let's demonstrate what goes wrong when you ignore the DAG and "control
-for everything." Watch what happens when we include `run_hours`:
+Now let's demonstrate what goes wrong when you ignore the DAG and "control for everything." Watch what happens when we include `run_hours`:
 
 
 ``` r
@@ -614,11 +515,7 @@ bind_rows(
 ## 3 Biased (+ run_hours) run_hours           -0.162     0.038 0.0000211
 ```
 
-Including `run_hours` --- a descendant of the outcome --- opens a collider
-path and distorts the shift coefficient. The coefficient on `run_hours` itself
-comes out *negative* (longer runs = fewer breakdowns), which sounds like
-running a machine longer prevents failure. That's the reverse causation
-speaking. The DAG caught this; a correlation matrix wouldn't.
+Including `run_hours` --- a descendant of the outcome --- opens a collider path and distorts the shift coefficient. The coefficient on `run_hours` itself comes out *negative* (longer runs = fewer breakdowns), which sounds like running a machine longer prevents failure. That's the reverse causation speaking. The DAG caught this; a correlation matrix wouldn't.
 
 
 ## The cost of getting the model wrong
@@ -654,34 +551,21 @@ bind_rows(
 ## 7 Biased (+ run_hours) run_hours             -0.162     0.038 0.0000211
 ```
 
-The biased model tells you that `run_hours` is the strongest predictor
-(large negative coefficient, tiny $p$-value). A naive analyst reads this
-as: *"running machines longer prevents breakdowns --- schedule longer
-shifts!"* That's backwards. Run hours is short *because* the machine
-broke down.
+The biased model tells you that `run_hours` is the strongest predictor (large negative coefficient, tiny $p$-value). A naive analyst reads this as: *"running machines longer prevents breakdowns --- schedule longer shifts!"* That's backwards. Run hours is short *because* the machine broke down.
 
-The causal model avoids this trap entirely. It tells you the right thing:
-**shift assignment is the actionable lever**, and machine group modifies the
-effect. The biased model finds a real statistical pattern (short runs
-correlate with breakdowns) but prescribes the wrong intervention.
+The causal model avoids this trap entirely. It tells you the right thing: **shift assignment is the actionable lever**, and machine group modifies the effect. The biased model finds a real statistical pattern (short runs correlate with breakdowns) but prescribes the wrong intervention.
 
 
 # Causal ML: from average effects to targeted intervention
 
-Everything so far has estimated an **average** shift effect. But the
-manufacturing engineer asks a more specific question: *which machines, on which
-shifts, are most at risk?* For that, we need heterogeneous treatment effects.
+Everything so far has estimated an **average** shift effect. But the manufacturing engineer asks a more specific question: *which machines, on which shifts, are most at risk?* For that, we need heterogeneous treatment effects.
 
 
 ## Defining the treatment
 
-Our treatment is binary: First Shift (treatment = 1) vs. Second Shift
-(treatment = 0). The covariates are pre-treatment variables that might
-modify the treatment effect --- specifically, machine group.
+Our treatment is binary: First Shift (treatment = 1) vs. Second Shift (treatment = 0). The covariates are pre-treatment variables that might modify the treatment effect --- specifically, machine group.
 
-We deliberately exclude energy and run_hours: energy has no causal role,
-and run_hours is a post-treatment descendant. The DAG tells us what
-belongs here.
+We deliberately exclude energy and run_hours: energy has no causal role, and run_hours is a post-treatment descendant. The DAG tells us what belongs here.
 
 
 ``` r
@@ -717,9 +601,7 @@ tibble(
 ## 2 Second (W=0)   646       17 0.0263
 ```
 
-Shift assignment has natural variation --- machines appear on both shifts,
-and the assignment is essentially independent of machine characteristics.
-This gives the causal forest good overlap for CATE estimation.
+Shift assignment has natural variation --- machines appear on both shifts, and the assignment is essentially independent of machine characteristics. This gives the causal forest good overlap for CATE estimation.
 
 ## Fitting the causal forest
 
@@ -737,12 +619,7 @@ ate
 ## 0.02768711 0.01033986
 ```
 
-The ATE tells us the average increase in breakdown probability from being
-on First Shift. Before trusting these estimates, we check a key assumption:
-**positivity** (also called overlap). Every machine type needs to appear on
-both shifts often enough for the forest to compare treated and untreated
-observations. We check this via the estimated propensity score --- the
-probability of being assigned to First Shift given covariates.
+The ATE tells us the average increase in breakdown probability from being on First Shift. Before trusting these estimates, we check a key assumption: **positivity** (also called overlap). Every machine type needs to appear on both shifts often enough for the forest to compare treated and untreated observations. We check this via the estimated propensity score - the probability of being assigned to First Shift given covariates.
 
 
 ``` r
@@ -757,10 +634,7 @@ tibble(propensity = cf$W.hat) |>
 
 ![center](/figures/walkthrough_causal_workflow7/propensity-check-1.png)
 
-Propensity scores cluster around 0.5 --- exactly where we want them. No
-machine type is deterministically assigned to one shift, so the causal
-forest has good "overlap" (both treatment and control observations across
-the covariate space) for reliable effect estimation.
+Propensity scores cluster around 0.5 --- exactly where we want them. No machine type is deterministically assigned to one shift, so the causal forest has good "overlap" (both treatment and control observations across the covariate space) for reliable effect estimation.
 
 
 ## Heterogeneous treatment effects
@@ -784,12 +658,7 @@ ggplot(df_cf, aes(x = tau_hat, fill = machine_group)) +
 
 ![center](/figures/walkthrough_causal_workflow7/hte-distribution-1.png)
 
-The distribution is bimodal because the only covariates are machine group
-dummies --- so the causal forest estimates a distinct CATE for each group,
-and machines within a group cluster tightly. The left mode is Small
-machines (lower shift effect), the right mode is Medium and Large machines
-(higher shift effect). The spread within each cluster reflects the forest's
-honesty (out-of-bag variation), not genuine within-group heterogeneity.
+The distribution is bimodal because the only covariates are machine group dummies --- so the causal forest estimates a distinct CATE for each group, and machines within a group cluster tightly. The left mode is Small machines (lower shift effect), the right mode is Medium and Large machines (higher shift effect). The spread within each cluster reflects the forest's honesty (out-of-bag variation), not genuine within-group heterogeneity.
 
 
 ``` r
@@ -848,34 +717,18 @@ cate_table |>
 ## # ℹ 1 more variable: `Expected cost/machine ($)` <dbl>
 ```
 
-The table shows the estimated shift effect by machine group. The last column
-translates the CATE into dollars: a mean CATE of 0.03 means that each First
-Shift assignment on that machine type costs an expected $1,500 in additional
-breakdown risk (0.03 × $50K). This drives the targeting analysis below.
+The table shows the estimated shift effect by machine group. The last column translates the CATE into dollars: a mean CATE of 0.03 means that each First Shift assignment on that machine type costs an expected $1,500 in additional breakdown risk (0.03 × $50K). This drives the targeting analysis below.
 
-(Assembly machines, if present, may have too few observations to produce
-a reliable CATE estimate and will show a very wide CI or be absent from
-the table entirely.)
+(Assembly machines, if present, may have too few observations to produce a reliable CATE estimate and will show a very wide CI or be absent from the table entirely.)
 
-A note on the confidence intervals: the CIs above are for the **group
-mean** CATE, not for individual machines. The SE of the mean shrinks with
-$\sqrt{n}$, so group-level CIs can be tight even when individual CATEs
-vary. The CATE histogram above shows the individual-level spread, which
-is considerably wider.
+A note on the confidence intervals: the CIs above are for the **group mean** CATE, not for individual machines. The SE of the mean shrinks with $\sqrt{n}$, so group-level CIs can be tight even when individual CATEs vary. The CATE histogram above shows the individual-level spread, which is considerably wider.
 
 
 ## Targeting: the value of knowing who to treat
 
-The factory manager has a fixed budget for interventions (extra maintenance
-windows, operator support, or shift reassignment). The question isn't just
-"should we do something?" --- the ATE already told us yes. The more
-interesting question is: **given a limited budget, which machines should we
-treat first?**
+The factory manager has a fixed budget for interventions (extra maintenance windows, operator support, or shift reassignment). The question isn't just "should we do something?" --- the ATE already told us yes. The more interesting question is: **given a limited budget, which machines should we treat first?**
 
-The CATE lets us rank machines by expected benefit. Even if the budget
-allows treating everyone, the *order* matters: CATE-ranked allocation
-front-loads the highest-risk machines and captures most of the value
-early. We compare three strategies:
+The CATE lets us rank machines by expected benefit. Even if the budget allows treating everyone, the *order* matters: CATE-ranked allocation front-loads the highest-risk machines and captures most of the value early. We compare three strategies:
 
 1. **CATE-ranked**: treat machines in order of decreasing CATE
 2. **Random**: treat the same number of machines but chosen at random
@@ -919,9 +772,7 @@ data.frame(
 </table>
 
 
-Each prevented breakdown saves $50K. Each inspection costs $500. The
-asymmetry is the whole point: even a small probability of prevention makes
-inspection worthwhile for high-CATE machines.
+Each prevented breakdown saves $50K. Each inspection costs $500. The asymmetry is the whole point: even a small probability of prevention makes inspection worthwhile for high-CATE machines.
 
 
 ``` r
@@ -969,17 +820,9 @@ ggplot(first_shift) +
 
 ![center](/figures/walkthrough_causal_workflow7/targeting-curve-1.png)
 
-The targeting curve is monotonically increasing here --- because with
-$500 inspections and $50K breakdowns, even the lowest-CATE machines
-are worth treating (expected value of intervention > cost for nearly
-all machines). That's not a failure of the method; it's the economics
-saying "inspect everyone on First Shift."
+The targeting curve is monotonically increasing here --- because with $500 inspections and $50K breakdowns, even the lowest-CATE machines are worth treating (expected value of intervention > cost for nearly all machines). That's not a failure of the method; it's the economics saying "inspect everyone on First Shift."
 
-But the *shape* still matters. CATE-ranked allocation captures value
-faster: at 25% treated, it has already captured a disproportionate
-share of the total savings. If the budget is limited --- say, you can
-only inspect 200 of 774 machines --- the CATE ranking tells you
-exactly which 200.
+But the *shape* still matters. CATE-ranked allocation captures value faster: at 25% treated, it has already captured a disproportionate share of the total savings. If the budget is limited --- say, you can only inspect 200 of 774 machines --- the CATE ranking tells you exactly which 200.
 
 
 ``` r
@@ -1019,11 +862,7 @@ comparison
 ## # ℹ 2 more variables: `Random savings ($K)` <dbl>, `CATE advantage ($K)` <dbl>
 ```
 
-The advantage of CATE-ranking is largest at small budgets. As you approach
-100% the gap narrows to zero (because eventually you're treating everyone
-regardless of order). This is the practical value of heterogeneous treatment
-effects: **they tell you the optimal *order*, even when the optimal
-*quantity* turns out to be "all of them."**
+The advantage of CATE-ranking is largest at small budgets. As you approach 100% the gap narrows to zero (because eventually you're treating everyone regardless of order). This is the practical value of heterogeneous treatment effects: **they tell you the optimal *order*, even when the optimal *quantity* turns out to be "all of them."**
 
 
 ``` r
@@ -1071,14 +910,10 @@ tibble(
 
 # What we learned
 
-The treatment effect is real but modest (~3 pp), the mediation path
-turned out non-significant, and the targeting curve says "inspect
-everyone." That's fine. The value of the causal approach here isn't a
-flashy headline number --- it's the *mistakes it prevented*. Without the
-DAG, a naive model would have identified run_hours as the strongest
-"predictor," prescribed longer shifts as the intervention, and entirely
-missed the reverse causation. The causal framework caught that before it
-reached a decision-maker.
+The treatment effect is real but modest (~3 pp), the mediation path turned out non-significant, and the targeting curve says "inspect
+everyone." That's fine. The value of the causal approach here isn't a flashy headline number --- it's the *mistakes it prevented*. Without the DAG, a naive model would have identified run_hours as the strongest "predictor," prescribed longer shifts as the intervention, and entirely missed the reverse causation. The causal framework caught that before it reached a decision-maker.
+
+
 
 | Step | Tool | What it told us |
 |------|------|-----------------|
@@ -1092,27 +927,8 @@ reached a decision-maker.
 | **Causal ML** | `grf::causal_forest` | Shift effect varies by machine group; some machines benefit much more |
 | **Targeting** | CATE ranking | CATE-ranked allocation front-loads value; at constrained budgets, the ranking matters more than the quantity |
 
-The thread running through all of it: **the DAG determines the analysis.**
-Without it, we'd include `run_hours` as a predictor (collider bias), mistake
-the short-run/breakdown correlation for causation (reverse causation), include
-energy because "the algorithm said so" (associational red herring), and build a
-model that finds patterns rather than causes. The CATE analysis adds a further
-layer: even when the right intervention is "inspect everyone," the causal forest
-tells you the *optimal order* --- which machines to prioritise when budgets
-are tight.
+The thread running through all of it: **the DAG determines the analysis.** Without it, we'd include `run_hours` as a predictor (collider bias), mistake the short-run/breakdown correlation for causation (reverse causation), include energy because "the algorithm said so" (associational red herring), and build a model that finds patterns rather than causes. The CATE analysis adds a further layer: even when the right intervention is "inspect everyone," the causal forest tells you the *optimal order* --- which machines to prioritise when budgets are tight.
 
-The talk ends with an Industrie 4.0 stack where the Digital Twin sits atop
-the sensor layer: data flows up, but *causal reasoning flows down* --- from
-the DAG to the adjustment set to the estimate to the decision. That's what
-this walkthrough demonstrated. The hard part isn't the code. It's the DAG.
+The talk ends with an Industrie 4.0 stack where the Digital Twin sits atop the sensor layer: data flows up, but *causal reasoning flows down from the DAG to the adjustment set to the estimate to the decision. 
 
----
 
-*Companion to "Interrogating Your Twin: Causal Reasoning in Manufacturing
-Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:*
-
-1. [*Climbing Pearl's Ladder of Causation*](https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html) ---
-   *the conceptual foundations*
-2. [*A causal workflow with coupon marketing data*](https://theclarkeorbit.github.io/a-causal-workflow-in-r-with-coupon-marketing-data.html) ---
-   *the five-step pipeline applied to marketing*
-3. ***This post** --- real factory data, reverse causation, and the full pipeline*
