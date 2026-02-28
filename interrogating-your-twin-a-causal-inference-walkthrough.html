@@ -183,7 +183,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-shift-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/rate-by-shift-1.png"></p>
 <p>First Shift breaks down roughly twice as often as Second Shift. That's a real signal --- but is it causal?</p>
 <h3>Breakdown rate by running hours</h3>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -209,7 +209,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Running hours in shift&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-runhours-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/rate-by-runhours-1.png"></p>
 <p>This is striking and counterintuitive. Machines that ran for only 0--3 hours have a ~10% breakdown rate, while those that ran 11+ hours have under 1%. A naive analyst might conclude that running a machine longer <em>prevents</em> breakdowns. That conclusion is backwards.</p>
 <p><strong>This is reverse causation.</strong> Breakdowns <em>truncate</em> shifts --- a machine that breaks down after two hours gets recorded as a short run. The arrow runs from breakdown to run_hours, not the other way round. This is exactly the trap the DAG will help us avoid.</p>
 <h3>Breakdown rate by changeovers</h3>
@@ -238,7 +238,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Changeovers in shift&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-changeovers-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/rate-by-changeovers-1.png"></p>
 <p>Shifts with one or more changeovers have roughly double the breakdown rate of shifts with none. The mechanism is plausible: each tool or process changeover stresses the machine, increases setup risk, and creates a window for operator error. We'll test whether this survives causal adjustment.</p>
 <p>Note that First Shift also has more changeovers (mean 0.31 vs 0.21). That means changeovers might <em>mediate</em> part of the shift effect. The DAG will make this explicit.</p>
 <h3>Breakdown rate by energy</h3>
@@ -265,8 +265,8 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Mean energy per 5-min reading (kWh)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Breakdown rate&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/rate-by-energy-1.png"></p>
-<p>Energy consumption shows no meaningful pattern with breakdowns. It has no business in a causal model of failure. But keep this in mind for the next section --- because the structure learning algorithm disagrees.</p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/rate-by-energy-1.png"></p>
+<p>Energy consumption shows no meaningful pattern with breakdowns. It has no business in a causal model of failure. But keep this in mind for the next section because the structure learning algorithm disagrees.</p>
 <h2>Structure learning: can the data discover the DAG?</h2>
 <p>Before imposing our domain knowledge, let's ask: what does the data alone suggest about the causal structure? We use <code>bnlearn</code>'s hill-climbing algorithm with the BIC-CG score (appropriate for mixed continuous/discrete data) to learn a Bayesian network.</p>
 <div class="highlight"><pre><span></span><code><span class="n">df_bn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -288,7 +288,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">              </span><span class="n">shape</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ellipse&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/structure-learning-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/structure-learning-1.png"></p>
 <div class="highlight"><pre><span></span><code><span class="nf">arcs</span><span class="p">(</span><span class="n">learned_dag</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">as_tibble</span><span class="p">()</span>
 </code></pre></div>
 
@@ -349,7 +349,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="nf">plot</span><span class="p">(</span><span class="n">factory_dag</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/dag-specification-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/dag-specification-1.png"></p>
 <p>Note:</p>
 <ol>
 <li>
@@ -359,7 +359,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <p><strong>Run_hours is a descendant of breakdown</strong>, not a cause. Including it in a regression would condition on a <em>collider descendant</em> --- introducing bias. The DAG tells us to leave it out.</p>
 </li>
 <li>
-<p><strong>Machine group is a confounder</strong> (common cause of changeovers and breakdown). We must adjust for it.</p>
+<p><strong>Machine group is a common cause</strong> of changeovers and breakdown --- but it does <em>not</em> cause shift assignment. That means it is not a confounder of the total shift→breakdown effect. However, when we estimate the <em>direct</em> effect (blocking the mediated path through changeovers), conditioning on changeovers opens the path shift → changeovers ← machine_group → breakdown, so we must adjust for machine_group as well. This distinction --- irrelevant for the total effect, essential for the direct effect --- is exactly the kind of reasoning the DAG makes explicit.</p>
 </li>
 </ol>
 <h2>Testing the DAG</h2>
@@ -419,20 +419,22 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 </ol>
 <p>These are the mistakes a naive analyst would make by "controlling for everything available." The DAG prevents them.</p>
 <h2>Total effect vs. direct effect</h2>
-<p>This DAG gives us two distinct causal questions:</p>
+<p>This DAG gives us two distinct causal questions, with very different adjustment sets:</p>
 <ul>
 <li>
-<p><strong>Total effect of shift:</strong> What happens to breakdown rates if we reassign machines from First to Second Shift? (Includes any change in changeovers that follows.) Adjustment set: <strong>{machine_group}</strong> only.</p>
+<p><strong>Total effect of shift:</strong> What happens to breakdown rates if we reassign machines from First to Second Shift? (Includes any change in changeovers that follows.) Because nothing in the DAG causes shift --- it is exogenous --- there are <strong>no backdoor paths</strong> to block. Adjustment set: <strong>{}</strong> (empty).</p>
 </li>
 <li>
-<p><strong>Direct effect of shift:</strong> What happens if we change the shift <em>but somehow keep changeovers fixed</em>? Adjustment set: <strong>{machine_group, changeovers}</strong>.</p>
+<p><strong>Direct effect of shift:</strong> What happens if we change the shift <em>but somehow keep changeovers fixed</em>? Now we must condition on the mediator (changeovers) to block the indirect path. But conditioning on changeovers opens a new path via the shared cause machine_group (shift → changeovers ← machine_group → breakdown), so we must also adjust for machine_group. Adjustment set: <strong>{changeovers, machine_group}</strong>.</p>
 </li>
 </ul>
-<p>The total effect is what the factory manager cares about. The direct effect tells you how much of the shift effect would remain even if you equalised changeover rates across shifts.</p>
+<p>The total effect is what the factory manager cares about for operational decisions. The direct effect tells you how much of the shift effect would remain even if you equalised changeover rates across shifts --- and it is the more interesting statistical problem, because its non-trivial adjustment set demonstrates exactly why the DAG matters.</p>
 <h1>Rung 2: from association to intervention</h1>
 <h2>The causal question</h2>
-<p>Does shift assignment <em>cause</em> different breakdown rates? If so, the intervention is clear: staff the high-risk shift differently, adjust maintenance schedules, or investigate what First Shift does differently.</p>
-<div class="highlight"><pre><span></span><code><span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">factory_dag</span><span class="p">,</span>
+<p>Does shift assignment <em>directly</em> cause different breakdown rates, or does the effect run entirely through changeovers? If the direct effect is real, the intervention is clear: staff the high-risk shift differently, adjust maintenance schedules, or investigate what First Shift does differently. If the effect is entirely mediated, then equalising changeover rates across shifts should suffice.</p>
+<p>We need two adjustment sets --- one for each effect:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Total effect: what is the overall shift -&gt; breakdown effect?</span>
+<span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">factory_dag</span><span class="p">,</span>
 <span class="w">               </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;shift&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="n">outcome</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;breakdown&quot;</span><span class="p">,</span>
 <span class="w">               </span><span class="n">effect</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;total&quot;</span><span class="p">)</span>
@@ -441,7 +443,19 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <div class="highlight"><pre><span></span><code>##  {}
 </code></pre></div>
 
-<p>The backdoor criterion says: <strong>adjust for <code>machine_group</code> only.</strong> Let's verify that shift and machine group are actually independent (i.e. machines aren't systematically assigned to shifts):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Direct effect: what is the shift -&gt; breakdown effect NOT via changeovers?</span>
+<span class="nf">adjustmentSets</span><span class="p">(</span><span class="n">factory_dag</span><span class="p">,</span>
+<span class="w">               </span><span class="n">exposure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;shift&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">outcome</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;breakdown&quot;</span><span class="p">,</span>
+<span class="w">               </span><span class="n">effect</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;direct&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> { changeovers, machine_group }
+</code></pre></div>
+
+<p>The <strong>total effect</strong> has an empty adjustment set: shift is exogenous in this DAG (nothing causes it), so there are no backdoor paths to block. A simple comparison of First vs. Second Shift breakdown rates already gives the causal total effect.</p>
+<p>The <strong>direct effect</strong> requires adjusting for <code>{changeovers, machine_group}</code>. Why both? To isolate the direct path, we must condition on the mediator (changeovers). But once we do, we open the path shift → changeovers ← machine_group → breakdown --- because changeovers is now a collider on that path. Conditioning on machine_group closes it again. This is exactly the kind of reasoning the DAG encodes and the analyst wouldn't spot from a correlation matrix.</p>
+<p>As a sanity check, let's verify that shift and machine group are independent (i.e. machines aren't systematically assigned to shifts):</p>
 <div class="highlight"><pre><span></span><code><span class="nf">chisq.test</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">shift</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="o">$</span><span class="n">machine_group</span><span class="p">))</span>
 </code></pre></div>
 
@@ -452,9 +466,13 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="gu">##</span> X-squared = 0.16082, df = 2, p-value = 0.9227
 </code></pre></div>
 
-<p>The <span class="math">\(\chi^2\)</span> test is non-significant --- shift assignment is independent of machine group in this factory. That means the minimal adjustment set is effectively empty: no confounders to block. We adjust for <code>machine_group</code> anyway as a robustness check.</p>
+<p>The <span class="math">\(\chi^2\)</span> test is non-significant --- shift assignment is independent of machine group in this factory. This confirms the DAG's assumption that machine_group does not cause shift, and reassures us that the total-effect adjustment set really is empty.</p>
 <h2>Algorithmic verification with dosearch</h2>
-<div class="highlight"><pre><span></span><code><span class="n">ds_dag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># dosearch requires single-letter nodes:</span>
+<span class="c1"># G = machine_group, S = shift, Y = breakdown,</span>
+<span class="c1"># C = changeovers, R = run_hours</span>
+
+<span class="n">ds_dag</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dagitty</span><span class="p">(</span><span class="s">&#39;dag {</span>
 <span class="s">  G -&gt; Y</span>
 <span class="s">  G -&gt; C</span>
 <span class="s">  S -&gt; Y</span>
@@ -463,9 +481,6 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="s">  Y -&gt; R</span>
 <span class="s">}&#39;</span><span class="p">)</span>
 
-<span class="c1"># dosearch requires single-letter nodes:</span>
-<span class="c1"># G = machine_group, S = shift, Y = breakdown,</span>
-<span class="c1"># C = changeovers, R = run_hours</span>
 <span class="nf">dosearch</span><span class="p">(</span>
 <span class="w">  </span><span class="n">data</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;P(G, S, Y, C, R)&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;P(Y | do(S))&quot;</span><span class="p">,</span>
@@ -478,17 +493,22 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 
 <p><code>dosearch</code> confirms: the interventional distribution <span class="math">\(P(\text{breakdown} \mid do(\text{shift}))\)</span> is identifiable from observational data.</p>
 <h2>Estimating the causal effect</h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Total effect: adjust for machine_group only</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Total effect: no adjustment needed (shift is exogenous)</span>
+<span class="n">m_total_minimal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">)</span>
+
+<span class="c1"># Total effect with precision covariate (machine_group improves SE, not bias)</span>
 <span class="n">m_total</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">machine_group</span><span class="p">,</span>
 <span class="w">               </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">)</span>
 
-<span class="c1"># Direct effect: also adjust for changeovers (blocking the mediator)</span>
+<span class="c1"># Direct effect: adjust for changeovers AND machine_group</span>
 <span class="n">m_direct</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">machine_group</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n_changeovers</span><span class="p">,</span>
 <span class="w">                </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">)</span>
 
 <span class="nf">bind_rows</span><span class="p">(</span>
-<span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_total</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Total (adjust machine_group)&quot;</span><span class="p">),</span>
-<span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_direct</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Direct (+ changeovers)&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_total_minimal</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Total (minimal)&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_total</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Total (+ machine_group for precision)&quot;</span><span class="p">),</span>
+<span class="w">  </span><span class="n">broom</span><span class="o">::</span><span class="nf">tidy</span><span class="p">(</span><span class="n">m_direct</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Direct (+ changeovers, machine_group)&quot;</span><span class="p">)</span>
 <span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">filter</span><span class="p">(</span><span class="n">term</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;(Intercept)&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">term</span><span class="p">,</span><span class="w"> </span><span class="n">estimate</span><span class="p">,</span><span class="w"> </span><span class="n">std.error</span><span class="p">,</span><span class="w"> </span><span class="n">p.value</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
@@ -499,20 +519,31 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">  </span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 7 × 5
-<span class="gu">##</span>   model                        term                estimate std.error p.value
-<span class="gu">##</span>   &lt;chr&gt;                        &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-<span class="gu">##</span> 1 Total (adjust machine_group) shiftSecond Shift     -0.749     0.293 0.0105 
-<span class="gu">##</span> 2 Total (adjust machine_group) machine_groupMedium   -0.162     0.336 0.63   
-<span class="gu">##</span> 3 Total (adjust machine_group) machine_groupSmall    -0.551     0.311 0.0771 
-<span class="gu">##</span> 4 Direct (+ changeovers)       shiftSecond Shift     -0.762     0.294 0.00964
-<span class="gu">##</span> 5 Direct (+ changeovers)       machine_groupMedium   -0.163     0.336 0.626  
-<span class="gu">##</span> 6 Direct (+ changeovers)       machine_groupSmall    -0.552     0.312 0.0761 
-<span class="gu">##</span> 7 Direct (+ changeovers)       n_changeovers         -0.099     0.245 0.685
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 8 × 5
+<span class="gu">##</span>   model                                 term          estimate std.error p.value
+<span class="gu">##</span>   &lt;chr&gt;                                 &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+<span class="gu">##</span> 1 Total (minimal)                       shiftSecond …   -0.753     0.293 0.0101 
+<span class="gu">##</span> 2 Total (+ machine_group for precision) shiftSecond …   -0.749     0.293 0.0105 
+<span class="gu">##</span> 3 Total (+ machine_group for precision) machine_grou…   -0.162     0.336 0.63   
+<span class="gu">##</span> 4 Total (+ machine_group for precision) machine_grou…   -0.551     0.311 0.0771 
+<span class="gu">##</span> 5 Direct (+ changeovers, machine_group) shiftSecond …   -0.762     0.294 0.00964
+<span class="gu">##</span> 6 Direct (+ changeovers, machine_group) machine_grou…   -0.163     0.336 0.626  
+<span class="gu">##</span> 7 Direct (+ changeovers, machine_group) machine_grou…   -0.552     0.312 0.0761 
+<span class="gu">##</span> 8 Direct (+ changeovers, machine_group) n_changeovers   -0.099     0.245 0.685
 </code></pre></div>
 
-<p>Second Shift has a negative coefficient (lower breakdown risk) in both models. The total and direct effects are nearly identical --- changeovers do not significantly mediate the shift effect in this dataset (the changeover coefficient is small and non-significant). The shift effect on breakdowns is overwhelmingly <em>direct</em>: whatever First Shift does differently, it isn't primarily through more changeovers.</p>
+<p>Three things to notice:</p>
+<ol>
+<li>
+<p>The two total-effect models give nearly identical shift coefficients. That's expected: machine_group doesn't confound shift (we confirmed this with the <span class="math">\(\chi^2\)</span> test), so adding it doesn't change the point estimate. It does slightly reduce the standard error, because machine_group is a strong predictor of breakdown and soaks up residual variance.</p>
+</li>
+<li>
+<p>The direct-effect model also gives a very similar shift coefficient. That means changeovers do not significantly mediate the shift effect in this dataset --- the changeover coefficient is small and non-significant. The shift effect on breakdowns is overwhelmingly <em>direct</em>: whatever First Shift does differently, it isn't primarily through more changeovers.</p>
+</li>
+<li>
 <p>This is a legitimate finding, not a failure. The DAG predicted a <em>possible</em> mediation path; the data tells us the direct path dominates. The DAG gave us the right question to ask and the answer was informative.</p>
+</li>
+</ol>
 <h2>The collider bias trap</h2>
 <p>Now let's demonstrate what goes wrong when you ignore the DAG and "control for everything." Watch what happens when we include <code>run_hours</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">m_bad</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">breakdown</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">machine_group</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">run_hours</span><span class="p">,</span>
@@ -587,7 +618,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <p>The biased model tells you that <code>run_hours</code> is the strongest predictor (large negative coefficient, tiny <span class="math">\(p\)</span>-value). A naive analyst reads this as: <em>"running machines longer prevents breakdowns --- schedule longer shifts!"</em> That's backwards. Run hours is short <em>because</em> the machine broke down.</p>
 <p>The causal model avoids this trap entirely. It tells you the right thing: <strong>shift assignment is the actionable lever</strong>, and machine group modifies the effect. The biased model finds a real statistical pattern (short runs correlate with breakdowns) but prescribes the wrong intervention.</p>
 <h1>Causal ML: from average effects to targeted intervention</h1>
-<p>Everything so far has estimated an <strong>average</strong> shift effect. But the manufacturing engineer asks a more specific question: <em>which machines, on which shifts, are most at risk?</em> For that, we need heterogeneous treatment effects.</p>
+<p>Everything so far has estimated an <strong>average</strong> shift effect. But the manufacturing engineer asks a more specific question: <em>which machine types are most affected by being on First Shift?</em> If the shift effect varies by machine group, we should concentrate interventions --- shift reassignment, extra maintenance, operator support --- on the machines where the risk premium is largest. For that, we need heterogeneous treatment effects.</p>
 <h2>Defining the treatment</h2>
 <p>Our treatment is binary: First Shift (treatment = 1) vs. Second Shift (treatment = 0). The covariates are pre-treatment variables that might modify the treatment effect --- specifically, machine group.</p>
 <p>We deliberately exclude energy and run_hours: energy has no causal role, and run_hours is a post-treatment descendant. The DAG tells us what belongs here.</p>
@@ -635,7 +666,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 ## 0.02768711 0.01033986
 </code></pre></div>
 
-<p>The ATE tells us the average increase in breakdown probability from being on First Shift. Before trusting these estimates, we check a key assumption: <strong>positivity</strong> (also called overlap). Every machine type needs to appear on both shifts often enough for the forest to compare treated and untreated observations. We check this via the estimated propensity score - the probability of being assigned to First Shift given covariates.</p>
+<p>The ATE tells us the average increase in breakdown probability from being on First Shift --- the same quantity the logistic regression estimated, now estimated non-parametrically. Before trusting these estimates, we check a key assumption: <strong>positivity</strong> (also called overlap). Every machine type needs to appear on both shifts often enough for the forest to compare treated and untreated observations. We check this via the estimated propensity score - the probability of being assigned to First Shift given covariates.</p>
 <div class="highlight"><pre><span></span><code><span class="nf">tibble</span><span class="p">(</span><span class="n">propensity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cf</span><span class="o">$</span><span class="n">W.hat</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
 <span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">propensity</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
 <span class="w">  </span><span class="nf">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">col_bar</span><span class="p">,</span><span class="w"> </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.7</span><span class="p">,</span><span class="w"> </span><span class="n">colour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;white&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
@@ -645,7 +676,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">       </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Estimated P(First Shift | covariates)&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Count&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/propensity-check-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/propensity-check-1.png"></p>
 <p>Propensity scores cluster around 0.5 --- exactly where we want them. No machine type is deterministically assigned to one shift, so the causal forest has good "overlap" (both treatment and control observations across the covariate space) for reliable effect estimation.</p>
 <h2>Heterogeneous treatment effects</h2>
 <div class="highlight"><pre><span></span><code><span class="n">tau_hat</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">cf</span><span class="p">)</span><span class="o">$</span><span class="n">predictions</span>
@@ -663,7 +694,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">       </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Count&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Machine group&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/hte-distribution-1.png"></p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/hte-distribution-1.png"></p>
 <p>The distribution is bimodal because the only covariates are machine group dummies --- so the causal forest estimates a distinct CATE for each group, and machines within a group cluster tightly. The left mode is Small machines (lower shift effect), the right mode is Medium and Large machines (higher shift effect). The spread within each cluster reflects the forest's honesty (out-of-bag variation), not genuine within-group heterogeneity.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Variable importance (printed, not plotted --- only 3 covariates)</span>
 <span class="nf">tibble</span><span class="p">(</span>
@@ -714,30 +745,17 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="c1">## # ℹ 1 more variable: `Expected cost/machine ($)` &lt;dbl&gt;</span>
 </code></pre></div>
 
-<p>The table shows the estimated shift effect by machine group. The last column translates the CATE into dollars: a mean CATE of 0.03 means that each First Shift assignment on that machine type costs an expected $1,500 in additional breakdown risk (0.03 × $50K). This drives the targeting analysis below.</p>
+<p>The table shows the estimated <strong>shift effect</strong> by machine group --- how much being on First Shift increases breakdown probability for each machine type. The last column translates this into dollars: a mean CATE of 0.03 means that each First Shift assignment on that machine type costs an expected $1,500 in additional breakdown risk (0.03 × $50K). This drives the targeting analysis below: which First Shift machines should we prioritise for intervention?</p>
 <p>(Assembly machines, if present, may have too few observations to produce a reliable CATE estimate and will show a very wide CI or be absent from the table entirely.)</p>
 <p>A note on the confidence intervals: the CIs above are for the <strong>group mean</strong> CATE, not for individual machines. The SE of the mean shrinks with <span class="math">\(\sqrt{n}\)</span>, so group-level CIs can be tight even when individual CATEs vary. The CATE histogram above shows the individual-level spread, which is considerably wider.</p>
-<h2>Targeting: the value of knowing who to treat</h2>
-<p>The factory manager has a fixed budget for interventions (extra maintenance windows, operator support, or shift reassignment). The question isn't just "should we do something?" --- the ATE already told us yes. The more interesting question is: <strong>given a limited budget, which machines should we treat first?</strong></p>
-<p>The CATE lets us rank machines by expected benefit. Even if the budget allows treating everyone, the <em>order</em> matters: CATE-ranked allocation front-loads the highest-risk machines and captures most of the value early. We compare three strategies:</p>
+<h2>Targeting: the value of knowing where to intervene</h2>
+<p>The factory manager has a fixed budget for interventions on First Shift machines: extra maintenance windows, operator support, or shift reassignment. The ATE already told us First Shift is riskier. The more interesting question is: <strong>given a limited budget, which First Shift machines should we prioritise?</strong></p>
+<p>The CATE answers this directly. A machine with a high CATE has a large shift-related excess risk --- it benefits most from being reassigned to Second Shift or receiving additional First Shift support. Even if the budget allows intervening on every First Shift machine, the <em>order</em> matters: CATE-ranked allocation front-loads the highest-risk machines and captures most of the value early. We compare three strategies:</p>
 <ol>
-<li><strong>CATE-ranked</strong>: treat machines in order of decreasing CATE</li>
-<li><strong>Random</strong>: treat the same number of machines but chosen at random</li>
+<li><strong>CATE-ranked</strong>: intervene on First Shift machines in order of decreasing CATE (highest shift-related risk first)</li>
+<li><strong>Random</strong>: intervene on the same number of machines but chosen at random</li>
 <li><strong>Do nothing</strong>: the baseline</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">kableExtra</span><span class="p">)</span>
-
-<span class="nf">data.frame</span><span class="p">(</span>
-<span class="w">  </span><span class="n">Outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Prevented breakdown&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Inspection (per machine)&quot;</span><span class="p">),</span>
-<span class="w">  </span><span class="n">Cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;saved $50,000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;$500&quot;</span><span class="p">),</span>
-<span class="w">  </span><span class="n">`What happens`</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;Avoided emergency repair + downtime&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Targeted check — cheap relative to breakdown&quot;</span><span class="p">),</span>
-<span class="w">  </span><span class="n">check.names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span>
-<span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">kable</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">escape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span>
-<span class="w">  </span><span class="nf">kable_styling</span><span class="p">(</span><span class="n">bootstrap_options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;striped&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hover&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">)</span>
-</code></pre></div>
-
 <table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -760,7 +778,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 </tbody>
 </table>
 
-<p>Each prevented breakdown saves $50K. Each inspection costs $500. The asymmetry is the whole point: even a small probability of prevention makes inspection worthwhile for high-CATE machines.</p>
+<p>Each prevented breakdown saves $50K. Each targeted inspection costs $500. The asymmetry is the whole point: even a small shift-related risk premium makes intervention worthwhile for high-CATE machines on First Shift.</p>
 <div class="highlight"><pre><span></span><code><span class="n">cost_per_breakdown</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">50000</span><span class="w">   </span><span class="c1"># unplanned breakdown: emergency repair + downtime</span>
 <span class="n">cost_per_inspection</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">500</span><span class="w">    </span><span class="c1"># targeted inspection triggered by the model</span>
 
@@ -803,9 +821,9 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="m">0.85</span><span class="p">))</span>
 </code></pre></div>
 
-<p><img alt="center" src="/figures/walkthrough_causal_workflow7/targeting-curve-1.png"></p>
-<p>The targeting curve is monotonically increasing here --- because with $500 inspections and $50K breakdowns, even the lowest-CATE machines are worth treating (expected value of intervention &gt; cost for nearly all machines). That's not a failure of the method; it's the economics saying "inspect everyone on First Shift."</p>
-<p>But the <em>shape</em> still matters. CATE-ranked allocation captures value faster: at 25% treated, it has already captured a disproportionate share of the total savings. If the budget is limited --- say, you can only inspect 200 of 774 machines --- the CATE ranking tells you exactly which 200.</p>
+<p><img alt="center" src="/figures/walkthrough_causal_workflow8/targeting-curve-1.png"></p>
+<p>The targeting curve is monotonically increasing here --- because with $500 inspections and $50K breakdowns, even the lowest-CATE First Shift machines are worth intervening on (expected value &gt; cost for nearly all). That's not a failure of the method; it's the economics saying "do something about every machine on First Shift."</p>
+<p>But the <em>shape</em> still matters. CATE-ranked allocation captures value faster: at 25% treated, it has already captured a disproportionate share of the total savings. If the budget is limited --- say, you can only inspect or reassign 200 of 774 First Shift machine-shifts --- the CATE ranking tells you exactly which 200.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Compare CATE-ranked vs random at specific budget levels</span>
 <span class="n">budget_pcts</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">0.25</span><span class="p">,</span><span class="w"> </span><span class="m">0.50</span><span class="p">,</span><span class="w"> </span><span class="m">0.75</span><span class="p">,</span><span class="w"> </span><span class="m">1.00</span><span class="p">)</span>
 <span class="n">n_first</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">nrow</span><span class="p">(</span><span class="n">first_shift</span><span class="p">)</span>
@@ -841,7 +859,7 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <span class="c1">## # ℹ 2 more variables: `Random savings ($K)` &lt;dbl&gt;, `CATE advantage ($K)` &lt;dbl&gt;</span>
 </code></pre></div>
 
-<p>The advantage of CATE-ranking is largest at small budgets. As you approach 100% the gap narrows to zero (because eventually you're treating everyone regardless of order). This is the practical value of heterogeneous treatment effects: <strong>they tell you the optimal <em>order</em>, even when the optimal <em>quantity</em> turns out to be "all of them."</strong></p>
+<p>The advantage of CATE-ranking is largest at small budgets. As you approach 100% the gap narrows to zero (because eventually you're intervening on every First Shift machine regardless of order). This is the practical value of heterogeneous treatment effects: <strong>they tell you the optimal <em>order</em> of intervention, even when the optimal <em>quantity</em> turns out to be "all of them."</strong></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Summary stats</span>
 <span class="n">optimal</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">slice_max</span><span class="p">(</span><span class="n">expected_savings</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <span class="n">quarter</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">first_shift</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nf">round</span><span class="p">(</span><span class="m">0.25</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_first</span><span class="p">))</span>
@@ -885,63 +903,64 @@ Systems" (Fifth Elephant 2026, Pune Edition). Earlier posts in this series:</em>
 <h1>What we learned</h1>
 <p>The treatment effect is real but modest (~3 pp), the mediation path turned out non-significant, and the targeting curve says "inspect
 everyone." That's fine. The value of the causal approach here isn't a flashy headline number --- it's the <em>mistakes it prevented</em>. Without the DAG, a naive model would have identified run_hours as the strongest "predictor," prescribed longer shifts as the intervention, and entirely missed the reverse causation. The causal framework caught that before it reached a decision-maker.</p>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Tool</th>
-<th>What it told us</th>
-</tr>
-</thead>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Step </th>
+   <th style="text-align:left;"> Tool </th>
+   <th style="text-align:left;"> What it told us </th>
+  </tr>
+ </thead>
 <tbody>
-<tr>
-<td><strong>Association</strong></td>
-<td>Rate plots</td>
-<td>First Shift = 2x breakdown rate; short runs = reverse causation; changeovers associate with risk</td>
-</tr>
-<tr>
-<td><strong>Structure learning</strong></td>
-<td><code>bnlearn</code></td>
-<td>Data finds edges --- including energy as a hub --- but can't orient them or distinguish causes from consequences</td>
-</tr>
-<tr>
-<td><strong>DAG</strong></td>
-<td><code>dagitty</code></td>
-<td>Breakdown -&gt; run_hours (not the reverse); changeovers mediate part of the shift effect; don't condition on descendants</td>
-</tr>
-<tr>
-<td><strong>Test</strong></td>
-<td><code>localTests</code></td>
-<td>The DAG's predictions are consistent with the data</td>
-</tr>
-<tr>
-<td><strong>Identify</strong></td>
-<td><code>adjustmentSets</code> + <code>dosearch</code></td>
-<td>Total effect: adjust for machine_group. Direct effect: also adjust for changeovers</td>
-</tr>
-<tr>
-<td><strong>Estimate</strong></td>
-<td>Logistic + <code>sandwich</code> SEs</td>
-<td>Shift effect is real; including run_hours attenuates it (collider bias)</td>
-</tr>
-<tr>
-<td><strong>Cost of bias</strong></td>
-<td>Coefficient comparison</td>
-<td>The biased model finds the wrong predictor and prescribes the wrong intervention</td>
-</tr>
-<tr>
-<td><strong>Causal ML</strong></td>
-<td><code>grf::causal_forest</code></td>
-<td>Shift effect varies by machine group; some machines benefit much more</td>
-</tr>
-<tr>
-<td><strong>Targeting</strong></td>
-<td>CATE ranking</td>
-<td>CATE-ranked allocation front-loads value; at constrained budgets, the ranking matters more than the quantity</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> Association </td>
+   <td style="text-align:left;"> Rate plots </td>
+   <td style="text-align:left;"> First Shift = 2x breakdown rate; short runs = reverse causation; changeovers associate with risk </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Structure learning </td>
+   <td style="text-align:left;"> <code>bnlearn</code> </td>
+   <td style="text-align:left;"> Data finds edges — including energy as a hub — but can't orient them or distinguish causes from consequences </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> DAG </td>
+   <td style="text-align:left;"> <code>dagitty</code> </td>
+   <td style="text-align:left;"> Breakdown → run_hours (not the reverse); changeovers mediate part of the shift effect; don't condition on descendants </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Test </td>
+   <td style="text-align:left;"> <code>localTests</code> </td>
+   <td style="text-align:left;"> The DAG's predictions are consistent with the data </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Identify </td>
+   <td style="text-align:left;"> <code>adjustmentSets</code> + <code>dosearch</code> </td>
+   <td style="text-align:left;"> Total effect: no adjustment needed (shift is exogenous). Direct effect: adjust for {changeovers, machine_group} </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Estimate </td>
+   <td style="text-align:left;"> Logistic + <code>sandwich</code> SEs </td>
+   <td style="text-align:left;"> Shift effect is real; including run_hours attenuates it (collider bias) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cost of bias </td>
+   <td style="text-align:left;"> Coefficient comparison </td>
+   <td style="text-align:left;"> The biased model finds the wrong predictor and prescribes the wrong intervention </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Causal ML </td>
+   <td style="text-align:left;"> <code>grf::causal_forest</code> </td>
+   <td style="text-align:left;"> Shift effect varies by machine group; some machine types have a much larger First Shift risk premium </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Targeting </td>
+   <td style="text-align:left;"> CATE ranking </td>
+   <td style="text-align:left;"> CATE-ranked intervention on First Shift machines front-loads value; at constrained budgets, the ranking matters more than the quantity </td>
+  </tr>
 </tbody>
 </table>
-<p>The thread running through all of it: <strong>the DAG determines the analysis.</strong> Without it, we'd include <code>run_hours</code> as a predictor (collider bias), mistake the short-run/breakdown correlation for causation (reverse causation), include energy because "the algorithm said so" (associational red herring), and build a model that finds patterns rather than causes. The CATE analysis adds a further layer: even when the right intervention is "inspect everyone," the causal forest tells you the <em>optimal order</em> --- which machines to prioritise when budgets are tight.</p>
+
+<p>The thread running through all of it: <strong>the DAG determines the analysis.</strong> Without it, we'd include <code>run_hours</code> as a predictor (collider bias), mistake the short-run/breakdown correlation for causation (reverse causation), include energy because "the algorithm said so" (associational red herring), and build a model that finds patterns rather than causes. The CATE analysis adds a further layer: even when the right intervention is "do something about every First Shift machine," the causal forest tells you the <em>optimal order</em> --- which machine types to prioritise for shift reassignment or extra maintenance when budgets are tight.</p>
 <p>The talk ends with an Industrie 4.0 stack where the Digital Twin sits atop the sensor layer: data flows up, but *causal reasoning flows down from the DAG to the adjustment set to the estimate to the decision. </p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
