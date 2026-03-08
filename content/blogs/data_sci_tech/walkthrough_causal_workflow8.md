@@ -8,8 +8,8 @@ output:
 
 
 
-*Companion to ["Interrogating Your Twin: Causal Reasoning in Manufacturing
-Systems" (Fifth Elephant 2026, Pune Edition)]({filename}/pdfs/causality_fifthel_pune2026.pdf). Earlier posts in this series:*
+*Companion to "Interrogating Your Twin: Causal Reasoning in Manufacturing
+Systems" given at Fifth Elephant 2026, Pune Edition, [(pdf slides)]({filename}/pdfs/causality_fifthel_pune2026.pdf). Earlier posts in this series:*
 
 1. [*Climbing Pearl's Ladder of Causation*](https://theclarkeorbit.github.io/climbing-pearls-ladder-of-causation.html) ---
    *the conceptual foundations*
