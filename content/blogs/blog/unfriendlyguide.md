@@ -15,7 +15,7 @@ Hasgeek's Fifth Elephant — first in [Bangalore](https://hasgeek.com/fiftheleph
 
 Preparing the talks and the posts forced me to keep deciding what was
 and was not on the critical path. The book is what I had at the end of
-that thought proces.
+that thought process.
 
 ### Why another book
 
@@ -23,7 +23,7 @@ There are wonderful books on causal inference. [*The Book of Why*](https://www.b
 [*Causality*](https://www.cambridge.org/core/books/causality/B0046844FAE10CBF274D4ACBDAEB5F5B) is the foundational text behind most of what we now call the graphical school. From the potential-outcomes side, [Hernán and Robins'
 *What If*](https://miguelhernan.org/whatifbook) is generous and free. From the econometric side, Cunningham's [*Mixtape*](https://mixtape.scunning.com/) is excellent and also free. McElreath's [*Statistical Rethinking*](https://xcelab.net/rm/) is the cleanest integration I know of DAG-based thinking with Bayesian modelling.
 
-Youn should dip into all of them.
+You should dip into all of them.
 
 The thing is, almost every introduction is written from inside a particular field — epidemiology, economics, or one of the social sciences — and the subject reaches the reader filtered through that field's conventions, its examples, its specific anxieties. If you came from a different quantitative field, you spend a lot of time on the idiosyncrasies of the field the author was writing from before you got to the structural backbone that all of causal inference shares.
 
