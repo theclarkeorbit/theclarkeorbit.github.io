@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>An unfriendly introduction to causal inference - p. bhogale</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href=".//images/gravtar.jpg" rel="icon">
+
+<link rel="canonical" href="./an-unfriendly-introduction-to-causal-inference.html">
+
+        <meta name="author" content="pras" />
+        <meta name="description" content="I wrote a book on causal inference. It is short (under 80 pages), it is called An Unfriendly Introduction to Causal Inference, and the hardcover is now live on Amazon. How I got here I first read Pearl&#39;s Causality in 2016 after spotting it on Peter Jung&#39;s bookcase in our …" />
+
+        <meta property="og:site_name" content="p. bhogale" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="An unfriendly introduction to causal inference"/>
+        <meta property="og:url" content="./an-unfriendly-introduction-to-causal-inference.html"/>
+        <meta property="og:description" content="I wrote a book on causal inference. It is short (under 80 pages), it is called An Unfriendly Introduction to Causal Inference, and the hardcover is now live on Amazon. How I got here I first read Pearl&#39;s Causality in 2016 after spotting it on Peter Jung&#39;s bookcase in our …"/>
+        <meta property="article:published_time" content="2026-05-01" />
+            <meta property="article:section" content="blog" />
+            <meta property="article:author" content="pras" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="./theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments/monokai.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale ATOM Feed"/>
+
+        <link href="./feeds/blog.atom.xml" type="application/atom+xml" rel="alternate"
+              title="p. bhogale blog ATOM Feed"/>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115756026-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', UA-115756026-1);
+    </script>
+    <!-- End Google Analytics Code -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','');</script>
+    <!-- End Google Tag Manager -->
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand">
+<img class="img-responsive pull-left gap-right" src=".//images/gravtar.jpg" width=""/> p. bhogale            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="./pages/about.html">
+                             About
+                          </a></li>
+                        <li class="active">
+                            <a href="./category/blog.html">Blog</a>
+                        </li>
+                        <li >
+                            <a href="./category/data_sci_tech.html">Data_sci_tech</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<style>
+	#banner{
+	    background-image:url(".//images/banner.jpg");
+	}
+</style>
+
+<div id="banner">
+	<div class="container">
+		<div class="copy">
+			<h1>p. bhogale</h1>
+				<p class="intro">Data Sci, Quant Fin, Quant Bio.</p>
+		</div>
+	</div>
+</div><!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./an-unfriendly-introduction-to-causal-inference.html"
+                       rel="bookmark"
+                       title="Permalink to An unfriendly introduction to causal inference">
+                        An unfriendly introduction to causal inference
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2026-05-01T00:00:00+02:00"> Fri 01 May 2026</time>
+    </span>
+
+
+
+
+
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>I wrote a book on causal inference. It is short (under 80 pages), it
+is called <em>An Unfriendly Introduction to Causal Inference</em>, and the
+hardcover is now <a href="https://www.amazon.com/dp/B0GYTWH3FF">live on Amazon</a>.</p>
+<h2>How I got here</h2>
+<p>I first read Pearl's <em>Causality</em> in 2016 after spotting it on <a href="https://www.linkedin.com/in/peterjungx/">Peter Jung's</a> bookcase in our office at <a href="https://bayes.de">KI Analytics</a> in Cologne. It changed how I thought about data, permanently. There is a moment, somewhere in the first chapter, when you realise that the equality sign in a regression has been doing two different jobs all along, and that keeping them straight is not trivial. I waved my copy of <a href="https://www.wiley.com/en-us/Causal+Inference+in+Statistics%3A+A+Primer-p-9781119186847">Pearl's <em>Primer</em></a> at <a href="https://www.linkedin.com/in/christian-mathissen-06b9a9a3/">Christian Mathissen</a> when he interviewed me for car2go in 2018, but I was not yet doing causal inference for a living, and the subject stayed in the background.</p>
+<p>It came back to the foreground in 2024, when <a href="https://www.linkedin.com/in/navneetl/">Navneet Lekshminarayanan</a> at
+<a href="https://holocene.eu">Holocene</a> handed me a problem that genuinely demanded causal exploration rather than predictive modelling with a causal story stapled on afterwards. From there came two talks at
+Hasgeek's Fifth Elephant — first in <a href="https://hasgeek.com/fifthelephant/2025-winter/sub/your-causal-parrot-might-be-lying-to-you-FhpB6kWkM4AAkYqdYQSCpJ">Bangalore</a>, then in <a href="https://hasgeek.com/fifthelephant/2026-pune/sub/interrogating-your-twin-causal-reasoning-in-manufa-J2xUQXKPooa7y9jf56bWiH">Pune</a> — and a small series of posts on this blog (<a href="climbing-pearls-ladder-of-causation.html">the ladder</a>, <a href="a-causal-workflow-in-r-with-coupon-marketing-data.html">a workflow on marketing data</a>, <a href="interrogating-your-twin-a-causal-inference-walkthrough.html">a factory walkthrough</a>).</p>
+<p>Preparing the talks and the posts forced me to keep deciding what was
+and was not on the critical path. The book is what I had at the end of
+that thought proces.</p>
+<h2>Why another book</h2>
+<p>There are wonderful books on causal inference. <a href="https://www.basicbooks.com/titles/judea-pearl/the-book-of-why/9780465097616/"><em>The Book of Why</em></a> is a pleasure. The <a href="https://www.wiley.com/en-us/Causal+Inference+in+Statistics%3A+A+Primer-p-9781119186847"><em>Primer</em></a> is the shortest textbook entry I know of, and Pearl's
+<a href="https://www.cambridge.org/core/books/causality/B0046844FAE10CBF274D4ACBDAEB5F5B"><em>Causality</em></a> is the foundational text behind most of what we now call the graphical school. From the potential-outcomes side, <a href="https://miguelhernan.org/whatifbook">Hernán and Robins'
+<em>What If</em></a> is generous and free. From the econometric side, Cunningham's <a href="https://mixtape.scunning.com/"><em>Mixtape</em></a> is excellent and also free. McElreath's <a href="https://xcelab.net/rm/"><em>Statistical Rethinking</em></a> is the cleanest integration I know of DAG-based thinking with Bayesian modelling.</p>
+<p>Youn should dip into all of them.</p>
+<p>The thing is, almost every introduction is written from inside a particular field — epidemiology, economics, or one of the social sciences — and the subject reaches the reader filtered through that field's conventions, its examples, its specific anxieties. If you came from a different quantitative field, you spend a lot of time on the idiosyncrasies of the field the author was writing from before you got to the structural backbone that all of causal inference shares.</p>
+<p>So I wrote the version I wanted to read.</p>
+<h2>What is in it</h2>
+<p>The whole book traces a single thread: <strong>DAG → Test → Identify → Estimate</strong>. Every method in it is an elaboration of one of those four steps.</p>
+<ul>
+<li><strong>Chapter 1</strong> sets up why prediction and causation are different objects, and why a model that predicts beautifully can recommend an intervention that backfires.</li>
+<li><strong>Chapter 2</strong> develops Pearl's ladder of causation — association, intervention, counterfactual — and the DAG as the language for stating causal assumptions precisely enough that they can be tested and argued with.</li>
+<li><strong>Chapter 3</strong> ties the ladder to practice through the four-step workflow, on a single running example (a factory floor, machines, shifts, breakdowns) that carries through the rest of the book.</li>
+<li><strong>Chapters 4 and 5</strong> develop identification and estimation in depth. The first asks whether the question can be answered from observational data at all. The second turns the answer into a number, with classical estimators (outcome regression, IPW, doubly-robust) and a section on sensitivity to unmeasured confounding.</li>
+<li><strong>Chapter 6</strong> brings in modern machine learning — DML, causal forests, BART, policy learning — and makes the point that causal ML changes the estimator, not the identification.</li>
+</ul>
+<p>R packages for every method are pointed to throughout. A Python appendix is on its way and I'll put it up online as a cheatsheet soon.</p>
+<h2>Who it is for</h2>
+<p>If your work involves making sense of data generated by the real world out there — data that arrived from operations, customers, sensors, surveys, transactions — and decisions get made off the back of your analysis, the book is written for you. The structural problem is the same regardless of where the data came from. You have correlations and you need causal claims, and most of the methods you reach for by default do not suffice.</p>
+<p>The book is unfriendly only in the sense that it does not hold your hand. It assumes you are willing to become comfortable with ideas concisely expressed in possibly new notation, and it moves quickly because your time is better spent learning the concepts than being eased into them. It assumes you have the usual quantitative toolkit (probability, some linear algebra, the habit of reading equations rather than skipping them) and nothing more.</p>
+<p><a href="https://www.amazon.com/dp/B0GYTWH3FF">Hardcover on Amazon</a>. If you read it and have thoughts — particularly the kind that begin "you should have included..." — I would like to hear them.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://www.linkedin.com/in/pbhogale"><i class="fa fa-linkedin-square fa-lg"></i> linkedin</a></li>
+    <li class="list-group-item"><a href="https://github.com/pbhogale"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Recent Posts -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+  <ul class="list-group" id="recentposts">
+    <li class="list-group-item"><a href="./an-unfriendly-introduction-to-causal-inference.html">An unfriendly introduction to causal inference</a></li>
+    <li class="list-group-item"><a href="./interrogating-your-twin-a-causal-inference-walkthrough.html">"Interrogating your twin: a causal inference walkthrough"</a></li>
+    <li class="list-group-item"><a href="./a-causal-workflow-in-r-with-coupon-marketing-data.html">"A causal workflow in R with coupon marketing data"</a></li>
+    <li class="list-group-item"><a href="./climbing-pearls-ladder-of-causation.html">"Climbing Pearl's Ladder of Causation"</a></li>
+    <li class="list-group-item"><a href="./basics-of-conformal-prediction-in-time-series-data.html">"Basics of conformal prediction in time series data"</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Recent Posts -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2026 pras
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="./theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="./theme/js/respond.min.js"></script>
+
+
+    <script src="./theme/js/bodypadding.js"></script>
+
+
+</body>
+</html>
